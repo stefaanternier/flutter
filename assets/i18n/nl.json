@@ -1,0 +1,47 @@
+{
+	"games": {
+		"myGames": "Mijn spellen",
+		"search": "Zoeken..."
+	},
+	"library": {
+		"allgames": "ALLE GAMES",
+		"cancel": "Cancel",
+		"featured": "UITGELICHT",
+		"join": "MEEDOEN",
+		"library": "Bibliotheek",
+		"participate": "Wil je deelnemen aan dit spel",
+		"start": "START"
+	},
+	"login": {
+		"anonlogout": "Verwijder anonieme sessie",
+		"close": "Sluit",
+		"emailAddress": "E-mail adres",
+		"forgot_password": "Wachtwoord vergeten",
+		"login": "Login",
+		"loginWithAnonymous": "Anonieme login",
+		"loginWithApple": "Login met Apple",
+		"loginWithDemo": "Login als gast",
+		"loginWithGoogle": "Login met Google",
+		"logout": "Uitloggen",
+		"ok": "ok",
+		"or": "Of",
+		"password": "Wachtwoord",
+		"recoverPw": "Wachtwoord herstellen"
+	},
+	"makeaccount": {
+		"emailAddress": "Wat is je e-mail adres",
+		"makeaccount": "ACCOUNT AANMAKEN",
+		"next": "VOLGENDE",
+		"password": "Wachtwoord",
+		"whatsyourname": "Hoe mogen we je noemen?"
+	},
+	"scan": {
+		"initializecam": "Camera Initialiseren...",
+		"scan": "Scan",
+		"scangameqr": "Scan Spel QR Code"
+	},
+	"screen": {
+		"next": "VERDER",
+		"proceed": "GA VERDER"
+	}
+}
