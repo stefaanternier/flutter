@@ -1,0 +1,47 @@
+{
+	"games": {
+		"myGames": "My Games",
+		"search": "Search..."
+	},
+	"library": {
+		"allgames": "ALL GAMES",
+		"cancel": "Cancel",
+		"featured": "FEATURED",
+		"join": "JOIN",
+		"library": "Library",
+		"participate": "Do you want to participate in",
+		"start": "START"
+	},
+	"login": {
+		"anonlogout": "Delete anonymous session",
+		"close": "Close",
+		"emailAddress": "Email address",
+		"forgot_password": "Forgot password",
+		"login": "Login",
+		"loginWithAnonymous": "Anonymous login",
+		"loginWithApple": "Login with Apple",
+		"loginWithDemo": "Login with demo account",
+		"loginWithGoogle": "Login with Google",
+		"logout": "Log Out",
+		"ok": "ok",
+		"or": "Or",
+		"password": "Password",
+		"recoverPw": "Recover password"
+	},
+	"makeaccount": {
+		"emailAddress": "What is your email address",
+		"makeaccount": "MAKE ACCOUNT",
+		"next": "NEXT",
+		"password": "PASSWORD",
+		"whatsyourname": "What's your name?"
+	},
+	"scan": {
+		"initializecam": "Initializing Camera...",
+		"scan": "Scan",
+		"scangameqr": "Scan Game QR Code"
+	},
+	"screen": {
+		"next": "CONTINUE",
+		"proceed": "PROCEED"
+	}
+}

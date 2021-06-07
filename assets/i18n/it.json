@@ -1,0 +1,47 @@
+{
+	"games": {
+		"myGames": "it-My Games",
+		"search": "Cerca ..."
+	},
+	"library": {
+		"allgames": "Tutti i giochi",
+		"cancel": "Annullare",
+		"featured": "",
+		"join": "ISCRIVITI",
+		"library": "Biblioteca",
+		"participate": "Vuoi partecipare a ",
+		"start": "INIZIO"
+	},
+	"login": {
+		"anonlogout": "",
+		"close": "Vicino",
+		"emailAddress": "indirizzo email",
+		"forgot_password": "",
+		"login": "Accesso",
+		"loginWithAnonymous": "",
+		"loginWithApple": "",
+		"loginWithDemo": "Accedi con un account demo",
+		"loginWithGoogle": "Accedi con Google",
+		"logout": "Esci",
+		"ok": "",
+		"or": "",
+		"password": "password",
+		"recoverPw": ""
+	},
+	"makeaccount": {
+		"emailAddress": "",
+		"makeaccount": "",
+		"next": "",
+		"password": "",
+		"whatsyourname": ""
+	},
+	"scan": {
+		"initializecam": "Inizializza fotocamera ...",
+		"scan": "Scansione",
+		"scangameqr": "Scansiona il codice QR del gioco"
+	},
+	"screen": {
+		"next": "più",
+		"proceed": ""
+	}
+}

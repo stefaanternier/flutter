@@ -1,0 +1,47 @@
+{
+	"games": {
+		"myGames": "sl-My Games",
+		"search": "Iskanje ..."
+	},
+	"library": {
+		"allgames": "VSE IGRE",
+		"cancel": "Prekliči",
+		"featured": "",
+		"join": "PRIDRUŽITE SE",
+		"library": "Knjižnica",
+		"participate": "Ali želite sodelovati v",
+		"start": "ZAČETEK"
+	},
+	"login": {
+		"anonlogout": "",
+		"close": "Zapri",
+		"emailAddress": "Email naslov",
+		"forgot_password": "",
+		"login": "Vpiši se",
+		"loginWithAnonymous": "",
+		"loginWithApple": "",
+		"loginWithDemo": "Login with demo account",
+		"loginWithGoogle": "Prijavite se z Googlom",
+		"logout": "Odjava",
+		"ok": "",
+		"or": "",
+		"password": "geslo",
+		"recoverPw": ""
+	},
+	"makeaccount": {
+		"emailAddress": "",
+		"makeaccount": "",
+		"next": "",
+		"password": "",
+		"whatsyourname": ""
+	},
+	"scan": {
+		"initializecam": "Inicializacija kamere ...",
+		"scan": "Optično branje",
+		"scangameqr": "QR koda za skeniranje igre"
+	},
+	"screen": {
+		"next": "NADALJEVANJE",
+		"proceed": ""
+	}
+}
