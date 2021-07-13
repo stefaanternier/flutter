@@ -45,16 +45,6 @@ class __LoginScreenBodyState extends State<_LoginScreenBody> {
   String email = '';
   String pw = '';
 
-//   List<Widget> getLoginButtons(BuildContext context, LoginPageViewModel loginScreenViewModel) {
-//     List<Widget> returnWidgets = [];
-//     returnWidgets.add(new GoogleLoginButton(loginScreenViewModel.tapGoogleLogin, context));
-// //    returnWidgets.add(new AppleLoginButton(loginScreenViewModel.tapAppleLogin, context));
-//     returnWidgets.add(new AnonymousLoginButton(loginScreenViewModel.tapAnonymousLogin, context));
-//     returnWidgets.add(new DemoLoginButton(loginScreenViewModel.tapCustomLogin, context));
-// //    if (AppConfig().loginConfig.showDefaultLogin) returnWidgets.add(getDemoLoginButton(context, loginScreenViewModel.tapCustomLogin));
-//     return returnWidgets;
-//   }
-
   Widget build(BuildContext context) {
     return new StoreConnector<AppState, LoginPageViewModel>(
         converter: (store) => LoginPageViewModel.fromStore(store, context),
@@ -95,7 +85,7 @@ class __LoginScreenBodyState extends State<_LoginScreenBody> {
               FlatButton(
                   child: Text(
                       AppLocalizations.of(context).translate('login.forgot_password'),
-                    style:  new TextStyle(color:  AppConfig().themeData.primaryColor),
+                    style:  new TextStyle(color:  AppConfig().themeData!.primaryColor),
 
                   ),
 
@@ -123,7 +113,7 @@ class __LoginScreenBodyState extends State<_LoginScreenBody> {
                             ),
                             FlatButton(
                               child: Text(AppLocalizations.of(context).translate('login.ok'),
-                                style:  new TextStyle(color:  AppConfig().themeData.primaryColor)),
+                                style:  new TextStyle(color:  AppConfig().themeData!.primaryColor)),
                               onPressed: () {
                                 loginScreenViewModel.resetPassword(email);
                                 Navigator.of(context).pop();
@@ -136,7 +126,7 @@ class __LoginScreenBodyState extends State<_LoginScreenBody> {
                   }),
               FlatButton(
                 child: Text('account aanmaken',
-                  style:  new TextStyle(color:  AppConfig().themeData.primaryColor),),
+                  style:  new TextStyle(color:  AppConfig().themeData!.primaryColor),),
                 onPressed: () {
                   loginScreenViewModel.tapCreateAccount();
                 },
@@ -179,16 +169,16 @@ class __LoginScreenBodyState extends State<_LoginScreenBody> {
                       child: Container(
                           height: 1.0,
                           width: 60.0,
-                          color: AppConfig().themeData.primaryColor),
+                          color: AppConfig().themeData!.primaryColor),
                     ),
                     Text(AppLocalizations.of(context).translate('login.or'),
-                        style: AppConfig().customTheme.mcOptionTextStyle),
+                        style: AppConfig().customTheme!.mcOptionTextStyle),
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 15.0),
                       child: Container(
                           height: 1.0,
                           width: 60.0,
-                          color: AppConfig().themeData.primaryColor),
+                          color: AppConfig().themeData!.primaryColor),
                     ),
                   ],
                 ),

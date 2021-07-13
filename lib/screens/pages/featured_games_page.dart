@@ -15,7 +15,7 @@ import '../../localizations.dart';
 class FeaturedGamesPage extends StatelessWidget {
   final bool authenticated;
 
-  FeaturedGamesPage({this.authenticated});
+  FeaturedGamesPage({required this.authenticated});
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +26,7 @@ class FeaturedGamesPage extends StatelessWidget {
                 centerTitle: true,
                 title: AppConfig().appBarIcon != null ?  new Image(
                   image: new AssetImage(
-                      AppConfig().appBarIcon),
+                      AppConfig().appBarIcon!),
                   height: 32.0,
                   width: 32.0,
                 ):new Text(AppLocalizations.of(context).translate('library.library'),

@@ -13,8 +13,8 @@ class DemoLoginButton extends RaisedButton {
       splashColor: Theme.of(context).buttonColor,
       onPressed: () {
         var lang = Localizations.localeOf(context).languageCode;
-        final emailController = TextEditingController(text:AppConfig().loginConfig[lang].defaultLoginName);
-        final passwdController = TextEditingController(text:AppConfig().loginConfig[lang].defaultLoginPassword);
+        final emailController = TextEditingController(text:AppConfig().loginConfig![lang].defaultLoginName);
+        final passwdController = TextEditingController(text:AppConfig().loginConfig![lang].defaultLoginPassword);
 
         showDialog(
             context: context,

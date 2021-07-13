@@ -22,16 +22,16 @@ class LoginPageViewModel {
 //  final Store<AppState> store;
 
   LoginPageViewModel(
-      {this.authenticated,
-        this.tapGoogleLogin,
-        this.tapTwitterLogin,
-        this.tapFacebookLogin,
-        this.tapAppleLogin,
-        this.tapAnonymousLogin,
-        this.tapCustomLogin,
-        this.resetPassword,
-        this.tapCreateAccount,
-        this.loadMyGames});
+      {required this.authenticated,
+        required  this.tapGoogleLogin,
+        required this.tapTwitterLogin,
+        required this.tapFacebookLogin,
+        required this.tapAppleLogin,
+        required this.tapAnonymousLogin,
+        required this.tapCustomLogin,
+        required this.resetPassword,
+        required this.tapCreateAccount,
+        required this.loadMyGames});
 
   static LoginPageViewModel fromStore(Store<AppState> store, BuildContext context) {
     return LoginPageViewModel(
@@ -42,7 +42,8 @@ class LoginPageViewModel {
 
           Scaffold.of(context).showSnackBar(snackBar);
           print("show snackbar 2?");
-        }));
+        },
+        onSucces: (){}));
       },
       tapCreateAccount: () {
         print('in viewmodel');
@@ -60,7 +61,8 @@ class LoginPageViewModel {
           onError: (e) {
             final snackBar = SnackBar(content: Text(e));
             Scaffold.of(context).showSnackBar(snackBar);
-          }
+          },
+            onSucces: (){}
         ));
       },
       tapFacebookLogin: () {
@@ -70,6 +72,7 @@ class LoginPageViewModel {
         store.dispatch(CustomAccountLoginAction(
           user: email.trim(),
           password: password.trim(),
+          onSucces: (){},
           onError: () {
             final snackBar = SnackBar(content: Text("Error while login"));
 

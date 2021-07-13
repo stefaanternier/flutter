@@ -1,5 +1,5 @@
 class Run {
-  int runId;
+  int? runId;
   int gameId;
   String title;
   int lastModificationDate;
@@ -7,10 +7,10 @@ class Run {
   bool deleted;
 
   Run({
-    this.gameId,
+    required this.gameId,
     this.runId,
     this.title = "no run title",
-    this.lastModificationDate,
+    required this.lastModificationDate,
     this.startTime = 0,
     this.deleted = false
   });
@@ -38,9 +38,9 @@ class Run {
 class ARLearnActionsList {
   List<ARLearnAction> responses;
   int serverTime;
-  String resumptionToken;
+  String? resumptionToken;
 
-  ARLearnActionsList({this.responses, this.serverTime});
+  ARLearnActionsList({required this.responses,required  this.serverTime,  this.resumptionToken});
 
   ARLearnActionsList.fromJson(Map json)
       : responses = json['actions'] != null
@@ -53,22 +53,22 @@ class ARLearnActionsList {
 }
 
 class ARLearnAction {
-  int identifier;
+  int? identifier;
   int runId;
   String action;
-  int generalItemId;
-  String account;
+  int? generalItemId;
+  String? account;
   int timestamp;
-  String generalItemType;
+  String? generalItemType;
 
   ARLearnAction({
-    this.identifier,
-    this.runId,
-    this.action,
+     this.identifier,
+    required this.runId,
+    required this.action,
     this.generalItemId,
     this.account,
     this.generalItemType,
-    this.timestamp
+    required this.timestamp
   });
 
   Map toJson() {

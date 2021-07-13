@@ -11,43 +11,43 @@ class CombinationLockGeneralItem extends GeneralItem {
   String text;
 
   CombinationLockGeneralItem({
-    int gameId,
-    int itemId,
-    bool deleted,
-    int lastModificationDate,
-    int sortKey,
-    String title,
-    this.text,
-    this.showFeedback,
-    String richText,
-    String description,
-    this.answers,
-    Dependency dependsOn,
-    Dependency disappearOn,
-    Color primaryColor,
-    Map<String, String> fileReferences,
-    double lat,
-    double lng,
-    bool showOnMap,
-    bool showInList,
+    required int gameId,
+    required int itemId,
+    required bool deleted,
+    required int lastModificationDate,
+    required int sortKey,
+    required String title,
+    required this.text,
+    required this.showFeedback,
+    required String richText,
+    required String description,
+    required this.answers,
+    Dependency? dependsOn,
+    Dependency? disappearOn,
+    Color? primaryColor,
+    Map<String, String>? fileReferences,
+    double? lat,
+    double? lng,
+    required bool showOnMap,
+    required bool showInList,
   }) : super(
-      type: ItemType.combinationlock,
-      gameId: gameId,
-      itemId: itemId,
-      deleted: deleted,
-      lastModificationDate: lastModificationDate,
-      sortKey: sortKey,
-      title: title,
-      richText: richText,
-      description: description,
-      dependsOn: dependsOn,
-      disappearOn: disappearOn,
-      fileReferences: fileReferences,
-      primaryColor: primaryColor,
-      showOnMap: showOnMap,
-      showInList:showInList,
-      lat: lat,
-      lng: lng);
+            type: ItemType.combinationlock,
+            gameId: gameId,
+            itemId: itemId,
+            deleted: deleted,
+            lastModificationDate: lastModificationDate,
+            sortKey: sortKey,
+            title: title,
+            richText: richText,
+            description: description,
+            dependsOn: dependsOn,
+            disappearOn: disappearOn,
+            fileReferences: fileReferences,
+            primaryColor: primaryColor,
+            showOnMap: showOnMap,
+            showInList: showInList,
+            lat: lat,
+            lng: lng);
 
   factory CombinationLockGeneralItem.fromJson(Map json) {
     var returnItem = CombinationLockGeneralItem(
@@ -55,27 +55,35 @@ class CombinationLockGeneralItem extends GeneralItem {
         itemId: int.parse(json['id']),
         deleted: json['deleted'],
         lastModificationDate: int.parse(json['lastModificationDate']),
-        sortKey: json['sortKey'],
+        sortKey: json['sortKey'] ?? 0,
         title: json['name'],
-        text: json['text'],
-        showFeedback: json['showFeedback'] == null ? false : json['showFeedback'],
-        richText: json['richText'],
+        text: json['text']??'',
+        showFeedback:
+            json['showFeedback'] == null ? false : json['showFeedback'],
+        richText: json['richText'] ?? '',
         description: (json['description'] ?? "").trim(),
         answers: json['answers'] == null
             ? []
-            : List<ChoiceAnswer>.generate(
-            json['answers'].length, (i) => ChoiceAnswer.fromJson(json['answers'][i])),
-        showOnMap: json['showOnMap'],
-        showInList: json['showInList'] == null? true: json['showInList'],
-        lat: json['lat'] != null ? json['lat'] : null,
-        lng: json['lng'] != null ? json['lng'] : null,
+            : List<ChoiceAnswer>.generate(json['answers'].length,
+                (i) => ChoiceAnswer.fromJson(json['answers'][i])),
+        showOnMap: json['showOnMap'] ?? false,
+        showInList: json['showInList'] == null ? true : json['showInList'],
+        lat: json['lat'],
+        lng: json['lng'],
         fileReferences: json['fileReferences'] != null
             ? new Map.fromIterable(json["fileReferences"],
-            key: (item) => item['key'], value: (item) => item['fileReference'])
+                key: (item) => item['key'],
+                value: (item) => item['fileReference'] ?? '')
+            : {},
+        primaryColor: json['primaryColor'] != null
+            ? colorFromHex(json['primaryColor'])
             : null,
-        primaryColor: json['primaryColor'] != null ? colorFromHex(json['primaryColor']) : null,
-        dependsOn: json['dependsOn'] != null ? Dependency.fromJson(json['dependsOn']) : null,
-        disappearOn: json['disappearOn'] != null ? Dependency.fromJson(json['disappearOn']) : null);
+        dependsOn: json['dependsOn'] != null
+            ? Dependency.fromJson(json['dependsOn'])
+            : null,
+        disappearOn: json['disappearOn'] != null
+            ? Dependency.fromJson(json['disappearOn'])
+            : null);
     return returnItem;
   }
 

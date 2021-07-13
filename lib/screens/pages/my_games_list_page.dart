@@ -11,14 +11,14 @@ import 'package:flutter_redux/flutter_redux.dart';
 import '../../localizations.dart';
 
 class MyGamesListPage extends StatefulWidget {
-  MyGamesListPage({Key key}) : super(key: key);
+  MyGamesListPage({Key? key}) : super(key: key);
 
   @override
   _MyGamesState createState() => new _MyGamesState();
 }
 
 class _MyGamesState extends State<MyGamesListPage> {
-  bool _IsSearching;
+  bool _IsSearching = false;
   final TextEditingController _searchQuery = new TextEditingController();
   String _searchText = "";
 

@@ -11,7 +11,8 @@ import 'package:youplay/store/state/run_state.dart';
 import 'package:youplay/store/selectors/current_game.selectors.dart';
 import 'package:youplay/store/selectors/current_run.selectors.dart';
 
-HashMap<int, GamesState> gameStateMap(AppState state) =>     state.gameIdToGameState;
+HashMap<int, GamesState> gameStateMap(AppState state) =>
+    state.gameIdToGameState;
 
 HashMap<int, List<Run>> gameToRunMap(AppState state) => state.gameIdToRun;
 
@@ -21,64 +22,16 @@ List<Game> participateState(AppState state) => state.participateGames;
 
 final Selector<AppState, List<Game>> myGamesList =
     createSelector1(gameStateMap, (HashMap<int, GamesState> games) {
-  return games.values.toList().map((gameState) => gameState.game);
+  return games.values
+      .toList()
+      .map((gameState) => gameState.game)
+      .where((game) => game != null)
+      .map((game) => game!)
+      .toList(growable: false);
 });
 
-
-
-//
-//final Selector<AppState, Game> currentGameSelectorDeprecated = createSelector2(
-//    gameStateMap, currentGameId, (HashMap<int, GamesState> games, int gameId) {
-//  if (games[gameId] == null || games[gameId].game == null) {
-////    return null;
-//    return Game(
-//        gameId: 0,
-//        language: 'nl',
-//        sharing: 1,
-//        theme: 1,
-//        title: "laden game niet gelukt");
-//  }
-//
-//  return games[gameId].game;
-//});
-
-//final Selector<AppState, RunState> currentRunStateSelector =
-//    createSelector2(runIdToRunState, currentRunId,
-//        (HashMap<int, RunState> runstate, int runId) {
-//  if (runstate[runId] == null) {
-//    return null;
-//  }
-//  return runstate[runId];
-//});
-
-//final Selector<AppState, List<ItemTimes>> currentGeneralItems =
-//    createSelector3(gameStateMap, currentGameId, actionsFromServerSel,
-//        (HashMap<int, GamesState> games, int gameId, HashMap<String, ARLearnAction> actionsFromServer) {
-//      print("actions from server ${actionsFromServer}");
-//        if (games[gameId] == null || games[gameId].game == null) {
-//          return [];
-//        }
-//        List<ItemTimes> visibleItems = [];
-//        games[gameId].itemIdToGeneralItem.forEach((key, GeneralItem item) {
-//          int localVisibleAt = item.visibleAt(actionsFromServer);
-//          int localInvisibleAt = item.disapperAt(actionsFromServer);
-//          int now = new DateTime.now().millisecondsSinceEpoch;
-//          if (localVisibleAt != -1 && now > localVisibleAt) {
-//            if (localInvisibleAt == -1 || localInvisibleAt > now) {
-//              visibleItems
-//                  .add(ItemTimes(generalItem: item, appearTime: localVisibleAt));
-//            }
-//          }
-//        });
-//        visibleItems.sort((a, b) {
-//          return b.appearTime.compareTo(a.appearTime);
-//        });
-//        return visibleItems;
-//
-//});
-
-final Selector<AppState, int> nextItem1 = createSelector2(
-    currentGeneralItems, currentItemId, (List<ItemTimes> items, int itemId) {
+final Selector<AppState, int?> nextItem1 = createSelector2(
+    itemTimesSortedByTime, currentItemId, (List<ItemTimes> items, int? itemId) {
   for (int i = 1; i < items.length; i++) {
     if (items[i].generalItem.itemId == itemId) {
       return items[i - 1].generalItem.itemId;
@@ -88,32 +41,24 @@ final Selector<AppState, int> nextItem1 = createSelector2(
 });
 
 final Selector<AppState, int> amountOfNewerItems = createSelector2(
-    currentGeneralItems, currentItemId, (List<ItemTimes> items, int itemId) {
-  for (int i = 1; i < items.length; i++) {
-    if (items[i].generalItem.itemId == itemId) {
+    itemTimesSortedByTime, currentItemId, (List<ItemTimes> sortedItems, int? itemId) {
+  for (int i = 1; i < sortedItems.length; i++) {
+    if (sortedItems[i].generalItem.itemId == itemId) {
       return i;
     }
   }
   return 0;
 });
 
-final Selector<AppState, GeneralItem> nextItemObject = createSelector2(
-    currentGeneralItems, currentItemId, (List<ItemTimes> items, int itemId) {
-  for (int i = 1; i < items.length; i++) {
-    if (items[i].generalItem.itemId == itemId) {
-      return items[i - 1].generalItem;
-    }
-  }
-  return null;
-});
+
 
 var nextItemWithTag = (tag) =>
-    createSelector2(currentGeneralItems, currentItemId,
-        (List<ItemTimes> items, int itemId) {
+    createSelector2(itemTimesSortedByTime, currentItemId,
+        (List<ItemTimes> items, int? itemId) {
       for (int i = 0; i < items.length; i++) {
         if (items[i].generalItem.dependsOn != null) {
-          Dependency dep = items[i].generalItem.dependsOn;
-          if (dep is ActionDependency) {
+          Dependency? dep = items[i].generalItem.dependsOn;
+          if (dep != null && dep is ActionDependency) {
             if (dep.action == tag && dep.generalItemId == itemId) {
               return items[i].generalItem.itemId;
             }
@@ -126,35 +71,36 @@ var nextItemWithTag = (tag) =>
 //todo revisit location triggers
 
 final Selector<AppState, List<LocationTrigger>> gameLocationTriggers =
-createSelector1(currentGameSelector, (GamesState game){
+    createSelector1(currentGameSelector, (GamesState game) {
   List<LocationTrigger> trigger = [];
-   game?.itemIdToGeneralItem?.forEach((key, GeneralItem item) {
-     if (item.dependsOn != null) {
-       List<LocationTrigger> fromItemPoints = item.dependsOn.locationTriggers();
-       trigger =
-           [trigger, fromItemPoints].expand((x) => x).toList(growable: true);
-     }
-   });
-   return trigger;
-});
-
-final Selector<AppState, List<LocationTrigger>> gameLocationTriggersOld =
-    createSelector2(gameStateMap, currentGameId,
-        (HashMap<int, GamesState> games, int gameId) {
-  if (games[gameId] == null || games[gameId].game == null) {
-    return [];
-  }
-  List<LocationTrigger> trigger = [];
-  games[gameId].itemIdToGeneralItem.forEach((key, GeneralItem item) {
+  game.itemIdToGeneralItem.forEach((key, GeneralItem item) {
     if (item.dependsOn != null) {
-      List<LocationTrigger> fromItemPoints = item.dependsOn.locationTriggers();
+      List<LocationTrigger> fromItemPoints =
+          item.dependsOn?.locationTriggers() ?? [];
       trigger =
           [trigger, fromItemPoints].expand((x) => x).toList(growable: true);
     }
   });
   return trigger;
-  //return games[gameId].itemIdToGeneralItem.values.toList();
 });
+
+// final Selector<AppState, List<LocationTrigger>> gameLocationTriggersOld =
+//     createSelector2(gameStateMap, currentGameId,
+//         (HashMap<int, GamesState> games, int gameId) {
+//   if (games[gameId] == null || games[gameId].game == null) {
+//     return [];
+//   }
+//   List<LocationTrigger> trigger = [];
+//   games[gameId].itemIdToGeneralItem.forEach((key, GeneralItem item) {
+//     if (item.dependsOn != null) {
+//       List<LocationTrigger> fromItemPoints = item.dependsOn.locationTriggers();
+//       trigger =
+//           [trigger, fromItemPoints].expand((x) => x).toList(growable: true);
+//     }
+//   });
+//   return trigger;
+//   //return games[gameId].itemIdToGeneralItem.values.toList();
+// });
 
 //final Selector<AppState, GeneralItem> currentGeneralItemDepr =
 //    createSelector3(gameStateMap, currentGameId, currentItemId,
@@ -167,14 +113,12 @@ final Selector<AppState, List<LocationTrigger>> gameLocationTriggersOld =
 //});
 
 final Selector<AppState, List<Run>> currentRunsSelector = createSelector2(
-    gameToRunMap, currentGameId, (HashMap<int, List<Run>> runs, int gameId) {
-  if (runs[gameId] == null) {
+    gameToRunMap, currentGameId, (HashMap<int, List<Run>> runs, int? gameId) {
+  if (gameId == null || runs[gameId] == null) {
     return [];
   }
-  return runs[gameId];
+  return runs[gameId] ?? [];
 });
-
-
 
 //final Selector<AppState, List<Response>> currentRunResponsesSelector =
 //    createSelector1(currentRunStateSelector, (RunState runstate) {

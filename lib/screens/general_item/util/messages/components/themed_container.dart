@@ -15,20 +15,9 @@ class ThemedContainer extends StatelessWidget {
   final String imageId;
   final GeneralItem item;
 
-  ThemedContainer({this.child, this.imageId, this.item});
+  ThemedContainer({required this.child, required this.imageId,required  this.item});
 
-  // CachedNetworkImageProvider backgroundImage(BuildContext context, GameThemesViewModel themeModel) {
-  //   if (item.fileReferences != null && item.fileReferences[imageId] != null) {
-  //     return new CachedNetworkImageProvider(
-  //         "https://storage.googleapis.com/${AppConfig().projectID}.appspot.com${item.fileReferences[imageId].replaceFirst('//', '/')}",
-  //         errorListener: () {});
-  //   }
-  //   return new CachedNetworkImageProvider(
-  //       "https://storage.googleapis.com/${AppConfig().projectID}.appspot.com${getPath(themeModel)}",
-  //       errorListener: () {
-  //     print('error retrieving');
-  //   });
-  // }
+
 
   @override
   Widget build(BuildContext context) {
@@ -44,16 +33,16 @@ class ThemedContainer extends StatelessWidget {
         });
   }
 
-  String getPath(GameThemesViewModel themeModel) {
-    if (item.fileReferences != null && item.fileReferences[imageId] != null) {
-          return item.fileReferences[imageId];
+  String? getPath(GameThemesViewModel themeModel) {
+    if (item.fileReferences != null && item.fileReferences?[imageId] != null) {
+          return item.fileReferences![imageId]!;
     }
     if (this.imageId == 'wrong') {
-      return  themeModel.gameTheme.wrongPath;
+      return  themeModel.gameTheme?.wrongPath;
     }
     if (this.imageId == 'correct') {
-      return  themeModel.gameTheme.correctPath;
+      return  themeModel.gameTheme?.correctPath;
     }
-    return  themeModel.gameTheme.backgroundPath;
+    return  themeModel.gameTheme?.backgroundPath;
   }
 }

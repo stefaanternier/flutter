@@ -21,15 +21,15 @@ import 'components/next_button.dart';
 import 'generic_message.dart';
 
 class _TextInputViewModel {
-  List<String> keys;
+  // List<String> keys;
   List<Response> audioResponses;
   List<Response> fromServer;
 
-  _TextInputViewModel({this.keys, this.audioResponses, this.fromServer});
+  _TextInputViewModel({required this.audioResponses,required this.fromServer});
 
   static _TextInputViewModel fromStore(Store<AppState> store, GeneralItem item) {
     return new _TextInputViewModel(
-        audioResponses: currentRunResponsesSelector(store.state).where((element) => element.item.itemId == item.itemId).toList(growable: false),
+        audioResponses: currentRunResponsesSelector(store.state).where((element) => element.item?.itemId == item.itemId).toList(growable: false),
         fromServer: currentItemResponsesFromServerAsList(store.state));
   }
 
@@ -79,7 +79,7 @@ class TextQuestionScreen extends StatefulWidget {
   GeneralItem item;
   GeneralItemViewModel giViewModel;
 
-  TextQuestionScreen({this.item, this.giViewModel});
+  TextQuestionScreen({required this.item, required  this.giViewModel});
 
   @override
   _TextQuestionState createState() => new _TextQuestionState();
@@ -170,17 +170,20 @@ class _TextQuestionState extends State<TextQuestionScreen> {
   void submitText(String value, BuildContext context) {
     widget.giViewModel.onDispatch(TextResponseAction(
         textResponse: Response(run: widget.giViewModel.run, item: widget.item, value: value)));
-    widget.giViewModel.onDispatch(LocalAction(
-      action: "answer_given",
-      generalItemId: widget.giViewModel.item.itemId,
-      runId: widget.giViewModel.run.runId,
-    ));
-    widget.giViewModel.onDispatch(LocalAction(
-      action: value.toLowerCase().trim().replaceAll(' ', ''),
-      generalItemId: widget.giViewModel.item.itemId,
-      runId: widget.giViewModel.run.runId,
-    ));
-    widget.giViewModel.onDispatch(SyncFileResponse(runId: widget.giViewModel.run.runId));
+    if (widget.giViewModel.item != null && widget.giViewModel.run?.runId != null ) {
+      widget.giViewModel.onDispatch(LocalAction(
+        action: "answer_given",
+        generalItemId: widget.giViewModel.item!.itemId,
+        runId: widget.giViewModel.run!.runId!,
+      ));
+      widget.giViewModel.onDispatch(LocalAction(
+        action: value.toLowerCase().trim().replaceAll(' ', ''),
+        generalItemId: widget.giViewModel.item!.itemId,
+        runId: widget.giViewModel.run!.runId!,
+      ));
+      widget.giViewModel.onDispatch(SyncFileResponse(runId: widget.giViewModel.run!.runId!));
+    }
+
     // Navigator.of(context).pop();
     setState(() {
       showList = true;

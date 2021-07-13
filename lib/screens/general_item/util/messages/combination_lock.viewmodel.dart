@@ -8,7 +8,7 @@ import 'package:youplay/store/state/app_state.dart';
 class CombinationLockViewModel {
   bool correctAnswerGiven;
 
-  CombinationLockViewModel({this.correctAnswerGiven,
+  CombinationLockViewModel({required this.correctAnswerGiven,
       });
 
   static CombinationLockViewModel fromStore(Store<AppState> store) {

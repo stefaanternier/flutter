@@ -1,51 +1,60 @@
 import 'dart:io';
 
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
+import 'package:redux/redux.dart';
+import 'package:universal_platform/universal_platform.dart';
 import 'package:youplay/actions/games.dart';
 import 'package:youplay/actions/run_actions.dart';
 import 'package:youplay/actions/runs.dart';
 import 'package:youplay/actions/ui.dart';
+import 'package:youplay/config/app_config.dart';
 import 'package:youplay/models/game.dart';
 import 'package:youplay/models/general_item.dart';
+import 'package:youplay/models/general_item/audio_object.dart';
+import 'package:youplay/models/general_item/combination_lock.dart';
+import 'package:youplay/models/general_item/multiple_choice_image.dart';
 import 'package:youplay/models/general_item/open_url.dart';
+import 'package:youplay/models/general_item/scan_tag.dart';
+import 'package:youplay/models/general_item/single_choice.dart';
+import 'package:youplay/models/general_item/single_choice_image.dart';
+import 'package:youplay/models/general_item/video_object.dart';
 import 'package:youplay/models/run.dart';
-import 'package:youplay/screens/general_item/dataCollection/data_collection_nav_bar.dart';
-import 'package:youplay/screens/general_item/dataCollection/outgoing_picture_response_list.dart';
-import 'package:youplay/screens/general_item/dataCollection/outgoing_responses_list.dart';
-import 'package:youplay/screens/general_item/dataCollection/take_picture.dart';
-import 'package:youplay/screens/general_item/util/gi_header.dart';
 import 'package:youplay/screens/general_item/util/messages/audio_object.dart';
 import 'package:youplay/screens/general_item/util/messages/combination_lock.dart';
+import 'package:youplay/screens/general_item/util/messages/components/next_button.dart';
+import 'package:youplay/screens/general_item/util/messages/generic_message.dart';
 import 'package:youplay/screens/general_item/util/messages/multiple_choice.dart';
 import 'package:youplay/screens/general_item/util/messages/multiple_choice_image.dart';
 import 'package:youplay/screens/general_item/util/messages/narrator_item.dart';
 import 'package:youplay/screens/general_item/util/messages/record_audio_question.dart';
 import 'package:youplay/screens/general_item/util/messages/record_video_question.dart';
-import 'package:youplay/screens/general_item/util/messages/take_picture_question.dart';
 import 'package:youplay/screens/general_item/util/messages/scan_tag.dart';
 import 'package:youplay/screens/general_item/util/messages/single_choice.dart';
 import 'package:youplay/screens/general_item/util/messages/single_choice_image.dart';
+import 'package:youplay/screens/general_item/util/messages/take_picture_question.dart';
 import 'package:youplay/screens/general_item/util/messages/text_question.dart';
 import 'package:youplay/screens/general_item/util/messages/video_object.dart';
-import 'package:youplay/screens/util/ARLearnContainer.dart';
-import 'package:youplay/store/state/app_state.dart';
+import 'package:youplay/screens/general_item/util/messages/video_object_new.dart';
+import 'package:youplay/selectors/selectors.dart';
+import 'package:youplay/selectors/ui_selectors.dart';
+import 'package:youplay/state/ui_state.dart';
 import 'package:youplay/store/actions/current_run.actions.dart';
 import 'package:youplay/store/actions/ui_actions.dart';
-import 'package:youplay/store/selectors/game_messages.selector.dart';
-import 'package:youplay/store/state/run_state.dart';
-import 'package:youplay/state/ui_state.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_redux/flutter_redux.dart';
-import 'package:redux/redux.dart';
-import 'package:youplay/selectors/ui_selectors.dart';
-import 'package:youplay/selectors/selectors.dart';
+import 'package:youplay/store/selectors/current-run.items.selectors.dart';
 import 'package:youplay/store/selectors/current_game.selectors.dart';
 import 'package:youplay/store/selectors/current_run.selectors.dart';
+import 'package:youplay/store/selectors/game_messages.selector.dart';
+import 'package:youplay/store/state/app_state.dart';
+import 'package:youplay/store/state/run_state.dart';
 
+import '../../localizations.dart';
 import 'util/messages/open_url_widget.dart';
 
 class ButtonAction {
-  String to;
-  String action;
+  late String to;
+  late String action;
 
   ButtonAction(String fullAction) {
     int index = fullAction.indexOf(":");
@@ -62,7 +71,6 @@ class ButtonAction {
   String toString() {
     // TODO: implement toString
     return this.to + " -- " + action;
-    ;
   }
 
   bool isToMap() {
@@ -83,35 +91,36 @@ class ButtonAction {
 }
 
 class GeneralItemViewModel {
-  Game game;
-  Run run;
-  GeneralItem item;
-  GeneralItem nextItem;
-  int nextItemId;
+  Game? game;
+  Run? run;
+  GeneralItem? item;
+  GeneralItem? nextItem;
+  int? nextItemId;
   int amountOfNewItems;
   Function continueToNextItem;
   Function continueToNextItemWithTag;
-  Function openScanner;
-  Function toMap;
-  Function deleteResponse;
-  Color itemPrimaryColor;
-  Color themePrimaryColor;
+
+  // Function openScanner;
+  // Function toMap;
+  Function deleteResponse; //todo delete here, handled elsewhere
+  Color? itemPrimaryColor;
+  Color? themePrimaryColor;
 
   GeneralItemViewModel(
       {this.game,
       this.run,
       this.item,
-      this.onTakePictureClick,
-      this.onCancel,
-      this.onDispatch,
-      this.deleteResponse,
+      required this.onTakePictureClick,
+      required this.onCancel,
+      required this.onDispatch,
+      required this.deleteResponse,
 //      this.openScanner,
-      this.continueToNextItem,
+      required this.continueToNextItem,
 //      this.toMap,
-      this.continueToNextItemWithTag,
+      required this.continueToNextItemWithTag,
       this.nextItemId,
       this.nextItem,
-        this.amountOfNewItems,
+      required this.amountOfNewItems,
       this.itemPrimaryColor,
       this.themePrimaryColor});
 
@@ -120,14 +129,15 @@ class GeneralItemViewModel {
   Function onDispatch;
 
   static GeneralItemViewModel fromStore(Store<AppState> store) {
-    GeneralItem item = currentGeneralItem(store.state);
-    int nextItemInt = nextItem1(store.state);
+    GeneralItem? item = currentGeneralItem(store.state);
+    int? nextItemInt = nextItem1(store.state);
     int amountOfNewItems = amountOfNewerItems(store.state);
-    Run r = currentRunSelector(store.state.currentRunState);
+    Run? r = currentRunSelector(store.state.currentRunState);
     return new GeneralItemViewModel(
         game: gameSelector(store.state.currentGameState),
-        itemPrimaryColor: currentGeneralItem(store.state).primaryColor,
-        themePrimaryColor: gameThemePrimaryColorSelector(store.state.currentGameState),
+        itemPrimaryColor: currentGeneralItem(store.state)?.primaryColor,
+        themePrimaryColor:
+            gameThemePrimaryColorSelector(store.state.currentGameState),
 //        game: currentGameSelector(store.state),
         run: r,
         item: item,
@@ -135,7 +145,9 @@ class GeneralItemViewModel {
         nextItem: nextItemObject(store.state),
         onDispatch: (action) => store.dispatch(action),
         onTakePictureClick: () {
-          store.dispatch(GeneralItemTakePicture(item: item));
+          if (item != null) {
+            store.dispatch(GeneralItemTakePicture(item: item));
+          }
         },
         onCancel: () {
           store.dispatch(GeneralItemCancelDataCollection());
@@ -145,23 +157,28 @@ class GeneralItemViewModel {
         },
         nextItemId: nextItemInt,
         continueToNextItem: (BuildContext context) {
-          ButtonAction ba = null;
-          if (item.description != null && item.description.contains("::")) {
+          ButtonAction? ba = null;
+          if (item?.description != null && item!.description.contains("::")) {
             int index = item.description.indexOf("::");
             String action = item.description.substring(index + 2);
             ba = new ButtonAction(action);
-//            print("action is ${ba.toString()}");
           }
           if (ba != null) {
             if (ba.isToMap()) {
-              store.dispatch(new ToggleMessageViewAction(
-                  gameId: item.gameId, messageView: MessageView.mapView));
+              if (item != null) {
+                store.dispatch(new ToggleMessageViewAction(
+                    gameId: item.gameId, messageView: MessageView.mapView));
+              }
+
               Navigator.pop(context);
               return true;
             }
             if (ba.isToList()) {
-              store.dispatch(new ToggleMessageViewAction(
-                  gameId: item.gameId, messageView: MessageView.listView));
+              if (item != null) {
+                store.dispatch(new ToggleMessageViewAction(
+                    gameId: item.gameId, messageView: MessageView.listView));
+              }
+
               Navigator.pop(context);
               return true;
             }
@@ -170,23 +187,28 @@ class GeneralItemViewModel {
               return true;
             }
           } else if (nextItemInt != null) {
-            if (amountOfNewItems > 1){
+            if (amountOfNewItems > 1) {
               Navigator.pop(context);
               return true;
             } else {
-              store.dispatch(new ReadItemAction(runId: r.runId, generalItemId: nextItemInt));
+              if (r != null && r.runId != null) {
+                store.dispatch(new ReadItemAction(
+                    runId: r.runId!, generalItemId: nextItemInt));
+              }
 
               store.dispatch(SetCurrentGeneralItemId(nextItemInt));
               return true;
             }
-
           }
           return false;
         },
         continueToNextItemWithTag: (tag) {
-          int itemId = nextItemWithTag(tag)(store.state);
+          int? itemId = nextItemWithTag(tag)(store.state);
           if (itemId != null) {
-            store.dispatch(new ReadItemAction(runId: r.runId, generalItemId: itemId));
+            if (r != null && r.runId != null) {
+              store.dispatch(
+                  new ReadItemAction(runId: r.runId!, generalItemId: itemId));
+            }
             store.dispatch(SetCurrentGeneralItemId(itemId));
             return true;
           }
@@ -195,86 +217,160 @@ class GeneralItemViewModel {
   }
 
   Color getPrimaryColor() {
-    if (itemPrimaryColor != null) {
-      return itemPrimaryColor;
-    }
-    return themePrimaryColor;
+    return itemPrimaryColor ??
+        themePrimaryColor ??
+        AppConfig().themeData!.primaryColor;
   }
 }
 
-//class GeneralItemScreen extends StatefulWidget {
-//  GeneralItemScreen({Key key}) : super(key: key);
-//
-//  @override
-//  _GeneralItemScreenState createState() => _GeneralItemScreenState();
-//}
-//State<GeneralItemScreen> {
 class GeneralItemScreen extends StatelessWidget {
 //  final Store<AppState> store;
 
   GeneralItemScreen();
 
   Widget buildMessages(BuildContext context, GeneralItemViewModel giViewModel) {
-    GeneralItem item = giViewModel.item;
+    GeneralItem? item = giViewModel.item;
+    if (item == null) {
+      return Container(
+        width: 0.0,
+        height: 0.0,
+        child: new Text("no item loaded"),
+      );
+    }
+    GeneralItem notNullItem = item;
     //print("item type ${giViewModel.item.type}");
-    switch (giViewModel.item.type) {
+
+    switch (notNullItem.type) {
       case ItemType.narrator:
-        if (item.openQuestion != null && item.openQuestion.withPicture) {
-          return new NarratorWithPicture(item: item, giViewModel: giViewModel);
+        if (notNullItem.openQuestion != null &&
+            (notNullItem.openQuestion!.withPicture ?? false)) {
+          return new NarratorWithPicture(
+              item: notNullItem, giViewModel: giViewModel);
         }
-        return NarratorItemWidget(item: item, giViewModel: giViewModel);
-        break;
+        return NarratorItemWidget(item: notNullItem, giViewModel: giViewModel);
       case ItemType.openurl:
-
-        return OpenUrlWidget(item: (item as OpenUrl), giViewModel: giViewModel);
-        break;
+        return OpenUrlWidget(
+            item: (notNullItem as OpenUrl), giViewModel: giViewModel);
       case ItemType.audio:
-        AudioObjectGeneralItemScreen returnWidget = AudioObjectGeneralItemScreen(
-            item: item, giViewModel: giViewModel, key: Key('${item.itemId}'));
+        AudioObjectGeneralItemScreen returnWidget =
+            AudioObjectGeneralItemScreen(
+                item: (notNullItem as AudioObjectGeneralItem),
+                giViewModel: giViewModel,
+                key: Key('${item.itemId}'));
 
         return returnWidget;
-        break;
       case ItemType.video:
-        VideoObjectGeneralItemScreen returnWidget = VideoObjectGeneralItemScreen(
-            item: item, giViewModel: giViewModel, key: Key('${item.itemId}'));
+        VideoObjectNew? returnWidget;
+        String? unencPath;
+        if (item.fileReferences != null) {
+          unencPath = item.fileReferences!['video']?.replaceFirst('//', '/');
+        }
+        if (unencPath != null) {
+          int index = unencPath.lastIndexOf("/") + 1;
+          String path;
+          if (UniversalPlatform.isIOS) {
+            path = Uri.encodeComponent(unencPath);
 
-        return returnWidget;
+          } else {
+            path = unencPath.substring(0, index) +
+                Uri.encodeComponent(unencPath.substring(index));
+          }
+          FirebaseStorage.instance.ref(path).getDownloadURL().then((url) {
+            print('url is $url');
+
+          });
+          //'https://firebasestorage.googleapis.com/v0/b/serious-gaming-platform.appspot.com/o/game%2F5637749142978560%2Fnospaces%2Fwelkom.mp4?alt=media&token=28ed18e8-9adb-414c-b9f9-05312afde85c',
+          returnWidget = new VideoObjectNew(
+              key: Key('${item.itemId}'),
+            url:
+                'https://storage.googleapis.com/${AppConfig().projectID}.appspot.com${path}',
+            color: giViewModel.getPrimaryColor(),
+            onFinishedPlaying: () {
+              if (giViewModel.item != null && giViewModel.run?.runId != null) {
+                giViewModel.onDispatch(Complete(
+                  generalItemId: giViewModel.item!.itemId,
+                  runId: giViewModel.run!.runId!,
+                ));
+              }
+            },
+            showOnFinish: NextButton(
+                buttonText: item.description != ""
+                    ? item.description
+                    : AppLocalizations.of(context).translate('screen.proceed'),
+                overridePrimaryColor: giViewModel.getPrimaryColor(),
+                giViewModel: giViewModel),
+          );
+        }
+
+        return GeneralItemWidget(
+            item: item,
+            renderBackground: false,
+            giViewModel: giViewModel,
+            body: Container(
+                constraints: const BoxConstraints.expand(),
+                child: returnWidget ??
+                    Theme(
+                      data: Theme.of(context)
+                          .copyWith(accentColor: giViewModel.getPrimaryColor()),
+                      child: Center(child: CircularProgressIndicator()),
+                    ))
+        );
+
+      // VideoObjectGeneralItemScreen returnWidget =
+      // VideoObjectGeneralItemScreen(
+      //     item: (item as VideoObjectGeneralItem),
+      //     giViewModel: giViewModel,
+      //     key: Key('${item.itemId}'));
+
       case ItemType.combinationlock:
-        return CombinationLockWidget(item: item, giViewModel: giViewModel, key: Key('${item.itemId}'));
-        case ItemType.singlechoice:
-        return SingleChoiceWidget(item: item, giViewModel: giViewModel, key: Key('${item.itemId}'));
+        return CombinationLockWidget(
+            item: notNullItem as CombinationLockGeneralItem,
+            giViewModel: giViewModel,
+            key: Key('${notNullItem.itemId}'));
+      case ItemType.singlechoice:
+        return SingleChoiceWidget(
+            item: notNullItem as SingleChoiceGeneralItem,
+            giViewModel: giViewModel,
+            key: Key('${notNullItem.itemId}'));
       case ItemType.multiplechoice:
         return MultipleChoiceWidget(
-            item: item, giViewModel: giViewModel, key: Key('${item.itemId}'));
+            item: (notNullItem as MultipleChoiceGeneralItem),
+            giViewModel: giViewModel,
+            key: Key('${notNullItem.itemId}'));
       case ItemType.scanTag:
-        return ScanTagWidget(item: item, giViewModel: giViewModel);
+        return ScanTagWidget(
+            item: (notNullItem as ScanTagGeneralItem),
+            giViewModel: giViewModel);
         break;
       case ItemType.singlechoiceimage:
         return SingleChoiceWithImage(
-            item: item, giViewModel: giViewModel, key: Key('${item.itemId}'));
+            item: (notNullItem as SingleChoiceImageGeneralItem),
+            giViewModel: giViewModel,
+            key: Key('${item.itemId}'));
         break;
       case ItemType.multiplechoiceimage:
         return MultipleChoiceWithImage(
-            item: item, giViewModel: giViewModel, key: Key('${item.itemId}'));
+            item: (notNullItem as MultipleChoiceImageGeneralItem),
+            giViewModel: giViewModel,
+            key: Key('${item.itemId}'));
         break;
       case ItemType.picturequestion:
-        return new NarratorWithPicture(item: item, giViewModel: giViewModel);
+        return new NarratorWithPicture(
+            item: notNullItem, giViewModel: giViewModel);
         break;
       case ItemType.audioquestion:
-        return new NarratorWithAudio(item: item, giViewModel: giViewModel);
+        return new NarratorWithAudio(
+            item: notNullItem, giViewModel: giViewModel);
         break;
       case ItemType.textquestion:
-        return new TextQuestionScreen(item: item, giViewModel: giViewModel);
+        return new TextQuestionScreen(
+            item: notNullItem, giViewModel: giViewModel);
         break;
       case ItemType.videoquestion:
-        return new NarratorWithVideo(item: item, giViewModel: giViewModel);
+        return new NarratorWithVideo(
+            item: notNullItem, giViewModel: giViewModel);
         break;
     }
-    return Container(
-      width: 0.0,
-      height: 0.0,
-      child: new Text("test ${giViewModel.item}"),
-    );
   }
 
   @override

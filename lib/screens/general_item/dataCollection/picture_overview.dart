@@ -4,7 +4,6 @@ import 'package:youplay/models/general_item.dart';
 import 'package:youplay/screens/components/button/cust_flat_button.dart';
 import 'package:youplay/screens/components/button/cust_raised_button.dart';
 import 'package:youplay/screens/general_item/util/messages/components/answerwithpicture/answerlist.container.dart';
-import 'package:youplay/screens/general_item/util/messages/components/answerwithpicture/display_one_picture.dart';
 import 'package:youplay/screens/general_item/util/messages/components/game_themes.viewmodel.dart';
 import 'package:youplay/screens/general_item/util/messages/components/next_button.dart';
 import 'package:youplay/screens/general_item/util/messages/generic_message.dart';
@@ -19,7 +18,7 @@ class PictureOverview extends StatelessWidget {
   Function takePicture;
 
   PictureOverview(
-      {this.item, this.giViewModel, this.themeModel, this.takePicture});
+      {required this.item, required this.giViewModel,required  this.themeModel,required  this.takePicture});
 
   @override
   Widget build(BuildContext context) {
@@ -34,14 +33,14 @@ class PictureOverview extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               Visibility(
-                visible: giViewModel.item.richText != null,
+                visible: giViewModel.item?.richText != null,
                 child: Container(
                     // color: this.widget.giViewModel.getPrimaryColor(),
                     color: themeModel.getPrimaryColor(),
                     child: Padding(
                       padding: EdgeInsets.all(15),
                       child: Text(
-                        "${giViewModel.item.richText}",
+                        "${giViewModel.item?.richText??''}",
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 16.0,

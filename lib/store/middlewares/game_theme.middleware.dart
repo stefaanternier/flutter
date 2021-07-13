@@ -12,7 +12,7 @@ Stream<dynamic> _retrieveGameMessages(Stream<dynamic> actions, EpicStore<AppStat
       // .where((action) => action is )
       .asyncMap((action) => GamesApi.getTheme(action.game.theme)
       .then((results) => new LoadGameThemeSuccess(gameTheme: results)) //todo check if gameIds when reducing are still current game
-      .catchError((error) => new ApiResultError(error: error)));
+      .catchError((error) => new ApiResultError(error: error, message: 'error in retrieve game messages')));
 }
 
 final gameThemeEpics = combineEpics<AppState>([

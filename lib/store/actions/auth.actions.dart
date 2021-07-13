@@ -2,19 +2,21 @@ class GoogleLoginAction {
   Function onError;
   Function onSucces;
 
-  GoogleLoginAction({this.onError, this.onSucces});
+  GoogleLoginAction({required this.onError, required this.onSucces});
 }
 
 class AppleLoginAction {
   Function onError;
   Function onSucces;
 
-  AppleLoginAction({this.onError, this.onSucces});
+  AppleLoginAction({required this.onError, required this.onSucces});
 }
 
 class AnonymousLoginAction {
-  Function onSucces;
-  Function onError;
+  Function? onSucces;
+  Function? onError;
+
+  AnonymousLoginAction({this.onSucces, this.onError});
 }
 
 class TwitterLoginAction {}
@@ -31,7 +33,11 @@ class CustomAccountLoginAction {
   Function onSucces;
 
   CustomAccountLoginAction(
-      {this.user, this.password, this.onError, this.onWrongCredentials, this.onSucces});
+      {required this.user,
+      required this.password,
+      required this.onError,
+      required this.onWrongCredentials,
+      required this.onSucces});
 }
 
 class CreateAccount {
@@ -39,7 +45,7 @@ class CreateAccount {
   String password;
   String displayName;
 
-  CreateAccount({this.email, this.password, this.displayName});
+  CreateAccount({required this.email, required this.password, required this.displayName});
 }
 
 class CreateAccountResult {
@@ -49,5 +55,5 @@ class CreateAccountResult {
 class ResetPassword {
   String email;
 
-  ResetPassword({this.email});
+  ResetPassword({required this.email});
 }

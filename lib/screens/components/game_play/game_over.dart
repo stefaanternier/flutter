@@ -7,12 +7,16 @@ import 'package:youplay/screens/components/button/cust_raised_button.dart';
 import 'package:youplay/screens/util/extended_network_image.dart';
 
 class GameOver extends StatefulWidget {
-  GameTheme theme;
+  GameTheme? theme;
   bool anon;
   Function startAgain;
   Function toLibrary;
 
-  GameOver({this.theme, this.anon, this.startAgain, this.toLibrary});
+  GameOver(
+      {this.theme,
+      required this.anon,
+      required this.startAgain,
+      required this.toLibrary});
 
   @override
   _GameOverState createState() => _GameOverState();
@@ -87,5 +91,4 @@ class _GameOverState extends State<GameOver> {
           color: Colors.black, fontSize: 27, fontWeight: FontWeight.bold),
     );
   }
-
 }

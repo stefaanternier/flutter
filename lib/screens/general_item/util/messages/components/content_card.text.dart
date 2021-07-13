@@ -6,19 +6,18 @@ import 'package:youplay/models/general_item.dart';
 import '../../../general_item.dart';
 
 class ContentCardText extends StatelessWidget {
-  GeneralItem item;
   GeneralItemViewModel giViewModel;
-  Widget button;
-  String title;
-  String text;
+  Widget? button;
+  String? title;
+  String? text;
   bool showOnlyButton;
 
   ContentCardText(
-      {this.giViewModel,
+      {required this.giViewModel,
       this.button,
       this.text,
       this.title,
-      this.showOnlyButton});
+      required this.showOnlyButton});
 
   // : super(item: giViewModel.item,
   // content:  null,
@@ -28,8 +27,8 @@ class ContentCardText extends StatelessWidget {
   Widget build(BuildContext context) {
     // if (this.button == null) return Container();
     List<Widget> widgets = [];
-    bool hasTitle = title != null && title.trim().isNotEmpty;
-    bool hasText = text != null && text.trim().isNotEmpty;
+    bool hasTitle = title != null && title!.trim().isNotEmpty;
+    bool hasText = text != null && text!.trim().isNotEmpty;
     if (hasTitle) widgets.add(buildTitle());
     if (hasText && !UniversalPlatform.isWeb) widgets.add(buildContent(context));
     if (hasText && UniversalPlatform.isWeb)
@@ -59,10 +58,10 @@ class ContentCardText extends StatelessWidget {
   buildTitle() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0, 0, 0, 26),
-      child: Text('${this.title.toUpperCase()}',
+      child: Text('${this.title?.toUpperCase()}',
           style: AppConfig.isTablet()
-              ? AppConfig().customTheme.cardTitleStyleTablet
-              : AppConfig().customTheme.cardTitleStyle),
+              ? AppConfig().customTheme!.cardTitleStyleTablet
+              : AppConfig().customTheme!.cardTitleStyle),
     );
   }
 
@@ -77,7 +76,7 @@ class ContentCardText extends StatelessWidget {
             new SingleChildScrollView(
               scrollDirection: Axis.vertical, //.horizontal(
               child: Text('${this.text} \n\n',
-                  style: AppConfig().customTheme.cardContentStyle),
+                  style: AppConfig().customTheme!.cardContentStyle),
             ),
             Positioned(
                 bottom: 0,
@@ -115,7 +114,7 @@ class ContentCardText extends StatelessWidget {
           child: new SingleChildScrollView(
             scrollDirection: Axis.vertical, //.horizontal(
             child: Text('${this.text} \n\n',
-                style: AppConfig().customTheme.cardContentStyle),
+                style: AppConfig().customTheme!.cardContentStyle),
           )),
     );
   }

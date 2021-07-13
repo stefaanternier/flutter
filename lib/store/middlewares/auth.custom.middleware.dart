@@ -12,7 +12,8 @@ final FirebaseAuth _auth = FirebaseAuth.instance;
 
 final authLoginCustomCredentialsEpic =
     new TypedEpic<AppState, CustomAccountLoginAction>(customCredentialsLogin);
-final createAccountEpic = new TypedEpic<AppState, CreateAccount>(_createAccount);
+final createAccountEpic =
+    new TypedEpic<AppState, CreateAccount>(_createAccount);
 final resetPasswordEpic = new TypedEpic<AppState, ResetPassword>(_resetPassord);
 
 Stream<dynamic> _createAccount(
@@ -20,7 +21,8 @@ Stream<dynamic> _createAccount(
   EpicStore<AppState> store,
 ) {
   return actions.asyncMap((action) => _auth
-          .createUserWithEmailAndPassword(email: action.email, password: action.password)
+          .createUserWithEmailAndPassword(
+              email: action.email, password: action.password)
           .then((value) {
         return AccountApi.initNewAccount(action.email, action.displayName)
             .then((value) => SetPage(PageType.login));
@@ -28,11 +30,12 @@ Stream<dynamic> _createAccount(
       }).catchError((onError) => {print('todo erro ')}));
 }
 
-Stream<dynamic> _resetPassord(Stream<ResetPassword> actions, EpicStore<AppState> store) {
-  return actions
-      .asyncMap((action) => _auth.sendPasswordResetEmail(email: action.email).then((value) {
-            return SetPage(PageType.login);
-          }).catchError((onError) => {print('todo erro ')}));
+Stream<dynamic> _resetPassord(
+    Stream<ResetPassword> actions, EpicStore<AppState> store) {
+  return actions.asyncMap((action) =>
+      _auth.sendPasswordResetEmail(email: action.email).then((value) {
+        return SetPage(PageType.login);
+      }).catchError((onError) => {print('todo erro ')}));
 }
 
 Stream<dynamic> customCredentialsLogin(
@@ -40,17 +43,26 @@ Stream<dynamic> customCredentialsLogin(
   EpicStore<AppState> store,
 ) {
   return actions.asyncMap((action) => _auth
-          .signInWithEmailAndPassword(email: action.user, password: action.password)
-          .then((authResult) => authResult.user.getIdToken().then((token) {
+          .signInWithEmailAndPassword(
+              email: action.user, password: action.password)
+          .then((authResult) => authResult.user!.getIdToken().then((token) {
                 if (action.onSucces != null) {
                   action.onSucces();
                 }
+                if (AppConfig().analytics != null) {
+                  AppConfig()
+                      .analytics!
+                      .logLogin(loginMethod: "identities")
+                      .then((value) => {
+                            // print("login complete " )
+                          });
+                }
 
-                AppConfig().analytics.logLogin(loginMethod: "identities").then((value) => {
-                  // print("login complete " )
-                });
                 return new CustomLoginSucceededAction(
-                    authResult.user.displayName, authResult.user.email, authResult.user.uid, false);
+                    authResult.user!.displayName,
+                    authResult.user!.email,
+                    authResult.user!.uid,
+                    false);
               }))
           .catchError((error) {
         if (error.code == "ERROR_INVALID_EMAIL") {

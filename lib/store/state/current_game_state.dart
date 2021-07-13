@@ -4,8 +4,8 @@ import 'package:youplay/models/general_item.dart';
 import 'dart:collection';
 
 class GamesState {
-  Game game;
-  GameTheme gameTheme;
+  Game? game;
+  GameTheme? gameTheme;
   HashMap<int, GeneralItem> itemIdToGeneralItem = new HashMap();
   HashMap<int, GameFile> fileIdToGameFile = new HashMap();
   int amountOfRuns = -1;
@@ -17,7 +17,7 @@ class GamesState {
   GamesState.fromJson(Map json) : game = Game.fromJson(json["game"]);
 
   dynamic toJson() => {
-        'game': game.toJson(),
+        'game': game?.toJson() ?? {},
       };
 
   GamesState copyWith({game, items, gt, runAmount}) {

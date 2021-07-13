@@ -3,8 +3,8 @@ import 'package:youplay/state/ui_state.dart';
 class ToggleMessageViewAction {
 
   int gameId;
-  MessageView messageView;
-  ToggleMessageViewAction({this.gameId, this.messageView});
+  MessageView? messageView;
+  ToggleMessageViewAction({required this.gameId, this.messageView});
 }
 
 //class ShowMapViewAction {

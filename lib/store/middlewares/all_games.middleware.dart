@@ -33,7 +33,7 @@ Stream<dynamic> _downloadGame(Stream<dynamic> actions, EpicStore<AppState> store
         .catchError((error)  {
       print ('gameId is ${action.gameId}');
           print ('$error');
-          return new ApiResultError(error: error);
+          return new ApiResultError(error: error, message: 'error in download game');
         });
   });
 }

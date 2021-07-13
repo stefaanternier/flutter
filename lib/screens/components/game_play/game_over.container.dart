@@ -39,18 +39,18 @@ class _GameOverContainerState extends State<GameOverContainer> {
 }
 
 class _ViewModel {
-  GameTheme gameTheme;
+  GameTheme? gameTheme;
   bool isAuthenticated;
   bool anon;
   Function startAgain;
   Function toLibrary;
 
   _ViewModel({
-    this.isAuthenticated,
+    required this.isAuthenticated,
     this.gameTheme,
-    this.anon,
-    this.startAgain,
-    this.toLibrary
+    required this.anon,
+    required this.startAgain,
+    required this.toLibrary
   });
 
   static _ViewModel fromStore(Store<AppState> store) {

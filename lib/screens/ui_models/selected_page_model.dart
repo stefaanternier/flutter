@@ -9,7 +9,7 @@ class SelectedPageModel {
   PageType selectedPage;
   bool isAuthenticated;
 
-  SelectedPageModel({this.selectedPage, this.isAuthenticated});
+  SelectedPageModel({required this.selectedPage, required this.isAuthenticated});
 
   static SelectedPageModel fromStore(Store<AppState> store) {
     return new SelectedPageModel(

@@ -12,7 +12,7 @@ class LoadGameMessagesListResponseAction extends GenericWebResponseAction {
   LoadGameMessagesListResponseAction({resultAsString}) : super(resultAsString: resultAsString);
 
 
-  String getCursor() {
+  String? getCursor() {
     return getResultsAsJson()['resumptionToken'];
   }
 

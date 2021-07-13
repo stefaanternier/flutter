@@ -1,4 +1,3 @@
-
 import 'package:youplay/actions/games.dart';
 import 'package:youplay/actions/run_actions.dart';
 import 'package:youplay/models/general_item.dart';
@@ -13,46 +12,50 @@ import 'package:youplay/store/selectors/current_game.selectors.dart';
 import 'package:youplay/store/selectors/current_run.selectors.dart';
 
 class MessageViewModel {
-  Game game;
-  int messageView;
-  List<ItemTimes> items=[];
-  List<ItemTimes> mapItems=[];
-  Run run;
+  Game? game;
+  int? messageView;
+  List<ItemTimes> items = [];
+  List<ItemTimes> mapItems = [];
+  Run? run;
   final Store<AppState> store;
-  List<LocationTrigger> points;
-  Color themePrimaryColor;
+  List<LocationTrigger>? points;
+  Color? themePrimaryColor;
+
 //  Function onload;
-  Function onLocationFound;
+  Function? onLocationFound;
+
   MessageViewModel(
       {this.game,
-        this.messageView,
-        this.items,
-        this.mapItems,
-        this.store,
-        this.run,
+      this.messageView,
+      required this.items,
+      required this.mapItems,
+      required this.store,
+      this.run,
 //      this.onload,
       this.themePrimaryColor,
-        this.points,
-        this.onLocationFound});
+      this.points,
+      this.onLocationFound});
 
   getLocations() {
     print("get locations");
     return this.points;
   }
 
-  giItemTapAction(GeneralItem item,  BuildContext context) {
+  giItemTapAction(GeneralItem item, BuildContext context) {
     return () {
       print("on tap");
       store.dispatch(SetCurrentGeneralItemId(item.itemId));
 
-      store.dispatch(new ReadItemAction(
-          runId: run.runId,
-          generalItemId: item.itemId));
+      if (run != null && run!.runId != null) {
+        store.dispatch(
+            new ReadItemAction(runId: run!.runId!, generalItemId: item.itemId));
+      }
       new Future.delayed(const Duration(milliseconds: 200), () {
         //todo this is an adhoc solution
-        store.dispatch(new ReadItemAction(
-            runId: run.runId,
-            generalItemId: item.itemId));
+        if (run != null && run!.runId != null) {
+          store.dispatch(
+              new ReadItemAction(runId: run!.runId!, generalItemId: item.itemId));
+        }
       });
       Navigator.push(
         context,
@@ -64,9 +67,11 @@ class MessageViewModel {
   itemTapAction(int itemId, BuildContext context) {
     return () {
       store.dispatch(SetCurrentGeneralItemId(itemId));
-      store.dispatch(new ReadItemAction(
-          runId: run.runId,
-          generalItemId: itemId));
+      if (run != null && run!.runId != null) {
+        store.dispatch(
+            new ReadItemAction(runId: run!.runId!, generalItemId: itemId));
+      }
+
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => GeneralItemScreen()),
@@ -83,27 +88,17 @@ class MessageViewModel {
 //    }
 
     return new MessageViewModel(
-        game: gameSelector(store.state.currentGameState),
-
-//        messageView: messagesView(store.state),
-        store: store,
-        run: currentRunSelector(store.state.currentRunState),
-        items: listOnlyCurrentGeneralItems(store.state),
-        mapItems: mapOnlyCurrentGeneralItems(store.state),
-      themePrimaryColor: gameThemePrimaryColorSelector(store.state.currentGameState),
-//        points: gameLocationTriggers(store.state),
-//        onLocationFound: (double lat, double lng, int radius) {
-//          if (runId !=-1){
-//            store.dispatch(
-//                LocationAction(lat: lat, lng: lng, radius: radius, runId: runId));
-//          }
-//        }
-        );
+      game: gameSelector(store.state.currentGameState),
+      store: store,
+      run: currentRunSelector(store.state.currentRunState),
+      items: listOnlyCurrentGeneralItems(store.state),
+      mapItems: mapOnlyCurrentGeneralItems(store.state),
+      themePrimaryColor:
+          gameThemePrimaryColorSelector(store.state.currentGameState),
+    );
   }
 
-
-  Color getPrimaryColor() {
-
+  Color? getPrimaryColor() {
     return themePrimaryColor;
   }
 }

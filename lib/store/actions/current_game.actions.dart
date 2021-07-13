@@ -4,18 +4,18 @@ import 'package:youplay/models/game_theme.dart';
 
 class LoadGameRequestAction {
   int gameId;
-  LoadGameRequestAction(this.gameId);
+  LoadGameRequestAction({required this.gameId});
 }
 
 class LoadPublicGameRequestAction {
   int gameId;
-  LoadPublicGameRequestAction(this.gameId);
+  LoadPublicGameRequestAction({required this.gameId});
 }
 
 class LoadGameSuccessAction {
   Game game;
-  GameTheme gameTheme;
-  LoadGameSuccessAction({this.game, this.gameTheme});
+  GameTheme? gameTheme;
+  LoadGameSuccessAction({required this.game, this.gameTheme});
 
 }
 
@@ -24,5 +24,5 @@ class LoadGameSuccessAction {
 class SetCurrentGameAction {
   int currentGame;
 
-  SetCurrentGameAction(this.currentGame);
+  SetCurrentGameAction({required this.currentGame});
 }

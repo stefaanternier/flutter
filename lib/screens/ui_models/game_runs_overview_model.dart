@@ -12,11 +12,11 @@ import 'package:youplay/store/actions/ui_actions.dart';
 import 'package:youplay/store/selectors/current_game.selectors.dart';
 
 class GameRunsOverviewModel {
-  Game currentGame;
+  Game? currentGame;
   List<Run> runList;
   final Store<AppState> store;
 
-  GameRunsOverviewModel({this.currentGame, this.runList, this.store});
+  GameRunsOverviewModel({this.currentGame, required this.runList, required this.store});
 
   runTapAction(int index) {
     return () {

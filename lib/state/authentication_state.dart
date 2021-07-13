@@ -1,8 +1,7 @@
-import 'dart:convert';
-
 
 class AuthenticationState {
   bool authenticated;
+
 //  String idToken;
   String userId;
   String email;
@@ -10,27 +9,30 @@ class AuthenticationState {
   String pictureUrl;
   bool anon;
 
-  AuthenticationState({
-    this.authenticated=false,
+  AuthenticationState(
+      {this.authenticated = false,
 //    this.idToken,
-    this.userId,
-    this.email = '',
-    this.name = "",
-    this.anon = true
-  }) : this.pictureUrl = "https://storage.googleapis.com/arlearn-eu.appspot.com/avatar.png";
+      required this.userId,
+      required this.email,
+      required this.name,
+      this.anon = true})
+      : this.pictureUrl =
+            "https://storage.googleapis.com/arlearn-eu.appspot.com/avatar.png";
 
-  factory AuthenticationState.unauthenticated() =>
-      new AuthenticationState(authenticated: false);
+  factory AuthenticationState.unauthenticated() => new AuthenticationState(
+      authenticated: false, userId: '', email: '', name: '');
 
   static AuthenticationState fromJson(dynamic json) => AuthenticationState(
         authenticated: json["authenticated"] as bool,
         userId: json["userId"] as String,
+        email: json["email"] as String,
+        name: json["name"] as String,
       );
 
   dynamic toJson() => {
         'authenticated': authenticated,
-//        'idToken': idToken,
         'userId': userId,
+        'email': email,
+        'name': name,
       };
 }
-

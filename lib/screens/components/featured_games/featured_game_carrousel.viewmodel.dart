@@ -11,14 +11,14 @@ class FeaturedGamesCarrouselViewModel {
   List<Game> games;
   Function openGame;
 
-  FeaturedGamesCarrouselViewModel({this.games, this.openGame});
+  FeaturedGamesCarrouselViewModel({required this.games, required this.openGame});
 
   static FeaturedGamesCarrouselViewModel fromStore(Store<AppState> store) {
     return FeaturedGamesCarrouselViewModel(
         games: featuredGamesSelector(store.state),
         openGame: (Game g) {
           store.dispatch(LoadGameSuccessAction(game: g));
-          store.dispatch(LoadPublicGameRequestAction(g.gameId));
+          store.dispatch(LoadPublicGameRequestAction(gameId: g.gameId));
           store.dispatch(ResetRunsAndGoToLandingPage());
 //          store.dispatch(SetPage(PageType.gameLandingPage));
           if (store.state.authentication.authenticated) {

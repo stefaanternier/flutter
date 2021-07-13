@@ -17,12 +17,12 @@ class MessageListViewModel {
   List<ItemTimes> items = [];
   final Store<AppState> store;
   int runId;
-  Color themePrimaryColor;
+  Color? themePrimaryColor;
   MessageListViewModel({
-    this.items,
-    this.store,
-    this.runId,
-    this.themePrimaryColor
+    required this.items,
+    required this.store,
+    required this.runId,
+    required this.themePrimaryColor
   });
 
   static MessageListViewModel fromStore(Store<AppState> store) {
@@ -35,12 +35,11 @@ class MessageListViewModel {
     );
   }
   Color getPrimaryColor() {
-
-    return themePrimaryColor;
+    return themePrimaryColor ?? AppConfig().themeData!.primaryColor;
   }
   itemTapAction(int itemId, BuildContext context, String title, int gameId) {
     return () {
-      AppConfig().analytics.logViewItem(itemId: '${itemId}', itemName: title, itemCategory: '$gameId');
+      AppConfig().analytics?.logViewItem(itemId: '${itemId}', itemName: title, itemCategory: '$gameId');
 
       store.dispatch(SetCurrentGeneralItemId(itemId));
       store.dispatch(new ReadItemAction(

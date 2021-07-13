@@ -21,7 +21,7 @@ class UiState {
   int currentGameId;
 
 //  int currentRunId;
-  int currentItemId;
+  int? currentItemId;
 
 //  ItemUiState itemUiState;
   PageType currentPage = PageType.featured;
@@ -29,7 +29,7 @@ class UiState {
   int error;
 
   UiState({
-    this.gameIdToGame,
+    required this.gameIdToGame,
     this.currentGameId = -1,
 //    this.currentRunId,
     this.currentItemId,
@@ -54,11 +54,12 @@ class UiState {
 
 enum MessageView {
   mapView,
-  listView
+  listView,
+  metafoorView
 }
 
 class GameUiState {
   MessageView messagesView;
 
-  GameUiState({this.messagesView = MessageView.listView});
+  GameUiState({this.messagesView = MessageView.metafoorView});
 }

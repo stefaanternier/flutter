@@ -14,7 +14,10 @@ class AudioObjectGeneralItemScreen extends StatefulWidget {
   AudioObjectGeneralItem item;
   GeneralItemViewModel giViewModel;
 
-  AudioObjectGeneralItemScreen({this.item, this.giViewModel, Key key}) : super(key: key) {
+  AudioObjectGeneralItemScreen({
+    required this.item,
+    required this.giViewModel,
+    Key? key}) : super(key: key) {
     _AudioObjectGeneralItemScreenState().updateController();
   }
 
@@ -30,7 +33,7 @@ class _AudioObjectGeneralItemScreenState extends State<AudioObjectGeneralItemScr
   bool isFinished = false;
   bool completeActionSent = false;
 
-  AudioPlayer audioPlayer;
+  late AudioPlayer audioPlayer;
   AudioPlayerState status = AudioPlayerState.STOPPED;
 
   _AudioObjectGeneralItemScreenState();
@@ -66,11 +69,14 @@ class _AudioObjectGeneralItemScreenState extends State<AudioObjectGeneralItemScr
   }
 
   play() async {
-    String unencPath = widget.item.fileReferences['audio'].replaceFirst('//', '/').replaceAll(' ', '%20');
-    print('https://storage.googleapis.com/${AppConfig().projectID}.appspot.com${unencPath}');
-    int result = await audioPlayer
-        .play('https://storage.googleapis.com/${AppConfig().projectID}.appspot.com${unencPath}');
-    print("result is $result");
+    if (widget.item.fileReferences != null) {
+      String? unencPath = widget.item.fileReferences!['audio']?.replaceFirst('//', '/')?.replaceAll(' ', '%20');
+      print('https://storage.googleapis.com/${AppConfig().projectID}.appspot.com${unencPath}');
+      if (unencPath != null) {
+        int result = await audioPlayer
+            .play('https://storage.googleapis.com/${AppConfig().projectID}.appspot.com${unencPath}');
+      }
+    }
   }
 
 
@@ -90,48 +96,10 @@ mainAxisSize: MainAxisSize.max,
   }
 
   Widget buildVideoPlayer(BuildContext context) {
-    // Widget videoPlayer = GestureDetector(
-    //   onTap: () {
-    //     setState(() {
-    //       print('tap');
-    //       showControls = !showControls;
-    //     });
-    //   },
-    //   child: Column(
-    //     mainAxisAlignment: MainAxisAlignment.end,
-    //     crossAxisAlignment: CrossAxisAlignment.stretch,
-    //     children: <Widget>[],
-    //   ),
-    // );
     if (isFinished) {
       return addContinueTo( context);
-//       return FittedBox(
-//         fit: BoxFit.cover,
-//         child: SizedBox(
-//           width: MediaQuery.of(context).size.width,
-//           height: MediaQuery.of(context).size.width / 1080 * 1920,
-// //        width: 1080/3,
-// //        height: 1920/3,
-//           child: addContinueTo( context),
-//         ),
-//       );
-
-//      return showContinue(videoPlayer, context);
     }
-    print('show controls $showControls');
     return addControlsTo( context);
-//     return FittedBox(
-//       fit: BoxFit.cover,
-//       child: SizedBox(
-//         width: MediaQuery.of(context).size.width,
-//         height: MediaQuery.of(context).size.width / 1080 * 1920,
-// //        width: 1080/3,
-// //        height: 1920/3,
-//         //child: showControls ? addControlsTo(videoPlayer, context) : videoPlayer,
-//         child: addControlsTo( context) ,
-//       ),
-//     );
-//    return ;
   }
 
   Widget addControlsTo( BuildContext context) {

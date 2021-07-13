@@ -31,8 +31,8 @@ final myGamesStateReducer = combineReducers<int>([
   new TypedReducer<int, SetCurrentGameAction>(_setCurrentGame),
 ]);
 
-final currentItemReducer = combineReducers<int>([
-  new TypedReducer<int, SetCurrentGeneralItemId>(_setCurrentGeneralItem),
+final currentItemReducer = combineReducers<int?>([
+  new TypedReducer<int?, SetCurrentGeneralItemId>(_setCurrentGeneralItem),
 ]);
 
 final pageReducer = combineReducers<PageType>([
@@ -50,13 +50,14 @@ final errorReducer = combineReducers<int>([
 HashMap<int, GameUiState> _toggleListView(
     HashMap<int, GameUiState> oldMap, ToggleMessageViewAction action) {
   HashMap<int, GameUiState> map = HashMap.from(oldMap);
-  map.putIfAbsent(action.gameId, () => new GameUiState(messagesView: MessageView.listView));
+  GameUiState gameUiState = map[action.gameId] ?? new GameUiState(messagesView: MessageView.listView);
+  map[action.gameId] = map[action.gameId] ?? gameUiState;
   if (action.messageView != null) {
-    map[action.gameId].messagesView = action.messageView;
-  } else if (map[action.gameId].messagesView == MessageView.listView) {
-    map[action.gameId].messagesView = MessageView.mapView;
+    gameUiState.messagesView = action.messageView!;
+  } else if (gameUiState.messagesView == MessageView.listView) {
+    gameUiState.messagesView = MessageView.mapView;
   } else {
-    map[action.gameId].messagesView = MessageView.listView;
+    gameUiState.messagesView = MessageView.listView;
   }
   return map;
 }
@@ -65,7 +66,7 @@ int _setCurrentGame(int state, SetCurrentGameAction action) {
   return action.currentGame;
 }
 
-int _setCurrentGeneralItem(int state, SetCurrentGeneralItemId action) {
+int _setCurrentGeneralItem(int? state, SetCurrentGeneralItemId action) {
   return action.itemId;
 }
 

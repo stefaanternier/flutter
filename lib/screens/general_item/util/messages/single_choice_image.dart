@@ -14,14 +14,17 @@ class SingleChoiceWithImage extends StatefulWidget {
   SingleChoiceImageGeneralItem item;
   GeneralItemViewModel giViewModel;
 
-  SingleChoiceWithImage({this.item, this.giViewModel, Key key}) : super(key: key);
+  SingleChoiceWithImage(
+      {required this.item, required this.giViewModel, Key? key})
+      : super(key: key);
 
   @override
-  _SingleChoiceWithImageState createState() => new _SingleChoiceWithImageState();
+  _SingleChoiceWithImageState createState() =>
+      new _SingleChoiceWithImageState();
 }
 
 class _SingleChoiceWithImageState extends State<SingleChoiceWithImage> {
-  Map<String, bool> _selected = new Map();
+  late Map<String, bool> _selected = new Map();
   bool _showFalseFeedback = false;
   bool _showCorrectFeedback = false;
 
@@ -45,12 +48,11 @@ class _SingleChoiceWithImageState extends State<SingleChoiceWithImage> {
 //        : widget.item.primaryColor;
 //  }
 
-
   @override
   Widget build(BuildContext context) {
     String feedback = '';
     _selected.keys.forEach((answerId) {
-      if (_selected[answerId]) {
+      if (_selected[answerId]??false) {
         widget.item.answers.forEach((choice) {
           if (choice.id == answerId) {
             feedback = choice.feedback;
@@ -61,32 +63,31 @@ class _SingleChoiceWithImageState extends State<SingleChoiceWithImage> {
 
     if (_showCorrectFeedback && widget.item.showFeedback) {
       return FeedbackScreen(
-          result: 'correct',
-          buttonText: 'Verder',
-          item: widget.item,
-          feedback: "${feedback}",
-          overridePrimaryColor: widget.giViewModel.getPrimaryColor(),
-          buttonClick: () {
-            setState(() {
-              _showCorrectFeedback = false;
-            });
-            widget.giViewModel.continueToNextItem(context);
-          },
+        result: 'correct',
+        buttonText: 'Verder',
+        item: widget.item,
+        feedback: "${feedback}",
+        overridePrimaryColor: widget.giViewModel.getPrimaryColor(),
+        buttonClick: () {
+          setState(() {
+            _showCorrectFeedback = false;
+          });
+          widget.giViewModel.continueToNextItem(context);
+        },
         giViewModel: this.widget.giViewModel,
       );
     } else if (_showFalseFeedback && widget.item.showFeedback) {
       return FeedbackScreen(
-          result: 'wrong',
-          buttonText: 'Ok',
-          item: widget.item,
-          feedback: "${feedback}",
-          overridePrimaryColor: widget.giViewModel.getPrimaryColor(),
-          buttonClick: () {
-            setState(() {
-              _showFalseFeedback = false;
-            });
-          },
-
+        result: 'wrong',
+        buttonText: 'Ok',
+        item: widget.item,
+        feedback: "${feedback}",
+        overridePrimaryColor: widget.giViewModel.getPrimaryColor(),
+        buttonClick: () {
+          setState(() {
+            _showFalseFeedback = false;
+          });
+        },
       );
     }
     return GeneralItemWidget(
@@ -100,7 +101,7 @@ class _SingleChoiceWithImageState extends State<SingleChoiceWithImage> {
           buttonClick: (answerId) {
             setState(() {
               resetSelected();
-              _selected[answerId] = !_selected[answerId];
+              _selected[answerId] = !(_selected[answerId]??false);
             });
           },
           buttonVisible: this.answerGiven(),
@@ -113,38 +114,47 @@ class _SingleChoiceWithImageState extends State<SingleChoiceWithImage> {
     bool correct = true;
     _selected.forEach((answerid, value) {
       if (value) {
-        widget.giViewModel.onDispatch(MultipleChoiceAnswerAction(
-            generalItemId: widget.giViewModel.item.itemId,
-            runId: widget.giViewModel.run.runId,
-            answerId: answerid));
-        widget.giViewModel.onDispatch(MultiplechoiceAction(
-            mcResponse:
-            Response(run: widget.giViewModel.run, item:widget.item, value: answerid)));
+        if (widget.giViewModel.item != null &&
+            widget.giViewModel.run?.runId != null) {
+          widget.giViewModel.onDispatch(MultipleChoiceAnswerAction(
+              generalItemId: widget.giViewModel.item!.itemId,
+              runId: widget.giViewModel.run!.runId!,
+              answerId: answerid));
+          widget.giViewModel.onDispatch(MultiplechoiceAction(
+              mcResponse: Response(
+                  run: widget.giViewModel.run,
+                  item: widget.item,
+                  value: answerid)));
+        }
       }
     });
-    widget.giViewModel.onDispatch(SyncFileResponse(runId: widget.giViewModel.run.runId));
+    if (widget.giViewModel.item != null &&
+        widget.giViewModel.run?.runId != null) {
+      widget.giViewModel
+          .onDispatch(SyncFileResponse(runId: widget.giViewModel.run!.runId!));
 
-    widget.item.answers.forEach((choiceAnswer) {
-      if (choiceAnswer.isCorrect != _selected[choiceAnswer.id]) {
-        correct = false;
+      widget.item.answers.forEach((choiceAnswer) {
+        if (choiceAnswer.isCorrect != _selected[choiceAnswer.id]) {
+          correct = false;
+        }
+      });
+      if (correct) {
+        widget.giViewModel.onDispatch(AnswerCorrect(
+          generalItemId: widget.giViewModel.item!.itemId,
+          runId: widget.giViewModel.run!.runId!,
+        ));
+        setState(() {
+          _showCorrectFeedback = true;
+        });
+      } else {
+        widget.giViewModel.onDispatch(AnswerWrong(
+          generalItemId: widget.giViewModel.item!.itemId,
+          runId: widget.giViewModel.run!.runId!,
+        ));
+        setState(() {
+          _showFalseFeedback = true;
+        });
       }
-    });
-    if (correct) {
-      widget.giViewModel.onDispatch(AnswerCorrect(
-        generalItemId: widget.giViewModel.item.itemId,
-        runId: widget.giViewModel.run.runId,
-      ));
-      setState(() {
-        _showCorrectFeedback = true;
-      });
-    } else {
-      widget.giViewModel.onDispatch(AnswerWrong(
-        generalItemId: widget.giViewModel.item.itemId,
-        runId: widget.giViewModel.run.runId,
-      ));
-      setState(() {
-        _showFalseFeedback = true;
-      });
     }
     if (!widget.item.showFeedback) {
       setState(() {
@@ -155,7 +165,6 @@ class _SingleChoiceWithImageState extends State<SingleChoiceWithImage> {
           });
         }
       });
-
     }
   }
 

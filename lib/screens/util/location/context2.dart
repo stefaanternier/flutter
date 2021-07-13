@@ -19,29 +19,39 @@ LocationFactory _createLocation = () => Location();
 
 
 class LocationContext extends InheritedWidget {
-  final LocationData currentLocation;
-  final LocationData lastLocation;
-  final String error;
+  final LocationData? currentLocation;
+  final LocationData? lastLocation;
+  final String? error;
 
   LocationContext._({
-    @required this.currentLocation,
+    required this.currentLocation,
     this.lastLocation,
     this.error,
-    Key key,
-    Widget child,
+    Key? key,
+    required Widget child,
   }) : super(key: key, child: child);
 
-  static LocationContext of(BuildContext context) {
-    return context.dependOnInheritedWidgetOfExactType();
+  static LocationContext? of(BuildContext context) {
+    return context.dependOnInheritedWidgetOfExactType() as LocationContext?;
   }
 
-  static Widget around(Widget child, List<LocationTrigger> points, Function onLocFound, {Key key}) {
+  static Widget around(Widget child, List<LocationTrigger> points, Function onLocFound, {Key? key}) {
     return _LocationContextWrapper(child: child,points:points,onLocationFound:onLocFound,key:  Key('__locationAr__'));
   }
 
-  double distanceFrom(double lat, double lng) {
-    if (this.currentLocation == null) return null;
-    return GpsUtils.distance(lat, lng, currentLocation.latitude, currentLocation.longitude, 1);
+
+  double? distanceFromItem(GeneralItem item) {
+    if (item.lat != null && item.lng != null) {
+      return distanceFrom(item.lat!, item.lng!);
+    }
+    return null;
+  }
+
+  double? distanceFrom(double lat, double lng) {
+    if (this.currentLocation == null
+        || currentLocation!.latitude == null
+        || currentLocation!.longitude == null) return null;
+    return GpsUtils.distance(lat, lng, currentLocation!.latitude!, currentLocation!.longitude!, 1);
   }
 
   @override
@@ -55,9 +65,9 @@ class LocationContext extends InheritedWidget {
 class _LocationContextWrapper extends StatefulWidget {
   final Widget child;
   final List<LocationTrigger> points;
-  Function onLocationFound;
+  final Function onLocationFound;
 
-  _LocationContextWrapper({Key key, this.points, this.onLocationFound, this.child}) : super(key: key);
+  _LocationContextWrapper({Key? key, required this.points, required this.onLocationFound, required this.child}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _LocationContextWrapperState();
@@ -68,12 +78,12 @@ class _LocationContextWrapperState extends State<_LocationContextWrapper> {
   final Location _location = _createLocation();
 //  LocationOptions locationOptions = LocationOptions(accuracy: LocationAccuracy.high, distanceFilter: 5);
 
-  String _error;
+  String? _error;
 
-  LocationData _currentLocation;
-  LocationData _lastLocation;
+  LocationData? _currentLocation;
+  LocationData? _lastLocation;
 
-  StreamSubscription<LocationData> _locationChangedSubscription;
+  late StreamSubscription<LocationData> _locationChangedSubscription;
 
   @override
   void initState() {
@@ -87,39 +97,21 @@ class _LocationContextWrapperState extends State<_LocationContextWrapper> {
           _currentLocation = _position;
           dynamic removePoint;
           widget.points.forEach((point){
-            if (GpsUtils.distance(point.lat, point.lng, _position.latitude, _position.longitude, 1)< (point.radius-_position.accuracy)) {
-              print("location found ${point.lat} ${point.lng}");
-              widget.onLocationFound(point.lat, point.lng, point.radius);
-              removePoint = point;
-            } else {
-              print ("distance is ${GpsUtils.distance(point.lat, point.lng, _position.latitude, _position.longitude, 1)}");
+            if (_position.latitude != null && _position.latitude != null&& _position.accuracy != null){
+              if (GpsUtils.distance(point.lat, point.lng, _position.latitude!, _position.longitude!, 1)
+                  < (point.radius-_position.accuracy!)) {
+                print("location found ${point.lat} ${point.lng}");
+                widget.onLocationFound(point.lat, point.lng, point.radius);
+                removePoint = point;
+              } else {
+                print ("distance is ${GpsUtils.distance(point.lat, point.lng, _position.latitude!, _position.longitude!, 1)}");
+              }
             }
+
           });
           if (removePoint!=null) widget.points.remove(removePoint);
         });
     });
-    // _locationChangedSubscription = _location.onLocationChanged().listen((LocationData _position) {
-    //
-    //   setState(() {
-    //     _error = null;
-    //     _lastLocation = _currentLocation;
-    //     _currentLocation = _position;
-    //     dynamic removePoint;
-    //     widget.points.forEach((point){
-    //       if (GpsUtils.distance(point.lat, point.lng, _position.latitude, _position.longitude, 1)< (point.radius-_position.accuracy)) {
-    //         print("location found ${point.lat} ${point.lng}");
-    //         widget.onLocationFound(point.lat, point.lng, point.radius);
-    //         removePoint = point;
-    //       } else {
-    //         print ("distance is ${GpsUtils.distance(point.lat, point.lng, _position.latitude, _position.longitude, 1)}");
-    //       }
-    //     });
-    //     if (removePoint!=null) widget.points.remove(removePoint);
-    //   });
-    // });
-
-
-
     initLocation();
   }
 
@@ -147,7 +139,7 @@ class _LocationContextWrapperState extends State<_LocationContextWrapper> {
 
   @override
   void dispose() {
-    _locationChangedSubscription?.cancel();
+    _locationChangedSubscription.cancel();
     super.dispose();
   }
 

@@ -5,7 +5,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 
-
 // import 'package:flutter_audio_recorder/flutter_audio_recorder.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_sound/flutter_sound.dart';
@@ -26,6 +25,8 @@ import 'package:youplay/store/actions/current_run.actions.dart';
 import 'package:youplay/store/actions/current_run.picture.actions.dart';
 import 'package:youplay/store/selectors/current_run.selectors.dart';
 import 'package:youplay/store/state/app_state.dart';
+import 'package:youplay/ui/components/messages/audio-results-list.container.dart';
+import 'package:youplay/ui/components/messages/audio-slide-left-background.dart';
 
 import 'components/audio_meter.dart';
 import 'components/game_themes.viewmodel.dart';
@@ -38,11 +39,12 @@ enum AudioRecordingStatus { stopped, paused, recording }
 format(Duration d) => d.toString().split('.').first.padLeft(8, "0");
 
 class _RecordingsViewModel {
-  List<String> keys;
+  // List<String> keys;
   List<Response> audioResponses;
   List<Response> fromServer;
 
-  _RecordingsViewModel({this.keys, this.audioResponses, this.fromServer});
+  _RecordingsViewModel(
+      {required this.audioResponses, required this.fromServer});
 
   static _RecordingsViewModel fromStore(Store<AppState> store) {
     return new _RecordingsViewModel(
@@ -103,7 +105,7 @@ class NarratorWithAudio extends StatefulWidget {
   GeneralItem item;
   GeneralItemViewModel giViewModel;
 
-  NarratorWithAudio({this.item, this.giViewModel});
+  NarratorWithAudio({required this.item, required this.giViewModel});
 
   @override
   _NarratorWithAudioState createState() => new _NarratorWithAudioState();
@@ -111,21 +113,20 @@ class NarratorWithAudio extends StatefulWidget {
 
 class _NarratorWithAudioState extends State<NarratorWithAudio> {
   AudioRecordingStatus status = AudioRecordingStatus.stopped;
-  LinkedList meteringList = new LinkedList<ItemEntry>();
+  LinkedList<LinkedListEntry> meteringList = new LinkedList<ItemEntry>();
   List<Response> deleted = [];
 
   int selectedItem = -1;
   FlutterSoundRecorder _myRecorder = FlutterSoundRecorder();
-  Duration currentDuration;
+  Duration? currentDuration;
+  String? cp;
 
   @override
   void initState() {
     super.initState();
     openTheRecorder().then((value) {
-      setState(() {
-      });
+      setState(() {});
     });
-
   }
 
   Future<void> openTheRecorder() async {
@@ -134,29 +135,17 @@ class _NarratorWithAudioState extends State<NarratorWithAudio> {
       throw RecordingPermissionException('Microphone permission not granted');
     }
 
-    FlutterSoundRecorder recorder= await _myRecorder.openAudioSession(
-    focus: AudioFocus.requestFocusAndStopOthers,
-    mode: SessionMode.modeSpokenAudio,
-    category: SessionCategory.record
-    );
+    FlutterSoundRecorder? recorder = await _myRecorder.openAudioSession(
+        focus: AudioFocus.requestFocusAndStopOthers,
+        mode: SessionMode.modeSpokenAudio,
+        category: SessionCategory.record);
     setState(() {
-      _myRecorder  = recorder;
-
+      _myRecorder = recorder ?? _myRecorder;
     });
-
   }
 
-  String cp;
-
   Future _startRecording() async {
-    // String customPath = '/flutter_audio_recorder_';
-    // io.Directory appDocDirectory;
-    // if (io.Platform.isIOS) {
-    //   appDocDirectory = await getApplicationDocumentsDirectory();
-    // } else {
-    //   appDocDirectory = await getExternalStorageDirectory();
-    // }
-    String customPath = await getCustomPath();
+    String? customPath = await getCustomPath();
     setState(() {
       cp = customPath;
     });
@@ -165,101 +154,46 @@ class _NarratorWithAudioState extends State<NarratorWithAudio> {
     meteringList.addFirst(ItemEntry(0));
     await _myRecorder.setSubscriptionDuration(Duration(milliseconds: 200));
 
-    _myRecorder.onProgress.listen((event) {
+    _myRecorder.onProgress?.listen((event) {
       print('event ${event}');
       setState(() {
         meteringList.addFirst(ItemEntry(event.decibels));
         this.currentDuration = event.duration;
       });
     });
-    await _myRecorder
-        .startRecorder(
-            toFile: customPath
-            )
-        .then((value) {
+    await _myRecorder.startRecorder(toFile: customPath).then((value) {
       setState(() {});
     });
-
-
-
-    // _t = Timer.periodic(Duration(milliseconds: 50), (Timer t) async {
-    //   setState(() {
-    //
-    //     meteringList.addFirst(ItemEntry(10));
-    //     _t = t;
-    //   });
-    // });
-
-    // await _init();
-    // await _recorder.start();
-    // var current = await _recorder.current();
-    // setState(() {
-    //   _recording = current;
-    // });
-    //
-    // _t = Timer.periodic(Duration(milliseconds: 50), (Timer t) async {
-    //   var current = await _recorder.current();
-    //
-    //   setState(() {
-    //     meteringList.addFirst(ItemEntry(current.metering.averagePower));
-    //     _recording = current;
-    //     _t = t;
-    //   });
-    // });
   }
 
   Future _stopRecording() async {
-    // var result = await _recorder.stop();
-    // _t.cancel();
-    // widget.giViewModel.onDispatch(LocalAction(
-    //   action: "answer_given",
-    //   generalItemId: widget.giViewModel.item.itemId,
-    //   runId: widget.giViewModel.run.runId,
-    // ));
-    // widget.giViewModel.onDispatch(AudioResponseAction(
-    //     audioResponse: AudioResponse(
-    //         length: _recording?.duration.inMilliseconds,
-    //         item: widget.item,
-    //         path: _recording?.path,
-    //         run: widget.giViewModel.run)));
-    // widget.giViewModel.onDispatch(SyncFileResponse(runId: widget.giViewModel.run.runId));
-    //
-    // setState(() {
-    //   _recording = result;
-    //   meteringList.clear();
-    // });
+    String? test = await _myRecorder.stopRecorder();
 
-    String test = await _myRecorder.stopRecorder();
-
-
-    // String customPath = '/flutter_audio_recorder_';
-    // io.Directory appDocDirectory;
-    // if (io.Platform.isIOS) {
-    //   appDocDirectory = await getApplicationDocumentsDirectory();
-    // } else {
-    //   appDocDirectory = await getExternalStorageDirectory();
-    // }
-    // String outputFile = appDocDirectory.path +
-    //     customPath +
-    //     DateTime.now().millisecondsSinceEpoch.toString()+".mp3";
-    String outputFile = await getCustomPath(extension: ".mp3");
+    String? outputFileNull = await getCustomPath(extension: ".mp3");
+    if (outputFileNull == null || cp == null) {
+      return;
+    }
+    String outputFile = outputFileNull;
     print("path $outputFile");
-    await flutterSoundHelper.convertFile(cp, Codec.aacADTS, outputFile, Codec.mp3);
 
-    widget.giViewModel.onDispatch(LocalAction(
-      action: "answer_given",
-      generalItemId: widget.giViewModel.item.itemId,
-      runId: widget.giViewModel.run.runId,
-    ));
-    widget.giViewModel.onDispatch(AudioResponseAction(
-        audioResponse: AudioResponse(
-            length: currentDuration.inSeconds,
-            item: widget.item,
-            path: outputFile,
-            run: widget.giViewModel.run)));
-    widget.giViewModel
-        .onDispatch(SyncFileResponse(runId: widget.giViewModel.run.runId));
-
+    await flutterSoundHelper.convertFile(
+        cp, Codec.aacADTS, outputFile, Codec.mp3); //Codec.aacADTS
+    if (widget.giViewModel.item != null &&
+        widget.giViewModel.run?.runId != null) {
+      widget.giViewModel.onDispatch(LocalAction(
+        action: "answer_given",
+        generalItemId: widget.giViewModel.item!.itemId,
+        runId: widget.giViewModel.run!.runId!,
+      ));
+      widget.giViewModel.onDispatch(AudioResponseAction(
+          audioResponse: AudioResponse(
+              length: currentDuration?.inSeconds ?? 0,
+              item: widget.item,
+              path: outputFile,
+              run: widget.giViewModel.run)));
+      widget.giViewModel
+          .onDispatch(SyncFileResponse(runId: widget.giViewModel.run!.runId!));
+    }
 
     setState(() {
       meteringList.clear();
@@ -268,9 +202,7 @@ class _NarratorWithAudioState extends State<NarratorWithAudio> {
     await _myRecorder.closeAudioSession();
 
     openTheRecorder().then((value) {
-      setState(() {
-
-      });
+      setState(() {});
     });
   }
 
@@ -301,22 +233,16 @@ class _NarratorWithAudioState extends State<NarratorWithAudio> {
         giViewModel: this.widget.giViewModel,
         padding: false,
         elevation: AudioRecordingStatus.stopped != status,
-        body: Container(color: Color.fromRGBO(0, 0, 0, 0.8), child: body));
+        body: Container(
+            color: Color.fromRGBO(0, 0, 0, 0.8),
+            child: body)
+    );
   }
 
   Widget buildRecording(BuildContext context) {
     return Column(
       children: <Widget>[
         Spacer(flex: 2),
-        // Row(
-        //   mainAxisAlignment: MainAxisAlignment.center,
-        //   children: <Widget>[
-        //     Text(
-        //       "${format(_recording?.duration)}",
-        //       style: new TextStyle(color: Colors.white, fontSize: 60.0),
-        //     ),
-        //   ],
-        // ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
@@ -362,12 +288,6 @@ class _NarratorWithAudioState extends State<NarratorWithAudio> {
           ],
         ),
         Spacer(flex: 2),
-//            Opacity(
-//                opacity: 0.9,
-//                child: Padding(padding: EdgeInsets.fromLTRB(20, 0, 20, 10),
-//                    child: Text("hallo"
-//                    )
-//                ))
       ],
     );
   }
@@ -399,46 +319,37 @@ class _NarratorWithAudioState extends State<NarratorWithAudio> {
                   ));
             }),
         Expanded(
-          child: StoreConnector<AppState, _RecordingsViewModel>(
-              converter: (store) => _RecordingsViewModel.fromStore(store),
-              builder: (context, _RecordingsViewModel map) {
-//                print("map is back ${map.amountOfItems()}");
-                map.deleteAllResponses(this.deleted);
-//                print("map is back ${map.amountOfItems()}");
-                final DateTime now = DateTime.now();
-//                final DateFormat formatter = DateFormat('yyyy-MM-dd');
-                final DateFormat formatter = DateFormat.yMMMMd(
-                    Localizations.localeOf(context).languageCode);
-                return ListView.builder(
-                  itemCount: map.amountOfItems(),
-                  itemBuilder: (context, index) {
-                    final DateTime thatTime =
-                        DateTime.fromMillisecondsSinceEpoch(
-                            map.getItem(index).timestamp);
-                    return Dismissible(
-                        key: Key('${map.getItem(index).timestamp}'),
-                        background: slideLeftBackground(),
-                        onDismissed: (direction) {
-                          setState(() {
-                            this.deleted.add(map.getItem(index));
-                            deleteResponse(map.delete(index));
-                            map.deleteAllResponses(this.deleted);
-                          });
-                        },
-                        child: ListAudioPlayer(response: map.getItem(index))
-
-                        // new ExpansionTile(
-                        //   title: Text('Nieuwe opname', style: TextStyle(color: Colors.white)),
-                        //   subtitle: Text('${formatter.format(thatTime)} ',
-                        //       style: TextStyle(color: Colors.white.withOpacity(0.7))),
-                        //   trailing:
-                        //       Text('1:12', style: TextStyle(color: Colors.white.withOpacity(0.7))),
-                        //   children: <Widget>[ListAudioPlayer(response: map.getItem(index))],
-                        // )
-                        );
-                  },
-                );
-              }),
+          child:
+          AudioResultsListContainer()
+          // StoreConnector<AppState, _RecordingsViewModel>(
+          //     converter: (store) => _RecordingsViewModel.fromStore(store),
+          //     builder: (context, _RecordingsViewModel map) {
+          //       map.deleteAllResponses(this.deleted);
+          //       final DateTime now = DateTime.now();
+          //       final DateFormat formatter = DateFormat.yMMMMd(
+          //           Localizations.localeOf(context)
+          //               .languageCode); // NextButton(
+          //
+          //       return ListView.builder(
+          //         itemCount: map.amountOfItems(),
+          //         itemBuilder: (context, index) {
+          //           final DateTime thatTime =
+          //               DateTime.fromMillisecondsSinceEpoch(
+          //                   map.getItem(index).timestamp);
+          //           return Dismissible(
+          //               key: Key('${map.getItem(index).timestamp}'),
+          //               background: AudioSlideLeftBackground(),
+          //               onDismissed: (direction) {
+          //                 setState(() {
+          //                   this.deleted.add(map.getItem(index));
+          //                   // deleteResponse(map.delete(index));
+          //                   map.deleteAllResponses(this.deleted);
+          //                 });
+          //               },
+          //               child: ListAudioPlayer(response: map.getItem(index)));
+          //         },
+          //       );
+          //     }),
         ),
         Padding(
             padding: const EdgeInsets.fromLTRB(46, 8.0, 46, 8),
@@ -504,70 +415,35 @@ class _NarratorWithAudioState extends State<NarratorWithAudio> {
     );
   }
 
-  Widget slideLeftBackground() {
-    return Container(
-      color: Colors.red,
-      child: Align(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: <Widget>[
-            Icon(
-              Icons.delete,
-              color: Colors.white,
-            ),
-            Text(
-              " Delete",
-              style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.w700,
-              ),
-              textAlign: TextAlign.right,
-            ),
-            SizedBox(
-              width: 20,
-            ),
-          ],
-        ),
-        alignment: Alignment.centerRight,
-      ),
-    );
-  }
 
   @override
   void dispose() {
-    // TODO: implement dispose
-    // if (this.status == AudioRecordingStatus.recording) {
-    //   _recorder.stop();
-    //   _t.cancel();
-    //
-    //   meteringList.clear();
-    // }
-
     _myRecorder.closeAudioSession();
-    _myRecorder = null;
-
-
 
     super.dispose();
   }
 
-  deleteResponse(Response item) {
-    print("delete ${item.toString()}");
-    if (item.responseId != null) {
-      widget.giViewModel.deleteResponse(item.responseId);
-    }
-  }
+  // deleteResponse(Response item) {
+  //   print("delete ${item.toString()}");
+  //   if (item.responseId != null) {
+  //     widget.giViewModel.deleteResponse(item.responseId);
+  //   }
+  // }
 }
 
-Future<String> getCustomPath({String extension = ''})async {
+Future<String?> getCustomPath({String extension = ''}) async {
   String customPath = '/flutter_audio_recorder_';
-  io.Directory appDocDirectory;
+  io.Directory? appDocDirectory;
   if (io.Platform.isIOS) {
     appDocDirectory = await getApplicationDocumentsDirectory();
   } else {
     appDocDirectory = await getExternalStorageDirectory();
   }
+  if (appDocDirectory == null) {
+    return null;
+  }
   return appDocDirectory.path +
       customPath +
-      DateTime.now().millisecondsSinceEpoch.toString()+extension;
+      DateTime.now().millisecondsSinceEpoch.toString() +
+      extension;
 }

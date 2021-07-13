@@ -14,7 +14,7 @@ import 'game_theme.reducer.dart';
 
 AppState appReducer(AppState state, action) {
   if (action is SignOutAction) {
-    AppState newState = AppState.demoState();
+    AppState newState = AppState.emptyState();
     newState.gameLibrary = state.gameLibrary;
     newState.themIdToTheme = state.themIdToTheme;
     return newState;
@@ -31,12 +31,8 @@ AppState appReducer(AppState state, action) {
       currentGameState: currentGameReducer(state.currentGameState, action),
       //in use, same folder
       currentRunState: currentRunReducer(state.currentRunState, action),
-      // in use same folder
       gameLibrary: gameLibraryReducer(state.gameLibrary, action),
-
       gameIdToGameState: gameReducer(state.gameIdToGameState, action),
-      // in use
-//      runIdToRunState: runsStateReducer(state.runIdToRunState, action),
       gameIdToRun: runsReducer(state.gameIdToRun, action),
       //in use
 
@@ -45,8 +41,7 @@ AppState appReducer(AppState state, action) {
 //      library: libraryReducer(state.library, action),
 
       authentication: authenticationReducer(state.authentication, action),
-      uiState: uiReducer(state.uiState, action),
-      storage: state.storage
+      uiState: uiReducer(state.uiState, action)
   );
 }
 

@@ -16,7 +16,7 @@ class FeaturedGamesModelDepr {
   final Function(int runId) playRun;
   final Function() requestLogin;
 
-  FeaturedGamesModelDepr({this.requestLogin, @required this.playRun});
+  FeaturedGamesModelDepr({required this.requestLogin, required this.playRun});
 
   static FeaturedGamesModelDepr fromStore(Store<AppState> store, BuildContext context) {
     return FeaturedGamesModelDepr(

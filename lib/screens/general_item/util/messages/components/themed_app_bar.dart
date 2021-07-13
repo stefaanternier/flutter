@@ -11,7 +11,7 @@ class ThemedAppBar extends StatelessWidget with PreferredSizeWidget {
 
   ThemedAppBar(
     {
-    Key key, this.title, this.elevation = true
+    Key? key, required this.title, this.elevation = true
   })  : preferredSize = Size.fromHeight(50.0),
         super(key: key);
 

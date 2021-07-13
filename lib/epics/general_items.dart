@@ -48,5 +48,5 @@ Stream<dynamic> _visibleItems(
   return actions.where((action) => action is ApiRunsVisibleItems).asyncMap(
           (action) => GeneralItemsApi.visibleItems(action.runId)
           .then((results) => new ApiResultRunsVisibleItems(results, action.runId))
-          .catchError((error) => new ApiResultError(error:error)));
+          .catchError((error) => new ApiResultError(error:error, message: 'error in loading visible items')));
 }
