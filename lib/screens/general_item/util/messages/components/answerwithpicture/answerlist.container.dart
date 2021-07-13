@@ -11,7 +11,7 @@ import 'answerlist.dart';
 class AnswerListContainer extends StatelessWidget {
   Function tapResponse;
 
-  AnswerListContainer({this.tapResponse});
+  AnswerListContainer({required this.tapResponse});
 
   @override
   Widget build(BuildContext context) {
@@ -26,12 +26,11 @@ class AnswerListContainer extends StatelessWidget {
 }
 
 class _ViewModel {
-  List<String> keys;
   List<PictureResponse> pictureResponses;
   List<Response> fromServer;
   Function deleteResponse;
 
-  _ViewModel({this.pictureResponses, this.fromServer, this.deleteResponse});
+  _ViewModel({required this.pictureResponses, required this.fromServer,required  this.deleteResponse});
 
   static _ViewModel fromStore(Store<AppState> store) {
     return new _ViewModel(

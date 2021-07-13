@@ -1,6 +1,5 @@
 import 'package:youplay/config/app_config.dart';
 import 'package:youplay/models/general_item.dart';
-import 'package:youplay/screens/game/game_screens_list.dart';
 import 'package:youplay/screens/ui_models/message_view_model.dart';
 import 'package:youplay/screens/util/icons_helper.dart';
 import 'package:youplay/screens/util/location/context2.dart';
@@ -12,7 +11,7 @@ class MessagesView extends StatelessWidget {
 
   MessageViewModel messageViewModel;
 
-  MessagesView({this.messageViewModel});
+  MessagesView({required this.messageViewModel});
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +37,9 @@ class MessagesView extends StatelessWidget {
                       image: new NetworkImage(
                           "https://storage.googleapis.com/${AppConfig().projectID}.appspot.com/game/${this.messageViewModel.items[i].generalItem.gameId}/generalItems/${this.messageViewModel.items[i].generalItem.itemId}/icon.png"))),
               child: new Icon(
-                  getIconUsingPrefix(name: this.messageViewModel.items[i].generalItem.getIcon()),
+                  getIconUsingPrefix(
+                      name:
+                          this.messageViewModel.items[i].generalItem.getIcon()),
                   size: 30,
                   color: Theme.of(context).backgroundColor),
             )),
@@ -90,8 +91,11 @@ class MessagesView extends StatelessWidget {
   }
 
   String _distanceText(GeneralItem item, BuildContext context) {
-    double distance =
-        LocationContext.of(context)?.distanceFrom(item.lat, item.lng);
+    if (item.lat == null || item.lng == null) {
+      return "";
+    }
+    double? distance =
+        LocationContext.of(context)?.distanceFrom(item.lat!, item.lng!);
 //double distance;
     if (distance == null) return "";
     String dist = distance.toInt().toString();

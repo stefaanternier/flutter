@@ -15,7 +15,7 @@ class MultipleChoiceWithImage extends StatefulWidget {
   MultipleChoiceImageGeneralItem item;
   GeneralItemViewModel giViewModel;
 
-  MultipleChoiceWithImage({this.item, this.giViewModel, Key key})
+  MultipleChoiceWithImage({required this.item, required this.giViewModel, Key? key})
       : super(key: key);
 
   @override
@@ -23,13 +23,13 @@ class MultipleChoiceWithImage extends StatefulWidget {
 }
 
 class _MultipleChoiceWithImageState extends State<MultipleChoiceWithImage> {
-  Map<String, bool> _selected = new Map();
+  late Map<String, bool> _selected = new Map();
   bool _showFalseFeedback = false;
   bool _showCorrectFeedback = false;
   bool _showFeedback = true;
-  String wrongFeedback;
+  String? wrongFeedback;
 
-  String correctFeedback;
+  String? correctFeedback;
 
   @override
   initState() {
@@ -99,7 +99,7 @@ class _MultipleChoiceWithImageState extends State<MultipleChoiceWithImage> {
           selected: _selected,
           buttonClick: (answerId) {
             setState(() {
-              _selected[answerId] = !_selected[answerId];
+              _selected[answerId] = !(_selected[answerId]??false);
             });
           },
           buttonVisible: this.answerGiven(),
@@ -112,16 +112,23 @@ class _MultipleChoiceWithImageState extends State<MultipleChoiceWithImage> {
     bool correct = true;
     _selected.forEach((answerid, value) {
       if (value) {
-        widget.giViewModel.onDispatch(MultipleChoiceAnswerAction(
-            generalItemId: widget.giViewModel.item.itemId,
-            runId: widget.giViewModel.run.runId,
-            answerId: answerid));
-        widget.giViewModel.onDispatch(MultiplechoiceAction(
-            mcResponse:
-            Response(run: widget.giViewModel.run, item:widget.item, value: answerid)));
+        if (widget.giViewModel.item != null && widget.giViewModel.run?.runId != null) {
+          widget.giViewModel.onDispatch(MultipleChoiceAnswerAction(
+              generalItemId: widget.giViewModel.item!.itemId,
+              runId: widget.giViewModel.run!.runId!,
+              answerId: answerid));
+          widget.giViewModel.onDispatch(MultiplechoiceAction(
+              mcResponse:
+              Response(run: widget.giViewModel.run,
+                  item: widget.item,
+                  value: answerid)));
+        }
       }
     });
-    widget.giViewModel.onDispatch(SyncFileResponse(runId: widget.giViewModel.run.runId));
+    if (widget.giViewModel.item != null && widget.giViewModel.run?.runId != null) {
+      widget.giViewModel.onDispatch(
+          SyncFileResponse(runId: widget.giViewModel.run!.runId!));
+    }
 
     widget.item.answers.forEach((choiceAnswer) {
       if (choiceAnswer.isCorrect != _selected[choiceAnswer.id]) {
@@ -129,18 +136,22 @@ class _MultipleChoiceWithImageState extends State<MultipleChoiceWithImage> {
       }
     });
     if (correct) {
-      widget.giViewModel.onDispatch(AnswerCorrect(
-        generalItemId: widget.giViewModel.item.itemId,
-        runId: widget.giViewModel.run.runId,
-      ));
+      if (widget.giViewModel.item != null && widget.giViewModel.run?.runId != null) {
+        widget.giViewModel.onDispatch(AnswerCorrect(
+          generalItemId: widget.giViewModel.item!.itemId,
+          runId: widget.giViewModel.run!.runId!,
+        ));
+      }
       setState(() {
         if (widget.item.showFeedback) _showCorrectFeedback = true;
       });
     } else {
-      widget.giViewModel.onDispatch(AnswerWrong(
-        generalItemId: widget.giViewModel.item.itemId,
-        runId: widget.giViewModel.run.runId,
-      ));
+      if (widget.giViewModel.item != null && widget.giViewModel.run?.runId != null) {
+        widget.giViewModel.onDispatch(AnswerWrong(
+          generalItemId: widget.giViewModel.item!.itemId,
+          runId: widget.giViewModel.run!.runId!,
+        ));
+      }
       setState(() {
         if (widget.item.showFeedback) _showFalseFeedback = true;
       });

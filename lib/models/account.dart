@@ -4,7 +4,7 @@ class Account {
   String email;
   String name;
 
-  Account({this.email, this.name});
+  Account({required this.email,required  this.name});
 
   Map toJson() {
     Map map = new Map();
@@ -14,7 +14,3 @@ class Account {
   }
 }
 
-// {
-// "email": "",
-// "name": ""
-// }

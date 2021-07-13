@@ -23,7 +23,9 @@ HashMap<int, GameTheme> _loadGameTheme(
     return oldMap;
   }
   HashMap<int, GameTheme> map = HashMap<int, GameTheme>.from(oldMap);
-  map[action.gameTheme.themeId] = action.gameTheme;
+  if (action.gameTheme != null) {
+    map[action.gameTheme!.themeId] = action.gameTheme!;
+  }
   return map;
 }
 

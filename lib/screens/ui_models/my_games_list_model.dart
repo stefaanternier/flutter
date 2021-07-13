@@ -16,15 +16,15 @@ class MyGamesListViewModel {
   List<Game> gameList;
   Function tapGame;
 
-  MyGamesListViewModel({this.gameList, this.tapGame});
+  MyGamesListViewModel({required this.gameList, required this.tapGame});
 
   static MyGamesListViewModel fromStore(Store<AppState> store) {
     return MyGamesListViewModel(
         gameList: allGames(store.state.allGamesState),
         tapGame: (int gameId) {
           return () {
-            store.dispatch(SetCurrentGameAction(gameId));
-            store.dispatch(LoadGameRequestAction(gameId));
+            store.dispatch(SetCurrentGameAction(currentGame: gameId));
+            store.dispatch(LoadGameRequestAction(gameId: gameId));
             store.dispatch(ApiRunsParticipateAction(gameId));
             store.dispatch(SetPage(PageType.gameWithRuns));
           };
@@ -37,7 +37,7 @@ class MyGamesListViewModel {
 //  }
 
   MyGamesListViewModel filter(String query) {
-    List<Game> _searchList = List();
+    List<Game> _searchList = [];
     for (int i = 0; i < this.gameList.length; i++) {
       String name = this.gameList.elementAt(i).title;
       if (name != null && name.toLowerCase().contains(query.toLowerCase())) {

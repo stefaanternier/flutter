@@ -102,9 +102,12 @@ class _RunLandingPageState extends State<RunLandingPage> {
 
     if (gameLandingPageModel.run != null && gameLandingPageModel.runs != null && gameLandingPageModel.runs.length != 0) {
       gameLandingPageModel.runs.forEach((element) {
-        if (gameLandingPageModel.run.runId == element.runId) {
-          gameLandingPageModel.toRunPage();
+        if (gameLandingPageModel.run != null) {
+          if (gameLandingPageModel.run!.runId == element.runId) {
+            gameLandingPageModel.toRunPage();
+          }
         }
+
       });
     }
     if (gameLandingPageModel.amountOfRuns == -1 ||clickedJoinRun) {

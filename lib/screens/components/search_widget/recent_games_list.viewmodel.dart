@@ -17,7 +17,7 @@ class RecentGamesListViewModel {
     if (searchGames != null && searchGames.length != 0) return [];
     return recentGames;
 }
-  RecentGamesListViewModel({this.searchGames, this.recentGames, this.openGame});
+  RecentGamesListViewModel({required this.searchGames,required  this.recentGames,required  this.openGame});
 
   static RecentGamesListViewModel fromStore(Store<AppState> store) {
     return RecentGamesListViewModel(
@@ -28,7 +28,7 @@ class RecentGamesListViewModel {
             store.dispatch(AnonymousLoginAction());
           }
           store.dispatch(LoadGameSuccessAction(game: g));
-          store.dispatch(LoadPublicGameRequestAction(g.gameId));
+          store.dispatch(LoadPublicGameRequestAction(gameId: g.gameId));
           store.dispatch(ResetRunsAndGoToLandingPage());
           if (store.state.authentication.authenticated) {
             store.dispatch(ApiRunsParticipateAction(g.gameId));

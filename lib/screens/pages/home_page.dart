@@ -1,4 +1,3 @@
-import 'package:youplay/screens/general_item/dataCollection/outgoing_picture_response_list.dart';
 import 'package:youplay/screens/library/game_from_qr.dart';
 import 'package:youplay/screens/pages/create_account_page.dart';
 import 'package:youplay/screens/pages/game_landing_page.dart';
@@ -19,7 +18,7 @@ import 'my_games_list_page.dart';
 class HomeViewModel {
   PageType selectedPage;
 
-  HomeViewModel({this.selectedPage});
+  HomeViewModel({required this.selectedPage});
 }
 
 class SplashScreen extends StatelessWidget {
@@ -83,7 +82,7 @@ class SplashScreen extends StatelessWidget {
 //            return buildQRScanner(context);
               break;
             case PageType.dev1:
-              return OutGoingPictureResponses();
+              // return Container()();
 
               break;
             case PageType.dev2:

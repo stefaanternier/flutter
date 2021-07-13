@@ -13,18 +13,26 @@ import 'dart:io';
 final runsParticipateEpic =
     new TypedEpic<AppState, ApiRunsParticipateAction>(_gameParticipateStream);
 
-Stream<dynamic> _gameParticipateStream(Stream<dynamic> actions, EpicStore<AppState> store) {
-  return actions.where((action) => action is ApiRunsParticipateAction).asyncMap((action) {
-    AppConfig().analytics.logJoinGroup(groupId: '${action.gameId}');
-    return RunsApi.participate(action.gameId).then(
-        (results) => new ApiResultRunsParticipateAction(runs: results, gameId: action.gameId));
+Stream<dynamic> _gameParticipateStream(
+    Stream<dynamic> actions, EpicStore<AppState> store) {
+  return actions
+      .where((action) => action is ApiRunsParticipateAction)
+      .asyncMap((action) {
+    if (AppConfig().analytics != null) {
+      AppConfig().analytics!.logJoinGroup(groupId: '${action.gameId}');
+    }
+    return RunsApi.participate(action.gameId).then((results) =>
+        new ApiResultRunsParticipateAction(
+            runs: results, gameId: action.gameId));
   });
 }
 
 final runUsersEpic = new TypedEpic<AppState, ApiRunsUsersAction>(_runUsers);
 
 Stream<dynamic> _runUsers(Stream<dynamic> actions, EpicStore<AppState> store) {
-  return actions.where((action) => action is ApiRunsUsersAction).asyncExpand((action) {
+  return actions
+      .where((action) => action is ApiRunsUsersAction)
+      .asyncExpand((action) {
     return _loadRunActionStream(UsersApi.runUsers().then((results) => results));
   });
 }
@@ -40,10 +48,11 @@ Stream<dynamic> _loadRunActionStream(Future<dynamic> results) async* {
 
 final getRunEpic = new TypedEpic<AppState, ApiLoadRunAction>(_getRunViaRunId);
 
-Stream<dynamic> _getRunViaRunId(Stream<dynamic> actions, EpicStore<AppState> store) {
-  return actions.where((action) => action is ApiLoadRunAction).asyncMap((action) =>
-      RunsApi.runWithGame(action.runId)
-          .then((results) => new ApiResultLoadRunAction(action.runId, results)));
+Stream<dynamic> _getRunViaRunId(
+    Stream<dynamic> actions, EpicStore<AppState> store) {
+  return actions.where((action) => action is ApiLoadRunAction).asyncMap(
+      (action) => RunsApi.runWithGame(action.runId).then(
+          (results) => new ApiResultLoadRunAction(action.runId, results)));
 //          .catchError((error) =>
 //              new ApiResultRunsParticipateAction(error, action.runId)));
 }

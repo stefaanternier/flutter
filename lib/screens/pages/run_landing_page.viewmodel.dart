@@ -18,31 +18,33 @@ import 'package:youplay/store/state/app_state.dart';
 
 class RunLandingPageViewModel {
   bool isAuth;
-  Run run;
+  Run? run;
   int amountOfRuns;
   List<Run> runs;
-  Game game;
-  GameTheme gameTheme;
-  Store store;
+  Game? game;
+  GameTheme? gameTheme;
+  // Store store;
   Function loadRuns;
   Function joinRun;
+  Function toRunPage;
 
-  RunLandingPageViewModel(
-      {this.store,
-      this.run,
-      this.runs,
-      this.amountOfRuns,
-      this.game,
-      this.gameTheme,
-      this.isAuth,
-      this.loadRuns,
-      this.joinRun});
+  RunLandingPageViewModel({
+    this.run,
+    required this.runs,
+    required this.amountOfRuns,
+    this.game,
+    this.gameTheme,
+    required this.isAuth,
+    required this.loadRuns,
+    required this.toRunPage,
+    required this.joinRun});
 
-  static RunLandingPageViewModel fromStore(Store<AppState> store, BuildContext context) {
-    Game copyGame = gameSelector(store.state.currentGameState);
-    Run copyRun = featuredRunSelector(store.state);
+  static RunLandingPageViewModel fromStore(Store<AppState> store,
+      BuildContext context) {
+    Game? copyGame = gameSelector(store.state.currentGameState);
+    Run? copyRun = featuredRunSelector(store.state);
     return RunLandingPageViewModel(
-        store: store,
+        // store: store,
         run: featuredRunSelector(store.state),
         runs: currentRunsSelector(store.state),
         game: gameSelector(store.state.currentGameState),
@@ -50,23 +52,34 @@ class RunLandingPageViewModel {
         gameTheme: gameThemeSelector(store.state.currentGameState),
         isAuth: isAuthenticatedSelector(store.state),
         loadRuns: () {
-          store.dispatch(ApiRunsParticipateAction(copyGame.gameId));
+          if (copyGame != null) {
+            store.dispatch(ApiRunsParticipateAction(copyGame.gameId));
+          }
         },
         joinRun: () {
-          store.dispatch(RegisterToRunAction(run: copyRun));
+          if (copyRun != null) {
+            store.dispatch(RegisterToRunAction(run: copyRun));
+          }
+        },
+        toRunPage: () {
+          if (copyRun != null) {
+            store.dispatch(SetCurrentRunAction(run: copyRun));
+            if (copyRun.runId != null) {
+              store.dispatch(new ApiRunsVisibleItems(copyRun.runId!));
+              store.dispatch(new StartRunAction(runId: copyRun.runId!));
+              store.dispatch(new SyncResponsesServerToMobile(
+                  runId: copyRun.runId!,
+                  from: 1,
+                  till: new DateTime.now().millisecondsSinceEpoch));
+              store.dispatch(
+                  new SyncActionsServerToMobile(runId: copyRun.runId!, from: 1));
+            }
+          }
+          store.dispatch(new LoadGameMessagesListRequestAction());
+          store.dispatch(SetPage(PageType.game));
         }
     );
   }
 
-  void toRunPage() {
-    store.dispatch(SetCurrentRunAction(run: run));
 
-    store.dispatch(new LoadGameMessagesListRequestAction());
-    store.dispatch(new ApiRunsVisibleItems(run.runId));
-    store.dispatch(new StartRunAction(runId: run.runId));
-    store.dispatch(new SyncResponsesServerToMobile(
-        runId: run.runId, from: 1, till: new DateTime.now().millisecondsSinceEpoch));
-    store.dispatch(new SyncActionsServerToMobile(runId: run.runId, from: 1));
-    store.dispatch(SetPage(PageType.game));
-  }
 }

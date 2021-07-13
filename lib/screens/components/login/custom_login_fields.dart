@@ -9,22 +9,22 @@ class CustomLoginFields extends StatefulWidget {
   Function changePw;
   Function changeEmail;
 
-  CustomLoginFields({this.lang, this.onPressed, this.changeEmail, this.changePw});
+  CustomLoginFields({required this.lang, required this.onPressed,required  this.changeEmail, required this.changePw});
 
   @override
   _CustomLoginFieldsState createState() => _CustomLoginFieldsState();
 }
 
 class _CustomLoginFieldsState extends State<CustomLoginFields> {
-  TextEditingController emailController;
-  TextEditingController passwdController;
+  late TextEditingController emailController;
+  late TextEditingController passwdController;
 
   @override
   void initState() {
     emailController =
-        TextEditingController(text: AppConfig().loginConfig[widget.lang].defaultLoginName);
+        TextEditingController(text: AppConfig().loginConfig![widget.lang].defaultLoginName);
     passwdController =
-        TextEditingController(text: AppConfig().loginConfig[widget.lang].defaultLoginPassword);
+        TextEditingController(text: AppConfig().loginConfig![widget.lang].defaultLoginPassword);
     super.initState();
   }
 

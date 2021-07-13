@@ -16,9 +16,9 @@ Stream<dynamic> _retrieveGameMessages(Stream<dynamic> actions, EpicStore<AppStat
       .where((action) => action is LoadGameMessagesListRequestAction)
       .where((action) => currentGameId(store.state) != -1)
       .asyncMap((action) => GeneralItemsApi.generalItemsWithCursor(
-      currentGameId(store.state), '*')
+      currentGameId(store.state)??-1, '*')
       .then((results) => new LoadGameMessagesListResponseAction(resultAsString: results)) //todo check if gameIds when reducing are still current game
-      .catchError((error) => new ApiResultError(error: error)));
+      .catchError((error) => new ApiResultError(error: error, message: 'error in retrieve games')));
 }
 
 
@@ -28,8 +28,8 @@ Stream<dynamic> _retrieveCursorMessages(Stream<dynamic> actions, EpicStore<AppSt
       .where((action) => currentGameId(store.state) != -1)
       .where((action) => ((action as LoadGameMessagesListResponseAction).getCursor() != null))
       .asyncMap((action) => GeneralItemsApi.generalItemsWithCursor(
-      currentGameId(store.state), (action as LoadGameMessagesListResponseAction).getCursor())
+      currentGameId(store.state)?? -1, (action as LoadGameMessagesListResponseAction).getCursor())
       .then((results) => new LoadGameMessagesListResponseAction(resultAsString: results)) //todo check if gameIds when reducing are still current game
-      .catchError((error) => new ApiResultError(error: error)));
+      .catchError((error) => new ApiResultError(error: error, message: 'error in retrieve games with cursor')));
 }
 

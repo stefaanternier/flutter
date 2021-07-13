@@ -41,13 +41,13 @@ RunState addOneActionFromServer(RunState state, SyncActionComplete storeAction) 
   if (storeAction.action == null) {
     return state;
   }
-  if (_actionReplaceNecessary(state.actionsFromServer, storeAction.action)) {
-    state.actionsFromServer[_actionLookupString(storeAction.action)] = storeAction.action;
+  if (_actionReplaceNecessary(state.actionsFromServer, storeAction.action!)) {
+    state.actionsFromServer[_actionLookupString(storeAction.action!)] = storeAction.action!;
     state.actionsFromServer = HashMap<String, ARLearnAction>.from(state.actionsFromServer);
   }
   state.unsynchronisedActions = state.unsynchronisedActions.where((action) =>
-      !(storeAction.action.action == action.action &&
-          storeAction.action.generalItemId == action.generalItemId)).toList(growable: true);
+      !(storeAction.action!.action == action.action &&
+          storeAction.action!.generalItemId == action.generalItemId)).toList(growable: true);
   return state;
 }
 
@@ -56,7 +56,7 @@ bool _actionReplaceNecessary(HashMap<String, ARLearnAction> map, ARLearnAction a
   if (map[lookupString] == null) {
     return true;
   } else {
-    if (map[lookupString].timestamp > action.timestamp) {
+    if (map[lookupString]!.timestamp > action.timestamp) {
       return true;
     }
   }

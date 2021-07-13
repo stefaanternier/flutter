@@ -21,13 +21,19 @@ import 'config/login_config.dart';
 import 'localizations.dart';
 import 'themes/dido.dart';
 
-StreamSubscription _sub;
+StreamSubscription? _sub;
 FirebaseAnalytics analytics = FirebaseAnalytics();
 
+
 Future<Null> initUniLinks(Store<AppState> store) async {
-  _sub = getLinksStream().listen((String link) {
-    store.dispatch(new ParseLinkAction(link: link));
-  }, onError: (err) {});
+  // Attach a listener to the stream
+  _sub = getLinksStream().listen((String? link) {
+    if (link != null) {
+      store.dispatch(new ParseLinkAction(link: link));
+    }
+  }, onError: (err) {
+  });
+
 }
 
 
@@ -59,7 +65,7 @@ void main() async {
 
   runApp(MyApp(store: store));
   FirebaseApp app = await Firebase.initializeApp();
-  User user = await FirebaseAuth.instance.currentUser;
+  User? user = await FirebaseAuth.instance.currentUser;
   print("user is ${user}");
   if (user != null) {
     String token = await user.getIdToken(true);
@@ -70,7 +76,7 @@ void main() async {
   store.dispatch(new LoadFeaturedGameAction());
   store.dispatch(new LoadRecentGamesAction());
   await initUniLinks(store);
-  String link = await getInitialLink();
+  String? link = await getInitialLink();
 
   if (link != null) {
     store.dispatch(new ParseLinkAction(link: link));
@@ -83,7 +89,7 @@ void main() async {
 class MyApp extends StatelessWidget {
   final Store<AppState> store;
 
-  MyApp({Key key, this.store}) : super(key: key);
+  MyApp({Key? key,required this.store}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -98,7 +104,7 @@ class MyApp extends StatelessWidget {
             ],
             supportedLocales: [const Locale('nl'), const Locale('en')],
             debugShowCheckedModeBanner: false,
-            title: AppConfig().appName,
+            title: AppConfig().appName ?? 'todo title',
             theme: AppConfig().themeData,
             home: new SplashScreen(),
             navigatorObservers: [

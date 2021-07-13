@@ -29,34 +29,34 @@ Widget buildQRScanner(BuildContext context) {
           centerTitle: true,
           title: AppConfig().appBarIcon != null ?  new Image(
         image: new AssetImage(
-            AppConfig().appBarIcon),
+            AppConfig().appBarIcon??''),
         height: 32.0,
         width: 32.0,
       ):Text(AppLocalizations.of(context).translate('scan.scangameqr'))),
       drawer: ARLearnNavigationDrawer(),
-      body: new StoreConnector<AppState, Store>(
+      body: new StoreConnector<AppState, Store<AppState>>(
           converter: (store) => store,
           builder: (context, store) {
-            return new GameQRScreen(store);
+            return new GameQRScreen(store: store); //todo use model don't pass store as reference
           }));
 }
 
 class GameQRScreen extends StatefulWidget {
   final Store<AppState> store;
 
-  GameQRScreen(this.store);
+  GameQRScreen({required this.store});
 
   @override
-  GameQRState createState() => GameQRState(this.store);
+  GameQRState createState() => GameQRState(store: this.store); //todo don't pass store as reference
 }
 
 class GameQRState extends State<GameQRScreen> {
   final Store<AppState> store;
   String debug = "-";
 
-  GameQRState(this.store);
+  GameQRState({required this.store});
 
-  List _scanResults;
+  List _scanResults =[];
   // CameraController _camera;
 
   bool _isDetecting = false;
@@ -67,7 +67,9 @@ class GameQRState extends State<GameQRScreen> {
   CameraLensDirection _direction = CameraLensDirection.back;
 
 
-
+  // Barcode? r;
+  late QRViewController controller;
+  final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
 
   @override
   void initState() {
@@ -121,7 +123,7 @@ class GameQRState extends State<GameQRScreen> {
 //    print("game qr is ${gameId}");
     int gameIdInt = int.parse(gameId);
 //    print("parsed qr is ${gameIdInt}");
-    store.dispatch(LoadPublicGameRequestAction(gameIdInt));
+    store.dispatch(LoadPublicGameRequestAction(gameId: gameIdInt));
     store.dispatch(ResetRunsAndGoToLandingPage());
     if (store.state.authentication.authenticated) {
       store.dispatch(ApiRunsParticipateAction(gameIdInt));
@@ -172,9 +174,7 @@ class GameQRState extends State<GameQRScreen> {
 
 
 
-  Barcode result;
-  QRViewController controller;
-  final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
+
 
 Widget _buildQrView(BuildContext context) {
   // For this example we check how width or tall the device is and change the scanArea and overlay accordingly.
@@ -191,7 +191,7 @@ Widget _buildQrView(BuildContext context) {
     key: qrKey,
     onQRViewCreated: _onQRViewCreated,
     overlay: QrScannerOverlayShape(
-        borderColor: AppConfig().themeData.primaryColor,
+        borderColor: AppConfig().themeData!.primaryColor,
         borderRadius: 15,
         borderLength: 35,
         borderWidth: 45,
@@ -205,22 +205,22 @@ void _onQRViewCreated(QRViewController controller) {
   });
   controller.scannedDataStream.listen((scanData) {
     setState(() {
-      result = scanData;
+      Barcode r = scanData;
 
-      print('result ${result.code}');
+      print('result ${r.code}');
 
-      if (canProcessQr(result.code)) {
+      if (canProcessQr(r.code)) {
         if (_isProcessing) return;
         setState(() {
           if (!_isProcessing) {
             _isProcessing = true;
             _navigatorTriggered = true;
-            if (checkGameQR(result.code)) {
-              triggerGameQr(result.code, store);
-            } else if (checkAccountQR(result.code)) {
-              triggerAccountQr(result.code, store);
-            } else if (checkUrl(result.code)) {
-              store.dispatch(new ParseLinkAction(link: result.code));
+            if (checkGameQR(r.code)) {
+              triggerGameQr(r.code, store);
+            } else if (checkAccountQR(r.code)) {
+              triggerAccountQr(r.code, store);
+            } else if (checkUrl(r.code)) {
+              store.dispatch(new ParseLinkAction(link: r.code));
             } else {
               _navigatorTriggered = false;
             }
@@ -235,7 +235,7 @@ void _onQRViewCreated(QRViewController controller) {
 
 @override
 void dispose() {
-  controller?.dispose();
+  controller.dispose();
   super.dispose();
 }
 }

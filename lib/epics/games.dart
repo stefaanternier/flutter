@@ -136,10 +136,7 @@ Stream<dynamic> _loadGamesStream(
     ApiResultGamesParticipateAction2 participateAction) async* {
   print("participate games ${participateAction.games}");
   for (int i = 0; i < participateAction.games.length; i++) {
-//    print("trigger action for ${participateAction.games[i]}");
-//    yield new ApiLoadRunAction(int.parse(users[i]['runId']));
-//    yield new ApiGameAction(participateAction.games[i]);
-    yield new  LoadGameRequestAction(participateAction.games[i]);
+    yield new  LoadGameRequestAction(gameId: participateAction.games[i]);
 
   }
   if (participateAction.cursor != null) {

@@ -26,10 +26,10 @@ class _SearchBarState extends State<SearchBar> {
               store.dispatch(new SearchLibrary(query:val));
             },
             style: new TextStyle(
-              color: AppConfig().themeData.primaryColor,
+              color: AppConfig().themeData!.primaryColor,
             ),
             decoration: new InputDecoration(
-                prefixIcon: new Icon(Icons.search, color: AppConfig().themeData.primaryColor),
+                prefixIcon: new Icon(Icons.search, color: AppConfig().themeData!.primaryColor),
                 hintText: AppLocalizations.of(context).translate('games.search'),
                 hintStyle: new TextStyle(color: Colors.white)),
           );

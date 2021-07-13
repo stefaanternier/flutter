@@ -4,9 +4,10 @@ import 'dart:convert';
 class GenericWebResponseAction {
 
   String resultAsString;
-  dynamic resultAsJson;
+  dynamic? resultAsJson;
 
-  GenericWebResponseAction({this.resultAsString});
+  GenericWebResponseAction({
+    required this.resultAsString});
 
   decode() {
     this.resultAsJson = jsonDecode(this.resultAsString);

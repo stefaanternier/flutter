@@ -32,17 +32,17 @@ class NavigationViewModel {
   final Function() onAnonErase;
 
 
-  NavigationViewModel(
-      {this.name,
-        this.email,
-        this.accountPicture,
-        this.isAuthenticated,
-        this.anon,
-        this.currentGameTitle,
-        this.currentRunTitle,
-        @required this.onPageClicked,
-        @required this.onLogoutClicked,
-        @required this.onAnonErase
+  NavigationViewModel({
+        required this.name,
+        required this.email,
+        required this.accountPicture,
+        required this.isAuthenticated,
+        required this.anon,
+        required this.currentGameTitle,
+        required this.currentRunTitle,
+        required this.onPageClicked,
+        required this.onLogoutClicked,
+        required this.onAnonErase
       });
 
   bool showCurrentGame() {
@@ -58,14 +58,10 @@ class NavigationViewModel {
         isAuthenticated: authenticationState.authenticated,
         anon: authenticationState.anon,
         currentGameTitle: currentGameTitleSelector(store.state.currentGameState),
-        currentRunTitle: (currentRunSelector(store.state.currentRunState) == null)
-            ? ""
-            : currentRunSelector(store.state.currentRunState).title,
+        currentRunTitle: currentRunSelector(store.state.currentRunState)?.title ?? "",
         onPageClicked: (PageType page) {
           store.dispatch(new SetPage(page));
-//          if (page == PageType.featured) {
-//            store.dispatch(new LoadFeaturedGameAction());
-//          }
+
         },
         onAnonErase: () {
           store.dispatch(new EraseAnonAccount());

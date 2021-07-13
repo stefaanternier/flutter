@@ -52,9 +52,9 @@ class BooleanDependency extends Dependency {
 }
 
 class ActionDependency extends Dependency {
-  int generalItemId;
+  int? generalItemId;
   String action;
-  int scope;
+  int? scope;
 
   ActionDependency.fromJson(Map json)
       : generalItemId = json["generalItemId"] != null
@@ -75,22 +75,12 @@ class ActionDependency extends Dependency {
       if (this.action !=null) {
         int result = -1;
         if (actions["${this.action}:${this.generalItemId}"] != null) {
-          return actions["${this.action}:${this.generalItemId}"].timestamp;
+          return actions["${this.action}:${this.generalItemId}"]!.timestamp;
         }
-//        actions.forEach((string, action){
-//          if (action.action == this.action) {
-//            if (result == -1) {
-//              result = action.timestamp;
-//
-//            } else {
-//              result = min(result, action.timestamp);
-//            }
-//          }
-//        });
         return result;
       }
     } else {
-      ARLearnAction actionFromMap = actions["${this.action}:${generalItemId}"];
+      ARLearnAction? actionFromMap = actions["${this.action}:${generalItemId}"];
       if (actionFromMap == null) return -1;
       return actionFromMap.timestamp;
     }
@@ -102,7 +92,8 @@ class TimeDependency extends Dependency {
   int timeDelta;
   Dependency offset;
 
-  TimeDependency() : super();
+  // TimeDependency() : super();
+
   TimeDependency.fromJson(Map json)
       : timeDelta = int.parse("${json["timeDelta"]}"),
         offset = Dependency.fromJson(json["offset"]);
@@ -130,7 +121,7 @@ class ProximityDependency extends Dependency {
   double lng;
   int radius;
 
-  ProximityDependency() : super();
+  // ProximityDependency() : super();
   ProximityDependency.fromJson(Map json)
       : lat = double.parse("${json["lat"]}"),
         lng = double.parse("${json["lng"]}"),
@@ -138,7 +129,7 @@ class ProximityDependency extends Dependency {
 
   @override
   int evaluate(HashMap<String, ARLearnAction> actions) {
-    ARLearnAction actionFromMap = actions["geo:${lat}:${lng}:${radius}"];
+    ARLearnAction? actionFromMap = actions["geo:${lat}:${lng}:${radius}"];
     if (actionFromMap == null) return -1;
     return actionFromMap.timestamp;
   }
@@ -156,7 +147,7 @@ class ProximityDependency extends Dependency {
 class OrDependency extends Dependency {
 
   List<Dependency> dependencies;
-  OrDependency() : super();
+  // OrDependency() : super();
   OrDependency.fromJson(Map json)
       : dependencies = (json["dependencies"] as List<dynamic>).map((map)=>Dependency.fromJson(map)).toList(growable: false)
   ;
@@ -189,7 +180,7 @@ class OrDependency extends Dependency {
 class AndDependency extends Dependency {
 
   List<Dependency> dependencies;
-  AndDependency() : super();
+  // AndDependency() : super();
   AndDependency.fromJson(Map json)
       : dependencies = (json["dependencies"] as List<dynamic>).map((map)=>Dependency.fromJson(map)).toList(growable: false)
   ;

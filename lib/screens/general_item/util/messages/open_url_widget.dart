@@ -15,7 +15,7 @@ class OpenUrlWidget extends StatefulWidget {
   OpenUrl item;
   GeneralItemViewModel giViewModel;
 
-  OpenUrlWidget({this.item, this.giViewModel});
+  OpenUrlWidget({required this.item, required this.giViewModel});
 
   @override
   _OpenUrlWidgetState createState() => new _OpenUrlWidgetState();

@@ -13,13 +13,13 @@ class GameTheme {
   String wrongPath;
 
   GameTheme(
-      {this.themeId,
-      this.primaryColor,
-      this.global,
-      this.iconPath,
-      this.backgroundPath,
-      this.correctPath,
-      this.wrongPath});
+      {required this.themeId,
+        required this.primaryColor,
+        required  this.global,
+        required   this.iconPath,
+        required  this.backgroundPath,
+        required  this.correctPath,
+        required  this.wrongPath});
 
   GameTheme.fromJson(Map json)
       : themeId = int.parse("${json['themeId']}"),

@@ -14,54 +14,15 @@ import 'package:youplay/screens/general_item/dataCollection/picture_overview.con
 import 'package:youplay/screens/general_item/dataCollection/picture_preview-file.container.dart';
 import 'package:youplay/screens/general_item/dataCollection/take_picture.dart';
 import 'package:youplay/screens/general_item/general_item.dart';
-import 'package:youplay/screens/general_item/util/messages/components/answerwithpicture/display_one_picture.dart';
-import 'package:youplay/store/actions/current_run.actions.dart';
-import 'package:youplay/store/actions/current_run.picture.actions.dart';
-import 'package:youplay/store/selectors/current_run.selectors.dart';
-import 'package:youplay/store/state/app_state.dart';
-
-import 'components/answerwithpicture/answerlist.container.dart';
-import 'components/content_card.text.dart';
-import 'components/game_themes.viewmodel.dart';
-import 'components/next_button.dart';
-import 'generic_message.dart';
 
 enum PictureQuestionStates { overview, takePicture, annotateMetadata }
 
-class _PicturesViewModel {
-  List<String> keys;
-  List<PictureResponse> pictureResponses;
-  List<Response> fromServer;
-
-  _PicturesViewModel({this.keys, this.pictureResponses, this.fromServer});
-
-  static _PicturesViewModel fromStore(Store<AppState> store) {
-    return new _PicturesViewModel(
-        pictureResponses: currentRunPictureResponsesSelector(store.state),
-        fromServer: currentItemResponsesFromServerAsList(store.state));
-  }
-
-  int amountOfItems() {
-    return pictureResponses.length + fromServer.length;
-  }
-
-  bool isLocal(int index) {
-    return index >= fromServer.length;
-  }
-
-  Response getItem(index) {
-    if (index < fromServer.length) {
-      return fromServer[index];
-    }
-    return pictureResponses[index - fromServer.length];
-  }
-}
 
 class NarratorWithPicture extends StatefulWidget {
   GeneralItem item;
   GeneralItemViewModel giViewModel;
 
-  NarratorWithPicture({this.item, this.giViewModel});
+  NarratorWithPicture({required this.item, required  this.giViewModel});
 
   @override
   _NarratorWithPictureState createState() => new _NarratorWithPictureState();
@@ -71,8 +32,8 @@ class _NarratorWithPictureState extends State<NarratorWithPicture> {
   // bool _pictureOverviewMode = true;
   PictureQuestionStates currentState = PictureQuestionStates.overview;
 
-  Response currentResponse;
-  String imagePath;
+  Response? currentResponse;
+  String? imagePath;
 
   @override
   Widget build(BuildContext context) {
@@ -103,18 +64,21 @@ class _NarratorWithPictureState extends State<NarratorWithPicture> {
 
         );
       case PictureQuestionStates.annotateMetadata:
-        return PictureFilePreviewContainer(
-          giViewModel: widget.giViewModel,
-          imagePath: imagePath,
-          run: widget.giViewModel.run,
-          generalItem: widget.giViewModel.item,
-          finished: () {
-            setState(() {
-              currentState = PictureQuestionStates.overview;
-            });
-          },
-        );
+        if (widget.giViewModel.item != null && widget.giViewModel.run?.runId != null && imagePath != null) {
+          return PictureFilePreviewContainer(
+            giViewModel: widget.giViewModel,
+            imagePath: imagePath!,
+            run: widget.giViewModel.run!,
+            generalItem: widget.giViewModel.item!,
+            finished: () {
+              setState(() {
+                currentState = PictureQuestionStates.overview;
+              });
+            },
+          );
+        }
     }
-    return PictureOverviewContainer();
+    return Container(child: Text('something went wrong...'));  //todo make message beautiful
+
   }
 }

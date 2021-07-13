@@ -8,7 +8,7 @@ class AnswerWithPictureTile extends StatelessWidget {
   Response response;
   Function tapPictureTile;
 
-  AnswerWithPictureTile({this.response, this.tapPictureTile});
+  AnswerWithPictureTile({required this.response, required this.tapPictureTile});
 
   @override
   Widget build(BuildContext context) {

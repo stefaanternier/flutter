@@ -13,8 +13,8 @@ import 'package:youplay/store/selectors/game_library.selectors.dart';
 import 'package:youplay/store/state/app_state.dart';
 
 class GameLandingPageViewModel {
-  Game game;
-  GameTheme gameTheme;
+  Game? game;
+  GameTheme? gameTheme;
   int amountOfRuns;
   bool isAuth;
   bool isAnon;
@@ -23,24 +23,24 @@ class GameLandingPageViewModel {
   Function tapPlayAnonymously;
   Function createRunAndStart;
   Function loadRuns;
-  Store store;
+  Function toRunsPage;
 
   GameLandingPageViewModel(
       {this.game,
       this.gameTheme,
-      this.amountOfRuns,
-      this.isAuth,
-      this.isAnon,
-      this.tapCustomLogin,
-      this.tapPlayAnonymously,
-      this.createRunAndStart,
-      this.loadRuns,
-      this.store});
+      required this.amountOfRuns,
+      required this.isAuth,
+      required this.isAnon,
+      required this.tapCustomLogin,
+      required this.tapPlayAnonymously,
+      required this.createRunAndStart,
+      required this.loadRuns,
+      required this.toRunsPage});
 
-  static GameLandingPageViewModel fromStore(Store<AppState> store, BuildContext context) {
-    Game copyGame = gameSelector(store.state.currentGameState);
+  static GameLandingPageViewModel fromStore(
+      Store<AppState> store, BuildContext context) {
+    Game? copyGame = gameSelector(store.state.currentGameState);
     return GameLandingPageViewModel(
-        store: store,
         game: gameSelector(store.state.currentGameState),
         gameTheme: gameThemeSelector(store.state.currentGameState),
         amountOfRuns: amountOfRunsSelector(store.state.currentGameState),
@@ -57,32 +57,34 @@ class GameLandingPageViewModel {
                 print("show snackbar?");
               },
               onWrongCredentials: () {
-                final snackBar = SnackBar(content: Text("Fout! Wachtwoord of email incorrect"));
+                final snackBar = SnackBar(
+                    content: Text("Fout! Wachtwoord of email incorrect"));
 
                 Scaffold.of(context).showSnackBar(snackBar);
               },
               onSucces: () {
-                print("you are now authenticated");
-                store.dispatch(ApiRunsParticipateAction(copyGame.gameId));
+                if (copyGame != null) {
+                  store.dispatch(ApiRunsParticipateAction(copyGame.gameId));
+                }
               }));
         },
         tapPlayAnonymously: () {
-          print("pressed start anonymously3");
           store.dispatch(AnonymousLoginAction());
         },
         createRunAndStart: () {
-          print("press create run and start...");
-          store.dispatch(new RequestNewRunAction(gameId: copyGame.gameId, name: 'demo'));
-          store.dispatch(new SetPage(PageType.game));
+          if (copyGame != null) {
+            store.dispatch(
+                new RequestNewRunAction(gameId: copyGame.gameId, name: 'demo'));
+            store.dispatch(new SetPage(PageType.game));
+          }
         },
-      loadRuns: () {
-        store.dispatch(ApiRunsParticipateAction(copyGame.gameId));
-      }
-        );
-
-  }
-
-  void toRunsPage() {
-    store.dispatch(new SetPage(PageType.gameWithRuns));
+        loadRuns: () {
+          if (copyGame != null) {
+            store.dispatch(ApiRunsParticipateAction(copyGame.gameId));
+          }
+        },
+        toRunsPage: () {
+          store.dispatch(new SetPage(PageType.gameWithRuns));
+        });
   }
 }

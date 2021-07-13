@@ -19,15 +19,15 @@ class TakePictureWidget extends StatefulWidget {
   Function cancelCallBack;
   Function(String) pictureTaken;
 
-  Run run;
-  GeneralItem generalItem;
+  Run? run;
+  GeneralItem? generalItem;
 
   TakePictureWidget(
-      {this.giViewModel,
-      this.cancelCallBack,
+      {required this.giViewModel,
+        required this.cancelCallBack,
       this.run,
-      this.generalItem,
-      this.pictureTaken});
+        required this.generalItem,
+        required this.pictureTaken});
 
   @override
   _TakePictureWidgetState createState() {
@@ -36,7 +36,7 @@ class TakePictureWidget extends StatefulWidget {
 }
 
 class _TakePictureWidgetState extends State<TakePictureWidget> {
-  CameraController controller;
+  CameraController? controller;
 
   _TakePictureWidgetState();
 
@@ -69,8 +69,11 @@ class _TakePictureWidgetState extends State<TakePictureWidget> {
 
   @override
   Widget build(BuildContext context) {
+    if (widget.giViewModel.item == null){
+      return Container(child: Text('item loading...'));  //todo make message beautiful
+    }
     return GeneralItemWidget(
-        item: widget.giViewModel.item,
+        item: widget.giViewModel.item!,
         giViewModel: widget.giViewModel,
         padding: false,
         elevation: false,
@@ -89,13 +92,13 @@ class _TakePictureWidgetState extends State<TakePictureWidget> {
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         Visibility(
-                          visible: widget.giViewModel.item.richText != null,
+                          visible: widget.giViewModel.item!.richText != null,
                           child: Container(
                               color: widget.giViewModel.getPrimaryColor(),
                               child: Padding(
                                 padding: EdgeInsets.all(15),
                                 child: Text(
-                                  "${widget.giViewModel.item.richText}",
+                                  "${widget.giViewModel.item!.richText}",
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 16.0,
@@ -170,7 +173,7 @@ class _TakePictureWidgetState extends State<TakePictureWidget> {
       await getCamera(_direction),
       ResolutionPreset.high,
     );
-    await controller.initialize().then((_) {
+    await controller!.initialize().then((_) {
       setState(() {
         this.cameras = this.cameras;
       });
@@ -181,12 +184,13 @@ class _TakePictureWidgetState extends State<TakePictureWidget> {
     try {
       if (cameras == null || cameras.isEmpty) return await availableCameras();
     } on CameraException catch (e) {}
+    return [];
   }
 
   String _timestamp() => DateTime.now().millisecondsSinceEpoch.toString();
 
   Future<void> _takePicture() async {
-    if (!controller.value.isInitialized) {
+    if (controller == null || !controller!.value.isInitialized) {
       return null;
     }
     final Directory extDir = await getApplicationDocumentsDirectory();
@@ -194,7 +198,7 @@ class _TakePictureWidgetState extends State<TakePictureWidget> {
     await Directory(dirPath).create(recursive: true);
     // final String filePath = '$dirPath/${_timestamp()}.jpg';
 
-    if (controller.value.isTakingPicture) {
+    if (controller!.value.isTakingPicture) {
       // A capture is already pending, do nothing.
       return null;
     }
@@ -202,7 +206,7 @@ class _TakePictureWidgetState extends State<TakePictureWidget> {
     try {
       //todo migration
       //await controller.takePicture(filePath);
-      imageFile = await controller.takePicture();
+      imageFile = await controller!.takePicture();
     } on CameraException catch (e) {
 //      _showCameraException(e);
       print("exception e");
@@ -213,10 +217,10 @@ class _TakePictureWidgetState extends State<TakePictureWidget> {
 
 
     // print('filepath $filePath  ${properties.width} ${properties.height}');
-    int width = properties.width;
-    int height = properties.height;
+    int width = properties.width?? 250;
+    int height = properties.height??700;
     if (width < height) {
-      var offset = (properties.height - properties.width) / 2;
+      var offset = (height - width) / 2;
       if (offset < 0) {
         offset = offset * -1;
       }
@@ -234,7 +238,7 @@ class _TakePictureWidgetState extends State<TakePictureWidget> {
       widget.pictureTaken(croppedFile.path);
     } else {
       print('todo');
-      var offset = (properties.height - properties.width) / 2;
+      var offset = (height - width) / 2;
       if (offset < 0) {
         offset = offset * -1;
       }

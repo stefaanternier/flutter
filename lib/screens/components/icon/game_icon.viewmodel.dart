@@ -16,11 +16,11 @@ import 'package:youplay/store/state/app_state.dart';
 
 class GameIconViewModel {
   Game game;
-  GameTheme gameTheme;
+  GameTheme? gameTheme;
 
   GameIconViewModel({
-    this.game,
-    this.gameTheme,
+    required this.game,
+     this.gameTheme,
   });
 
   static GameIconViewModel fromStore(Store<AppState> store, BuildContext context, Game game) {
@@ -32,7 +32,7 @@ class GameIconViewModel {
     );
   }
 
-  iconPath() {
+  String? iconPath() {
     // if (gameTheme == null) {
     //   return '/themes/thema_pict-1-icon.png';
     // }

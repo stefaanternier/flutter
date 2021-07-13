@@ -30,7 +30,7 @@ class GamePlayPage extends StatelessWidget {
               title: FittedBox(
                 fit: BoxFit.contain,
                 child: Text(
-                  "${currentGameViewModel.game.title}",
+                  "${currentGameViewModel.game?.title??''}",
                   // maxLines: 1,
                   // overflow: TextOverflow.ellipsis,
                 ),
@@ -61,12 +61,11 @@ class GamePlayPage extends StatelessWidget {
     if (currentGameViewModel.run == null) {
       return _buildWaitingRoom();
     }
-    // if (currentGameViewModel.messageView == MessageView.listView) {
-      // return MessagesListView();
       return MessageListContainer(
           listType: (currentGameViewModel.messageView == MessageView.listView)
               ? 1
-              : 2);
+              : ((currentGameViewModel.messageView == MessageView.mapView ? 2 : 3))
+      );
     // } else {
     //   return MessagesMapView(game: currentGameViewModel.game);
     // }

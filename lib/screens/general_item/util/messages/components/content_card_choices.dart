@@ -15,26 +15,26 @@ class ContentCardChoices extends ContentCard {
   Map<String, bool> selected;
   Function changeSelection;
   Function submitPressed;
-  Color overridePrimaryColor;
+  Color? overridePrimaryColor;
   bool buttonVisible;
 
   ContentCardChoices(
-      {GeneralItemViewModel giViewModel,
-      this.answers,
-      this.selected,
-      this.changeSelection,
-      this.submitPressed,
-      this.buttonVisible,
-      this.overridePrimaryColor})
-      : super(item: giViewModel.item, content: null, button: null, giViewModel: giViewModel);
+      {required GeneralItemViewModel giViewModel,
+        required this.answers,
+        required this.selected,
+        required this.changeSelection,
+        required this.submitPressed,
+        required this.buttonVisible,
+        this.overridePrimaryColor})
+      : super(content: null, button: null, giViewModel: giViewModel);
 
   @override
   getContent(BuildContext context) {
     return Text(
-      "${item.richText}",
+      "${giViewModel.item?.richText}",
       style: AppConfig.isTablet()
-          ? AppConfig().customTheme.cardTitleStyleTablet
-          : AppConfig().customTheme.cardTitleStyle,
+          ? AppConfig().customTheme!.cardTitleStyleTablet
+          : AppConfig().customTheme!.cardTitleStyle,
     );
   }
 
@@ -47,11 +47,11 @@ class ContentCardChoices extends ContentCard {
     return Visibility(
       child: Container(
           padding: const EdgeInsets.all(10),
-          child: Text("${(item as dynamic).text}",
+          child: Text("${(giViewModel.item as dynamic)?.text}",
               style: AppConfig.isTablet()
-                  ? AppConfig().customTheme.cardTitleStyleTablet
-                  : AppConfig().customTheme.cardTitleStyle)),
-      visible: (item as dynamic).text != '' && (item as dynamic).text != null,
+                  ? AppConfig().customTheme!.cardTitleStyleTablet
+                  : AppConfig().customTheme!.cardTitleStyle)),
+      visible: (giViewModel.item as dynamic).text != '' && (giViewModel.item as dynamic).text != null,
     );
   }
 
@@ -71,10 +71,10 @@ class ContentCardChoices extends ContentCard {
                         controlAffinity: ListTileControlAffinity.leading,
                         activeColor: giViewModel.getPrimaryColor(),
                         title: Text("${answers[(i / 2).floor()].answer}",
-                            style: AppConfig().customTheme.mcOptionTextStyle),
+                            style: AppConfig().customTheme!.mcOptionTextStyle),
                         value: selected[answers[(i / 2).floor()].id],
-                        onChanged: (bool value) {
-                          changeSelection(value, (i / 2).floor(), answers[(i / 2).floor()].id);
+                        onChanged: (bool? value) {
+                          changeSelection(value??true, (i / 2).floor(), answers[(i / 2).floor()].id);
                         },
                       ))));
   }
@@ -92,9 +92,11 @@ class ContentCardChoices extends ContentCard {
                   visible: buttonVisible,
                   child: Padding(
                     padding: EdgeInsets.fromLTRB(30, 0, 30, 10),
-                    child: NextButton(
-                      buttonText: item.description != ""
-                          ? item.description
+                    child:
+                    //todo this should not be a nextbutton (but answer button)
+                    NextButton(
+                      buttonText: (giViewModel.item?.description??"") != ""
+                          ? giViewModel.item!.description
                           : AppLocalizations.of(context).translate('screen.proceed'),
                       // overridePrimaryColor: themeModel.getPrimaryColor(),
                       giViewModel: giViewModel,
@@ -106,19 +108,7 @@ class ContentCardChoices extends ContentCard {
               ),
             ],
           );
-          // return ButtonBar(children: [
-          //   RaisedButton(
-          //     color: overridePrimaryColor != null
-          //         ? overridePrimaryColor
-          //         : themeModel.getPrimaryColor(), // giViewModel.getPrimaryColor(),
-          //     splashColor: Colors.red,
-          //     child: Text(
-          //       AppLocalizations.of(context).translate('screen.next'),
-          //       style: AppConfig().customTheme.nextButtonStyle,
-          //     ),
-          //     onPressed: submitPressed,
-          //   )
-          // ]);
+
         });
   }
 }

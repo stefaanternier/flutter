@@ -4,6 +4,7 @@ import 'package:redux/redux.dart';
 import 'package:youplay/actions/games.dart';
 import 'package:youplay/actions/run_actions.dart';
 import 'package:youplay/config/app_config.dart';
+import 'package:youplay/models/game.dart';
 import 'package:youplay/models/general_item.dart';
 import 'package:youplay/screens/components/game_play/messages_map_view.dart';
 import 'package:youplay/screens/general_item/general_item.dart';
@@ -14,11 +15,12 @@ import 'package:youplay/store/selectors/current_run.selectors.dart';
 import 'package:youplay/store/state/app_state.dart';
 
 import 'messages_list_view.dart';
+import 'messages_metafoor_view.dart';
 
 class MessageListContainer extends StatefulWidget {
   int listType;
 
-  MessageListContainer({this.listType});
+  MessageListContainer({required this.listType});
 
   @override
   _MessageListContainerState createState() => _MessageListContainerState();
@@ -42,16 +44,26 @@ class _MessageListContainerState extends State<MessageListContainer> {
             setState(() {});
           });
         });
+
         if (widget.listType == 1) {
           return MessagesList(
             items: items,
             tapEntry: vm.tapEntry,
           );
         }
+        if (widget.listType == 2) {
+          return MetafoorView(
+            items: items,
+            tapEntry: vm.tapEntry,
+            backgroundPath: vm.game?.messageListScreen ?? '/mediaLibrary/Bos/Jungle.png',
+          );
+        }
         return LocationContext.around(
             MessagesMapView(
               items: items,
-              tapEntry: vm.tapEntry,
+              tapEntry: () {
+                vm.tapEntry();
+              },
             ),
             vm.points,
             vm.onLocationFound);
@@ -65,14 +77,21 @@ class _ViewModel {
   Function tapEntry;
   List<LocationTrigger> points;
   Function onLocationFound;
+  Game? game;
 
   // int runId;
 
-  _ViewModel({this.items, this.tapEntry, this.points, this.onLocationFound});
+  _ViewModel(
+      {required this.items,
+      required this.tapEntry,
+      required this.points,
+      required this.onLocationFound,
+      this.game});
 
   static _ViewModel fromStore(Store<AppState> store) {
     int runId = runIdSelector(store.state.currentRunState);
     return _ViewModel(
+        game: store.state.currentGameState.game,
         points: gameLocationTriggers(store.state),
         onLocationFound: (double lat, double lng, int radius) {
           if (runId != -1) {
@@ -80,9 +99,9 @@ class _ViewModel {
                 lat: lat, lng: lng, radius: radius, runId: runId));
           }
         },
-        items: currentGeneralItems(store.state),
+        items: itemTimesSortedByTime(store.state),
         tapEntry: (BuildContext context, GeneralItem item) {
-          AppConfig().analytics.logViewItem(
+          AppConfig().analytics?.logViewItem(
               itemId: '${item.itemId}',
               itemName: '${item.title}',
               itemCategory: '${item.gameId}');

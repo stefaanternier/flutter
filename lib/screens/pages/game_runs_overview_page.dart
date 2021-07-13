@@ -21,7 +21,7 @@ class GameRunsOverviewPage extends StatelessWidget {
         converter: (store) => GameRunsOverviewModel.fromStore(store),
         builder: (context, runsViewModel) {
           return new Scaffold(
-              appBar: ThemedAppBar(title: runsViewModel.currentGame.title, elevation: true),
+              appBar: ThemedAppBar(title: runsViewModel.currentGame?.title??'', elevation: true),
               // AppBar(
               //   title: Text("${runsViewModel.currentGame.title}"),
               //   backgroundColor: runsViewModel?.currentGame?.config?.primaryColor,

@@ -11,14 +11,14 @@ class SearchResultListViewModel {
   List<Game> games;
   Function openGame;
 
-  SearchResultListViewModel({this.games, this.openGame});
+  SearchResultListViewModel({required this.games,required  this.openGame});
 
   static SearchResultListViewModel fromStore(Store<AppState> store) {
     return SearchResultListViewModel(
         games: searchedGamesSelector(store.state),
         openGame: (Game g) {
           store.dispatch(LoadGameSuccessAction(game: g));
-          store.dispatch(LoadPublicGameRequestAction(g.gameId));
+          store.dispatch(LoadPublicGameRequestAction(gameId :g.gameId));
           store.dispatch(ResetRunsAndGoToLandingPage());
           if (store.state.authentication.authenticated) {
             store.dispatch(ApiRunsParticipateAction(g.gameId));

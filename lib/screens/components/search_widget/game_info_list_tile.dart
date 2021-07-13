@@ -10,7 +10,7 @@ class GameInfoListTile extends StatelessWidget {
   Game game;
 
   Function openGame;
-  GameInfoListTile({this.game, this.openGame});
+  GameInfoListTile({required this.game, required  this.openGame});
 
   @override
   Widget build(BuildContext context) {

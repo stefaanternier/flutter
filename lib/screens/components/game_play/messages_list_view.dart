@@ -15,7 +15,7 @@ import 'message_list_view.viewmodel.dart';
 class MessagesList extends StatelessWidget {
   List<ItemTimes> items = [];
   Function tapEntry;
-  MessagesList({this.items, this.tapEntry});
+  MessagesList({required this.items, required this.tapEntry});
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +51,7 @@ class MessagesList extends StatelessWidget {
   }
 
   String _distanceText(GeneralItem item, BuildContext context) {
-    double distance = LocationContext.of(context)?.distanceFrom(item.lat, item.lng);
+    double? distance = LocationContext.of(context)?.distanceFromItem(item);
 //double distance;
     if (distance == null) return "";
     String dist = distance.toInt().toString();
@@ -162,7 +162,10 @@ class _MessagesListViewState extends State<MessagesListView> {
   }
 
   String _distanceText(GeneralItem item, BuildContext context) {
-    double distance = LocationContext.of(context)?.distanceFrom(item.lat, item.lng);
+    if (item.lat == null || item.lng == null){
+      return "";
+    }
+    double? distance = LocationContext.of(context)?.distanceFrom(item.lat!, item.lng!);
 //double distance;
     if (distance == null) return "";
     String dist = distance.toInt().toString();

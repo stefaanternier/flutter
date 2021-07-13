@@ -9,7 +9,7 @@ import 'package:youplay/store/state/app_state.dart';
 import 'game_icon.viewmodel.dart';
 
 class GameIcon extends StatelessWidget {
-  Game game;
+  Game? game;
 
   double height;
 
@@ -17,14 +17,17 @@ class GameIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (game == null) {
+      return Container(child: Text('loading..'));
+    }
     return new StoreConnector<AppState, GameIconViewModel>(
       distinct: true,
-      converter: (store) => GameIconViewModel.fromStore(store, context, this.game),
+      converter: (store) => GameIconViewModel.fromStore(store, context, this.game!),
       builder: (context, iconModel) => Stack(alignment: const Alignment(-0.5, 0.9), children: [
         Visibility(
             visible: iconModel.iconPath != null,
             child: iconModel.iconPath == null
-                ? Container()
+                ? Container(child : Text(''))
                 : buildRoundImage(context, iconModel.iconPath())
             // Image(
             //         height: this.height,
@@ -32,7 +35,7 @@ class GameIcon extends StatelessWidget {
             // )
         ),
         Text(
-          '${game.iconAbbreviation}',
+          '${game!.iconAbbreviation}',
           style: TextStyle(fontWeight: FontWeight.w800, fontSize: 22, color: Colors.white),
         )
       ]),
@@ -40,7 +43,11 @@ class GameIcon extends StatelessWidget {
     // return Container();
   }
 
-  Widget buildRoundImage(BuildContext context, String iconPath) {
+  Widget buildRoundImage(BuildContext context, String? iconPath) {
+    if (iconPath == null){
+      return Container(child: Text('..'));
+    }
+
     return SizedBox(
       width: this.height,
       height: this.height,
