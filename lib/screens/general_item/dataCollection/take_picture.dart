@@ -10,6 +10,7 @@ import 'package:youplay/models/run.dart';
 import 'package:youplay/screens/general_item/dataCollection/picture_preview_live.dart';
 import 'package:youplay/screens/general_item/util/messages/generic_message.dart';
 import 'package:youplay/screens/util/utils.dart';
+import 'package:youplay/ui/components/messages_parts/richtext-top.container.dart';
 
 import '../general_item.dart';
 
@@ -91,21 +92,7 @@ class _TakePictureWidgetState extends State<TakePictureWidget> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        Visibility(
-                          visible: widget.giViewModel.item!.richText != null,
-                          child: Container(
-                              color: widget.giViewModel.getPrimaryColor(),
-                              child: Padding(
-                                padding: EdgeInsets.all(15),
-                                child: Text(
-                                  "${widget.giViewModel.item!.richText}",
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 16.0,
-                                  ),
-                                ),
-                              )),
-                        ),
+                        RichTextTopContainer(),
                         CameraSquarePreview(controller: controller),
 
                       ],

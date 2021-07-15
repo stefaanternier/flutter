@@ -15,6 +15,7 @@ import 'package:youplay/screens/general_item/dataCollection/record_video.dart';
 import 'package:youplay/screens/general_item/general_item.dart';
 import 'package:youplay/store/selectors/current_run.selectors.dart';
 import 'package:youplay/store/state/app_state.dart';
+import 'package:youplay/ui/components/messages_parts/richtext-top.container.dart';
 
 import 'components/next_button.dart';
 import 'generic_message.dart';
@@ -164,12 +165,15 @@ class _NarratorWithVideoState extends State<NarratorWithVideo> {
         item: this.widget.item,
         giViewModel: this.widget.giViewModel,
         padding: false,
+        elevation: false,
         body: Container(color: Color.fromRGBO(0, 0, 0, 0.8), child: body));
   }
 
   Widget buildStopped(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
+        RichTextTopContainer(),
         Expanded(
           child: StoreConnector<AppState, _RecordingsViewModel>(
               converter: (store) => _RecordingsViewModel.fromStore(store),
