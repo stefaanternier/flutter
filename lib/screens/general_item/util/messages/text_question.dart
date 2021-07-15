@@ -14,6 +14,7 @@ import 'package:youplay/store/actions/current_run.actions.dart';
 import 'package:youplay/store/actions/current_run.picture.actions.dart';
 import 'package:youplay/store/selectors/current_run.selectors.dart';
 import 'package:youplay/store/state/app_state.dart';
+import 'package:youplay/ui/components/messages_parts/richtext-top.container.dart';
 
 import '../../../../localizations.dart';
 import 'components/game_themes.viewmodel.dart';
@@ -105,25 +106,7 @@ class _TextQuestionState extends State<TextQuestionScreen> {
     Widget body = Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
-        new StoreConnector<AppState, GameThemesViewModel>(
-            converter: (store) => GameThemesViewModel.fromStore(store),
-            builder: (context, GameThemesViewModel themeModel) {
-              return Container(
-                  // color: this.widget.giViewModel.getPrimaryColor(),
-                  color: this.widget.giViewModel.getPrimaryColor() != null
-                      ? this.widget.giViewModel.getPrimaryColor()
-                      : themeModel.getPrimaryColor(),
-                  child: this.widget.item.richText==null?Container():Padding(
-                    padding: EdgeInsets.all(15),
-                    child: Text(
-                      "${this.widget.item.richText}",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16.0,
-                      ),
-                    ),
-                  ));
-            }),
+        RichTextTopContainer(),
         Flexible(
             flex: 1,
             child: Container(
@@ -201,25 +184,7 @@ class _TextQuestionState extends State<TextQuestionScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
-                new StoreConnector<AppState, GameThemesViewModel>(
-                    converter: (store) => GameThemesViewModel.fromStore(store),
-                    builder: (context, GameThemesViewModel themeModel) {
-                      return Container(
-                          // color: this.widget.giViewModel.getPrimaryColor(),
-                          color: this.widget.giViewModel.getPrimaryColor() != null
-                              ? this.widget.giViewModel.getPrimaryColor()
-                              : themeModel.getPrimaryColor(),
-                          child: Padding(
-                            padding: EdgeInsets.all(15),
-                            child:this.widget.item.richText==null?Container(): Text(
-                              "${this.widget.item.richText}",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 16.0,
-                              ),
-                            ),
-                          ));
-                    }),
+                RichTextTopContainer(),
                 Expanded(
                   child: StoreConnector<AppState, _TextInputViewModel>(
                       converter: (store) => _TextInputViewModel.fromStore(store, widget.item),

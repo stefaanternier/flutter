@@ -25,8 +25,11 @@ import 'package:youplay/store/actions/current_run.actions.dart';
 import 'package:youplay/store/actions/current_run.picture.actions.dart';
 import 'package:youplay/store/selectors/current_run.selectors.dart';
 import 'package:youplay/store/state/app_state.dart';
+import 'package:youplay/ui/components/messages/audio-list-recordings.dart';
 import 'package:youplay/ui/components/messages/audio-results-list.container.dart';
 import 'package:youplay/ui/components/messages/audio-slide-left-background.dart';
+import 'package:youplay/ui/components/messages_parts/richtext-top.container.dart';
+import 'package:youplay/ui/components/next_button/next_button.container.dart';
 
 import 'components/audio_meter.dart';
 import 'components/game_themes.viewmodel.dart';
@@ -37,61 +40,6 @@ import 'package:permission_handler/permission_handler.dart';
 enum AudioRecordingStatus { stopped, paused, recording }
 
 format(Duration d) => d.toString().split('.').first.padLeft(8, "0");
-
-class _RecordingsViewModel {
-  // List<String> keys;
-  List<Response> audioResponses;
-  List<Response> fromServer;
-
-  _RecordingsViewModel(
-      {required this.audioResponses, required this.fromServer});
-
-  static _RecordingsViewModel fromStore(Store<AppState> store) {
-    return new _RecordingsViewModel(
-        audioResponses: currentRunResponsesSelector(store.state),
-        fromServer: currentItemResponsesFromServerAsList(store.state));
-  }
-
-  int amountOfItems() {
-    return audioResponses.length + fromServer.length;
-  }
-
-  bool isLocal(int index) {
-    return index >= fromServer.length;
-  }
-
-  Response getItem(index) {
-    if (index < fromServer.length) {
-      return fromServer[index];
-    }
-    return audioResponses[index - fromServer.length];
-  }
-
-  Response delete(index) {
-    if (index < fromServer.length) {
-      return fromServer.removeAt(index);
-    } else {
-      return audioResponses.removeAt(index - fromServer.length);
-    }
-  }
-
-  void deleteAllResponses(List<Response> deleted) {
-    this.fromServer = this.fromServer.where((element) {
-      for (var i = 0; i < deleted.length; ++i) {
-        var o = deleted[i];
-        if (deleted[i].responseId == element.responseId) return false;
-      }
-      return true;
-    }).toList(growable: true);
-    this.audioResponses = this.audioResponses.where((element) {
-      for (var i = 0; i < deleted.length; ++i) {
-        var o = deleted[i];
-        if (deleted[i].responseId == element.responseId) return false;
-      }
-      return true;
-    }).toList(growable: true);
-  }
-}
 
 class ItemEntry<number> extends LinkedListEntry<ItemEntry> {
   number value;
@@ -174,7 +122,6 @@ class _NarratorWithAudioState extends State<NarratorWithAudio> {
       return;
     }
     String outputFile = outputFileNull;
-    print("path $outputFile");
 
     await flutterSoundHelper.convertFile(
         cp, Codec.aacADTS, outputFile, Codec.mp3); //Codec.aacADTS
@@ -212,7 +159,14 @@ class _NarratorWithAudioState extends State<NarratorWithAudio> {
     switch (status) {
       case AudioRecordingStatus.stopped:
         {
-          body = buildStopped(context);
+          body = AudioListRecordings(
+            pressRecord: () {
+              setState(() {
+                status = AudioRecordingStatus.recording;
+                _startRecording();
+              });
+            }, item: widget.item,
+          );
         }
         break;
 
@@ -224,7 +178,14 @@ class _NarratorWithAudioState extends State<NarratorWithAudio> {
 
       case AudioRecordingStatus.paused:
         {
-          body = buildStopped(context);
+          body = AudioListRecordings(
+            pressRecord: () {
+              setState(() {
+                status = AudioRecordingStatus.recording;
+                _startRecording();
+              });
+            }, item: widget.item,
+          );
         }
         break;
     }
@@ -292,128 +253,9 @@ class _NarratorWithAudioState extends State<NarratorWithAudio> {
     );
   }
 
-  Widget buildStopped(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: <Widget>[
-        new StoreConnector<AppState, GameThemesViewModel>(
-            converter: (store) => GameThemesViewModel.fromStore(store),
-            builder: (context, GameThemesViewModel themeModel) {
-              return Container(
-                  // color: this.widget.giViewModel.getPrimaryColor(),
-                  color: this.widget.giViewModel.getPrimaryColor() != null
-                      ? this.widget.giViewModel.getPrimaryColor()
-                      : themeModel.getPrimaryColor(),
-                  child: Visibility(
-                    visible: this.widget.item.richText != null,
-                    child: Padding(
-                      padding: EdgeInsets.all(15),
-                      child: Text(
-                        "${this.widget.item.richText}",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16.0,
-                        ),
-                      ),
-                    ),
-                  ));
-            }),
-        Expanded(
-          child:
-          AudioResultsListContainer()
-          // StoreConnector<AppState, _RecordingsViewModel>(
-          //     converter: (store) => _RecordingsViewModel.fromStore(store),
-          //     builder: (context, _RecordingsViewModel map) {
-          //       map.deleteAllResponses(this.deleted);
-          //       final DateTime now = DateTime.now();
-          //       final DateFormat formatter = DateFormat.yMMMMd(
-          //           Localizations.localeOf(context)
-          //               .languageCode); // NextButton(
-          //
-          //       return ListView.builder(
-          //         itemCount: map.amountOfItems(),
-          //         itemBuilder: (context, index) {
-          //           final DateTime thatTime =
-          //               DateTime.fromMillisecondsSinceEpoch(
-          //                   map.getItem(index).timestamp);
-          //           return Dismissible(
-          //               key: Key('${map.getItem(index).timestamp}'),
-          //               background: AudioSlideLeftBackground(),
-          //               onDismissed: (direction) {
-          //                 setState(() {
-          //                   this.deleted.add(map.getItem(index));
-          //                   // deleteResponse(map.delete(index));
-          //                   map.deleteAllResponses(this.deleted);
-          //                 });
-          //               },
-          //               child: ListAudioPlayer(response: map.getItem(index)));
-          //         },
-          //       );
-          //     }),
-        ),
-        Padding(
-            padding: const EdgeInsets.fromLTRB(46, 8.0, 46, 8),
-            child: NextButton(
-                buttonText:
-                    AppLocalizations.of(context).translate('screen.proceed'),
-                overridePrimaryColor: widget.giViewModel.getPrimaryColor(),
-                customButton: CustomRaisedButton(
-                  useThemeColor: true,
-                  title:
-                      AppLocalizations.of(context).translate('screen.proceed'),
-                  // icon: new Icon(Icons.play_circle_outline, color: Colors.white),
-                  primaryColor: widget.giViewModel.getPrimaryColor(),
-                  onPressed: () {
-                    widget.giViewModel.continueToNextItem(context);
-                  },
-                ),
-                giViewModel: widget.giViewModel)),
-        Padding(
-          padding: const EdgeInsets.fromLTRB(46, 8.0, 46, 28),
-          child: CustomFlatButton(
-            title: "Nieuwe opname",
-            icon: FontAwesomeIcons.microphoneAlt,
-            color: Colors.white,
-            onPressed: () {
-              setState(() {
-                status = AudioRecordingStatus.recording;
-                _startRecording();
-              });
-            },
-          ),
-        ),
-        // Row(
-        //     mainAxisAlignment: MainAxisAlignment.center,
-        //     mainAxisSize: MainAxisSize.max,
-        //     children: <Widget>[
-        //       Padding(
-        //         padding: EdgeInsets.fromLTRB(30, 45, 30, 45),
-        //         child: ClipOval(
-        //           child: Material(
-        //             color: Colors.white, // button color
-        //             child: InkWell(
-        //               splashColor: Colors.red, // inkwell color
-        //               child: SizedBox(
-        //                   width: 94,
-        //                   height: 94,
-        //                   child: Icon(
-        //                     Icons.mic,
-        //                     size: 50,
-        //                   )),
-        //               onTap: () {
-        //                 setState(() {
-        //                   status = AudioRecordingStatus.recording;
-        //                   _startRecording();
-        //                 });
-        //               },
-        //             ),
-        //           ),
-        //         ),
-        //       )
-        //     ])
-      ],
-    );
-  }
+  // Widget buildStopped(BuildContext context) {
+  //   return
+  // }
 
 
   @override
@@ -423,12 +265,6 @@ class _NarratorWithAudioState extends State<NarratorWithAudio> {
     super.dispose();
   }
 
-  // deleteResponse(Response item) {
-  //   print("delete ${item.toString()}");
-  //   if (item.responseId != null) {
-  //     widget.giViewModel.deleteResponse(item.responseId);
-  //   }
-  // }
 }
 
 Future<String?> getCustomPath({String extension = ''}) async {

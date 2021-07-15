@@ -10,6 +10,7 @@ import 'package:youplay/models/response.dart';
 import 'package:youplay/screens/util/utils.dart';
 import 'package:youplay/store/actions/current_run.actions.dart';
 import 'package:youplay/store/actions/current_run.picture.actions.dart';
+import 'package:youplay/ui/components/messages_parts/richtext-top.container.dart';
 
 import '../general_item.dart';
 
@@ -36,7 +37,9 @@ class _RecordVideoWidgetState extends State<RecordVideoWidget> {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
+        RichTextTopContainer(),
         AspectRatio(
           aspectRatio: 1,
           child: ClipRect(
