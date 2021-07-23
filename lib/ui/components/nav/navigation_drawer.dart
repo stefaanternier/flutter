@@ -5,9 +5,9 @@ import 'package:youplay/actions/ui.dart';
 import 'package:youplay/selectors/selectors.dart';
 import 'package:youplay/store/state/app_state.dart';
 import 'package:youplay/state/authentication_state.dart';
-import 'package:youplay/state/ui_state.dart';
+import 'package:youplay/store/state/ui_state.dart';
 import 'package:youplay/selectors/authentication_selectors.dart';
-import 'package:youplay/selectors/ui_selectors.dart';
+import 'package:youplay/store/selectors/ui_selectors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -67,7 +67,9 @@ class ARLearnNavigationDrawer extends StatelessWidget {
             title: Text(AppLocalizations.of(context).translate('library.library')),
             onTap: () {
               vm.onPageClicked(PageType.featured);
-              Navigator.pop(context);
+              // Navigator.pop(context);
+
+
             },
           ),
           Visibility(

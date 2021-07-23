@@ -1,5 +1,5 @@
 import 'package:youplay/models/models.dart';
-import 'package:youplay/state/ui_state.dart';
+import 'package:youplay/store/state/ui_state.dart';
 import 'package:reselect/reselect.dart';
 import 'package:youplay/store/selectors/current_game.selectors.dart';
 
@@ -15,10 +15,12 @@ int? currentItemId(AppState state) => state.uiState.currentItemId;
 
 final Selector<AppState, MessageView> messagesView =
     createSelector2(uiState, currentGameId, (UiState state, int? gameId) {
-  if (state.gameIdToGame[gameId] == null) {
-    return MessageView.listView;
-  }
-  return state.gameIdToGame[gameId]!.messagesView;
+  // if (state.gameIdToGame[gameId] == null) {
+  //   return MessageView.listView;
+  // }
+  // return state.gameIdToGame[gameId]!.messagesView;
+  //todo model this in the store state
+  return MessageView.listView;
 });
 
 final Selector<AppState, int> selectTheme =
