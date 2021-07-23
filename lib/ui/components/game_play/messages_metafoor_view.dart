@@ -10,12 +10,12 @@ import 'package:youplay/screens/util/icons_helper.dart';
 import 'package:youplay/screens/util/location/context2.dart';
 import 'package:youplay/store/state/app_state.dart';
 
-import 'message_list_entry_icon_container.dart';
-import 'message_list_view.viewmodel.dart';
+import '../../../screens/components/game_play/message_list_entry_icon_container.dart';
+import '../../../screens/components/game_play/message_list_view.viewmodel.dart';
 
 class MetafoorView extends StatelessWidget {
   List<ItemTimes> items = [];
-  Function tapEntry;
+  Function(GeneralItem) tapEntry;
   String backgroundPath;
 
   MetafoorView({
@@ -46,7 +46,7 @@ class MetafoorView extends StatelessWidget {
               top: (item.generalItem.relY??1)*(height -80),
               child: GestureDetector(
                   onTap: () {
-                    this.tapEntry(context, item.generalItem);
+                    this.tapEntry(item.generalItem);
                   },
                   child: MessageEntryIconContainer(item: item.generalItem)),
             );}

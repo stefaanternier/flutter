@@ -8,7 +8,7 @@ import 'package:youplay/actions/run_actions.dart';
 import 'package:youplay/localizations.dart';
 import 'package:youplay/models/general_item.dart';
 import 'package:youplay/models/run.dart';
-import 'package:youplay/state/ui_state.dart';
+import 'package:youplay/store/state/ui_state.dart';
 import 'package:youplay/store/actions/ui_actions.dart';
 import 'package:youplay/store/selectors/current-run.items.selectors.dart';
 import 'package:youplay/store/selectors/current_run.selectors.dart';
@@ -98,18 +98,22 @@ class _ViewModel {
     if (buttonAction != null) {
       if (buttonAction!.isToMap()) {
         if (item != null) {
-          store.dispatch(new ToggleMessageViewAction(
-              gameId: item.gameId, messageView: MessageView.mapView));
+          store.dispatch(
+              new SetMessageViewAction(messageView: MessageView.mapView)
+          );
         }
 
-        Navigator.pop(context);
+        // Navigator.pop(context);
         return true;
       }
       if (buttonAction!.isToList()) {
-        store.dispatch(new ToggleMessageViewAction(
-            gameId: item.gameId, messageView: MessageView.listView));
+        store.dispatch(
+            new SetMessageViewAction(messageView: MessageView.listView)
+        );
+        // store.dispatch(new ToggleMessageViewAction(
+        //     gameId: item.gameId, messageView: MessageView.listView));
 
-        Navigator.pop(context);
+        // Navigator.pop(context);
         return true;
       }
       if (buttonAction!.isToItem()) {
