@@ -5,40 +5,49 @@ import 'package:youplay/actions/games.dart';
 import 'package:youplay/actions/runs.dart';
 import 'package:youplay/actions/ui.dart';
 import 'package:youplay/config/app_config.dart';
-import 'package:youplay/screens/util/navigation_drawer.dart';
+import 'package:youplay/ui/components/nav/navigation_drawer.container.dart';
+import 'package:youplay/ui/components/nav/navigation_drawer.dart';
 import 'package:youplay/store/actions/current_game.actions.dart';
 import 'package:youplay/store/actions/game_library.actions.dart';
 import 'package:youplay/store/state/app_state.dart';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
+
 // import 'package:firebase_ml_vision/firebase_ml_vision.dart';
 import 'package:youplay/screens/util/utils.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
-import 'package:youplay/state/ui_state.dart';
+import 'package:youplay/store/state/ui_state.dart';
 import 'package:youplay/store/actions/auth.actions.dart';
 import 'package:youplay/store/actions/ui_actions.dart';
 
 import '../../localizations.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
-Widget buildQRScanner(BuildContext context) {
-  return new Scaffold(
+class GameQRScannerPage extends StatelessWidget {
+  const GameQRScannerPage({Key? key}) : super(key: key);
 
-      appBar: AppBar(
-          centerTitle: true,
-          title: AppConfig().appBarIcon != null ?  new Image(
-        image: new AssetImage(
-            AppConfig().appBarIcon??''),
-        height: 32.0,
-        width: 32.0,
-      ):Text(AppLocalizations.of(context).translate('scan.scangameqr'))),
-      drawer: ARLearnNavigationDrawer(),
-      body: new StoreConnector<AppState, Store<AppState>>(
-          converter: (store) => store,
-          builder: (context, store) {
-            return new GameQRScreen(store: store); //todo use model don't pass store as reference
-          }));
+  @override
+  Widget build(BuildContext context) {
+    return new Scaffold(
+        appBar: AppBar(
+            centerTitle: true,
+            title: AppConfig().appBarIcon != null
+                ? new Image(
+                    image: new AssetImage(AppConfig().appBarIcon ?? ''),
+                    height: 32.0,
+                    width: 32.0,
+                  )
+                : Text(
+                    AppLocalizations.of(context).translate('scan.scangameqr'))),
+        drawer: ARLearnNavigationDrawerContainer(),
+        body: new StoreConnector<AppState, Store<AppState>>(
+            converter: (store) => store,
+            builder: (context, store) {
+              return new GameQRScreen(
+                  store: store); //todo use model don't pass store as reference
+            }));
+  }
 }
 
 class GameQRScreen extends StatefulWidget {
@@ -47,7 +56,8 @@ class GameQRScreen extends StatefulWidget {
   GameQRScreen({required this.store});
 
   @override
-  GameQRState createState() => GameQRState(store: this.store); //todo don't pass store as reference
+  GameQRState createState() =>
+      GameQRState(store: this.store); //todo don't pass store as reference
 }
 
 class GameQRState extends State<GameQRScreen> {
@@ -56,7 +66,8 @@ class GameQRState extends State<GameQRScreen> {
 
   GameQRState({required this.store});
 
-  List _scanResults =[];
+  List _scanResults = [];
+
   // CameraController _camera;
 
   bool _isDetecting = false;
@@ -66,7 +77,6 @@ class GameQRState extends State<GameQRScreen> {
 
   CameraLensDirection _direction = CameraLensDirection.back;
 
-
   // Barcode? r;
   late QRViewController controller;
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
@@ -74,15 +84,12 @@ class GameQRState extends State<GameQRScreen> {
   @override
   void initState() {
     super.initState();
-
   }
-
 
   Widget _buildImage(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Container(
-        constraints: const BoxConstraints.expand(),
-        child: Text('test'));
+        constraints: const BoxConstraints.expand(), child: Text('test'));
   }
 
   @override
@@ -91,7 +98,6 @@ class GameQRState extends State<GameQRScreen> {
       body: Column(
         children: <Widget>[
           Expanded(flex: 4, child: _buildQrView(context)),
-
         ],
       ),
     );
@@ -107,7 +113,7 @@ class GameQRState extends State<GameQRScreen> {
   }
 
   bool checkGameQR(rawValue) {
-    return rawValue.contains('gameId');
+    return rawValue.contains('gameId') || rawValue.contains('game');
   }
 
   bool checkUrl(rawValue) {
@@ -119,11 +125,15 @@ class GameQRState extends State<GameQRScreen> {
   }
 
   void triggerGameQr(String rawValue, Store<AppState> store) {
-    String gameId = rawValue.substring(rawValue.indexOf('gameId') + 7);
+    String gameId = rawValue.substring(rawValue.indexOf('game') + 5);
+    if (rawValue.contains('gameId')) {
+      gameId = rawValue.substring(rawValue.indexOf('gameId') + 7);
+    }
 //    print("game qr is ${gameId}");
     int gameIdInt = int.parse(gameId);
 //    print("parsed qr is ${gameIdInt}");
     store.dispatch(LoadPublicGameRequestAction(gameId: gameIdInt));
+    store.dispatch(SetPage(page: PageType.gameLandingPage, pageId: gameIdInt));
     store.dispatch(ResetRunsAndGoToLandingPage());
     if (store.state.authentication.authenticated) {
       store.dispatch(ApiRunsParticipateAction(gameIdInt));
@@ -148,7 +158,8 @@ class GameQRState extends State<GameQRScreen> {
             _actionTaken = false;
           },
           onWrongCredentials: () {
-            final snackBar = SnackBar(content: Text("Fout! Wachtwoord of email incorrect"));
+            final snackBar =
+                SnackBar(content: Text("Fout! Wachtwoord of email incorrect"));
 
             Scaffold.of(context).showSnackBar(snackBar);
             setState(() {
@@ -157,7 +168,7 @@ class GameQRState extends State<GameQRScreen> {
             });
           },
           onSucces: () {
-            store.dispatch(new SetPage(PageType.myGames));
+            store.dispatch(new SetPage(page: PageType.myGames));
           }));
     }
   }
@@ -170,72 +181,65 @@ class GameQRState extends State<GameQRScreen> {
 //    );
 //  }
 
+  Widget _buildQrView(BuildContext context) {
+    // For this example we check how width or tall the device is and change the scanArea and overlay accordingly.
+    // var scanArea = (MediaQuery.of(context).size.width < 400 ||
+    //     MediaQuery.of(context).size.height < 400)
+    //     ? 150.0
+    //     : 300.0;
 
+    var minArea = min(
+        MediaQuery.of(context).size.width, MediaQuery.of(context).size.height);
+    var scanArea = minArea / 4 * 3;
+    // To ensure the Scanner view is properly sizes after rotation
+    // we need to listen for Flutter SizeChanged notification and update controller
+    return QRView(
+      key: qrKey,
+      onQRViewCreated: _onQRViewCreated,
+      overlay: QrScannerOverlayShape(
+          borderColor: AppConfig().themeData!.primaryColor,
+          borderRadius: 15,
+          borderLength: 35,
+          borderWidth: 45,
+          cutOutSize: scanArea),
+    );
+  }
 
-
-
-
-
-Widget _buildQrView(BuildContext context) {
-  // For this example we check how width or tall the device is and change the scanArea and overlay accordingly.
-  // var scanArea = (MediaQuery.of(context).size.width < 400 ||
-  //     MediaQuery.of(context).size.height < 400)
-  //     ? 150.0
-  //     : 300.0;
-
-  var minArea = min(MediaQuery.of(context).size.width, MediaQuery.of(context).size.height);
-  var scanArea = minArea / 4 * 3;
-  // To ensure the Scanner view is properly sizes after rotation
-  // we need to listen for Flutter SizeChanged notification and update controller
-  return QRView(
-    key: qrKey,
-    onQRViewCreated: _onQRViewCreated,
-    overlay: QrScannerOverlayShape(
-        borderColor: AppConfig().themeData!.primaryColor,
-        borderRadius: 15,
-        borderLength: 35,
-        borderWidth: 45,
-        cutOutSize: scanArea),
-  );
-}
-
-void _onQRViewCreated(QRViewController controller) {
-  setState(() {
-    this.controller = controller;
-  });
-  controller.scannedDataStream.listen((scanData) {
+  void _onQRViewCreated(QRViewController controller) {
     setState(() {
-      Barcode r = scanData;
-
-      print('result ${r.code}');
-
-      if (canProcessQr(r.code)) {
-        if (_isProcessing) return;
-        setState(() {
-          if (!_isProcessing) {
-            _isProcessing = true;
-            _navigatorTriggered = true;
-            if (checkGameQR(r.code)) {
-              triggerGameQr(r.code, store);
-            } else if (checkAccountQR(r.code)) {
-              triggerAccountQr(r.code, store);
-            } else if (checkUrl(r.code)) {
-              store.dispatch(new ParseLinkAction(link: r.code));
-            } else {
-              _navigatorTriggered = false;
-            }
-          }
-        });
-      }
-
-
+      this.controller = controller;
     });
-  });
-}
+    controller.scannedDataStream.listen((scanData) {
+      setState(() {
+        Barcode r = scanData;
 
-@override
-void dispose() {
-  controller.dispose();
-  super.dispose();
-}
+        print('result ${r.code}');
+
+        if (canProcessQr(r.code)) {
+          if (_isProcessing) return;
+          setState(() {
+            if (!_isProcessing) {
+              _isProcessing = true;
+              _navigatorTriggered = true;
+              if (checkGameQR(r.code)) {
+                triggerGameQr(r.code, store);
+              } else if (checkAccountQR(r.code)) {
+                triggerAccountQr(r.code, store);
+              } else if (checkUrl(r.code)) {
+                store.dispatch(new ParseLinkAction(link: r.code));
+              } else {
+                _navigatorTriggered = false;
+              }
+            }
+          });
+        }
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
 }

@@ -7,7 +7,7 @@ import 'package:youplay/models/game_theme.dart';
 import 'package:youplay/models/run.dart';
 import 'package:youplay/selectors/authentication_selectors.dart';
 import 'package:youplay/selectors/selectors.dart';
-import 'package:youplay/state/ui_state.dart';
+import 'package:youplay/store/state/ui_state.dart';
 import 'package:youplay/store/actions/current_run.actions.dart';
 import 'package:youplay/store/actions/game_messages.actions.dart';
 import 'package:youplay/store/actions/ui_actions.dart';
@@ -76,7 +76,7 @@ class RunLandingPageViewModel {
             }
           }
           store.dispatch(new LoadGameMessagesListRequestAction());
-          store.dispatch(SetPage(PageType.game));
+          store.dispatch(SetPage(page: PageType.game));
         }
     );
   }

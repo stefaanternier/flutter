@@ -14,7 +14,7 @@ import 'package:youplay/store/state/app_state.dart';
 
 class MessagesMapView extends StatefulWidget {
   List<ItemTimes> items = [];
-  Function tapEntry;
+  Function(GeneralItem) tapEntry;
   Game? game;
   MessagesMapView({this.game,required  this.items, required  this.tapEntry})
       : _kInitialPosition = CameraPosition(
@@ -84,7 +84,7 @@ class _MessagesMapViewState extends State<MessagesMapView> {
         .forEach((item) {
       if (item.generalItem.lat != null) {
         markers.add(buildMarker(item.generalItem, () {
-          widget.tapEntry(context, item.generalItem);
+          widget.tapEntry(item.generalItem);
         }));
       }
     });

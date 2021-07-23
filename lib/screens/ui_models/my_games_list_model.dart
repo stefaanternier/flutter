@@ -5,7 +5,7 @@ import 'package:youplay/config/app_config.dart';
 import 'package:youplay/models/game.dart';
 import 'package:youplay/selectors/selectors.dart';
 import 'package:youplay/store/state/app_state.dart';
-import 'package:youplay/state/ui_state.dart';
+import 'package:youplay/store/state/ui_state.dart';
 import 'package:redux/redux.dart';
 // import 'package:cached_network_image/cached_network_image.dart';
 import 'package:youplay/store/actions/current_game.actions.dart';
@@ -26,15 +26,10 @@ class MyGamesListViewModel {
             store.dispatch(SetCurrentGameAction(currentGame: gameId));
             store.dispatch(LoadGameRequestAction(gameId: gameId));
             store.dispatch(ApiRunsParticipateAction(gameId));
-            store.dispatch(SetPage(PageType.gameWithRuns));
+            store.dispatch(SetPage(page: PageType.gameWithRuns));
           };
         });
   }
-
-//  loadGame(int gameId) {
-////    this.store.dispatch(new ApiGameAction(6175770729775104));
-//    this.store.dispatch(new ApiGameAction(gameId));
-//  }
 
   MyGamesListViewModel filter(String query) {
     List<Game> _searchList = [];

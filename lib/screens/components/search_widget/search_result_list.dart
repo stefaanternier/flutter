@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:youplay/screens/components/icon/game_icon.dart';
+import 'package:intl/intl.dart';
 import 'package:youplay/screens/components/search_widget/search_result_list.viewmodel.dart';
 import 'package:youplay/store/state/app_state.dart';
-import 'package:intl/intl.dart';
+import 'package:youplay/ui/components/icon/game_icon.container.dart';
 class SearchResultList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -16,7 +16,7 @@ class SearchResultList extends StatelessWidget {
             children: List<ListTile>.generate(
                 gameListModel.games.length,
                 (i) => ListTile(
-                      leading: GameIcon(game: gameListModel.games[i]),
+                      leading: GameIconContainer(game: gameListModel.games[i]),
                       title: Text('${gameListModel.games[i].title}'),
                       subtitle: Text('${formatter.format(DateTime.fromMillisecondsSinceEpoch(gameListModel.games[i].lastModificationDate))} '),
                       onTap: () {

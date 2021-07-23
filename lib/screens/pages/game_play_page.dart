@@ -3,18 +3,22 @@ import 'dart:async';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:universal_platform/universal_platform.dart';
 import 'package:youplay/screens/components/game_play/game_app_bar.dart';
-import 'package:youplay/screens/components/game_play/game_over.container.dart';
-import 'package:youplay/screens/components/game_play/game_over.dart';
-import 'package:youplay/screens/components/game_play/message_list.container.dart';
+import 'package:youplay/ui/components/game_play/game_over.container.dart';
+import 'package:youplay/ui/components/game_play/game_over.dart';
+import 'package:youplay/ui/components/game_play/message_list.container.dart';
 import 'package:youplay/screens/components/game_play/messages_list_view.dart';
 import 'package:youplay/screens/components/game_play/messages_map_view.dart';
 import 'package:youplay/screens/ui_models/current_game_view_model.dart';
 import 'package:youplay/screens/util/location/context2.dart';
-import 'package:youplay/screens/util/navigation_drawer.dart';
+import 'package:youplay/ui/components/nav/navigation_drawer.container.dart';
+import 'package:youplay/ui/components/nav/navigation_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:youplay/store/state/app_state.dart';
-import 'package:youplay/state/ui_state.dart';
+import 'package:youplay/store/state/ui_state.dart';
+import 'package:youplay/ui/components/game_play/toggle_view_button.container.dart';
+
+//todo delete
 
 class GamePlayPage extends StatelessWidget {
   @override
@@ -23,7 +27,7 @@ class GamePlayPage extends StatelessWidget {
         converter: (store) => CurrentGameViewModel.fromStore(store),
         builder: (context, CurrentGameViewModel currentGameViewModel) {
           Scaffold scaffold = Scaffold(
-            drawer: ARLearnNavigationDrawer(),
+            drawer: ARLearnNavigationDrawerContainer(),
             appBar: AppBar(
               backgroundColor:
                   currentGameViewModel.themedAppBarViewModel.getPrimaryColor(),
@@ -36,17 +40,18 @@ class GamePlayPage extends StatelessWidget {
                 ),
               ),
               actions: UniversalPlatform.isWeb? null:[
-                IconButton(
-                  icon: new Icon(
-                      currentGameViewModel.messageView == MessageView.mapView
-                          ? Icons.list
-                          : FontAwesomeIcons.mapMarkedAlt,
-                      color: Colors.white),
-                  tooltip: 'Navigate to map mode',
-                  onPressed: () {
-                    currentGameViewModel.dispatchToggleMessageView();
-                  },
-                ),
+                ToggleViewButtonContainer()
+                // IconButton(
+                //   icon: new Icon(
+                //       currentGameViewModel.messageView == MessageView.mapView
+                //           ? Icons.list
+                //           : FontAwesomeIcons.mapMarkedAlt,
+                //       color: Colors.white),
+                //   tooltip: 'Navigate to map mode',
+                //   onPressed: () {
+                //     currentGameViewModel.dispatchToggleMessageView();
+                //   },
+                // ),
               ],
             ),
             body: currentGameViewModel.finished
@@ -62,9 +67,10 @@ class GamePlayPage extends StatelessWidget {
       return _buildWaitingRoom();
     }
       return MessageListContainer(
-          listType: (currentGameViewModel.messageView == MessageView.listView)
-              ? 1
-              : ((currentGameViewModel.messageView == MessageView.mapView ? 2 : 3))
+          // listType: (currentGameViewModel.messageView == MessageView.listView)
+          //     ? 1
+          //     : ((currentGameViewModel.messageView == MessageView.mapView ? 2 : 3)
+          // )
       );
     // } else {
     //   return MessagesMapView(game: currentGameViewModel.game);

@@ -1,24 +1,17 @@
-import 'dart:io';
 
+import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:universal_platform/universal_platform.dart';
 import 'package:youplay/config/app_config.dart';
 import 'package:youplay/screens/components/button/cust_flat_button.dart';
 import 'package:youplay/screens/components/button/cust_raised_button.dart';
 import 'package:youplay/screens/components/login/custom_login_fields.dart';
-import 'package:youplay/screens/components/login/login_with_anonymous_button.dart';
-import 'package:youplay/screens/components/login/login_with_apple_button.dart';
-import 'package:youplay/screens/components/login/login_with_google_button.dart';
 import 'package:youplay/screens/ui_models/login_model.dart';
-import 'package:youplay/screens/util/navigation_drawer.dart';
-
 import 'package:youplay/store/state/app_state.dart';
-
-import 'package:flutter/material.dart';
-import 'package:flutter_redux/flutter_redux.dart';
+import 'package:youplay/ui/components/nav/navigation_drawer.container.dart';
 
 import '../../localizations.dart';
-import '../components/login/login_with_demo_account_button.dart';
 
 class LoginPage extends StatelessWidget {
   @override
@@ -27,7 +20,7 @@ class LoginPage extends StatelessWidget {
         appBar: AppBar(
           title: Text("Login"),
         ),
-        drawer: ARLearnNavigationDrawer(),
+        drawer: ARLearnNavigationDrawerContainer(),
         body: _LoginScreenBody());
   }
 }

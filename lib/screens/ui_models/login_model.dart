@@ -1,7 +1,7 @@
 //import 'package:youplay/actions/actions.dart';
 import 'package:youplay/selectors/authentication_selectors.dart';
 import 'package:youplay/store/state/app_state.dart';
-import 'package:youplay/state/ui_state.dart';
+import 'package:youplay/store/state/ui_state.dart';
 import 'package:flutter/material.dart';
 import 'package:redux/redux.dart';
 import 'package:youplay/store/actions/auth.actions.dart';
@@ -47,7 +47,7 @@ class LoginPageViewModel {
       },
       tapCreateAccount: () {
         print('in viewmodel');
-        store.dispatch(new SetPage(PageType.makeAccount));
+        store.dispatch(new SetPage(page: PageType.makeAccount));
       },
       tapTwitterLogin: () {
         store.dispatch(TwitterLoginAction());
@@ -90,7 +90,7 @@ class LoginPageViewModel {
         store.dispatch(ResetPassword(email: email));
       },
       loadMyGames: () {
-        store.dispatch(new SetPage(PageType.myGames));
+        store.dispatch(new SetPage(page: PageType.myGames));
       },
     );
   }
