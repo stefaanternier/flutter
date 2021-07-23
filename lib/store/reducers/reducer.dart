@@ -22,7 +22,7 @@ AppState appReducer(AppState state, action) {
   if (action is SetCurrentGameAction) {
     return swapGameState(state, action);
   }
-  return new AppState(
+  AppState newState = new AppState(
 //    profile: profileReducer(state.profile, action),
 //    games: gamesReducer(state.games, action),
       themIdToTheme: themeIdToThemeReducer(state.themIdToTheme, action),
@@ -43,6 +43,11 @@ AppState appReducer(AppState state, action) {
       authentication: authenticationReducer(state.authentication, action),
       uiState: uiReducer(state.uiState, action)
   );
+  if (newState == state) {
+    return state;
+  }
+  print("action changed state ${action.runtimeType}");
+  return newState;
 }
 
 

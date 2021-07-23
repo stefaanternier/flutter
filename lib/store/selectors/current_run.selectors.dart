@@ -5,8 +5,8 @@ import 'package:youplay/models/general_item.dart';
 import 'package:youplay/models/models.dart';
 import 'package:youplay/models/response.dart';
 import 'package:youplay/models/run.dart';
-import 'package:youplay/selectors/ui_selectors.dart';
-import 'package:youplay/state/ui_state.dart';
+import 'package:youplay/store/selectors/ui_selectors.dart';
+import 'package:youplay/store/state/ui_state.dart';
 import 'package:youplay/store/state/current_game_state.dart';
 import 'package:youplay/store/state/run_state.dart';
 

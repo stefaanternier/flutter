@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+import 'package:reselect/reselect.dart';
 import 'package:youplay/config/app_config.dart';
 import 'package:youplay/store/state/app_state.dart';
 import 'package:youplay/store/state/current_game_state.dart';
@@ -17,3 +19,11 @@ final gameSelectedSelector =
 final currentGameTitleSelector = (GamesState state) => state.game?.title ?? '';
 
 final currentGameId = (AppState state) => gameStateFeature(state).game?.gameId;
+
+final Selector<AppState, Color> gameColor = createSelector1(
+    gameStateFeature, (GamesState state) {
+  if (state.game == null) {
+    return AppConfig().themeData!.primaryColor;
+  }
+  return state.gameTheme?.primaryColor ?? AppConfig().themeData!.primaryColor;
+});
