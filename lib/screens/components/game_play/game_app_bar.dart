@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:youplay/models/game.dart';
 import 'package:youplay/screens/general_item/util/messages/components/themed_app_bar.viewmodel.dart';
-import 'package:youplay/state/ui_state.dart';
+import 'package:youplay/store/state/ui_state.dart';
 import 'package:youplay/store/state/app_state.dart';
 //
 // class GameAppBar extends StatelessWidget {

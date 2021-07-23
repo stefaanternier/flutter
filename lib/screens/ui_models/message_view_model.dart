@@ -5,7 +5,7 @@ import 'package:youplay/models/run.dart';
 import 'package:youplay/screens/general_item/general_item.dart';
 import 'package:flutter/material.dart';
 import 'package:redux/redux.dart';
-import 'package:youplay/selectors/ui_selectors.dart';
+import 'package:youplay/store/selectors/ui_selectors.dart';
 import 'package:youplay/store/state/app_state.dart';
 import 'package:youplay/models/game.dart';
 import 'package:youplay/store/selectors/current_game.selectors.dart';

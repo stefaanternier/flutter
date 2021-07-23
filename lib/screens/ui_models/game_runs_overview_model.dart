@@ -1,6 +1,6 @@
 import 'package:youplay/actions/run_actions.dart';
 import 'package:youplay/actions/runs.dart';
-import 'package:youplay/state/ui_state.dart';
+import 'package:youplay/store/state/ui_state.dart';
 import 'package:redux/redux.dart';
 import 'package:youplay/store/state/app_state.dart';
 import 'package:youplay/models/game.dart';
@@ -45,5 +45,5 @@ dispatchActions(runList, Store<AppState> store, index) async {
   // store.dispatch(new SyncResponsesServerToMobile(
   //     runId: runList[index].runId, from: 1, till: new DateTime.now().millisecondsSinceEpoch));
   // store.dispatch(new SyncActionsServerToMobile(runId: runList[index].runId, from: 1));
-  store.dispatch(SetPage(PageType.game));
+  store.dispatch(SetPage(page: PageType.game));
 }

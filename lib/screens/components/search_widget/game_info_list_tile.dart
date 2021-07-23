@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:youplay/models/game.dart';
 import 'package:intl/intl.dart';
-import 'package:youplay/screens/components/icon/game_icon.dart';
-
-
+import 'package:youplay/ui/components/icon/game_icon.container.dart';
 
 class GameInfoListTile extends StatelessWidget {
 
@@ -16,7 +14,7 @@ class GameInfoListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final DateFormat formatter = DateFormat.yMMMMd(Localizations.localeOf(context).languageCode);
     return ListTile(
-      leading: GameIcon(game: game),
+      leading: GameIconContainer(game: game),
       title: Text('${game.title}'),
       subtitle: Text(
           '${formatter.format(DateTime.fromMillisecondsSinceEpoch(game.lastModificationDate))} '),

@@ -5,7 +5,8 @@ import 'package:youplay/screens/components/button/cust_raised_button.dart';
 import 'package:youplay/screens/components/login/login_screen.dart';
 import 'package:youplay/screens/components/login/login_with_demo_account_button.dart';
 import 'package:youplay/screens/util/extended_network_image.dart';
-import 'package:youplay/screens/util/navigation_drawer.dart';
+import 'package:youplay/ui/components/nav/navigation_drawer.container.dart';
+import 'package:youplay/ui/components/nav/navigation_drawer.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -29,7 +30,7 @@ class _GameLandingPageState extends State<GameLandingPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        drawer: ARLearnNavigationDrawer(),
+        drawer: ARLearnNavigationDrawerContainer(),
         appBar: new AppBar(
             centerTitle: true,
             title: new Text(AppLocalizations.of(context).translate('library.library'),

@@ -38,8 +38,8 @@ import 'package:youplay/screens/general_item/util/messages/text_question.dart';
 import 'package:youplay/screens/general_item/util/messages/video_object.dart';
 import 'package:youplay/screens/general_item/util/messages/video_object_new.dart';
 import 'package:youplay/selectors/selectors.dart';
-import 'package:youplay/selectors/ui_selectors.dart';
-import 'package:youplay/state/ui_state.dart';
+import 'package:youplay/store/selectors/ui_selectors.dart';
+import 'package:youplay/store/state/ui_state.dart';
 import 'package:youplay/store/actions/current_run.actions.dart';
 import 'package:youplay/store/actions/ui_actions.dart';
 import 'package:youplay/store/selectors/current-run.items.selectors.dart';
@@ -157,6 +157,7 @@ class GeneralItemViewModel {
         },
         nextItemId: nextItemInt,
         continueToNextItem: (BuildContext context) {
+          //todo... delete this method
           ButtonAction? ba = null;
           if (item?.description != null && item!.description.contains("::")) {
             int index = item.description.indexOf("::");
@@ -166,8 +167,9 @@ class GeneralItemViewModel {
           if (ba != null) {
             if (ba.isToMap()) {
               if (item != null) {
-                store.dispatch(new ToggleMessageViewAction(
-                    gameId: item.gameId, messageView: MessageView.mapView));
+
+                // store.dispatch(new ToggleMessageViewAction(
+                //     gameId: item.gameId, messageView: MessageView.mapView));
               }
 
               Navigator.pop(context);
@@ -175,8 +177,8 @@ class GeneralItemViewModel {
             }
             if (ba.isToList()) {
               if (item != null) {
-                store.dispatch(new ToggleMessageViewAction(
-                    gameId: item.gameId, messageView: MessageView.listView));
+                // store.dispatch(new ToggleMessageViewAction(
+                //     gameId: item.gameId, messageView: MessageView.listView));
               }
 
               Navigator.pop(context);

@@ -39,14 +39,11 @@ class _VideoAppState extends State<VideoObjectNew> {
         widget.url)
       ..addListener(() {
         setState(() {
-          print('init_1 ${(DateTime.now().millisecondsSinceEpoch - time)}');
-
           if (_controller!.value.duration != null) {
             _position =
                 _controller!.value.position.inMilliseconds.roundToDouble();
             _maxposition = max(_position,
                 _controller!.value.duration.inMilliseconds.roundToDouble());
-            print ('set position to ${_position} - max ${_maxposition}');
 
             if (((_controller!.value.duration.inMilliseconds - 1000) <=
                 _controller!.value.position.inMilliseconds) &&
@@ -81,7 +78,6 @@ class _VideoAppState extends State<VideoObjectNew> {
   @override
   Widget build(BuildContext context) {
     var screensize = MediaQuery.of(context);
-    print('size is ${screensize.size.width}');
     return Container(
       child: _controller?.value.isInitialized??false
           ? Stack(

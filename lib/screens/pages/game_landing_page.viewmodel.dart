@@ -4,7 +4,7 @@ import 'package:youplay/actions/runs.dart';
 import 'package:youplay/models/game.dart';
 import 'package:youplay/models/game_theme.dart';
 import 'package:youplay/selectors/authentication_selectors.dart';
-import 'package:youplay/state/ui_state.dart';
+import 'package:youplay/store/state/ui_state.dart';
 import 'package:youplay/store/actions/auth.actions.dart';
 import 'package:youplay/store/actions/current_run.actions.dart';
 import 'package:youplay/store/actions/ui_actions.dart';
@@ -75,7 +75,7 @@ class GameLandingPageViewModel {
           if (copyGame != null) {
             store.dispatch(
                 new RequestNewRunAction(gameId: copyGame.gameId, name: 'demo'));
-            store.dispatch(new SetPage(PageType.game));
+            store.dispatch(new SetPage(page: PageType.game));
           }
         },
         loadRuns: () {
@@ -84,7 +84,7 @@ class GameLandingPageViewModel {
           }
         },
         toRunsPage: () {
-          store.dispatch(new SetPage(PageType.gameWithRuns));
+          store.dispatch(new SetPage(page: PageType.gameWithRuns));
         });
   }
 }
