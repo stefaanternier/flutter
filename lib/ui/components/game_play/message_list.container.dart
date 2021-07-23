@@ -11,17 +11,15 @@ import 'package:youplay/screens/general_item/general_item.dart';
 import 'package:youplay/screens/util/location/context2.dart';
 import 'package:youplay/selectors/selectors.dart';
 import 'package:youplay/store/actions/current_run.actions.dart';
+import 'package:youplay/store/actions/ui_actions.dart';
 import 'package:youplay/store/selectors/current_run.selectors.dart';
 import 'package:youplay/store/state/app_state.dart';
+import 'package:youplay/store/state/ui_state.dart';
 
-import 'messages_list_view.dart';
+import '../../../screens/components/game_play/messages_list_view.dart';
 import 'messages_metafoor_view.dart';
 
 class MessageListContainer extends StatefulWidget {
-  int listType;
-
-  MessageListContainer({required this.listType});
-
   @override
   _MessageListContainerState createState() => _MessageListContainerState();
 }
@@ -45,25 +43,24 @@ class _MessageListContainerState extends State<MessageListContainer> {
           });
         });
 
-        if (widget.listType == 1) {
+        if (vm.listType == MessageView.listView) {
           return MessagesList(
             items: items,
             tapEntry: vm.tapEntry,
           );
         }
-        if (widget.listType == 2) {
+        if (vm.listType == MessageView.metafoorView) {
           return MetafoorView(
             items: items,
             tapEntry: vm.tapEntry,
-            backgroundPath: vm.game?.messageListScreen ?? '/mediaLibrary/Bos/Jungle.png',
+            backgroundPath:
+                vm.game?.messageListScreen ?? '/mediaLibrary/Bos/Jungle.png',
           );
         }
         return LocationContext.around(
             MessagesMapView(
               items: items,
-              tapEntry: () {
-                vm.tapEntry();
-              },
+              tapEntry:vm.tapEntry,
             ),
             vm.points,
             vm.onLocationFound);
@@ -74,10 +71,11 @@ class _MessageListContainerState extends State<MessageListContainer> {
 
 class _ViewModel {
   List<ItemTimes> items = [];
-  Function tapEntry;
+  Function(GeneralItem) tapEntry;
   List<LocationTrigger> points;
   Function onLocationFound;
   Game? game;
+  MessageView listType;
 
   // int runId;
 
@@ -86,11 +84,13 @@ class _ViewModel {
       required this.tapEntry,
       required this.points,
       required this.onLocationFound,
+      required this.listType,
       this.game});
 
   static _ViewModel fromStore(Store<AppState> store) {
     int runId = runIdSelector(store.state.currentRunState);
     return _ViewModel(
+        listType: store.state.uiState.currentView,
         game: store.state.currentGameState.game,
         points: gameLocationTriggers(store.state),
         onLocationFound: (double lat, double lng, int radius) {
@@ -100,7 +100,7 @@ class _ViewModel {
           }
         },
         items: itemTimesSortedByTime(store.state),
-        tapEntry: (BuildContext context, GeneralItem item) {
+        tapEntry: (GeneralItem item) {
           AppConfig().analytics?.logViewItem(
               itemId: '${item.itemId}',
               itemName: '${item.title}',
@@ -113,11 +113,12 @@ class _ViewModel {
             runId: runId,
             generalItemId: item.itemId,
           ));
-          // print('hier');
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => GeneralItemScreen()),
-          );
+
+          store.dispatch(SetPage(page: PageType.gameItem, pageId: runId, itemId: item.itemId));
+          // Navigator.push(
+          //   context,
+          //   MaterialPageRoute(builder: (context) => GeneralItemScreen()),
+          // );
         });
   }
 }

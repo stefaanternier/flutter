@@ -67,7 +67,7 @@ class _ViewModel {
       },
         toLibrary: () {
           store.dispatch(new EraseAnonAccount());
-          store.dispatch(new SetPage(page: PageType.library));
+          store.dispatch(new SetPage(page: PageType.featured));
         }
     );
   }
