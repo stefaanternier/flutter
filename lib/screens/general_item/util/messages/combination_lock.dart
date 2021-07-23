@@ -21,10 +21,13 @@ class CombinationLockWidget extends StatefulWidget {
   CombinationLockGeneralItem item;
   GeneralItemViewModel giViewModel;
 
-  CombinationLockWidget({this.item, this.giViewModel, Key key}) : super(key: key);
+  CombinationLockWidget(
+      {required this.item, required this.giViewModel, Key? key})
+      : super(key: key);
 
   @override
-  _CombinationLockWidgetState createState() => new _CombinationLockWidgetState();
+  _CombinationLockWidgetState createState() =>
+      new _CombinationLockWidgetState();
 }
 
 class _CombinationLockWidgetState extends State<CombinationLockWidget> {
@@ -35,8 +38,8 @@ class _CombinationLockWidgetState extends State<CombinationLockWidget> {
   bool _showFalseFeedback = false;
   bool _showCorrectFeedback = false;
   bool newLibrary = true;
-  String wrongFeedback;
-  String correctFeedback;
+  String? wrongFeedback;
+  String? correctFeedback;
 
   @override
   initState() {
@@ -106,6 +109,10 @@ class _CombinationLockWidgetState extends State<CombinationLockWidget> {
   }
 
   Widget _buildQuestion(BuildContext context) {
+    if (this.widget.giViewModel.item == null) {
+      return Container(
+          child: Text('item loading...')); //todo make message beautiful
+    }
     return GeneralItemWidget(
         item: this.widget.item,
         giViewModel: this.widget.giViewModel,
@@ -146,10 +153,17 @@ class _CombinationLockWidgetState extends State<CombinationLockWidget> {
                       Padding(
                           padding: const EdgeInsets.fromLTRB(46, 8.0, 46, 8),
                           child: NextButton(
-                              buttonText: this.widget.giViewModel.item.description != ""
-                                  ? this.widget.giViewModel.item.description
-                                  : AppLocalizations.of(context).translate('screen.proceed'),
-                              overridePrimaryColor: widget.giViewModel.getPrimaryColor(),
+                              buttonText: this
+                                          .widget
+                                          .giViewModel
+                                          .item!
+                                          .description !=
+                                      ""
+                                  ? this.widget.giViewModel.item!.description
+                                  : AppLocalizations.of(context)
+                                      .translate('screen.proceed'),
+                              overridePrimaryColor:
+                                  widget.giViewModel.getPrimaryColor(),
                               giViewModel: widget.giViewModel)),
                       Padding(
                           padding: const EdgeInsets.fromLTRB(46, 8.0, 46, 28),
@@ -205,7 +219,9 @@ class _CombinationLockWidgetState extends State<CombinationLockWidget> {
                 if (_answer.length <= index) {
                   _answer = _answer + val[0];
                 } else {
-                  _answer = _answer.substring(0, index) + val[0] + _answer.substring(index + 1);
+                  _answer = _answer.substring(0, index) +
+                      val[0] +
+                      _answer.substring(index + 1);
                 }
               });
             },
@@ -228,40 +244,38 @@ class _CombinationLockWidgetState extends State<CombinationLockWidget> {
         setState(() {
           _index = counter;
         });
-        widget.giViewModel.onDispatch(MultiplechoiceAction(
-            mcResponse:
-                Response(run: widget.giViewModel.run, item: widget.item, value: choice.id)));
+        if (this.widget.giViewModel.item != null &&
+            widget.giViewModel.run?.runId != null) {
+          widget.giViewModel.onDispatch(MultiplechoiceAction(
+              mcResponse: Response(
+                  run: widget.giViewModel.run,
+                  item: widget.item,
+                  value: choice.id)));
 
-        widget.giViewModel.onDispatch(MultipleChoiceAnswerAction(
-            generalItemId: widget.giViewModel.item.itemId,
-            runId: widget.giViewModel.run.runId,
-            answerId: choice.id));
+          widget.giViewModel.onDispatch(MultipleChoiceAnswerAction(
+              generalItemId: widget.giViewModel.item!.itemId,
+              runId: widget.giViewModel.run!.runId!,
+              answerId: choice.id));
 
-        if (choice.isCorrect) {
-          widget.giViewModel.onDispatch(AnswerCorrect(
-            generalItemId: widget.giViewModel.item.itemId,
-            runId: widget.giViewModel.run.runId,
-          ));
-          setState(() {
-            _showCorrectFeedback = true;
-          });
-        } else {
-          widget.giViewModel.onDispatch(AnswerWrong(
-            generalItemId: widget.giViewModel.item.itemId,
-            runId: widget.giViewModel.run.runId,
-          ));
-          setState(() {
-            _showFalseFeedback = true;
-          });
+          if (choice.isCorrect) {
+            widget.giViewModel.onDispatch(AnswerCorrect(
+              generalItemId: widget.giViewModel.item!.itemId,
+              runId: widget.giViewModel.run!.runId!,
+            ));
+            setState(() {
+              _showCorrectFeedback = true;
+            });
+          } else {
+            widget.giViewModel.onDispatch(AnswerWrong(
+              generalItemId: widget.giViewModel.item!.itemId,
+              runId: widget.giViewModel.run!.runId!,
+            ));
+            setState(() {
+              _showFalseFeedback = true;
+            });
+          }
         }
-        // if (!widget.item.showFeedback) {
-        //   bool result = widget.giViewModel.continueToNextItem(context);
-        //   if (!result) {
-        //     new Future.delayed(const Duration(milliseconds: 200), () {
-        //       widget.giViewModel.continueToNextItem(context);
-        //     });
-        //   }
-        // }
+
         setState(() {
           _answer = "";
           for (int i = 0; i < _lockLength; i++) {
@@ -274,16 +288,21 @@ class _CombinationLockWidgetState extends State<CombinationLockWidget> {
       counter++;
     });
     if (!matchFound) {
-      print('need to trigger wrong answer');
-      widget.giViewModel.onDispatch(AnswerWrong(
-        generalItemId: widget.giViewModel.item.itemId,
-        runId: widget.giViewModel.run.runId,
-      ));
+      if (this.widget.giViewModel.item != null &&
+          widget.giViewModel.run?.runId != null) {
+        widget.giViewModel.onDispatch(AnswerWrong(
+          generalItemId: widget.giViewModel.item!.itemId,
+          runId: widget.giViewModel.run!.runId!,
+        ));
+      }
       setState(() {
         _showFalseFeedback = true;
       });
     }
     counter++;
-    widget.giViewModel.onDispatch(SyncFileResponse(runId: widget.giViewModel.run.runId));
+    if (widget.giViewModel.run?.runId != null) {
+      widget.giViewModel
+          .onDispatch(SyncFileResponse(runId: widget.giViewModel.run!.runId!));
+    }
   }
 }

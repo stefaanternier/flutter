@@ -13,16 +13,16 @@ class PlayVideoWidget extends StatefulWidget {
   GeneralItem item;
   Function onDelete;
 
-  PlayVideoWidget({this.response, this.item, this.onDelete});
+  PlayVideoWidget({required this.response, required this.item, required this.onDelete});
 
   @override
   _PlayVideoWidgetState createState() => _PlayVideoWidgetState();
 }
 
 class _PlayVideoWidgetState extends State<PlayVideoWidget> {
-  VideoPlayerController _controller;
-  double _position;
-  double _maxposition;
+  late VideoPlayerController _controller;
+  double _position =0;
+  double _maxposition=0;
   bool isFinished = false;
 
   @override
@@ -30,8 +30,6 @@ class _PlayVideoWidgetState extends State<PlayVideoWidget> {
     super.initState();
 
     _controller =
-//        VideoPlayerController.network(
-//            'https://storage.googleapis.com/serious-gaming-platform-dev.appspot.com/game/5634472569470976/video.mp4')
         VideoPlayerController.network(
             'https://storage.googleapis.com/${AppConfig().projectID}.appspot.com/${widget.response.value}')
           ..addListener(() {

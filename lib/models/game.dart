@@ -4,23 +4,25 @@ import 'dart:ui';
 
 import 'package:youplay/config/app_config.dart';
 import 'package:youplay/models/run.dart';
+import 'package:youplay/store/state/ui_state.dart';
 
 import 'general_item/dependency.dart';
 
 class Game {
   int gameId;
-  int sharing;
-  double lat;
-  double lng;
+  int? sharing;
+  double? lat;
+  double? lng;
   String language;
   String title;
   String iconAbbreviation;
   String description;
+  String? messageListScreen;
   int theme;
   int lastModificationDate;
   bool privateMode;
-  GameConfig config;
-  Dependency endsOn;
+  GameConfig? config;
+  Dependency? endsOn;
 
   Game.fromJson(Map json)
       : gameId = int.parse("${json['gameId']}"),
@@ -31,19 +33,20 @@ class Game {
         privateMode = json['privateMode'] ?? false,
         lat = json['lat'],
         lng = json['lng'],
-        endsOn= json['endsOn'] != null ? Dependency.fromJson(json['endsOn']): null,
+        endsOn =
+            json['endsOn'] != null ? Dependency.fromJson(json['endsOn']) : null,
         language = json['language'],
         theme = int.parse("${json['theme']}"),
-        title = json['title'],
-        description = json['description'] != null ? json['description'] : '',
-        iconAbbreviation =
-            json['iconAbbreviation'] != null ? json['iconAbbreviation'] : '',
+        title = json['title'] ?? '',
+        description = json['description'] ?? '',
+        messageListScreen = json['messageListScreen'],
+        iconAbbreviation = json['iconAbbreviation'] ?? '',
         config = GameConfig.fromJson(json['config']);
 
   Game(
-      {this.gameId,
+      {required this.gameId,
       this.lastModificationDate = 0,
-      this.sharing,
+      required this.sharing,
       this.lat = -1,
       this.lng = -1,
       this.language = 'en',
@@ -51,6 +54,7 @@ class Game {
       this.endsOn,
       this.privateMode = false,
       this.title = "no title",
+      this.messageListScreen,
       this.description = "",
       this.iconAbbreviation = ''});
 
@@ -71,7 +75,14 @@ class Game {
 
   int endsAt(HashMap<String, ARLearnAction> actions) {
     if (endsOn == null || actions == null) return -1;
-    return endsOn.  evaluate(actions);
+    return endsOn!.evaluate(actions);
+  }
+
+  nextView(MessageView currentView) {
+    if (currentView == MessageView.mapView) {
+      return MessageView.listView;
+    }
+    return MessageView.mapView;
   }
 }
 
@@ -86,13 +97,13 @@ class GameConfig {
   Color secondaryColor;
 
   GameConfig(
-      {this.mapAvailable,
-      this.enableMyLocation,
-      this.enableExchangeResponses,
-      this.minZoomLevel,
-      this.maxZoomLevel,
+      {required this.mapAvailable,
+      required this.enableMyLocation,
+      required this.enableExchangeResponses,
+      required this.minZoomLevel,
+      required this.maxZoomLevel,
       // this.primaryColor,
-      this.secondaryColor});
+      required this.secondaryColor});
 
   GameConfig.fromJson(Map json)
       : mapAvailable = json['mapAvailable'],
@@ -105,7 +116,7 @@ class GameConfig {
         //     : AppConfig().themeData.primaryColor,
         secondaryColor = json['secondaryColor'] != null
             ? colorFromHex(json['secondaryColor'])
-            : AppConfig().themeData.accentColor;
+            : AppConfig().themeData!.accentColor;
 }
 
 Color colorFromHex(String hexString) {
@@ -119,7 +130,7 @@ class GameFile {
   String path;
   int id;
 
-  GameFile({this.path, this.id});
+  GameFile({required this.path, required this.id});
 
   GameFile.fromJson(Map json)
       : id = int.parse("${json['id']}"),

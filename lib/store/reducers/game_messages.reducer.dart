@@ -7,7 +7,9 @@ import 'package:youplay/store/actions/game_messages.actions.dart';
 
 GamesState addMessagesToGameState(GamesState state, LoadGameMessagesListResponseAction action) {
   HashMap<int, GeneralItem> itemMap = state.itemIdToGeneralItem;
-  action.getGeneralItemList(state.game.gameId).forEach((item) => itemMap[item.itemId] = item);
+  if (state.game != null) {
+    action.getGeneralItemList(state.game!.gameId).forEach((item) => itemMap[item.itemId] = item);
+  }
   return state.copyWith(items: itemMap);
 }
 

@@ -6,6 +6,7 @@ import 'package:youplay/models/general_item/narrator_item.dart';
 import 'package:youplay/screens/general_item/general_item.dart';
 import 'package:youplay/screens/general_item/util/messages/components/content_card.text.dart';
 import 'package:youplay/screens/general_item/util/messages/components/next_button.dart';
+import 'package:youplay/ui/components/next_button/next_button.container.dart';
 
 import 'generic_message.dart';
 
@@ -13,7 +14,7 @@ class NarratorItemWidget extends StatefulWidget {
   GeneralItem item;
   GeneralItemViewModel giViewModel;
 
-  NarratorItemWidget({this.item, this.giViewModel});
+  NarratorItemWidget({required this.item, required this.giViewModel});
 
   @override
   _NarratorItemWidgetState createState() => new _NarratorItemWidgetState();
@@ -21,26 +22,6 @@ class NarratorItemWidget extends StatefulWidget {
 
 class _NarratorItemWidgetState extends State<NarratorItemWidget> {
   bool newLibrary = true;
-
-  // CachedNetworkImageProvider buildImage(BuildContext context) {
-  //   if (this.newLibrary && widget.item.fileReferences != null)
-  //     return new CachedNetworkImageProvider(
-  //         "https://storage.googleapis.com/${AppConfig().projectID}.appspot.com${widget.item.fileReferences['background'].replaceFirst('//', '/')}",
-  //         errorListener: () {
-  //       setState(() {
-  //         this.newLibrary = false;
-  //       });
-  //     });
-  //   return new CachedNetworkImageProvider(
-  //     "https://storage.googleapis.com/${AppConfig().projectID}.appspot.com/game/${widget.item.gameId}/generalItems/${widget.item.itemId}/background.jpg",
-  //   );
-  // }
-
-//  Color getPrimaryColor() {
-//    return widget.item.primaryColor == null
-//        ? widget.giViewModel.game.config.primaryColor
-//        : widget.item.primaryColor;
-//  }
 
   @override
   Widget build(BuildContext context) {
@@ -68,14 +49,12 @@ class _NarratorItemWidgetState extends State<NarratorItemWidget> {
               child:
               ContentCardText(
                   title: (widget.giViewModel.item as NarratorItem).heading,
-                  text: widget.giViewModel.item.richText,
+                  text: widget.giViewModel.item?.richText,
                   giViewModel: widget.giViewModel,
-                  button: showButton
-                      ? NextButton(
-                          buttonText: widget.item.description,
-                          overridePrimaryColor:
-                              widget.giViewModel.getPrimaryColor(),
-                          giViewModel: widget.giViewModel)
+                  button: (showButton || (widget.giViewModel.item !=null))
+                      ?
+                  NextButtonContainer(item: widget.giViewModel.item!)
+
                       : null,
                   showOnlyButton: showOnlyButton)
           )

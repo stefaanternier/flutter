@@ -5,7 +5,8 @@ import 'package:youplay/config/app_config.dart';
 import 'package:youplay/screens/components/button/cust_raised_button.dart';
 import 'package:youplay/screens/components/login/login_screen.dart';
 import 'package:youplay/screens/pages/run_landing_page.viewmodel.dart';
-import 'package:youplay/screens/util/navigation_drawer.dart';
+import 'package:youplay/ui/components/nav/navigation_drawer.container.dart';
+import 'package:youplay/ui/components/nav/navigation_drawer.dart';
 import 'package:youplay/store/state/app_state.dart';
 
 import '../../localizations.dart';
@@ -22,7 +23,7 @@ class _RunLandingPageState extends State<RunLandingPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        drawer: ARLearnNavigationDrawer(),
+        drawer: ARLearnNavigationDrawerContainer(),
         appBar: new AppBar(
             centerTitle: true, title: new Text('', style: new TextStyle(color: Colors.white))),
         body: new StoreConnector<AppState, RunLandingPageViewModel>(
@@ -102,9 +103,12 @@ class _RunLandingPageState extends State<RunLandingPage> {
 
     if (gameLandingPageModel.run != null && gameLandingPageModel.runs != null && gameLandingPageModel.runs.length != 0) {
       gameLandingPageModel.runs.forEach((element) {
-        if (gameLandingPageModel.run.runId == element.runId) {
-          gameLandingPageModel.toRunPage();
+        if (gameLandingPageModel.run != null) {
+          if (gameLandingPageModel.run!.runId == element.runId) {
+            gameLandingPageModel.toRunPage();
+          }
         }
+
       });
     }
     if (gameLandingPageModel.amountOfRuns == -1 ||clickedJoinRun) {

@@ -26,6 +26,8 @@ web/*
 android/*
 fb_hosting/*
 fb_hosting_dido/*
+fb_hosting_nbd_dev/*
+cors/*
 youplay.iml
 **/.DS_Store
 .flutter-plugins

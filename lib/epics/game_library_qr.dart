@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:youplay/actions/games.dart';
 import 'package:youplay/api/runs.dart';
-import 'package:youplay/state/ui_state.dart';
+import 'package:youplay/store/state/ui_state.dart';
 import 'package:flutter/material.dart';
 import 'package:redux_epics/redux_epics.dart';
 import 'package:youplay/store/state/app_state.dart';
@@ -11,68 +11,68 @@ import 'package:youplay/store/actions/ui_actions.dart';
 
 import '../localizations.dart';
 
-final qrActions = new TypedEpic<AppState, RunQrAction>(_runQRAction);
+// final qrActions = new TypedEpic<AppState, RunQrAction>(_runQRAction);
 final addMeToRun = new TypedEpic<AppState, AddMeToRun>(_addMeToRun);
 
-Stream<dynamic> _runQRAction(Stream<dynamic> actions, EpicStore<AppState> store) {
-  return actions
-      .where((action) => action is RunQrAction)
-      .asyncMap((action) =>
-     RunsApi.runWithGame(int.parse(action.qrCode)).then((results) {
-//      print("${results}");
-      dynamic json = jsonDecode(results);
-      print("${json}");
-      String runTitle = json['title'];
-      String gameTitle = json['game']['title'];
-      _showDialog(action.context, action.store, gameTitle, runTitle, int.parse(action.qrCode));
-    }).catchError((error) => new SetPage(PageType.login)
-//    {
-      //todo
-//      print('error ${error}');
-//      new SetPage(PageType.login)
-//    }
-    )
-  );
-}
+// Stream<dynamic> _runQRAction(Stream<dynamic> actions, EpicStore<AppState> store) {
+//   return actions
+//       .where((action) => action is RunQrAction)
+//       .asyncMap((action) =>
+//      RunsApi.runWithGame(int.parse(action.qrCode)).then((results) {
+// //      print("${results}");
+//       dynamic json = jsonDecode(results);
+//       print("${json}");
+//       String runTitle = json['title'];
+//       String gameTitle = json['game']['title'];
+//       _showDialog(action.context, action.store, gameTitle, runTitle, int.parse(action.qrCode));
+//     }).catchError((error) => new SetPage(PageType.login)
+// //    {
+//       //todo
+// //      print('error ${error}');
+// //      new SetPage(PageType.login)
+// //    }
+//     )
+//   );
+// }
 
 //Stream<AddMeToRun>
-void _showDialog(context, store, game, run, runId) {
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        title: new Text(game),
-        content:
-            new Text("${AppLocalizations.of(context).translate('library.participate')}:\n${run}"),
-        actions: <Widget>[
-          new FlatButton(
-            child: new Text(AppLocalizations.of(context).translate('library.cancel')),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-          ),
-          RaisedButton(
-            color: Theme.of(context).accentColor,
-            splashColor: Colors.red,
-            child: Text(
-              AppLocalizations.of(context).translate('library.join'),
-              style: TextStyle(color: Colors.white.withOpacity(0.8)),
-            ),
-            onPressed: () {
-              dispatchAddMeToRun(runId, store, context);
-            },
-          ),
-        ],
-      );
-    },
-  );
-//  return ;
-}
+// void _showDialog(context, store, game, run, runId) {
+//   showDialog(
+//     context: context,
+//     builder: (BuildContext context) {
+//       return AlertDialog(
+//         title: new Text(game),
+//         content:
+//             new Text("${AppLocalizations.of(context).translate('library.participate')}:\n${run}"),
+//         actions: <Widget>[
+//           new FlatButton(
+//             child: new Text(AppLocalizations.of(context).translate('library.cancel')),
+//             onPressed: () {
+//               Navigator.of(context).pop();
+//             },
+//           ),
+//           RaisedButton(
+//             color: Theme.of(context).accentColor,
+//             splashColor: Colors.red,
+//             child: Text(
+//               AppLocalizations.of(context).translate('library.join'),
+//               style: TextStyle(color: Colors.white.withOpacity(0.8)),
+//             ),
+//             onPressed: () {
+//               dispatchAddMeToRun(runId, store, context);
+//             },
+//           ),
+//         ],
+//       );
+//     },
+//   );
+// //  return ;
+// }
 
-dispatchAddMeToRun(int runId, store, context) async {
-  Navigator.of(context).pop();
-  store.dispatch(AddMeToRun(runId));
-}
+// dispatchAddMeToRun(int runId, store, context) async {
+//   Navigator.of(context).pop();
+//   store.dispatch(AddMeToRun(runId));
+// }
 
 Stream<dynamic> _addMeToRun(Stream<dynamic> actions, EpicStore<AppState> store) {
   return actions.where((action) => action is AddMeToRun).asyncExpand((action) {
@@ -90,10 +90,10 @@ Stream<dynamic> _addMeToRun(Stream<dynamic> actions, EpicStore<AppState> store) 
 Stream<dynamic> dispatchAddMeToRunActions(Future<int> data) async* {
   int gameId = (await data);
 //  int runId = (await data)[1];
-  yield new SetCurrentGameAction(gameId);
+  yield new SetCurrentGameAction(currentGame: gameId);
 //  yield new ApiGameAction(gameId);
 
-  yield new SetPage(PageType.myGames);
+  yield new SetPage(page: PageType.myGames);
 }
 
 //Stream<dynamic> _loadRunActionStream(Future<dynamic> results) async* {

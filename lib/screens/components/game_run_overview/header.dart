@@ -4,11 +4,9 @@ import 'package:youplay/actions/run_actions.dart';
 import 'package:youplay/actions/runs.dart';
 import 'package:youplay/actions/ui.dart';
 import 'package:youplay/config/app_config.dart';
-import 'package:youplay/screens/debug/RunActionsScreen.dart';
 import 'package:youplay/screens/general_item/util/messages/components/themed_app_bar.viewmodel.dart';
-import 'package:youplay/screens/util/ARLearnContainer.dart';
-import 'package:youplay/screens/util/navigation_drawer.dart';
-import 'package:youplay/state/ui_state.dart';
+import 'package:youplay/ui/components/nav/navigation_drawer.dart';
+import 'package:youplay/store/state/ui_state.dart';
 import 'package:flutter/material.dart';
 
 import 'package:youplay/models/game.dart';
@@ -19,7 +17,7 @@ import 'package:youplay/store/state/app_state.dart';
 
 class RunListHeader extends StatelessWidget {
   Game game;
-  RunListHeader({this.game});
+  RunListHeader({required this.game});
 
   @override
   Widget build(BuildContext context) {

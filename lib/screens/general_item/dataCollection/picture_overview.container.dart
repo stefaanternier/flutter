@@ -14,14 +14,17 @@ class PictureOverviewContainer extends StatelessWidget {
   GeneralItemViewModel giViewModel;
 
   Function takePicture;
-  PictureOverviewContainer({this.giViewModel, this.takePicture});
+  PictureOverviewContainer({required this.giViewModel, required this.takePicture});
 
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, _ViewModel>(
       converter: (Store<AppState> store) => _ViewModel.fromStore(store),
       builder: (context, vm) {
-        return PictureOverview(item: giViewModel.item, giViewModel: giViewModel,
+        if (giViewModel.item == null){
+          return Container(child: Text('item loading...'));  //todo make message beautiful
+        }
+        return PictureOverview(item: giViewModel.item!, giViewModel: giViewModel,
             themeModel: vm.themeModel, takePicture: takePicture,);
       },
     );
@@ -30,7 +33,7 @@ class PictureOverviewContainer extends StatelessWidget {
 
 class _ViewModel {
   GameThemesViewModel themeModel;
-  _ViewModel({this.themeModel});
+  _ViewModel({required this.themeModel});
 
   static _ViewModel fromStore(Store<AppState> store) {
     return _ViewModel(

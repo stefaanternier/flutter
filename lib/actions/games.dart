@@ -11,7 +11,7 @@ import 'package:redux/redux.dart';
 class ApiGamesParticipateActionWithCursor{
   String cursor;
 
-  ApiGamesParticipateActionWithCursor({this.cursor});
+  ApiGamesParticipateActionWithCursor({required this.cursor});
 
 
 }
@@ -20,14 +20,14 @@ class ApiResultGamesParticipateAction {
   List<int> games;
   String cursor;
 
-  ApiResultGamesParticipateAction({this.games, this.cursor});
+  ApiResultGamesParticipateAction({required this.games, required this.cursor});
 }
 
 class ApiResultGamesParticipateAction2 {
   List<int> games;
   String cursor;
 
-  ApiResultGamesParticipateAction2({this.games, this.cursor});
+  ApiResultGamesParticipateAction2({required this.games, required this.cursor});
 }
 
 //class ApiGameAction{
@@ -43,11 +43,11 @@ class ApiResultGamesParticipateAction2 {
 //
 //}
 
-class ApiResultGameAction {
-  dynamic game;
-
-  ApiResultGameAction(this.game);
-}
+// class ApiResultGameAction {
+//   dynamic game;
+//
+//   ApiResultGameAction(this.game);
+// }
 //
 //class ApiGameGeneralItems{
 //  int gameId;
@@ -63,12 +63,12 @@ class ApiResultGameAction {
 //}
 
 
-class AddGameAction {
-  Game game;
-  AddGameAction(this.game );
-}
+// class AddGameAction {
+//   Game game;
+//   AddGameAction(this.game );
+// }
 
-class LoadMyGamesAction{}
+// class LoadMyGamesAction{}
 
 
 //class MyGamesResultsAction {
@@ -77,13 +77,13 @@ class LoadMyGamesAction{}
 //  MyGamesResultsAction(this.games);
 //}
 
-class MyGamesErrorAction {
-  dynamic error;
-
-  MyGamesErrorAction(this.error);
-}
-
-
+// class MyGamesErrorAction {
+//   dynamic error;
+//
+//   MyGamesErrorAction(this.error);
+// }
+//
+//
 
 class SetCurrentGeneralItemId {
   int itemId;
@@ -98,13 +98,13 @@ class GameQrAction {
   GameQrAction(this.qrCode);
 }
 
-class RunQrAction {
-  final Store store;
-  String qrCode;
-  BuildContext context;
-  RunQrAction(this.qrCode, this.context, this.store);
-
-}
+// class RunQrAction {
+//   final Store store;
+//   String qrCode;
+//   BuildContext context;
+//   RunQrAction(this.qrCode, this.context, this.store);
+//
+// }
 
 class AddMeToRun {
   int runId;

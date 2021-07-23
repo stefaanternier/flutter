@@ -5,7 +5,7 @@ class CombinationLockEntry extends StatefulWidget {
   Function valueChanged;
   int index;
 
-  CombinationLockEntry({this.isNumeric, this.valueChanged, this.index});
+  CombinationLockEntry({required this.isNumeric, required this.valueChanged, required this.index});
 
   @override
   _CombinationLockEntryState createState() => _CombinationLockEntryState();

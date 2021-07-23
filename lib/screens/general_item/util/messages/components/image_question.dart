@@ -16,9 +16,9 @@ import 'game_themes.viewmodel.dart';
 import 'next_button.dart';
 
 class ImageQuestion extends StatelessWidget {
-  String buttonText; //correct or
+  String? buttonText; //correct or
   GeneralItem item;
-  String feedback;
+  String? feedback;
   Color primaryColor;
   Function buttonClick;
   Function submitClick;
@@ -27,15 +27,15 @@ class ImageQuestion extends StatelessWidget {
   Map<String, bool> selected;
   GeneralItemViewModel giViewModel;
 
-  ImageQuestion({this.item,
-    this.primaryColor,
-    this.answers,
-    this.selected,
-    this.buttonVisible,
-    this.buttonClick,
-    this.submitClick,
-    this.giViewModel,
-    Key key})
+  ImageQuestion({required this.item,
+    required this.primaryColor,
+    required this.answers,
+    required this.selected,
+    required this.buttonVisible,
+    required this.buttonClick,
+    required this.submitClick,
+    required this.giViewModel,
+    Key? key})
       : super(key: key);
 
   @override
@@ -188,7 +188,7 @@ class ImageQuestion extends StatelessWidget {
                   child: Stack(
                     children: [
                       Container(
-                          decoration: getBoxDecoration(item.fileReferences[answers[index].id]),
+                          decoration: getBoxDecoration(item.fileReferences?[answers[index].id]),
                           ),
 
                       Visibility(
@@ -199,9 +199,7 @@ class ImageQuestion extends StatelessWidget {
                           right: 5,
                           child: Icon(
                             Icons.check_circle,
-                            color: primaryColor != null
-                                ? primaryColor
-                                : themeModel.getPrimaryColor(),
+                            color: primaryColor,
                           ),
                         ),
                       ),
@@ -217,9 +215,7 @@ class ImageQuestion extends StatelessWidget {
                               alignment: const Alignment(0, 0),
                               children: [
                                 Container(
-                                  color: primaryColor != null
-                                      ? primaryColor
-                                      : themeModel.getPrimaryColor(),
+                                  color: primaryColor,
                                 ),
                                 Center(
                                   child: Text('${index + 1}',
@@ -233,20 +229,7 @@ class ImageQuestion extends StatelessWidget {
                     ],
                   )
 
-                // Container(
-                //     alignment: Alignment(0.95, -0.95),
-                //     child: selected[answers[index].id]
-                //         ? Icon(
-                //             Icons.check_circle,
-                //             color: primaryColor != null ? primaryColor : themeModel.getPrimaryColor(),
-                //           )
-                //         : null,
-                //     decoration: new BoxDecoration(
-                //       image: new DecorationImage(
-                //         image: buildSelectImage(context, answers[index].id),
-                //         fit: BoxFit.cover,
-                //       ),
-                //     ))
+
 
               )),
         ));

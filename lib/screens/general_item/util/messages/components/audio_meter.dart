@@ -7,7 +7,7 @@ import '../record_audio_question.dart';
 
 class AudioMeter extends CustomPainter {
   LinkedList<LinkedListEntry> meteringList;
-  AudioMeter({this.meteringList});
+  AudioMeter({required this.meteringList});
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -25,7 +25,7 @@ class AudioMeter extends CustomPainter {
 //    canvas.drawRect(rect, paint);
 
     double lineX = right - 10;
-    ItemEntry entry = this.meteringList.first;
+    ItemEntry? entry = this.meteringList.first as ItemEntry;
     while (lineX > 0 && entry != null) {
       final value = (60 + entry.value );
 //      print ("value is ${entry.value}");

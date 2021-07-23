@@ -6,13 +6,13 @@ import 'package:universal_platform/universal_platform.dart';
 
 class CameraSquarePreview extends StatelessWidget {
 
-  CameraController controller;
+  CameraController? controller;
 
   CameraSquarePreview({this.controller});
 
   @override
   Widget build(BuildContext context) {
-    if (controller == null || !controller.value.isInitialized) {
+    if (controller == null || !controller!.value.isInitialized) {
       return AspectRatio(
           aspectRatio: 1, //controller.value.aspectRatio,
           child: Container()
@@ -41,8 +41,8 @@ class CameraSquarePreview extends StatelessWidget {
                   child: Container(
                     width: size,
                     height:
-                    size / (1/controller.value.aspectRatio),
-                    child: CameraPreview(controller), // this is my CameraPreview
+                    size / (1/controller!.value.aspectRatio),
+                    child: CameraPreview(controller!), // this is my CameraPreview
                   ),
                 ),
               ),
@@ -54,7 +54,7 @@ class CameraSquarePreview extends StatelessWidget {
         } else {
           if (UniversalPlatform.isIOS) {
             var size = MediaQuery.of(context).size.width;
-print('${MediaQuery.of(context).size.width} ${MediaQuery.of(context).size.height}  ${controller.value.aspectRatio}');
+print('${MediaQuery.of(context).size.width} ${MediaQuery.of(context).size.height}  ${controller!.value.aspectRatio}');
             // return ;
 
 
@@ -72,10 +72,10 @@ print('${MediaQuery.of(context).size.width} ${MediaQuery.of(context).size.height
                         child: FittedBox(
                           fit: BoxFit.fitHeight,
                           child: Container(
-                            width: size/(1/controller.value.aspectRatio),
+                            width: size/(1/controller!.value.aspectRatio),
                             height:
                             size,
-                            child: CameraPreview(controller), // this is my CameraPreview
+                            child: CameraPreview(controller!), // this is my CameraPreview
                           ),
                         ),
                       ),
@@ -89,8 +89,8 @@ print('${MediaQuery.of(context).size.width} ${MediaQuery.of(context).size.height
                 quarterTurns: orientation == NativeDeviceOrientation.landscapeLeft? 3 : 1,
                 child: Center(
                   child: AspectRatio(
-                    aspectRatio: controller.value.aspectRatio,
-                    child: CameraPreview(controller),
+                    aspectRatio: controller!.value.aspectRatio,
+                    child: CameraPreview(controller!),
                   ),
                 ),
               );
@@ -99,23 +99,5 @@ print('${MediaQuery.of(context).size.width} ${MediaQuery.of(context).size.height
         }
       },
     );
-  }
-}
-
-
-Widget cameraPreviewWidget(
-    CameraController controller, Function takePicture, Function cancel, BuildContext context) {
-  if (controller == null || !controller.value.isInitialized) {
-    return const Text(
-      'Initializing camera',
-      style: TextStyle(
-        fontSize: 24.0,
-        fontWeight: FontWeight.w900,
-      ),
-    );
-  } else {
-//    print("aspect ratio");
-
-
   }
 }

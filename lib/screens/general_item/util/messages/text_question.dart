@@ -14,6 +14,7 @@ import 'package:youplay/store/actions/current_run.actions.dart';
 import 'package:youplay/store/actions/current_run.picture.actions.dart';
 import 'package:youplay/store/selectors/current_run.selectors.dart';
 import 'package:youplay/store/state/app_state.dart';
+import 'package:youplay/ui/components/messages_parts/richtext-top.container.dart';
 
 import '../../../../localizations.dart';
 import 'components/game_themes.viewmodel.dart';
@@ -21,15 +22,15 @@ import 'components/next_button.dart';
 import 'generic_message.dart';
 
 class _TextInputViewModel {
-  List<String> keys;
+  // List<String> keys;
   List<Response> audioResponses;
   List<Response> fromServer;
 
-  _TextInputViewModel({this.keys, this.audioResponses, this.fromServer});
+  _TextInputViewModel({required this.audioResponses,required this.fromServer});
 
   static _TextInputViewModel fromStore(Store<AppState> store, GeneralItem item) {
     return new _TextInputViewModel(
-        audioResponses: currentRunResponsesSelector(store.state).where((element) => element.item.itemId == item.itemId).toList(growable: false),
+        audioResponses: currentRunResponsesSelector(store.state).where((element) => element.item?.itemId == item.itemId).toList(growable: false),
         fromServer: currentItemResponsesFromServerAsList(store.state));
   }
 
@@ -79,7 +80,7 @@ class TextQuestionScreen extends StatefulWidget {
   GeneralItem item;
   GeneralItemViewModel giViewModel;
 
-  TextQuestionScreen({this.item, this.giViewModel});
+  TextQuestionScreen({required this.item, required  this.giViewModel});
 
   @override
   _TextQuestionState createState() => new _TextQuestionState();
@@ -105,25 +106,7 @@ class _TextQuestionState extends State<TextQuestionScreen> {
     Widget body = Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
-        new StoreConnector<AppState, GameThemesViewModel>(
-            converter: (store) => GameThemesViewModel.fromStore(store),
-            builder: (context, GameThemesViewModel themeModel) {
-              return Container(
-                  // color: this.widget.giViewModel.getPrimaryColor(),
-                  color: this.widget.giViewModel.getPrimaryColor() != null
-                      ? this.widget.giViewModel.getPrimaryColor()
-                      : themeModel.getPrimaryColor(),
-                  child: this.widget.item.richText==null?Container():Padding(
-                    padding: EdgeInsets.all(15),
-                    child: Text(
-                      "${this.widget.item.richText}",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16.0,
-                      ),
-                    ),
-                  ));
-            }),
+        RichTextTopContainer(),
         Flexible(
             flex: 1,
             child: Container(
@@ -170,17 +153,20 @@ class _TextQuestionState extends State<TextQuestionScreen> {
   void submitText(String value, BuildContext context) {
     widget.giViewModel.onDispatch(TextResponseAction(
         textResponse: Response(run: widget.giViewModel.run, item: widget.item, value: value)));
-    widget.giViewModel.onDispatch(LocalAction(
-      action: "answer_given",
-      generalItemId: widget.giViewModel.item.itemId,
-      runId: widget.giViewModel.run.runId,
-    ));
-    widget.giViewModel.onDispatch(LocalAction(
-      action: value.toLowerCase().trim().replaceAll(' ', ''),
-      generalItemId: widget.giViewModel.item.itemId,
-      runId: widget.giViewModel.run.runId,
-    ));
-    widget.giViewModel.onDispatch(SyncFileResponse(runId: widget.giViewModel.run.runId));
+    if (widget.giViewModel.item != null && widget.giViewModel.run?.runId != null ) {
+      widget.giViewModel.onDispatch(LocalAction(
+        action: "answer_given",
+        generalItemId: widget.giViewModel.item!.itemId,
+        runId: widget.giViewModel.run!.runId!,
+      ));
+      widget.giViewModel.onDispatch(LocalAction(
+        action: value.toLowerCase().trim().replaceAll(' ', ''),
+        generalItemId: widget.giViewModel.item!.itemId,
+        runId: widget.giViewModel.run!.runId!,
+      ));
+      widget.giViewModel.onDispatch(SyncFileResponse(runId: widget.giViewModel.run!.runId!));
+    }
+
     // Navigator.of(context).pop();
     setState(() {
       showList = true;
@@ -198,25 +184,7 @@ class _TextQuestionState extends State<TextQuestionScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
-                new StoreConnector<AppState, GameThemesViewModel>(
-                    converter: (store) => GameThemesViewModel.fromStore(store),
-                    builder: (context, GameThemesViewModel themeModel) {
-                      return Container(
-                          // color: this.widget.giViewModel.getPrimaryColor(),
-                          color: this.widget.giViewModel.getPrimaryColor() != null
-                              ? this.widget.giViewModel.getPrimaryColor()
-                              : themeModel.getPrimaryColor(),
-                          child: Padding(
-                            padding: EdgeInsets.all(15),
-                            child:this.widget.item.richText==null?Container(): Text(
-                              "${this.widget.item.richText}",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 16.0,
-                              ),
-                            ),
-                          ));
-                    }),
+                RichTextTopContainer(),
                 Expanded(
                   child: StoreConnector<AppState, _TextInputViewModel>(
                       converter: (store) => _TextInputViewModel.fromStore(store, widget.item),

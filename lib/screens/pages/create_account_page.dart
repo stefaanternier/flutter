@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:youplay/screens/components/button/cust_raised_button.dart';
-import 'package:youplay/screens/util/navigation_drawer.dart';
+import 'package:youplay/ui/components/nav/navigation_drawer.container.dart';
+import 'package:youplay/ui/components/nav/navigation_drawer.dart';
 import 'package:youplay/store/actions/auth.actions.dart';
 import 'package:youplay/store/state/app_state.dart';
 import 'package:redux/redux.dart';
@@ -15,28 +16,17 @@ class CreateAccountPage extends StatefulWidget {
 }
 
 class _CreateAccountPageState extends State<CreateAccountPage> {
-  CreateStatus status;
-  TextEditingController emailController;
-  TextEditingController pwController;
-  TextEditingController displayNameController;
+  CreateStatus status = CreateStatus.email;
+  TextEditingController emailController = TextEditingController(text: '');
+  TextEditingController pwController = TextEditingController(text: '');
+  TextEditingController displayNameController = TextEditingController(text: '');
   String email = '';
   String password = '';
   String displayName = '';
   String feedback = '';
-  RegExp regExp;
+  RegExp regExp = new RegExp(
+      r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$');
   bool _obscureText = true;
-
-  void initState() {
-    status = CreateStatus.email;
-    emailController = TextEditingController(text: '');
-    pwController = TextEditingController(text: '');
-    displayNameController = TextEditingController(text: '');
-    String p =
-        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
-
-    regExp = new RegExp(p);
-    super.initState();
-  }
 
   void _toggle() {
     setState(() {
@@ -51,7 +41,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
           toolbarHeight: 250,
           title: Text("Maak account"),
         ),
-        drawer: ARLearnNavigationDrawer(),
+        drawer: ARLearnNavigationDrawerContainer(),
         body: switchState(context));
   }
 
@@ -63,7 +53,6 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
       return collectName(context);
     }
     return collectEmail(context);
-
   }
 
   Widget collectEmail(BuildContext context) {
@@ -79,7 +68,8 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
             // Use email input type for emails.
             decoration: new InputDecoration(
                 hintText: 'you@example.com',
-                labelText: AppLocalizations.of(context).translate('makeaccount.emailAddress')),
+                labelText: AppLocalizations.of(context)
+                    .translate('makeaccount.emailAddress')),
             onTap: () {
               //widget.onPressed(true);
             },
@@ -123,14 +113,16 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
             controller: pwController,
             keyboardType: TextInputType.visiblePassword,
             obscureText: _obscureText,
-            validator: (val) => val.length < 6 ? 'Password too short.' : null,
+            validator: (val) =>
+                (val?.length ?? 0) < 6 ? 'Password too short.' : null,
 
             // Use email input type for emails.
             decoration: new InputDecoration(
-
-                labelText: AppLocalizations.of(context).translate('makeaccount.password'),
+                labelText: AppLocalizations.of(context)
+                    .translate('makeaccount.password'),
                 suffixIcon: IconButton(
-                  icon: Icon(_obscureText ? Icons.visibility : Icons.visibility_off),
+                  icon: Icon(
+                      _obscureText ? Icons.visibility : Icons.visibility_off),
                   onPressed: _toggle,
                 )),
             onTap: () {
@@ -172,7 +164,8 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
             keyboardType: TextInputType.text,
             // Use email input type for emails.
             decoration: new InputDecoration(
-                labelText: AppLocalizations.of(context).translate('makeaccount.whatsyourname')),
+                labelText: AppLocalizations.of(context)
+                    .translate('makeaccount.whatsyourname')),
             onTap: () {
               //widget.onPressed(true);
             },
@@ -193,9 +186,13 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                 return CustomRaisedButton(
                     disabled: displayName.length < 3,
                     onPressed: () {
-                      store.dispatch(new CreateAccount(email:email, password: password, displayName: displayName));
+                      store.dispatch(new CreateAccount(
+                          email: email,
+                          password: password,
+                          displayName: displayName));
                     },
-                    title: AppLocalizations.of(context).translate('makeaccount.makeaccount'));
+                    title: AppLocalizations.of(context)
+                        .translate('makeaccount.makeaccount'));
               })
         ],
       ),

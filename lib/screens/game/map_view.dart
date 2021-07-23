@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:collection';
 
 import 'package:youplay/models/general_item.dart';
-import 'package:youplay/screens/game/game_screens_list.dart';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +11,7 @@ import 'package:youplay/screens/ui_models/message_view_model.dart';
 
 class MapView extends StatefulWidget {
   MessageViewModel messageViewModel;
-  MapView({this.messageViewModel});
+  MapView({required this.messageViewModel});
 
   @override
   State createState() => _MapViewState();
@@ -19,17 +19,19 @@ class MapView extends StatefulWidget {
 
 class _MapViewState extends State<MapView> {
 //  MessageViewModel messageViewModel;
-  _MapViewState();
-  Marker _selectedMarker;
+
+
   HashMap<Marker, int> markerMap = new HashMap();
   Completer<GoogleMapController> _controller = Completer();
-  Set<Marker> _markers;
+  Set<Marker> _markers = Set<Marker>.of([]);
 
   static final CameraPosition _kInitialPosition = const CameraPosition(
     target: LatLng(50.886959, 5.973426),
     zoom: 14.0,
   );
-  GoogleMapController mapController;
+  GoogleMapController? mapController;
+
+  _MapViewState();
 
   @override
   initState() {
@@ -51,7 +53,7 @@ class _MapViewState extends State<MapView> {
   Marker buildMarker(GeneralItem generalItem) {
     return Marker(
       markerId:  MarkerId("${generalItem.itemId}"),
-      position: LatLng(generalItem.lat, generalItem.lng),
+      position: LatLng(generalItem.lat??50, generalItem.lng??6),
       infoWindow: InfoWindow(
           title: "${generalItem.title}",
 //              snippet: '*',

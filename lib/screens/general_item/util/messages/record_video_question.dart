@@ -15,6 +15,7 @@ import 'package:youplay/screens/general_item/dataCollection/record_video.dart';
 import 'package:youplay/screens/general_item/general_item.dart';
 import 'package:youplay/store/selectors/current_run.selectors.dart';
 import 'package:youplay/store/state/app_state.dart';
+import 'package:youplay/ui/components/messages_parts/richtext-top.container.dart';
 
 import 'components/next_button.dart';
 import 'generic_message.dart';
@@ -30,11 +31,11 @@ format(Duration d) {
 }
 
 class _RecordingsViewModel {
-  List<String> keys;
   List<Response> audioResponses;
   List<Response> fromServer;
 
-  _RecordingsViewModel({this.keys, this.audioResponses, this.fromServer});
+  _RecordingsViewModel(
+      {required this.audioResponses, required this.fromServer});
 
   static _RecordingsViewModel fromStore(Store<AppState> store) {
     return new _RecordingsViewModel(
@@ -95,7 +96,7 @@ class NarratorWithVideo extends StatefulWidget {
   GeneralItem item;
   GeneralItemViewModel giViewModel;
 
-  NarratorWithVideo({this.item, this.giViewModel});
+  NarratorWithVideo({required this.item, required this.giViewModel});
 
   @override
   _NarratorWithVideoState createState() => new _NarratorWithVideoState();
@@ -106,7 +107,7 @@ class _NarratorWithVideoState extends State<NarratorWithVideo> {
   List<Response> deleted = [];
 
   int selectedItem = -1;
-  Response selectedResponse;
+  Response? selectedResponse;
 
   @override
   void initState() {
@@ -144,7 +145,19 @@ class _NarratorWithVideoState extends State<NarratorWithVideo> {
 
       case VideoRecordingStatus.play:
         {
-          body = PlayVideoWidget(response: selectedResponse);
+          if (selectedResponse != null && widget.giViewModel.item != null) {
+            body = PlayVideoWidget(
+              response: selectedResponse!,
+              item: widget.giViewModel.item!,
+              onDelete: () {
+                print('on delete not implemented');
+              },
+            );
+          } else {
+            return Container(
+                child: Text('item loading...')); //todo make message beautiful
+
+          }
         }
         break;
     }
@@ -152,25 +165,29 @@ class _NarratorWithVideoState extends State<NarratorWithVideo> {
         item: this.widget.item,
         giViewModel: this.widget.giViewModel,
         padding: false,
+        elevation: false,
         body: Container(color: Color.fromRGBO(0, 0, 0, 0.8), child: body));
   }
 
   Widget buildStopped(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
+        RichTextTopContainer(),
         Expanded(
           child: StoreConnector<AppState, _RecordingsViewModel>(
               converter: (store) => _RecordingsViewModel.fromStore(store),
               builder: (context, _RecordingsViewModel map) {
                 map.deleteAllResponses(this.deleted);
                 final DateTime now = DateTime.now();
-                final DateFormat formatter =
-                    DateFormat.yMMMMd(Localizations.localeOf(context).languageCode);
+                final DateFormat formatter = DateFormat.yMMMMd(
+                    Localizations.localeOf(context).languageCode);
                 return ListView.builder(
                   itemCount: map.amountOfItems(),
                   itemBuilder: (context, index) {
                     final DateTime thatTime =
-                        DateTime.fromMillisecondsSinceEpoch(map.getItem(index).timestamp);
+                        DateTime.fromMillisecondsSinceEpoch(
+                            map.getItem(index).timestamp);
                     return Dismissible(
                         key: Key('${map.getItem(index).timestamp}'),
                         background: slideLeftBackground(),
@@ -182,25 +199,28 @@ class _NarratorWithVideoState extends State<NarratorWithVideo> {
                           });
                         },
                         child: new ListTile(
-                          title: Text('Nieuwe opname', style: TextStyle(color: Colors.white)),
+                          title: Text('Nieuwe opname',
+                              style: TextStyle(color: Colors.white)),
                           subtitle: Text('${formatter.format(thatTime)} ',
-                              style: TextStyle(color: Colors.white.withOpacity(0.7))),
-                          trailing:
-                              Text(
-                                  "${format(new Duration(milliseconds: map.getItem(index).length))}",
-
-                                  style: TextStyle(color: Colors.white.withOpacity(0.7))),
+                              style: TextStyle(
+                                  color: Colors.white.withOpacity(0.7))),
+                          trailing: Text(
+                              "${format(new Duration(milliseconds: map.getItem(index).length ?? 0))}",
+                              style: TextStyle(
+                                  color: Colors.white.withOpacity(0.7))),
                           onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => PlayVideoWidget(
-                                      response: map.getItem(index),
-                                      item: widget.giViewModel.item,
-                                      onDelete: () {
-                                        deleteResponse(map.delete(index));
-                                      })),
-                            );
+                            if (widget.giViewModel.item != null) {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => PlayVideoWidget(
+                                        response: map.getItem(index),
+                                        item: widget.giViewModel.item!,
+                                        onDelete: () {
+                                          deleteResponse(map.delete(index));
+                                        })),
+                              );
+                            }
                           },
                         ));
                   },
@@ -210,11 +230,13 @@ class _NarratorWithVideoState extends State<NarratorWithVideo> {
         Padding(
             padding: const EdgeInsets.fromLTRB(46, 8.0, 46, 8),
             child: NextButton(
-                buttonText: AppLocalizations.of(context).translate('screen.proceed'),
+                buttonText:
+                    AppLocalizations.of(context).translate('screen.proceed'),
                 overridePrimaryColor: widget.giViewModel.getPrimaryColor(),
                 customButton: CustomRaisedButton(
                   useThemeColor: true,
-                  title: AppLocalizations.of(context).translate('screen.proceed'),
+                  title:
+                      AppLocalizations.of(context).translate('screen.proceed'),
                   // icon: new Icon(Icons.play_circle_outline, color: Colors.white),
                   primaryColor: widget.giViewModel.getPrimaryColor(),
                   onPressed: () {

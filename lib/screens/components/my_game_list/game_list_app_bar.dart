@@ -9,30 +9,36 @@ class GameListAppBar {
   Function startSearching;
   Function stopSearching;
 
-  GameListAppBar({this.isSearching, this.searchQuery, this.startSearching, this.stopSearching});
+  GameListAppBar(
+      {required this.isSearching,
+      required this.searchQuery,
+      required this.startSearching,
+      required this.stopSearching});
 
   AppBar build(BuildContext context) {
     if (!isSearching) {
       return new AppBar(
           centerTitle: true,
           title: //Image.asset('graphics/icon/bibendocircleicon.png', fit: BoxFit.cover),
-          AppConfig().appBarIcon != null ?  new Image(
-                   image: new AssetImage(
-                       AppConfig().appBarIcon),
-                   height: 32.0,
-                   width: 32.0,
-                 ):
-          new Text(
-            AppLocalizations.of(context).translate('games.myGames'),
-            style: new TextStyle(color: Colors.white),
-          ),
+              AppConfig().appBarIcon != null
+                  ? new Image(
+                      image: new AssetImage(AppConfig().appBarIcon!),
+                      height: 32.0,
+                      width: 32.0,
+                    )
+                  : new Text(
+                      AppLocalizations.of(context).translate('games.myGames'),
+                      style: new TextStyle(color: Colors.white),
+                    ),
           actions: <Widget>[
             new IconButton(
               icon: new Icon(
                 Icons.search,
                 color: Colors.white,
               ),
-              onPressed: startSearching,
+              onPressed: (){
+                startSearching();
+              },
             ),
           ]);
     }
@@ -55,7 +61,9 @@ class GameListAppBar {
               Icons.close,
               color: Colors.white,
             ),
-            onPressed: stopSearching,
+            onPressed: (){
+              stopSearching();
+            },
           ),
         ]);
   }

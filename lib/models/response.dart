@@ -4,9 +4,9 @@ import 'package:youplay/models/run.dart';
 class ResponseList {
   List<Response> responses;
   int serverTime;
-  String resumptionToken;
+  String? resumptionToken;
 
-  ResponseList({this.responses, this.serverTime});
+  ResponseList({required this.responses, required this.serverTime, this.resumptionToken});
 
   ResponseList.fromJson(Map json)
       : responses = json['responses'] != null
@@ -14,31 +14,49 @@ class ResponseList {
                 .map<Response>((map) => Response.fromJson(map))
                 .toList(growable: false)
             : [],
-        resumptionToken= json['resumptionToken'],
-        serverTime = json['serverTime'] != null ? int.parse("${json['serverTime']}") : 0;
+        resumptionToken = json['resumptionToken'],
+        serverTime =
+            json['serverTime'] != null ? int.parse("${json['serverTime']}") : 0;
 }
 
 class Response {
-  Run run;
-  GeneralItem item;
-  String userId;
-  String value;
-  String text;
-  double lat;
-  double lng;
-  int responseId;
-  int generalItemId;
+  Run? run;
+  GeneralItem? item;
+  String? userId;
+  String? value;
+  String? text;
+  double? lat;
+  double? lng;
+  int? runId;
+  int? responseId;
+  int? generalItemId;
   int timestamp = new DateTime.now().millisecondsSinceEpoch;
-  int length;
+  int? length;
 
-  Response({this.run, this.item, this.userId, this.lat, this.lng, this.value, this.text});
+  Response(
+      {this.run,
+      required this.item,
+      this.userId,
+        this.runId,
+        this.lat,
+      this.lng,
+      this.value,
+      this.text,
+      this.length
+      });
 
   Response.fromJson(Map json)
-      : timestamp = json['timestamp'] != null ? int.parse("${json['timestamp']}") : 0,
-        responseId = json['responseId'] != null ? int.parse("${json['responseId']}") : 0,
+      : timestamp =
+            json['timestamp'] != null ? int.parse("${json['timestamp']}") : 0,
+        responseId =
+            json['responseId'] != null ? int.parse("${json['responseId']}") : 0,
         length = json['length'] != null ? int.parse("${json['length']}") : 0,
-        generalItemId = json['generalItemId'] != null ? int.parse("${json['generalItemId']}") : 0,
+        generalItemId = json['generalItemId'] != null
+            ? int.parse("${json['generalItemId']}")
+            : 0,
         text = json['text'],
+        userId = json['userId'],
+        runId = json['runId'] != null ? int.parse("${json['runId']}") : 0,
         value = json['responseValue'];
 
 //  "responseId": "5677675511283712",
@@ -54,9 +72,11 @@ class Response {
 
   Map toJson() {
     Map map = new Map();
-    if (this.run != null && this.run.runId != null) map["runId"] = this.run.runId;
+    if (this.run != null && this.run!.runId != null)
+      map["runId"] = this.run!.runId;
     if (this.timestamp != null) map["timestamp"] = this.timestamp;
-    if (this.item != null && this.item.itemId != null) map["generalItemId"] = this.item.itemId;
+    if (this.item != null && this.item!.itemId != null)
+      map["generalItemId"] = this.item!.itemId;
     if (this.userId != null) map["userId"] = this.userId;
     if (this.value != null) map["responseValue"] = this.value;
     return map;
@@ -65,11 +85,25 @@ class Response {
 
 class PictureResponse extends Response {
   String path;
-  String remotePath;
-  String text;
+  String? remotePath;
 
-  PictureResponse({this.path, Run run, GeneralItem item, String userId, double lat, double lng, this.text})
-      : super(run: run, item: item, userId: userId, lat: lat, lng: lng);
+  PictureResponse(
+      {required this.path,
+       Run? run,
+       GeneralItem? item,
+       String? userId,
+       double? lat,
+       double? lng,
+        int? length,
+      text})
+      : super(
+            run: run,
+            item: item,
+            userId: userId,
+            lat: lat,
+            lng: lng,
+            length: length,
+            text: text);
 
   @override
   String toString() {
@@ -88,11 +122,24 @@ class PictureResponse extends Response {
 
 class AudioResponse extends PictureResponse {
   String path;
-  String remotePath;
-  int length;
+  String? remotePath;
 
-  AudioResponse({this.length, this.path, Run run, GeneralItem item, String userId, double lat, double lng})
-      : super(path: path, run: run, item: item, userId: userId, lat: lat, lng: lng);
+  AudioResponse(
+      { int? length,
+      required this.path,
+      Run? run,
+      GeneralItem? item,
+      String? userId,
+      double? lat,
+      double? lng})
+      : super(
+            path: path,
+            run: run,
+            item: item,
+            userId: userId,
+            lat: lat,
+            lng: lng,
+            length: length);
 
   Map toJson() {
     Map map = super.toJson();
@@ -106,11 +153,26 @@ class AudioResponse extends PictureResponse {
 
 class VideoResponse extends PictureResponse {
   String path;
-  String remotePath;
-  int length;
+  String? remotePath;
 
-  VideoResponse({this.length, this.path, Run run, GeneralItem item, String userId, double lat, double lng})
-      : super(path: path, run: run, item: item, userId: userId, lat: lat, lng: lng);
+
+  VideoResponse(
+      {
+      required this.path,
+      Run? run,
+      GeneralItem? item,
+      String? userId,
+      double? lat,
+      double? lng,
+      int? length})
+      : super(
+            path: path,
+            run: run,
+            item: item,
+            userId: userId,
+            length: length,
+            lat: lat,
+            lng: lng);
 
   Map toJson() {
     Map map = super.toJson();

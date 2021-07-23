@@ -1,11 +1,11 @@
 class OpenQuestion {
-  bool withAudio;
-  bool withPicture;
-  bool withVideo;
-  bool withText;
-  bool withValue;
-  String textDescription;
-  String valueDescription;
+  bool? withAudio;
+  bool? withPicture;
+  bool? withVideo;
+  bool? withText;
+  bool? withValue;
+  String? textDescription;
+  String? valueDescription;
 
   OpenQuestion(
       {this.withAudio,

@@ -5,7 +5,7 @@ import 'package:youplay/actions/errors.dart';
 import 'package:youplay/actions/games.dart';
 import 'package:youplay/api/games.dart';
 import 'package:youplay/store/state/app_state.dart';
-import 'package:youplay/state/ui_state.dart';
+import 'package:youplay/store/state/ui_state.dart';
 import 'package:redux_epics/redux_epics.dart';
 import 'package:youplay/store/actions/current_game.actions.dart';
 import 'package:youplay/store/actions/ui_actions.dart';
@@ -136,10 +136,7 @@ Stream<dynamic> _loadGamesStream(
     ApiResultGamesParticipateAction2 participateAction) async* {
   print("participate games ${participateAction.games}");
   for (int i = 0; i < participateAction.games.length; i++) {
-//    print("trigger action for ${participateAction.games[i]}");
-//    yield new ApiLoadRunAction(int.parse(users[i]['runId']));
-//    yield new ApiGameAction(participateAction.games[i]);
-    yield new  LoadGameRequestAction(participateAction.games[i]);
+    yield new  LoadGameRequestAction(gameId: participateAction.games[i]);
 
   }
   if (participateAction.cursor != null) {

@@ -10,50 +10,45 @@ import 'game_themes.viewmodel.dart';
 
 class NextButton extends StatefulWidget {
   String buttonText;
-  Function overrideButtonPress;
-  Color overridePrimaryColor;
+  Function? overrideButtonPress;
+  Color? overridePrimaryColor;
   GeneralItemViewModel giViewModel;
-  Widget customButton;
+  Widget? customButton;
   bool makeVisible;
 
+  //todo deprecated. todo delete
   NextButton(
-      {this.buttonText,
-      this.giViewModel,
+      {required this.buttonText,
+      required this.giViewModel,
       this.overridePrimaryColor,
-      this.overrideButtonPress = null,
-      this.customButton = null,
-      this.makeVisible = false
-      });
+      this.overrideButtonPress,
+      this.customButton,
+      this.makeVisible = false});
 
   @override
   _NextButtonState createState() => _NextButtonState();
 }
 
 class _NextButtonState extends State<NextButton> {
-  Timer _timer;
+  Timer? _timer;
 
   @override
   void dispose() {
     super.dispose();
-    if (_timer != null) {
-      _timer.cancel();
-    }
+    _timer?.cancel();
   }
 
   @override
   build(BuildContext context) {
-    if (this.widget.buttonText != null && this.widget.buttonText.contains("::")) {
+    if (this.widget.buttonText != null &&
+        this.widget.buttonText.contains("::")) {
       int index = this.widget.buttonText.indexOf("::");
       this.widget.buttonText = this.widget.buttonText.substring(0, index);
     }
     int now = new DateTime.now().millisecondsSinceEpoch;
-    if (this.widget.giViewModel.nextItem != null &&
-        ((this.widget.giViewModel.nextItem.lastModificationDate) - now) > 0) {
-      if (_timer != null) {
-        _timer.cancel();
-      }
+    if (((this.widget.giViewModel.nextItem?.lastModificationDate??0) - now) > 0) {
+      _timer?.cancel();
       _timer = new Timer(const Duration(milliseconds: 1000), () {
-        // new Future.delayed(const Duration(milliseconds: 1000), () {
         setState(() {
           print("setting state");
         });
@@ -63,21 +58,20 @@ class _NextButtonState extends State<NextButton> {
     return new StoreConnector<AppState, GameThemesViewModel>(
         converter: (store) => GameThemesViewModel.fromStore(store),
         builder: (context, GameThemesViewModel themeModel) {
-
           return Visibility(
-            visible: widget.makeVisible || (this.widget.giViewModel.nextItem != null &&
-                ((this.widget.giViewModel.nextItem.lastModificationDate) - now) < 0),
-            child:
-            CustomRaisedButton(
-
-                title: '${widget.buttonText}',
-                primaryColor: widget.overridePrimaryColor != null
-                      ? widget.overridePrimaryColor
-                      : this.widget.giViewModel.getPrimaryColor(),
-                onPressed: () {
-                  pressButton();
-                },
-
+            visible: widget.makeVisible ||
+                (this.widget.giViewModel.nextItem != null &&
+                    ((this.widget.giViewModel.nextItem?.lastModificationDate??0) -
+                            now) <
+                        0),
+            child: CustomRaisedButton(
+              title: '${widget.buttonText}',
+              primaryColor: widget.overridePrimaryColor != null
+                  ? widget.overridePrimaryColor
+                  : this.widget.giViewModel.getPrimaryColor(),
+              onPressed: () {
+                pressButton();
+              },
             ),
           );
         });
@@ -85,7 +79,7 @@ class _NextButtonState extends State<NextButton> {
 
   pressButton() {
     if (widget.overrideButtonPress != null) {
-      this.widget.overrideButtonPress();
+      this.widget.overrideButtonPress!();
     } else {
       if (!this.widget.giViewModel.continueToNextItem(context)) {
         new Future.delayed(const Duration(milliseconds: 200), () {

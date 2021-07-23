@@ -8,7 +8,7 @@ class AnswerList extends StatelessWidget {
   Function tapResponse;
   Function deleteReponse;
 
-  AnswerList({this.fromServer, this.tapResponse, this.deleteReponse});
+  AnswerList({required this.fromServer,required  this.tapResponse, required this.deleteReponse});
 
   @override
   Widget build(BuildContext context) {

@@ -28,7 +28,7 @@ Stream<dynamic> _searchGames(Stream<dynamic> actions, EpicStore<AppState> store)
     return (action.query.length <= 2)
         ? yieldEmpty(new LoadSearchedGameResultsAction(games: []))
         : yieldGameInfoAction(
-            action, StoreApi.search(action.query), store, new LoadSearchedGameResultsAction());
+            action, StoreApi.search(action.query), store, new LoadSearchedGameResultsAction(games: []));
   });
 }
 
@@ -41,7 +41,7 @@ Stream<dynamic> _loadOneFeaturedGames(Stream<dynamic> actions, EpicStore<AppStat
 Stream<dynamic> _loadFeaturedGames(Stream<dynamic> actions, EpicStore<AppState> store) {
   return actions.where((action) => action is LoadFeaturedGameAction).asyncExpand((action) {
     return yieldGameInfoAction(
-        action, StoreApi.featuredGames(), store, new LoadFeaturedGameResultsAction());
+        action, StoreApi.featuredGames(), store, new LoadFeaturedGameResultsAction(games: []));
   });
 }
 
@@ -49,7 +49,7 @@ Stream<dynamic> _loadFeaturedGames(Stream<dynamic> actions, EpicStore<AppState> 
 Stream<dynamic> _loadRecentGames(Stream<dynamic> actions, EpicStore<AppState> store) {
   return actions.where((action) => action is LoadRecentGamesAction).asyncExpand((action) {
     return yieldGameInfoAction(
-        action, StoreApi.recentGames(), store, new LoadRecentGameResultsAction());
+        action, StoreApi.recentGames(), store, new LoadRecentGameResultsAction(games: []));
   });
 
 
@@ -93,7 +93,7 @@ Stream<dynamic> _parseLinkAction(Stream<dynamic> actions, EpicStore<AppState> st
 Stream<dynamic> yieldLinkExpandRun(String link) async* {
   print("runId is ${link.substring(link.lastIndexOf('/run/') + 5).trim()}");
   int runId = int.parse(link.substring(link.lastIndexOf('/run/') + 5).trim());
-  yield ResetRunsAndGoToRunLandingPage();
+  yield ResetRunsAndGoToRunLandingPage(runId: runId);
   dynamic runwithgame = await RunsApi.runWithGame(runId);
   if (runwithgame != null) {
     Game game = Game.fromJson(runwithgame['game']);
