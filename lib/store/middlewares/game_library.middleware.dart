@@ -93,7 +93,7 @@ Stream<dynamic> _parseLinkAction(Stream<dynamic> actions, EpicStore<AppState> st
 Stream<dynamic> yieldLinkExpandRun(String link) async* {
   print("runId is ${link.substring(link.lastIndexOf('/run/') + 5).trim()}");
   int runId = int.parse(link.substring(link.lastIndexOf('/run/') + 5).trim());
-  yield ResetRunsAndGoToRunLandingPage();
+  yield ResetRunsAndGoToRunLandingPage(runId: runId);
   dynamic runwithgame = await RunsApi.runWithGame(runId);
   if (runwithgame != null) {
     Game game = Game.fromJson(runwithgame['game']);

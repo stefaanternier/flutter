@@ -29,7 +29,7 @@ Stream<dynamic> _addGame(Stream<dynamic> actions, EpicStore<AppState> store) {
 
 Stream<dynamic> _addGameFromLibrary(Stream<dynamic> actions, EpicStore<AppState> store) {
   return actions.where((action) => action is LoadPublicGameRequestAction)
-//      .distinct((action1, action2) => action1.gameId == action2.gameId)
+     // .distinct((action1, action2) => action1.gameId == action2.gameId)
       .asyncMap((action) async {
     dynamic game = await StoreApi.game(action.gameId);
     if (game is ApiResultError) {

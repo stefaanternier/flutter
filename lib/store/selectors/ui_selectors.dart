@@ -8,6 +8,8 @@ import 'package:youplay/store/selectors/current_run.selectors.dart';
 UiState uiState(AppState state) => state.uiState;
 
 PageType currentPageState(AppState state) => state.uiState.currentPage;
+int? currentPageIdState(AppState state) => state.uiState.pageId;
+int? currentItemIdState(AppState state) => state.uiState.currentItemId;
 //ItemUiState currentItemUiState(AppState state) => state.uiState.itemUiState;
 int currentTheme(AppState state) => state.uiState.theme;
 
@@ -30,5 +32,15 @@ final Selector<AppState, int> selectTheme =
 
 final Selector<AppState, PageType> currentPage =
     createSelector1(currentPageState, (PageType state) {
+  return state;
+});
+
+final Selector<AppState, int?> currentPageId =
+createSelector1(currentPageIdState, (int? state) {
+  return state;
+});
+
+final Selector<AppState, int?> currentItemIdSel =
+createSelector1(currentItemIdState, (int? state) {
   return state;
 });

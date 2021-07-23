@@ -3,7 +3,7 @@ import 'package:redux_epics/redux_epics.dart';
 import 'package:youplay/actions/actions.dart';
 import 'package:youplay/api/account.dart';
 import 'package:youplay/config/app_config.dart';
-import 'package:youplay/state/ui_state.dart';
+import 'package:youplay/store/state/ui_state.dart';
 import 'package:youplay/store/actions/auth.actions.dart';
 import 'package:youplay/store/actions/ui_actions.dart';
 import 'package:youplay/store/state/app_state.dart';
@@ -25,7 +25,7 @@ Stream<dynamic> _createAccount(
               email: action.email, password: action.password)
           .then((value) {
         return AccountApi.initNewAccount(action.email, action.displayName)
-            .then((value) => SetPage(PageType.login));
+            .then((value) => SetPage(page: PageType.login));
         // return CreateAccountResult();
       }).catchError((onError) => {print('todo erro ')}));
 }
@@ -34,7 +34,7 @@ Stream<dynamic> _resetPassord(
     Stream<ResetPassword> actions, EpicStore<AppState> store) {
   return actions.asyncMap((action) =>
       _auth.sendPasswordResetEmail(email: action.email).then((value) {
-        return SetPage(PageType.login);
+        return SetPage(page: PageType.login);
       }).catchError((onError) => {print('todo erro ')}));
 }
 

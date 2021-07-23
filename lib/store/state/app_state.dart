@@ -6,7 +6,7 @@ import 'package:youplay/state/library_state.dart';
 import 'package:youplay/store/state/run_state.dart';
 import 'dart:collection';
 
-import 'package:youplay/state/ui_state.dart';
+import 'package:youplay/store/state/ui_state.dart';
 import 'package:youplay/models/run.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:youplay/store/state/all_games_state.dart';
@@ -101,5 +101,20 @@ class AppState {
     };
 //     print(json);
     return json;
+  }
+
+  @override
+  bool operator == (dynamic other) {
+    AppState o = other as AppState;
+    return (this.themIdToTheme == other.themIdToTheme) &&
+        (this.allGamesState == other.allGamesState) &&
+        (this.currentGameState == other.currentGameState) &&
+        (this.currentRunState == other.currentRunState) &&
+        (this.gameLibrary == other.gameLibrary) &&
+        (this.gameIdToGameState == other.gameIdToGameState) &&
+        (this.gameIdToRun == other.gameIdToRun) &&
+        (this.participateGames == other.participateGames)&&
+        (this.authentication == other.authentication)&&
+        (this.uiState == other.uiState);
   }
 }
