@@ -11,27 +11,28 @@ import 'components/themed_app_bar.dart';
 class GeneralItemWidget extends StatelessWidget {
   GeneralItem item;
   GeneralItemViewModel giViewModel;
-  FloatingActionButton floatingActionButton;
+  FloatingActionButton? floatingActionButton;
   Widget body;
   bool renderBackground;
   bool padding;
   bool elevation;
 
   GeneralItemWidget(
-      {this.item,
-      this.giViewModel,
-      this.body,
-      this.floatingActionButton = null,
+      {required this.item,
+      required this.giViewModel,
+      required this.body,
+      this.floatingActionButton,
       this.renderBackground = true,
       this.padding = true,
       this.elevation = true});
 
-  String getBackground() {
+  String? getBackground() {
     if (item.fileReferences != null &&
-        item.fileReferences['background'] != null) {
-      return item.fileReferences['background'];
+        item.fileReferences!['background'] != null &&
+        item.fileReferences!['background'] != '') {
+      return item.fileReferences!['background'];
     }
-      return null;
+    return null;
   }
 
   @override
@@ -50,7 +51,8 @@ class GeneralItemWidget extends StatelessWidget {
                         : null)
                     : null,
                 decoration: renderBackground //&& item.fileReferences != null
-                    ? getBoxDecoration(getBackground()??themeModel.gameTheme.backgroundPath)
+                    ? getBoxDecoration(
+                        getBackground() ?? themeModel.gameTheme?.backgroundPath)
                     : null,
                 child: body,
               );

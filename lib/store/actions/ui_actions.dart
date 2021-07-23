@@ -1,11 +1,21 @@
-import 'package:youplay/state/ui_state.dart';
+import 'package:youplay/models/game.dart';
+import 'package:youplay/store/state/ui_state.dart';
 
 class ToggleMessageViewAction {
 
-  int gameId;
-  MessageView messageView;
-  ToggleMessageViewAction({this.gameId, this.messageView});
+  int? gameId;
+  MessageView? messageView;
+  Game game;
+  ToggleMessageViewAction({this.gameId, this.messageView, required this.game});
 }
+
+class SetMessageViewAction {
+
+  MessageView messageView;
+  SetMessageViewAction({required this.messageView});
+}
+
+
 
 //class ShowMapViewAction {
 //  int gameId;
@@ -21,14 +31,18 @@ class ToggleMessageViewAction {
 
 class SetPage {
   PageType page;
+  int? pageId;
+  int? itemId;
 
-  SetPage(this.page);
+  SetPage({
+    required this.page,
+    this.pageId,
+    this.itemId
+  });
 
   @override
-  bool operator ==(dynamic other) {
-    print("comparing ");
+  bool operator == (dynamic other) {
     if (other is! SetPage) return false;
-    print("comparing ${page == other.page}");
     return page == other.page;
   }
 }
@@ -38,5 +52,6 @@ class ResetRunsAndGoToLandingPage {
 }
 
 class ResetRunsAndGoToRunLandingPage {
-
+  int runId;
+  ResetRunsAndGoToRunLandingPage({required this.runId});
 }

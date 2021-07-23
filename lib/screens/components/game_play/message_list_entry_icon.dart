@@ -5,7 +5,7 @@ class MessageEntryIcon extends StatelessWidget {
   Color primaryColor;
   String icon;
 
-  MessageEntryIcon({this.primaryColor, this.icon});
+  MessageEntryIcon({required this.primaryColor, required  this.icon});
 
   @override
   Widget build(BuildContext context) {

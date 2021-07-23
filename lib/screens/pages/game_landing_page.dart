@@ -5,7 +5,8 @@ import 'package:youplay/screens/components/button/cust_raised_button.dart';
 import 'package:youplay/screens/components/login/login_screen.dart';
 import 'package:youplay/screens/components/login/login_with_demo_account_button.dart';
 import 'package:youplay/screens/util/extended_network_image.dart';
-import 'package:youplay/screens/util/navigation_drawer.dart';
+import 'package:youplay/ui/components/nav/navigation_drawer.container.dart';
+import 'package:youplay/ui/components/nav/navigation_drawer.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -29,7 +30,7 @@ class _GameLandingPageState extends State<GameLandingPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        drawer: ARLearnNavigationDrawer(),
+        drawer: ARLearnNavigationDrawerContainer(),
         appBar: new AppBar(
             centerTitle: true,
             title: new Text(AppLocalizations.of(context).translate('library.library'),
@@ -70,14 +71,14 @@ class _GameLandingPageState extends State<GameLandingPage> {
 //      return Text("loading game...");
     }
     if (!gameLandingPageModel.isAuth ||
-        (!gameLandingPageModel.game?.privateMode && gameLandingPageModel.isAnon)) {
+        (!(gameLandingPageModel.game?.privateMode??false) && gameLandingPageModel.isAnon)) {
       return _notAuthenticated(context, gameLandingPageModel);
     }
     return _isAuthenticated(context, gameLandingPageModel);
   }
 
   Widget _notAuthenticated(BuildContext context, GameLandingPageViewModel gameLandingPageModel) {
-    if (gameLandingPageModel.game?.privateMode) {
+    if (gameLandingPageModel.game?.privateMode??false) {
       // return _waitingroom(context, gameLandingPageModel);
       // if (!tapActivated) {
       //   gameLandingPageModel.tapPlayAnonymously();
@@ -85,7 +86,7 @@ class _GameLandingPageState extends State<GameLandingPage> {
       //     tapActivated = true;
       //   });
       // }
-      // return _notAuthenticatedPlayAnon(context, gameLandingPageModel);
+      return _notAuthenticatedPlayAnon(context, gameLandingPageModel);
     }
     print("private mode is ${gameLandingPageModel.game?.privateMode}");
     return _notAuthenticatedLoginNecessary(context, gameLandingPageModel);
@@ -180,7 +181,7 @@ class _GameLandingPageState extends State<GameLandingPage> {
 
   _isAuthenticated(BuildContext context, GameLandingPageViewModel gameLandingPageModel) {
     if (gameLandingPageModel.amountOfRuns == 0 ||
-        (gameLandingPageModel.game?.privateMode && gameLandingPageModel.isAnon)) {
+        ((gameLandingPageModel.game?.privateMode??false) && gameLandingPageModel.isAnon)) {
       return _firstPlay(context, gameLandingPageModel);
     }
     if (gameLandingPageModel.amountOfRuns == -1) {
@@ -273,7 +274,7 @@ class _GameLandingPageState extends State<GameLandingPage> {
           Visibility(
             visible: (gameLandingPageModel.game?.description.trim() == ""),
             child: Container(
-                child: Text("Laat ons snel aan slag gaan met `${gameLandingPageModel.game.title}`",
+                child: Text("Laat ons snel aan slag gaan met `${gameLandingPageModel.game?.title??''}`",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: const Color(0xFFA0ABB5),

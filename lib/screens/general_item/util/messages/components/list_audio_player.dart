@@ -13,7 +13,7 @@ format(Duration d) => d.inHours < 1
 class ListAudioPlayer extends StatefulWidget {
   Response response;
 
-  ListAudioPlayer({this.response});
+  ListAudioPlayer({required this.response});
 
   @override
   _PlayerState createState() => new _PlayerState();
@@ -22,7 +22,7 @@ class ListAudioPlayer extends StatefulWidget {
 class _PlayerState extends State<ListAudioPlayer> {
   double _position = 0;
   double _maxposition = 100;
-  AudioPlayer audioPlayer;
+  late AudioPlayer audioPlayer;
   AudioPlayerState status = AudioPlayerState.STOPPED;
 
   @override
@@ -56,6 +56,7 @@ class _PlayerState extends State<ListAudioPlayer> {
     // DateFormat.yMMMMd(Localizations.localeOf(context).languageCode);
     final DateTime thatTime =
     DateTime.fromMillisecondsSinceEpoch(widget.response.timestamp);
+    print('pos $_position  max $_maxposition');
     return new ExpansionTile(
       title: Text('Nieuwe opname', style: TextStyle(color: Colors.white)),
       subtitle: Text('${formatter.format(thatTime)} ',
@@ -66,13 +67,14 @@ class _PlayerState extends State<ListAudioPlayer> {
         new Column(
           children: [
 //        new Text("status $status"),
+
             SliderTheme(
                 data: SliderThemeData(
                     inactiveTrackColor: Colors.white.withOpacity(0.3),
                     thumbColor: Colors.white, thumbShape: RoundSliderThumbShape(enabledThumbRadius: 7)),
                 child: Slider(
                     activeColor: Colors.white,
-                    value: _position,
+                    value: min(_position, _maxposition),
                     max: _maxposition,
                     onChanged: (double val) {
                       audioPlayer.seek(Duration(milliseconds: val.floor()));

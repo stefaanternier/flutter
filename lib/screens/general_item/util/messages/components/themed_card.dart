@@ -16,14 +16,14 @@ class ThemedCard extends StatelessWidget {
   final String feedback;
   final Function buttonClick;
   GeneralItem item;
-  GeneralItemViewModel giViewModel;
+  GeneralItemViewModel? giViewModel;
 
   ThemedCard(
-      {this.primaryColor,
-      this.buttonText,
-      this.feedback,
-      this.buttonClick,
-      this.item,
+      {required this.primaryColor,
+      required this.buttonText,
+      required this.feedback,
+      required this.buttonClick,
+      required this.item,
       this.giViewModel});
 
   @override
@@ -38,7 +38,8 @@ class ThemedCard extends StatelessWidget {
               children: <Widget>[
                 Container(
                     padding: const EdgeInsets.all(25),
-                    child: Text("${feedback}", style: AppConfig().customTheme.cardTextStyle)),
+                    child: Text("${feedback}",
+                        style: AppConfig().customTheme!.cardTextStyle)),
                 Padding(
                   padding: EdgeInsets.fromLTRB(15, 0, 15, 12),
                   child: Visibility(
@@ -48,9 +49,10 @@ class ThemedCard extends StatelessWidget {
                         : NextButton(
                             buttonText: item.description != ""
                                 ? item.description
-                                : AppLocalizations.of(context).translate('screen.proceed'),
-                            overridePrimaryColor: giViewModel.getPrimaryColor(),
-                            giViewModel: giViewModel,
+                                : AppLocalizations.of(context)
+                                    .translate('screen.proceed'),
+                            overridePrimaryColor: giViewModel!.getPrimaryColor(),
+                            giViewModel: giViewModel!,
                           ),
                   ),
                 ),
@@ -61,10 +63,14 @@ class ThemedCard extends StatelessWidget {
                       FlatButton(
                         child: Text(
                           '${buttonText}',
-                          style: AppConfig().customTheme.nextButtonStyle,
+                          style: AppConfig().customTheme!.nextButtonStyle,
                         ),
-                        color: primaryColor != null ? primaryColor : themeModel.getPrimaryColor(),
-                        onPressed: this.buttonClick,
+                        color: primaryColor != null
+                            ? primaryColor
+                            : themeModel.getPrimaryColor(),
+                        onPressed: (){
+                          this.buttonClick();
+                        },
                       ),
                     ],
                   ),

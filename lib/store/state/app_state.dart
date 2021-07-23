@@ -6,7 +6,7 @@ import 'package:youplay/state/library_state.dart';
 import 'package:youplay/store/state/run_state.dart';
 import 'dart:collection';
 
-import 'package:youplay/state/ui_state.dart';
+import 'package:youplay/store/state/ui_state.dart';
 import 'package:youplay/models/run.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:youplay/store/state/all_games_state.dart';
@@ -26,53 +26,42 @@ class AppState {
   List<Game> participateGames; //deprecated
   AllGamesState allGamesState;
   UiState uiState;
-  FirebaseStorage storage;
 
 //  Library library;
   AuthenticationState authentication;
 
-  AppState({
-    this.themIdToTheme,
-    this.gameIdToRun,
-    this.gameIdToGameState,
-    this.currentGameState,
-    this.currentRunState,
-    this.gameLibrary,
-//    this.runIdToRunState,
-//    this.library,
-    this.authentication,
-    this.participateGames,
-    this.allGamesState,
-    this.uiState,
-    this.storage,
-  });
+  AppState(
+      {required this.themIdToTheme,
+      required this.gameIdToRun,
+      required this.gameIdToGameState,
+      required this.currentGameState,
+      required this.currentRunState,
+      required this.gameLibrary,
+      required this.authentication,
+      required this.participateGames,
+      required this.allGamesState,
+      required this.uiState});
 
-  factory AppState.demoState() => new AppState(
-        themIdToTheme: new HashMap<int, GameTheme>(),
-        gameIdToRun: new HashMap<int, List<Run>>(),
-        gameIdToGameState: new HashMap<int, GamesState>(),
-        currentGameState: new GamesState(),
-//        runIdToRunState: new HashMap<int, RunState>(),
-        participateGames: [],
-        allGamesState: AllGamesState(participateGames: []),
-        authentication: AuthenticationState.unauthenticated(),
-        uiState: UiState.initState(),
-        gameLibrary: new GameLibraryState(),
-      );
+  factory AppState.emptyState() => new AppState(
+    allGamesState: new AllGamesState(participateGames: []),
+    authentication: AuthenticationState.unauthenticated(),
+    themIdToTheme: new HashMap<int, GameTheme>(),
+    gameIdToRun: new HashMap<int, List<Run>>(),
+    gameIdToGameState: new HashMap<int, GamesState>(),
+    currentGameState: new GamesState(),
+    currentRunState: new RunState(),
+    gameLibrary: GameLibraryState(
+      partialFeaturedGames: [],
+      partialSearchedGames: [],
+      recentGames: [],
+      fullGames: new HashMap(),
+    ),
+    participateGames: [],
+    uiState: UiState.initState(),
+  );
 
   static AppState fromJson(dynamic json) {
-    dynamic state = AppState(
-      authentication: AuthenticationState.unauthenticated(),
-      themIdToTheme: new HashMap<int, GameTheme>(),
-//      authentication: AuthenticationState.fromJson(json["authentication"]),
-      gameIdToRun: new HashMap<int, List<Run>>(),
-      gameIdToGameState: new HashMap<int, GamesState>(),
-      currentGameState: new GamesState(),
-//      runIdToRunState: new HashMap<int, RunState>(),
-      participateGames: [],
-      uiState: UiState.initState(),
-    );
-
+    AppState state = AppState.emptyState();
     (json["participateGames"] as List)
         .forEach((js) => state.participateGames..add(Game.fromJson(js)));
 
@@ -90,9 +79,14 @@ class AppState {
 
   dynamic toJson() {
 //    print("serializing appstate");
-    dynamic test = this.participateGames.map((game) => game.toJson()).toList(growable: false);
+    dynamic test = this
+        .participateGames
+        .map((game) => game.toJson())
+        .toList(growable: false);
     dynamic gStates = {};
-    this.gameIdToGameState.forEach((gameId, state) => gStates["${gameId}"] = state.toJson());
+    this
+        .gameIdToGameState
+        .forEach((gameId, state) => gStates["${gameId}"] = state.toJson());
 //    dynamic rStates = {};
 //    this
 //        .runIdToRunState
@@ -107,5 +101,20 @@ class AppState {
     };
 //     print(json);
     return json;
+  }
+
+  @override
+  bool operator == (dynamic other) {
+    AppState o = other as AppState;
+    return (this.themIdToTheme == other.themIdToTheme) &&
+        (this.allGamesState == other.allGamesState) &&
+        (this.currentGameState == other.currentGameState) &&
+        (this.currentRunState == other.currentRunState) &&
+        (this.gameLibrary == other.gameLibrary) &&
+        (this.gameIdToGameState == other.gameIdToGameState) &&
+        (this.gameIdToRun == other.gameIdToRun) &&
+        (this.participateGames == other.participateGames)&&
+        (this.authentication == other.authentication)&&
+        (this.uiState == other.uiState);
   }
 }

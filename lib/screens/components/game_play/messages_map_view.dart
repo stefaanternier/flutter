@@ -14,13 +14,13 @@ import 'package:youplay/store/state/app_state.dart';
 
 class MessagesMapView extends StatefulWidget {
   List<ItemTimes> items = [];
-  Function tapEntry;
-  Game game;
-  MessagesMapView({this.game, this.items, this.tapEntry})
+  Function(GeneralItem) tapEntry;
+  Game? game;
+  MessagesMapView({this.game,required  this.items, required  this.tapEntry})
       : _kInitialPosition = CameraPosition(
-          target: (game == null || game.lat == null)
+          target: (game == null || game.lat == null || game.lng == null)
               ? LatLng(50.886959, 5.973426)
-              : LatLng(game.lat, game.lng),
+              : LatLng(game.lat!, game.lng!),
           zoom: 14.0,
         );
 
@@ -34,11 +34,11 @@ class MessagesMapView extends StatefulWidget {
 }
 
 class _MessagesMapViewState extends State<MessagesMapView> {
-  StreamSubscription<LocationData> _locationChangedSubscription;
+  StreamSubscription<LocationData>? _locationChangedSubscription;
 
   Completer<GoogleMapController> _controller = Completer();
 
-  LocationData _locationData;
+  LocationData? _locationData;
 
   @override
   void initState() {
@@ -66,15 +66,15 @@ class _MessagesMapViewState extends State<MessagesMapView> {
       }
     }
     LocationData locationData = await location.getLocation();
-    if (locationData != null) {
+    if (locationData != null && locationData.latitude!=null&& locationData.longitude!=null) {
       controller.animateCamera(CameraUpdate.newLatLngZoom(
-          LatLng(locationData.latitude, locationData.longitude), 17));
+          LatLng(locationData.latitude!, locationData.longitude!), 17));
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    LocationData data = LocationContext.of(context).lastLocation;
+    LocationData? data = LocationContext.of(context)?.lastLocation;
     // print("data is ${data.latitude}");
     List<Marker> markers = [];
     widget.items
@@ -84,7 +84,7 @@ class _MessagesMapViewState extends State<MessagesMapView> {
         .forEach((item) {
       if (item.generalItem.lat != null) {
         markers.add(buildMarker(item.generalItem, () {
-          widget.tapEntry(context, item.generalItem);
+          widget.tapEntry(item.generalItem);
         }));
       }
     });
@@ -109,7 +109,7 @@ class _MessagesMapViewState extends State<MessagesMapView> {
   Marker buildMarker(GeneralItem generalItem, Function onTap) {
     return Marker(
       markerId: MarkerId("${generalItem.itemId}"),
-      position: LatLng(generalItem.lat, generalItem.lng),
+      position: LatLng(generalItem.lat??50, generalItem.lng??6),
       infoWindow: InfoWindow(
           title: "${generalItem.title}",
 //              snippet: '*',

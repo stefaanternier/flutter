@@ -1,6 +1,5 @@
 import 'dart:collection';
 
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:youplay/models/general_item/audio_question.dart';
 import 'package:youplay/models/general_item/multiple_choice_image.dart';
 import 'package:youplay/models/general_item/open_question.dart';
@@ -39,9 +38,12 @@ enum ItemType {
 class ItemTimes {
   GeneralItem generalItem;
   int appearTime;
-  int disappearTime;
+  int? disappearTime;
 
-  ItemTimes({this.generalItem, this.appearTime, this.disappearTime});
+  ItemTimes(
+      {required this.generalItem,
+      required this.appearTime,
+      this.disappearTime});
 }
 
 class GeneralItemsVisibility {
@@ -50,7 +52,11 @@ class GeneralItemsVisibility {
   int timeStamp;
   int status; //1==visible, 2==invisible
 
-  GeneralItemsVisibility({this.runId, this.generalItemId, this.timeStamp, this.status});
+  GeneralItemsVisibility(
+      {required this.runId,
+      required this.generalItemId,
+      required this.timeStamp,
+      required this.status});
 
   GeneralItemsVisibility.fromJson(Map json)
       : runId = int.parse("${json['runId']}"),
@@ -69,36 +75,44 @@ class GeneralItem {
   String title;
   String richText;
   String description;
-  String icon;
-  Dependency dependsOn;
-  Dependency disappearOn;
-  Map<String, String> fileReferences;
-  double lng;
-  double lat;
+  String? icon;
+  Dependency? dependsOn;
+  Dependency? disappearOn;
+  Map<String, String>? fileReferences;
+  double? lng;
+  double? lat;
+  double? authoringX;
+  double? authoringY;
+  double? relX;
+  double? relY;
   bool showOnMap;
   bool showInList;
-  OpenQuestion openQuestion;
-  Color primaryColor;
+  OpenQuestion? openQuestion;
+  Color? primaryColor;
 
   GeneralItem(
-      {this.type,
-      this.gameId,
+      {required this.type,
+      required this.gameId,
       this.deleted = false,
-      this.lastModificationDate,
-      this.itemId,
-      this.sortKey,
-      this.title,
-      this.richText,
-      this.description,
+      required this.lastModificationDate,
+      required this.itemId,
+      required this.sortKey,
+      required this.title,
+      required this.richText,
+      required this.description,
       this.dependsOn,
       this.disappearOn,
       this.fileReferences,
       this.primaryColor,
       this.lat,
       this.lng,
-        this.icon,
-      this.showOnMap,
-      this.showInList,
+      this.authoringX,
+      this.authoringY,
+      this.relX,
+      this.relY,
+      this.icon,
+      required this.showOnMap,
+      required this.showInList,
       this.openQuestion});
 
   factory GeneralItem.fromJson(Map json) {
@@ -118,7 +132,7 @@ class GeneralItem {
         return VideoObjectGeneralItem.fromJson(json);
       case ItemType.combinationlock:
         return CombinationLockGeneralItem.fromJson(json);
-        case ItemType.singlechoice:
+      case ItemType.singlechoice:
         return SingleChoiceGeneralItem.fromJson(json);
       case ItemType.multiplechoice:
         return MultipleChoiceGeneralItem.fromJson(json);
@@ -156,9 +170,12 @@ class GeneralItem {
   }
 
   static parseType(String type) {
-    if (type == 'org.celstec.arlearn2.beans.generalItem.AudioObject') return ItemType.audio;
-    if (type == 'org.celstec.arlearn2.beans.generalItem.VideoObject') return ItemType.video;
-    if (type == 'org.celstec.arlearn2.beans.generalItem.ScanTag') return ItemType.scanTag;
+    if (type == 'org.celstec.arlearn2.beans.generalItem.AudioObject')
+      return ItemType.audio;
+    if (type == 'org.celstec.arlearn2.beans.generalItem.VideoObject')
+      return ItemType.video;
+    if (type == 'org.celstec.arlearn2.beans.generalItem.ScanTag')
+      return ItemType.scanTag;
     if (type == 'org.celstec.arlearn2.beans.generalItem.CombinationLock')
       return ItemType.combinationlock;
     if (type == 'org.celstec.arlearn2.beans.generalItem.SingleChoiceTest')
@@ -167,7 +184,8 @@ class GeneralItem {
       return ItemType.multiplechoice;
     if (type == 'org.celstec.arlearn2.beans.generalItem.SingleChoiceImageTest')
       return ItemType.singlechoiceimage;
-    if (type == 'org.celstec.arlearn2.beans.generalItem.MultipleChoiceImageTest')
+    if (type ==
+        'org.celstec.arlearn2.beans.generalItem.MultipleChoiceImageTest')
       return ItemType.multiplechoiceimage;
     if (type == 'org.celstec.arlearn2.beans.generalItem.PictureQuestion')
       return ItemType.picturequestion;
@@ -188,16 +206,16 @@ class GeneralItem {
 
   int visibleAt(HashMap<String, ARLearnAction> actions) {
     if (dependsOn == null) return 0;
-    return dependsOn.evaluate(actions);
+    return dependsOn!.evaluate(actions);
   }
 
   int disapperAt(HashMap<String, ARLearnAction> actions) {
     if (disappearOn == null) return -1;
-    return disappearOn.evaluate(actions);
+    return disappearOn!.evaluate(actions);
   }
 
   String getIcon() {
-     return icon ?? 'fa.walking';
+    return icon ?? 'fa.walking';
   }
 
   bool get isSupported {
@@ -210,7 +228,7 @@ class LocationTrigger {
   double lng;
   int radius;
 
-  LocationTrigger({this.lat, this.lng, this.radius});
+  LocationTrigger({required this.lat, required this.lng, required this.radius});
 }
 
 //

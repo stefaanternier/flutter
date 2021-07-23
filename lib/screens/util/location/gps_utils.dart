@@ -9,12 +9,12 @@ class GpsUtils {
 
   static double distance(double lat1, double lon1, double lat2, double lon2,
       int unit) {
-    if (lat1 == null || lat2 == null) {
-      return null;
-    }
-    if (lon1 == null || lon2 == null) {
-      return null;
-    }
+    // if (lat1 == null || lat2 == null) {
+    //   return null;
+    // }
+    // if (lon1 == null || lon2 == null) {
+    //   return null;
+    // }
     double theta = lon1 - lon2;
     double dist = sin(deg2rad(lat1)) * sin(deg2rad(lat2))
         + cos(deg2rad(lat1)) * cos(deg2rad(lat2))

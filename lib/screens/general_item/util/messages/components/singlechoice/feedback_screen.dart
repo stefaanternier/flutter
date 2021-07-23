@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:youplay/config/app_config.dart';
 import 'package:youplay/models/general_item.dart';
 import 'package:youplay/screens/general_item/util/messages/components/themed_container.dart';
 
@@ -11,18 +12,18 @@ class FeedbackScreen extends StatelessWidget {
   String buttonText; //correct or
   GeneralItem item;
   String feedback;
-  Color overridePrimaryColor;
+  Color? overridePrimaryColor;
   Function buttonClick;
-  GeneralItemViewModel giViewModel;
+  GeneralItemViewModel? giViewModel;
 
   FeedbackScreen(
-      {this.result,
-      this.buttonText,
-      this.item,
-      this.feedback,
+      {required this.result,
+        required this.buttonText,
+        required this.item,
+        required this.feedback,
       this.overridePrimaryColor,
-      this.buttonClick,
-      this.giViewModel});
+        required this.buttonClick,
+         this.giViewModel});
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +43,7 @@ class FeedbackScreen extends StatelessWidget {
                     child: Padding(
                         padding: EdgeInsets.fromLTRB(30, 0, 30, 10),
                         child: ThemedCard(
-                            primaryColor: overridePrimaryColor,
+                            primaryColor: overridePrimaryColor ?? AppConfig().themeData!.primaryColor,
                             buttonText: buttonText,
                             buttonClick: buttonClick,
                             feedback: feedback,

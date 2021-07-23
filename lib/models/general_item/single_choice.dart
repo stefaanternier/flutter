@@ -10,25 +10,25 @@ class SingleChoiceGeneralItem extends GeneralItem {
   String text;
 
   SingleChoiceGeneralItem({
-    int gameId,
-    int itemId,
-    bool deleted,
-    int lastModificationDate,
-    int sortKey,
-    String title,
-    this.text,
-    this.showFeedback,
-    String richText,
-    String description,
-    this.answers,
-    Dependency dependsOn,
-    Dependency disappearOn,
-    Color primaryColor,
-    Map<String, String> fileReferences,
-    double lat,
-    double lng,
-    bool showOnMap,
-    bool showInList,
+    required int gameId,
+    required int itemId,
+    required bool deleted,
+    required int lastModificationDate,
+    required int sortKey,
+    required String title,
+    required this.text,
+    required this.showFeedback,
+    required String richText,
+    required String description,
+    required this.answers,
+    Dependency? dependsOn,
+    Dependency? disappearOn,
+    Color? primaryColor,
+    Map<String, String>? fileReferences,
+     double? lat,
+     double? lng,
+    required bool showOnMap,
+    required bool showInList,
   }) : super(
             type: ItemType.singlechoice,
             gameId: gameId,
@@ -54,27 +54,35 @@ class SingleChoiceGeneralItem extends GeneralItem {
         itemId: int.parse(json['id']),
         deleted: json['deleted'],
         lastModificationDate: int.parse(json['lastModificationDate']),
-        sortKey: json['sortKey'],
+        sortKey: json['sortKey']??0,
         title: json['name'],
-        text: json['text'],
-        showFeedback: json['showFeedback'] == null ? false : json['showFeedback'],
-        richText: json['richText'],
+        text: json['text']??'',
+        showFeedback:
+            json['showFeedback'] == null ? false : json['showFeedback'],
+        richText: json['richText']??'',
         description: (json['description'] ?? "").trim(),
         answers: json['answers'] == null
             ? []
-            : List<ChoiceAnswer>.generate(
-                json['answers'].length, (i) => ChoiceAnswer.fromJson(json['answers'][i])),
-        showOnMap: json['showOnMap'],
+            : List<ChoiceAnswer>.generate(json['answers'].length,
+                (i) => ChoiceAnswer.fromJson(json['answers'][i])),
+        showOnMap: json['showOnMap']??false,
         showInList: json['showInList'] == null ? true : json['showInList'],
-        lat: json['lat'] != null ? json['lat'] : null,
-        lng: json['lng'] != null ? json['lng'] : null,
+        lat: json['lat'],
+        lng: json['lng'],
         fileReferences: json['fileReferences'] != null
             ? new Map.fromIterable(json["fileReferences"],
-                key: (item) => item['key'], value: (item) => item['fileReference'])
+                key: (item) => item['key'],
+                value: (item) => item['fileReference']??'')
             : null,
-        primaryColor: json['primaryColor'] != null ? colorFromHex(json['primaryColor']) : null,
-        dependsOn: json['dependsOn'] != null ? Dependency.fromJson(json['dependsOn']) : null,
-        disappearOn: json['disappearOn'] != null ? Dependency.fromJson(json['disappearOn']) : null);
+        primaryColor: json['primaryColor'] != null
+            ? colorFromHex(json['primaryColor'])
+            : null,
+        dependsOn: json['dependsOn'] != null
+            ? Dependency.fromJson(json['dependsOn'])
+            : null,
+        disappearOn: json['disappearOn'] != null
+            ? Dependency.fromJson(json['disappearOn'])
+            : null);
     return returnItem;
   }
 
@@ -89,25 +97,25 @@ class MultipleChoiceGeneralItem extends GeneralItem {
   bool showFeedback;
 
   MultipleChoiceGeneralItem({
-    int gameId,
-    int itemId,
-    bool deleted,
-    int lastModificationDate,
-    int sortKey,
-    String title,
-    String richText,
-    String description,
-    this.text,
-    this.answers,
-    this.showFeedback,
-    Dependency dependsOn,
-    Dependency disappearOn,
-    Map<String, String> fileReferences,
-    Color primaryColor,
-    double lat,
-    double lng,
-    bool showOnMap,
-    bool showInList,
+    required int gameId,
+    required int itemId,
+    required bool deleted,
+    required int lastModificationDate,
+    required int sortKey,
+    required String title,
+    required String richText,
+    required String description,
+    required this.text,
+    required this.answers,
+    required this.showFeedback,
+    Dependency? dependsOn,
+    Dependency? disappearOn,
+    Map<String, String>? fileReferences,
+    Color? primaryColor,
+     double? lat,
+     double? lng,
+    required bool showOnMap,
+    required bool showInList,
   }) : super(
             type: ItemType.multiplechoice,
             gameId: gameId,
@@ -133,27 +141,35 @@ class MultipleChoiceGeneralItem extends GeneralItem {
         itemId: int.parse(json['id']),
         deleted: json['deleted'],
         lastModificationDate: int.parse(json['lastModificationDate']),
-        sortKey: json['sortKey'],
+        sortKey: json['sortKey']??0,
         title: json['name'],
-        text: json['text'],
-        richText: json['richText'],
+        text: json['text']??'',
+        richText: json['richText']??'',
         description: (json['description'] ?? "").trim(),
-        showFeedback: json['showFeedback'] == null ? false : json['showFeedback'],
+        showFeedback:
+            json['showFeedback'] == null ? false : json['showFeedback'],
         answers: json['answers'] == null
             ? []
-            : List<ChoiceAnswer>.generate(
-                json['answers'].length, (i) => ChoiceAnswer.fromJson(json['answers'][i])),
-        showOnMap: json['showOnMap'],
+            : List<ChoiceAnswer>.generate(json['answers'].length,
+                (i) => ChoiceAnswer.fromJson(json['answers'][i])),
+        showOnMap: json['showOnMap']??false,
         showInList: json['showInList'] == null ? true : json['showInList'],
-        lat: json['lat'] != null ? json['lat'] : null,
-        lng: json['lng'] != null ? json['lng'] : null,
+        lat: json['lat'],
+        lng: json['lng'],
         fileReferences: json['fileReferences'] != null
             ? new Map.fromIterable(json["fileReferences"],
-                key: (item) => item['key'], value: (item) => item['fileReference'])
+                key: (item) => item['key'],
+                value: (item) => item['fileReference']?? '')
             : null,
-        primaryColor: json['primaryColor'] != null ? colorFromHex(json['primaryColor']) : null,
-        dependsOn: json['dependsOn'] != null ? Dependency.fromJson(json['dependsOn']) : null,
-        disappearOn: json['disappearOn'] != null ? Dependency.fromJson(json['disappearOn']) : null);
+        primaryColor: json['primaryColor'] != null
+            ? colorFromHex(json['primaryColor'])
+            : null,
+        dependsOn: json['dependsOn'] != null
+            ? Dependency.fromJson(json['dependsOn'])
+            : null,
+        disappearOn: json['disappearOn'] != null
+            ? Dependency.fromJson(json['disappearOn'])
+            : null);
     return returnItem;
   }
 
@@ -168,7 +184,11 @@ class ChoiceAnswer {
   String feedback;
   String id;
 
-  ChoiceAnswer({this.isCorrect, this.answer, this.id, this.feedback});
+  ChoiceAnswer(
+      {required this.isCorrect,
+      required this.answer,
+      required this.id,
+      required this.feedback});
 
   ChoiceAnswer.fromJson(Map json)
       : isCorrect = json['isCorrect'],

@@ -5,7 +5,8 @@ class AllGamesState {
   List<int> participateGames = [];
   HashMap<int, Game> idToGame = new HashMap<int, Game>();
 
-  AllGamesState({this.participateGames, idToGame}):
+  AllGamesState({
+    required this.participateGames, idToGame}):
   this.idToGame = idToGame ??  new HashMap<int, Game>()
   ;
 

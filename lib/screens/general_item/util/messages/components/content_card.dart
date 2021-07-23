@@ -5,16 +5,16 @@ import 'package:youplay/models/general_item.dart';
 import '../../../general_item.dart';
 
 class ContentCard extends StatelessWidget {
-  GeneralItem item;
+
 
   // GeneralItemViewModel giViewModel;
-  Widget content;
-  Widget button;
+  Widget? content;
+  Widget? button;
   bool showOnlyButton;
   GeneralItemViewModel giViewModel;
 
   ContentCard(
-      {this.item, this.content, this.button, this.showOnlyButton = false, this.giViewModel});
+      { this.content, this.button, this.showOnlyButton = false, required this.giViewModel});
 
   @override
   Widget build(BuildContext context) {
@@ -59,14 +59,14 @@ class ContentCard extends StatelessWidget {
         visible: button != null,
         child: Padding(
           padding: const EdgeInsets.fromLTRB(25, 0, 25, 25),
-          child: Column(children: [button]),
+          child: Column(children: button == null? []:[button!]),
         ),
       )
     ];
   }
 
   getContent(BuildContext context) {
-    print("hallos 2");
+
     if (this.content == null) return Container();
     return this.content;
   }

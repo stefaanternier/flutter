@@ -37,10 +37,10 @@ class CameraApp extends StatefulWidget {
   @override
   _CameraAppState createState() => _CameraAppState();
 }
-List<CameraDescription> cameras;
+List<CameraDescription> cameras = [];
 
 class _CameraAppState extends State<CameraApp> {
-  CameraController controller;
+  late CameraController controller;
 
   @override
   void initState() async {

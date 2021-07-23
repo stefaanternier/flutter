@@ -15,22 +15,23 @@ class LoginScreen extends StatefulWidget {
   String lang;
   Function onSuccess;
 
-  LoginScreen({this.lang, this.onSuccess});
+  LoginScreen({required this.lang, required this.onSuccess});
 
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  TextEditingController emailController;
-  TextEditingController passwdController;
+  late TextEditingController emailController;
+  late TextEditingController passwdController;
 
   @override
   void initState() {
-    emailController =
-        TextEditingController(text: AppConfig().loginConfig[widget.lang].defaultLoginName??'');
-    passwdController =
-        TextEditingController(text: AppConfig().loginConfig[widget.lang].defaultLoginPassword??'');
+    emailController = TextEditingController(
+        text: AppConfig().loginConfig![widget.lang].defaultLoginName ?? '');
+    passwdController = TextEditingController(
+        text:
+            AppConfig().loginConfig![widget.lang].defaultLoginPassword ?? '');
   }
 
   @override
@@ -44,17 +45,21 @@ class _LoginScreenState extends State<LoginScreen> {
           children: <Widget>[
             new TextFormField(
                 controller: emailController,
-                keyboardType: TextInputType.emailAddress, // Use email input type for emails.
+                keyboardType: TextInputType.emailAddress,
+                // Use email input type for emails.
                 decoration: new InputDecoration(
                     hintText: 'you@example.com',
-                    labelText: AppLocalizations.of(context).translate('login.emailAddress'))),
+                    labelText: AppLocalizations.of(context)
+                        .translate('login.emailAddress'))),
             SizedBox(height: 20),
             new TextFormField(
                 controller: passwdController,
                 obscureText: true, // Use secure text for passwords.
                 decoration: new InputDecoration(
-                    hintText: AppLocalizations.of(context).translate('login.password'),
-                    labelText: AppLocalizations.of(context).translate('login.password'))),
+                    hintText: AppLocalizations.of(context)
+                        .translate('login.password'),
+                    labelText: AppLocalizations.of(context)
+                        .translate('login.password'))),
             SizedBox(height: 20),
             new StoreConnector<AppState, dynamic>(
                 distinct: true,
@@ -68,14 +73,16 @@ class _LoginScreenState extends State<LoginScreen> {
                             user: emailController.text,
                             password: passwdController.text,
                             onError: () {
-                              final snackBar = SnackBar(content: Text("Error while login"));
+                              final snackBar =
+                                  SnackBar(content: Text("Error while login"));
 
                               Scaffold.of(context).showSnackBar(snackBar);
                               print("show snackbar?");
                             },
                             onWrongCredentials: () {
-                              final snackBar =
-                                  SnackBar(content: Text("Fout! Wachtwoord of email incorrect"));
+                              final snackBar = SnackBar(
+                                  content: Text(
+                                      "Fout! Wachtwoord of email incorrect"));
 
                               Scaffold.of(context).showSnackBar(snackBar);
                             },
@@ -89,13 +96,15 @@ class _LoginScreenState extends State<LoginScreen> {
                 distinct: true,
                 converter: (store) => store,
                 builder: (context, store) => CustomFlatButton(
-                      title: AppLocalizations.of(context).translate('login.loginWithGoogle'),
+                      title: AppLocalizations.of(context)
+                          .translate('login.loginWithGoogle'),
                       icon: FontAwesomeIcons.google,
                       onPressed: () {
                         store.dispatch(GoogleLoginAction(onSucces: () {
                           widget.onSuccess();
                         }, onError: () {
-                          final snackBar = SnackBar(content: Text("Inloggen werd afgebroken"));
+                          final snackBar = SnackBar(
+                              content: Text("Inloggen werd afgebroken"));
 
                           Scaffold.of(context).showSnackBar(snackBar);
                         }));
@@ -107,7 +116,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     distinct: true,
                     converter: (store) => store,
                     builder: (context, store) => CustomFlatButton(
-                          title: AppLocalizations.of(context).translate('login.loginWithApple'),
+                          title: AppLocalizations.of(context)
+                              .translate('login.loginWithApple'),
                           icon: FontAwesomeIcons.apple,
                           onPressed: () {
                             store.dispatch(AppleLoginAction(onSucces: () {

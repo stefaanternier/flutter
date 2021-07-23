@@ -20,7 +20,7 @@ class PictureFilePreviewContainer extends StatelessWidget {
   GeneralItemViewModel giViewModel;
 
   PictureFilePreviewContainer(
-      {this.imagePath, this.giViewModel, this.run, this.generalItem, this.finished});
+      {required this.imagePath, required this.giViewModel,required  this.run, required this.generalItem, required this.finished});
 
   @override
   Widget build(BuildContext context) {
@@ -41,22 +41,26 @@ class PictureFilePreviewContainer extends StatelessWidget {
 class _ViewModel {
   final Function submitPicture;
 
-  _ViewModel({this.submitPicture});
+  _ViewModel({required this.submitPicture});
 
   static _ViewModel fromStore(Store<AppState> store, Run run, GeneralItem item,
       String path, Function finished) {
     return _ViewModel(
       submitPicture: (String text) {
-        store.dispatch(LocalAction(
-          action: "answer_given",
-          generalItemId: item.itemId,
-          runId: run.runId,
-        ));
-        store.dispatch(PictureResponseAction(
-            pictureResponse:
-                PictureResponse(item: item, path: path, run: run, text: text)));
-        store.dispatch(SyncFileResponse(runId: run.runId));
-        finished();
+        if (run.runId!=null) {
+          store.dispatch(LocalAction(
+            action: "answer_given",
+            generalItemId: item.itemId,
+            runId: run.runId!,
+          ));
+          store.dispatch(PictureResponseAction(
+              pictureResponse:
+              PictureResponse(item: item, path: path, run: run, text: text)));
+          store.dispatch(SyncFileResponse(runId: run.runId!));
+          finished();
+        }
+
+
       },
     );
   }

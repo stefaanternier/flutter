@@ -1,7 +1,7 @@
 //import 'package:youplay/actions/actions.dart';
 import 'package:youplay/selectors/authentication_selectors.dart';
 import 'package:youplay/store/state/app_state.dart';
-import 'package:youplay/state/ui_state.dart';
+import 'package:youplay/store/state/ui_state.dart';
 import 'package:flutter/material.dart';
 import 'package:redux/redux.dart';
 import 'package:youplay/store/actions/auth.actions.dart';
@@ -22,16 +22,16 @@ class LoginPageViewModel {
 //  final Store<AppState> store;
 
   LoginPageViewModel(
-      {this.authenticated,
-        this.tapGoogleLogin,
-        this.tapTwitterLogin,
-        this.tapFacebookLogin,
-        this.tapAppleLogin,
-        this.tapAnonymousLogin,
-        this.tapCustomLogin,
-        this.resetPassword,
-        this.tapCreateAccount,
-        this.loadMyGames});
+      {required this.authenticated,
+        required  this.tapGoogleLogin,
+        required this.tapTwitterLogin,
+        required this.tapFacebookLogin,
+        required this.tapAppleLogin,
+        required this.tapAnonymousLogin,
+        required this.tapCustomLogin,
+        required this.resetPassword,
+        required this.tapCreateAccount,
+        required this.loadMyGames});
 
   static LoginPageViewModel fromStore(Store<AppState> store, BuildContext context) {
     return LoginPageViewModel(
@@ -42,11 +42,12 @@ class LoginPageViewModel {
 
           Scaffold.of(context).showSnackBar(snackBar);
           print("show snackbar 2?");
-        }));
+        },
+        onSucces: (){}));
       },
       tapCreateAccount: () {
         print('in viewmodel');
-        store.dispatch(new SetPage(PageType.makeAccount));
+        store.dispatch(new SetPage(page: PageType.makeAccount));
       },
       tapTwitterLogin: () {
         store.dispatch(TwitterLoginAction());
@@ -60,7 +61,8 @@ class LoginPageViewModel {
           onError: (e) {
             final snackBar = SnackBar(content: Text(e));
             Scaffold.of(context).showSnackBar(snackBar);
-          }
+          },
+            onSucces: (){}
         ));
       },
       tapFacebookLogin: () {
@@ -70,6 +72,7 @@ class LoginPageViewModel {
         store.dispatch(CustomAccountLoginAction(
           user: email.trim(),
           password: password.trim(),
+          onSucces: (){},
           onError: () {
             final snackBar = SnackBar(content: Text("Error while login"));
 
@@ -87,7 +90,7 @@ class LoginPageViewModel {
         store.dispatch(ResetPassword(email: email));
       },
       loadMyGames: () {
-        store.dispatch(new SetPage(PageType.myGames));
+        store.dispatch(new SetPage(page: PageType.myGames));
       },
     );
   }

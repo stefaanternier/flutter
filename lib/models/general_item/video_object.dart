@@ -7,22 +7,22 @@ import '../game.dart';
 
 class VideoObjectGeneralItem extends GeneralItem {
   VideoObjectGeneralItem({
-    int gameId,
-    int itemId,
-    bool deleted,
-    int lastModificationDate,
-    int sortKey,
-    String title,
-    String richText,
-    String description,
-    double lat,
-    double lng,
-    bool showOnMap,
-    bool showInList,
-    Dependency dependsOn,
-    Dependency disappearOn,
-    Map<String, String> fileReferences,
-    Color primaryColor,
+    required int gameId,
+    required int itemId,
+    required bool deleted,
+    required int lastModificationDate,
+    required int sortKey,
+    required String title,
+    required String richText,
+    required String description,
+     double? lat,
+     double? lng,
+    required bool showOnMap,
+    required bool showInList,
+    Dependency? dependsOn,
+    Dependency? disappearOn,
+    Map<String, String>? fileReferences,
+    Color? primaryColor,
   }) : super(
             type: ItemType.video,
             gameId: gameId,
@@ -37,42 +37,44 @@ class VideoObjectGeneralItem extends GeneralItem {
             primaryColor: primaryColor,
             lat: lat,
             lng: lng,
-      showOnMap: showOnMap,
-      showInList:showInList,
+            showOnMap: showOnMap,
+            showInList: showInList,
             disappearOn: disappearOn,
             dependsOn: dependsOn);
 
   factory VideoObjectGeneralItem.fromJson(Map json) {
-    var returnItem = VideoObjectGeneralItem(
+    VideoObjectGeneralItem returnItem = VideoObjectGeneralItem(
         gameId: int.parse(json['gameId']),
         itemId: int.parse(json['id']),
         deleted: json['deleted'],
         lastModificationDate: int.parse(json['lastModificationDate']),
-        sortKey: json['sortKey'],
+        sortKey: json['sortKey']??0,
         title: json['name'],
-        richText: json['richText'],
+        richText: json['richText']??'',
         description: (json['description'] ?? "").trim(),
-        showOnMap: json['showOnMap'],
-        showInList: json['showInList'] == null? true: json['showInList'],
+        showOnMap: json['showOnMap']??false,
+        showInList: json['showInList'] == null ? true : json['showInList'],
         fileReferences: json['fileReferences'] != null
             ? new Map.fromIterable(json["fileReferences"],
                 key: (item) => item['key'],
-                value: (item) => item['fileReference'])
+                value: (item) => item['fileReference']?? '')
             : {},
         primaryColor: json['primaryColor'] != null
             ? colorFromHex(json['primaryColor'])
             : null,
-        lat: json['lat'] != null ? json['lat'] : null,
-        lng: json['lng'] != null ? json['lng'] : null,
+        lat: json['lat'] ,
+        lng: json['lng'] ,
         dependsOn: json['dependsOn'] != null
             ? Dependency.fromJson(json['dependsOn'])
             : null,
         disappearOn: json['disappearOn'] != null
             ? Dependency.fromJson(json['disappearOn'])
             : null);
-    if (returnItem.fileReferences['video'] == null) {
-      returnItem.fileReferences['video'] =
-          '/game/${returnItem.gameId}/generalItems/${returnItem.itemId}/video.mp4';
+    if (returnItem.fileReferences != null) {
+      if (returnItem.fileReferences!['video'] == null) {
+        returnItem.fileReferences!['video'] =
+            '/game/${returnItem.gameId}/generalItems/${returnItem.itemId}/video.mp4';
+      }
     }
     return returnItem;
   }

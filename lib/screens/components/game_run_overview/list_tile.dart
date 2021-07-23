@@ -12,7 +12,7 @@ class RunListTile extends StatelessWidget {
   final GestureTapCallback onTap;
   // Color iconColor;
 
-  RunListTile({this.onTap, this.title, this.lastModificationDate});
+  RunListTile({required this.onTap, required this.title,required  this.lastModificationDate});
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +53,7 @@ class RunListTile extends StatelessWidget {
                 new Flexible(
                     child: new Text(
                       "${title}",
-                      style: AppConfig().customTheme.runListEntryTitle,
+                      style: AppConfig().customTheme!.runListEntryTitle,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     )),

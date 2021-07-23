@@ -16,7 +16,7 @@ Stream<dynamic> _uploadReponseFilesEpic(Stream<dynamic> actions, EpicStore<AppSt
       .where(
           (action) => store.state.currentRunState.outgoingResponses.isNotEmpty)
       .asyncMap(((action) async {
-    Response firstResponse =
+    Response? firstResponse =
         store.state.currentRunState.outgoingResponses.removeLast();
     if (firstResponse is AudioResponse) {
       firstResponse = await _uploadFile(firstResponse, store, action, 'mp3');
@@ -41,19 +41,22 @@ Future<Response> _uploadResponse(Response firstResponse, EpicStore<AppState> sto
   return await ResponseApi.postResponse( firstResponse);
 }
 
-Future<PictureResponse> _uploadFile(
+Future<PictureResponse?> _uploadFile(
     PictureResponse firstResponse, EpicStore<AppState> store,
     SyncFileResponse action,
     String extension
     ) async {
   //todo migration
   try {
+    if (firstResponse.run == null) {
+      return null;
+    }
     final File file = await File(firstResponse.path).create();
     String timeStamp = DateTime.now().millisecondsSinceEpoch.toString();
     firebase_storage.Reference ref = firebase_storage.FirebaseStorage.instance
         .ref()
         .child('run')
-        .child("${firstResponse.run.runId}")
+        .child("${firstResponse.run!.runId}")
         .child("${store.state.authentication.userId}")
         .child(timeStamp + '.'+extension);
     print('ref ${ref.fullPath}');
@@ -67,19 +70,7 @@ Future<PictureResponse> _uploadFile(
     );
 
 
-    // StorageTaskSnapshot snap = await uploadTask.onComplete;
-    // firstResponse.remotePath = snap.storageMetadata.path;
     firstResponse.remotePath = ref.fullPath;
-    // print("remotePath is ${firstResponse}");
-//    return uploadTask.onComplete.then((StorageTaskSnapshot snap) {
-//      firstResponse.location = "gs://" +
-//          snap.storageMetadata.bucket +
-//          "/" +
-//          snap.storageMetadata.path +
-//          "/" +
-//          snap.storageMetadata.name;
-//      return new GenericResponseMetadataAction(response: firstResponse);
-//    });
     return firstResponse;
   } catch (e) {
     store.state.currentRunState.outgoingResponses.add(firstResponse);

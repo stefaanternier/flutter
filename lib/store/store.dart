@@ -11,13 +11,12 @@ Future<Store<AppState>> createStore() async {
       storage: FlutterStorage(),
       serializer: JsonSerializer<AppState>(AppState.fromJson),
       throttleDuration: new Duration(seconds: 10));
-  AppState demo;
+  AppState demo = AppState.emptyState();
   try {
-    demo = await persistor.load();
+    demo = await persistor.load() ?? demo;
   } catch (e) {
     print("no state");
   }
-  if (demo == null) demo = AppState.demoState();
 
   return Store<AppState>(
       appReducer,

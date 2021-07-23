@@ -8,7 +8,7 @@ class LoadFeaturedGameAction {
 class LoadFeaturedGameResultsAction {
   List<Game> games = [];
 
-  LoadFeaturedGameResultsAction({this.games});
+  LoadFeaturedGameResultsAction({required this.games});
 }
 
 class LoadRecentGamesAction {
@@ -18,45 +18,45 @@ class LoadRecentGamesAction {
 class LoadRecentGameResultsAction {
   List<Game> games = [];
 
-  LoadRecentGameResultsAction({this.games});
+  LoadRecentGameResultsAction({required this.games});
 }
 
 
 class LoadSearchedGameResultsAction {
   List<Game> games=[];
 
-  LoadSearchedGameResultsAction({this.games});
+  LoadSearchedGameResultsAction({required this.games});
 }
 
 class LoadOneFeaturedGameAction {
   Game game;
 
-  LoadOneFeaturedGameAction({this.game});
+  LoadOneFeaturedGameAction({required this.game});
 }
 
 class LoadOneFeaturedGameResultAction {
   Game game;
 
-  LoadOneFeaturedGameResultAction({this.game});
+  LoadOneFeaturedGameResultAction({required this.game});
 }
 
 class LoadOneFeaturedRunAction {
   Run run;
 
-  LoadOneFeaturedRunAction({this.run});
+  LoadOneFeaturedRunAction({required this.run});
 }
 
 class ParseLinkAction {
-  String link;
+  final String link;
 
-  ParseLinkAction({this.link});
+  ParseLinkAction({required this.link});
 
 }
 
 class SearchLibrary {
   String query;
 
-  SearchLibrary({this.query});
+  SearchLibrary({required this.query});
 }
 
 

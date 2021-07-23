@@ -27,7 +27,7 @@ class ApiResultRunsParticipateAction {
   List<Run> runs;
   int gameId;
 
-  ApiResultRunsParticipateAction({this.runs, this.gameId});
+  ApiResultRunsParticipateAction({required this.runs, required  this.gameId});
 }
 
 

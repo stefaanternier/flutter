@@ -27,7 +27,7 @@ import 'package:youplay/models/general_item.dart';
 
 class GeneralItemTakePicture {
   GeneralItem item;
-  GeneralItemTakePicture({this.item});
+  GeneralItemTakePicture({required this.item});
 }
 
 class GeneralItemCancelDataCollection {

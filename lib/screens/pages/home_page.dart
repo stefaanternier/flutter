@@ -1,4 +1,3 @@
-import 'package:youplay/screens/general_item/dataCollection/outgoing_picture_response_list.dart';
 import 'package:youplay/screens/library/game_from_qr.dart';
 import 'package:youplay/screens/pages/create_account_page.dart';
 import 'package:youplay/screens/pages/game_landing_page.dart';
@@ -6,7 +5,7 @@ import 'package:youplay/screens/pages/game_play_page.dart';
 import 'package:youplay/screens/pages/game_runs_overview_page.dart';
 import 'package:youplay/screens/pages/run_landing_page.dart';
 import 'package:youplay/screens/ui_models/selected_page_model.dart';
-import 'package:youplay/state/ui_state.dart';
+import 'package:youplay/store/state/ui_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:youplay/store/state/app_state.dart';
@@ -19,7 +18,7 @@ import 'my_games_list_page.dart';
 class HomeViewModel {
   PageType selectedPage;
 
-  HomeViewModel({this.selectedPage});
+  HomeViewModel({required this.selectedPage});
 }
 
 class SplashScreen extends StatelessWidget {
@@ -52,9 +51,9 @@ class SplashScreen extends StatelessWidget {
 //              return GameScreen(false);
               return authCheck(GamePlayPage(), pageModel);
               break;
-            case PageType.gameStartWithMap:
-              return authCheck(GamePlayPage(), pageModel);
-              break;
+            // case PageType.gameStartWithMap:
+            //   return authCheck(GamePlayPage(), pageModel);
+            //   break;
 
             case PageType.myGames:
               return authCheck(MyGamesListPage(), pageModel);
@@ -65,13 +64,13 @@ class SplashScreen extends StatelessWidget {
 //              return buildFeaturedGamesOnly(context);
               break;
 
-            case PageType.library:
-              return FeaturedGamesPage(authenticated: pageModel.isAuthenticated);
-//              return buildFeaturedGamesOnly(context);
-
-              break;
+//             case PageType.library:
+//               return FeaturedGamesPage(authenticated: pageModel.isAuthenticated);
+// //              return buildFeaturedGamesOnly(context);
+//
+//               break;
             case PageType.scanGame:
-              return buildQRScanner(context);
+              // return buildQRScanner(context);
 
             //return buildFeaturedGamesOnly(context);
             case PageType.login:
@@ -82,14 +81,7 @@ class SplashScreen extends StatelessWidget {
               return CreateAccountPage();
 //            return buildQRScanner(context);
               break;
-            case PageType.dev1:
-              return OutGoingPictureResponses();
 
-              break;
-            case PageType.dev2:
-              return GameParticipateIds();
-//              return RunActionsScreen();
-              break;
           }
           return LoginPage();
         });

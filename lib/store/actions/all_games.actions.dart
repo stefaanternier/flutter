@@ -6,7 +6,7 @@ import 'package:youplay/models/game.dart';
 import 'actions.dart';
 
 class LoadParticipateGamesListRequestAction {
-  String cursor;
+  String? cursor;
 
   LoadParticipateGamesListRequestAction({this.cursor});
 }
@@ -56,7 +56,7 @@ class LoadParticipateGameResponseAction {
   int gameId;
 //  dynamic resultAsJson;
 
-  LoadParticipateGameResponseAction({this.game, this.gameId}); //: super(resultAsString:resultAsString);
+  LoadParticipateGameResponseAction({required this.game, required  this.gameId}); //: super(resultAsString:resultAsString);
 
 //  decode() {
 //    this.resultAsJson = jsonDecode(this.resultAsString);

@@ -11,25 +11,25 @@ class SingleChoiceImageGeneralItem extends GeneralItem {
   String text;
 
   SingleChoiceImageGeneralItem({
-    int gameId,
-    int itemId,
-    bool deleted,
-    int lastModificationDate,
-    int sortKey,
-    String title,
-    this.text,
-    this.showFeedback,
-    String richText,
-    String description,
-    this.answers,
-    Dependency dependsOn,
-    Dependency disappearOn,
-    Map<String, String> fileReferences,
-    Color primaryColor,
-    double lat,
-    double lng,
-    bool showOnMap,
-    bool showInList,
+    required int gameId,
+    required int itemId,
+    required bool deleted,
+    required int lastModificationDate,
+    required int sortKey,
+    required String title,
+    required this.text,
+    required this.showFeedback,
+    required String richText,
+    required String description,
+    required this.answers,
+    Dependency? dependsOn,
+    Dependency? disappearOn,
+    Map<String, String>? fileReferences,
+    Color? primaryColor,
+     double? lat,
+     double? lng,
+    required bool showOnMap,
+    required bool showInList,
   }) : super(
             type: ItemType.singlechoiceimage,
             gameId: gameId,
@@ -44,10 +44,14 @@ class SingleChoiceImageGeneralItem extends GeneralItem {
             disappearOn: disappearOn,
             fileReferences: fileReferences,
             primaryColor: primaryColor,
-      showOnMap: showOnMap,
-      showInList:showInList,
+            showOnMap: showOnMap,
+            showInList: showInList,
             lat: lat,
             lng: lng);
+
+  String getIcon() {
+    return 'fa.image';
+  }
 
   factory SingleChoiceImageGeneralItem.fromJson(Map json) {
 //    print("json image single choice ${json}");
@@ -57,25 +61,25 @@ class SingleChoiceImageGeneralItem extends GeneralItem {
         itemId: int.parse(json['id']),
         deleted: json['deleted'],
         lastModificationDate: int.parse(json['lastModificationDate']),
-        sortKey: json['sortKey'],
+        sortKey: json['sortKey']??0,
         title: json['name'],
-        richText: json['richText'],
+        richText: json['richText']??'',
         description: (json['description'] ?? "").trim(),
-        text: json['text'],
+        text: json['text']??'',
         showFeedback:
             json['showFeedback'] == null ? false : json['showFeedback'],
         answers: json['answers'] == null
             ? []
             : List<ImageChoiceAnswer>.generate(json['answers'].length,
                 (i) => ImageChoiceAnswer.fromJson(json['answers'][i])),
-        showOnMap: json['showOnMap'],
-        showInList: json['showInList'] == null? true: json['showInList'],
-        lat: json['lat'] != null ? json['lat'] : null,
-        lng: json['lng'] != null ? json['lng'] : null,
+        showOnMap: json['showOnMap']??false,
+        showInList: json['showInList'] == null ? true : json['showInList'],
+        lat: json['lat'] ,
+        lng: json['lng'] ,
         fileReferences: json['fileReferences'] != null
             ? new Map.fromIterable(json["fileReferences"],
                 key: (item) => item['key'],
-                value: (item) => item['fileReference'])
+                value: (item) => item['fileReference']??'')
             : null,
         primaryColor: json['primaryColor'] != null
             ? colorFromHex(json['primaryColor'])
@@ -87,10 +91,6 @@ class SingleChoiceImageGeneralItem extends GeneralItem {
             ? Dependency.fromJson(json['disappearOn'])
             : null);
     return returnItem;
-  }
-
-  String getIcon() {
-    return 'fa.image';
   }
 }
 

@@ -1,0 +1,11 @@
+[
+  {
+    "origin": ["http://localhost:4200", "http://moonlit-cistern-280812.appspot.com/",
+      "https://moonlit-cistern-280812.appspot.com:443", "http://moonlit-cistern-280812.web.app",
+      "https://moonlit-cistern-280812.firebaseapp.com", "http://moonlit-cistern-280812.firebaseapp.com",
+      "https://moonlit-cistern-280812.web.app"],
+    "method": ["GET"],
+    "responseHeader": ["Content-Type"],
+    "maxAgeSeconds": 3600
+  }
+]

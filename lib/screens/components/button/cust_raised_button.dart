@@ -7,14 +7,14 @@ import 'package:youplay/store/state/app_state.dart';
 class CustomRaisedButton extends StatelessWidget {
   Function onPressed;
   String title;
-  Icon icon;
+  Icon? icon;
   bool useThemeColor;
-  Color primaryColor;
+  Color? primaryColor;
   bool disabled;
 
   CustomRaisedButton(
-      {this.onPressed,
-      this.title,
+      {required this.onPressed,
+      required this.title,
       this.icon,
       this.useThemeColor = false,
       this.primaryColor,
@@ -35,16 +35,16 @@ class CustomRaisedButton extends StatelessWidget {
 
   buildButton(BuildContext context) {
     if (!useThemeColor) {
-      return buildRawButton(null);
+      return _buildRawButton();
     }
     return new StoreConnector<AppState, GameThemesViewModel>(
         converter: (store) => GameThemesViewModel.fromStore(store),
         builder: (context, GameThemesViewModel themeModel) {
-          return buildRawButton(themeModel);
+          return _buildRawButton(themeModel: themeModel);
         });
   }
 
-  buildRawButton(GameThemesViewModel themeModel) {
+  _buildRawButton({GameThemesViewModel? themeModel}) {
     if (icon == null) {
       return RaisedButton(
           color: (this.primaryColor != null)
@@ -60,7 +60,7 @@ class CustomRaisedButton extends StatelessWidget {
                 },
           child: Text(
             '$title',
-            style: AppConfig().customTheme.nextButtonStyle,
+            style: AppConfig().customTheme!.nextButtonStyle,
           ));
     } else {
       return RaisedButton.icon(
@@ -75,7 +75,7 @@ class CustomRaisedButton extends StatelessWidget {
               : () {
                   onPressed();
                 },
-          icon: icon,
+          icon: icon!,
           label: Text(
             title,
             style: TextStyle(

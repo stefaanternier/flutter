@@ -15,7 +15,7 @@ class MultipleChoiceWidget extends StatefulWidget {
   MultipleChoiceGeneralItem item;
   GeneralItemViewModel giViewModel;
 
-  MultipleChoiceWidget({this.item, this.giViewModel, Key key})
+  MultipleChoiceWidget({required this.item, required this.giViewModel, Key? key})
       : super(key: key);
 
 
@@ -28,8 +28,8 @@ class _MultipleChoiceWidgetState extends State<MultipleChoiceWidget> {
   Map<String, bool> _selected = new Map();
   bool _showFalseFeedback = false;
   bool _showCorrectFeedback = false;
-  String wrongFeedback;
-  String correctFeedback;
+  String? wrongFeedback;
+  String? correctFeedback;
 
   @override
   initState() {
@@ -104,36 +104,42 @@ class _MultipleChoiceWidgetState extends State<MultipleChoiceWidget> {
   submitPressed() {
     bool correct = true;
     _selected.forEach((answerid, value) {
-      if (value) {
+      if (value && widget.giViewModel.item != null && widget.giViewModel.run?.runId != null) {
         widget.giViewModel.onDispatch(MultipleChoiceAnswerAction(
-            generalItemId: widget.giViewModel.item.itemId,
-            runId: widget.giViewModel.run.runId,
+            generalItemId: widget.giViewModel.item!.itemId,
+            runId: widget.giViewModel.run!.runId!,
             answerId: answerid));
         widget.giViewModel.onDispatch(MultiplechoiceAction(
             mcResponse:
             Response(run: widget.giViewModel.run, item:widget.item, value: answerid)));
       }
     });
-    widget.giViewModel.onDispatch(SyncFileResponse(runId: widget.giViewModel.run.runId));
-
+    if (widget.giViewModel.item != null && widget.giViewModel.run?.runId != null) {
+      widget.giViewModel.onDispatch(
+          SyncFileResponse(runId: widget.giViewModel.run!.runId!));
+    }
     widget.item.answers.forEach((choiceAnswer) {
       if (choiceAnswer.isCorrect != _selected[choiceAnswer.id]) {
         correct = false;
       }
     });
     if (correct) {
-      widget.giViewModel.onDispatch(AnswerCorrect(
-        generalItemId: widget.giViewModel.item.itemId,
-        runId: widget.giViewModel.run.runId,
-      ));
+      if (widget.giViewModel.item != null && widget.giViewModel.run?.runId != null) {
+        widget.giViewModel.onDispatch(AnswerCorrect(
+          generalItemId: widget.giViewModel.item!.itemId,
+          runId: widget.giViewModel.run!.runId!,
+        ));
+      }
       setState(() {
         if (widget.item.showFeedback)  _showCorrectFeedback = true;
       });
     } else {
-      widget.giViewModel.onDispatch(AnswerWrong(
-        generalItemId: widget.giViewModel.item.itemId,
-        runId: widget.giViewModel.run.runId,
-      ));
+      if (widget.giViewModel.item != null && widget.giViewModel.run?.runId != null) {
+        widget.giViewModel.onDispatch(AnswerWrong(
+          generalItemId: widget.giViewModel.item!.itemId,
+          runId: widget.giViewModel.run!.runId!,
+        ));
+      }
       setState(() {
         if (widget.item.showFeedback)  _showFalseFeedback = true;
       });

@@ -13,6 +13,7 @@ import 'package:youplay/store/actions/current_game.actions.dart';
 import 'package:youplay/store/actions/game_messages.actions.dart';
 import 'package:youplay/store/reducers/ui.reducer.dart';
 import 'package:youplay/store/state/all_games_state.dart';
+import 'package:youplay/store/state/run_state.dart';
 
 import 'game_messages.reducer.dart';
 
@@ -30,7 +31,7 @@ GamesState _syncGameContentResult( GamesState state, SyncGameContentResult actio
   newState.itemIdToGeneralItem = state.itemIdToGeneralItem;
   newState.gameTheme = state.gameTheme;
   newState.fileIdToGameFile = state.fileIdToGameFile;
-  action.gameFiles?.forEach((gamefileJson){
+  action.gameFiles.forEach((gamefileJson){
       int fileId = int.parse("${gamefileJson['id']}");
       newState.fileIdToGameFile.putIfAbsent(fileId, ()=> new GameFile(
         path: gamefileJson['path'],
@@ -53,8 +54,8 @@ GamesState _gameSuccesstoGameState( GamesState state, LoadGameSuccessAction acti
 
 
 AppState swapGameState(AppState state, SetCurrentGameAction action) {
-  if (state.currentGameState != null && state.currentGameState.game != null) { //backup old game state
-    state.gameIdToGameState[state.currentGameState.game.gameId] = state.currentGameState;
+  if (state.currentGameState.game != null) { //backup old game state
+    state.gameIdToGameState[state.currentGameState.game!.gameId] = state.currentGameState;
   }
   return new AppState(
       themIdToTheme: state.themIdToTheme,
@@ -67,15 +68,15 @@ AppState swapGameState(AppState state, SetCurrentGameAction action) {
       allGamesState: state.allGamesState,
       authentication: state.authentication,
       uiState: uiReducer(state.uiState, action),
-      storage: state.storage
+      currentRunState: new RunState()
   );
 }
 
 _initGameState(AllGamesState allGamesState, int gameId) {
-  if (allGamesState == null && allGamesState.idToGame != null && allGamesState.idToGame[gameId] != null) {
+  if (allGamesState.idToGame[gameId] != null) {
     return new GamesState();
   }
-  return GamesState.makeWithGame(allGamesState.idToGame[gameId]);
+  return GamesState.makeWithGame(allGamesState.idToGame[gameId]!);
 
 }
 

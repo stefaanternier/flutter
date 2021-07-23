@@ -3,7 +3,8 @@ import 'package:youplay/actions/runs.dart';
 import 'package:youplay/models/general_item.dart';
 import 'package:youplay/models/response.dart';
 import 'package:youplay/models/run.dart';
-import 'package:youplay/screens/util/navigation_drawer.dart';
+import 'package:youplay/ui/components/nav/navigation_drawer.container.dart';
+import 'package:youplay/ui/components/nav/navigation_drawer.dart';
 import 'package:youplay/store/state/current_game_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -32,7 +33,7 @@ class GameParticipateIds extends StatelessWidget {
             converter: convertFunctionGS(),
             builder: (context, map) {
               return new Scaffold(
-                  drawer: ARLearnNavigationDrawer(),
+                  drawer: ARLearnNavigationDrawerContainer(),
                   appBar: AppBar(
                     title: Text("Game participate Ids"),
                   ),

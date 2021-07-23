@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class ListSeparationText extends StatelessWidget {
   String text;
 
-  ListSeparationText({this.text});
+  ListSeparationText({required this.text});
 
   @override
   Widget build(BuildContext context) {

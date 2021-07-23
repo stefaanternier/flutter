@@ -5,6 +5,7 @@ import 'package:camera/camera.dart';
 // import 'package:firebase_ml_vision/firebase_ml_vision.dart';
 import 'package:flutter/material.dart';
 import 'package:youplay/actions/run_actions.dart';
+import 'package:youplay/config/app_config.dart';
 import 'package:youplay/models/general_item/scan_tag.dart';
 import 'package:youplay/screens/general_item/general_item.dart';
 import 'package:youplay/screens/util/utils.dart';
@@ -17,7 +18,7 @@ class ScanTagWidget extends StatefulWidget {
   ScanTagGeneralItem item;
   GeneralItemViewModel giViewModel;
 
-  ScanTagWidget({this.item, this.giViewModel});
+  ScanTagWidget({required this.item, required this.giViewModel});
 
   @override
   _ScanTagWidgetState createState() => new _ScanTagWidgetState();
@@ -35,7 +36,7 @@ class _ScanTagWidgetState extends State<ScanTagWidget> {
               fit: StackFit.expand,
 //              alignment: const Alignment(-0.5, 0),
               children: <Widget>[
-                new ItemQRScreen(widget.giViewModel),
+                new ItemQRScreen(giViewModel: widget.giViewModel),
                 // Padding(
                 //   padding: EdgeInsets.fromLTRB(30, 30, 30, 30),
                 //   child: Image.asset('graphics/generalItems/scanOverlay.png'),
@@ -81,7 +82,7 @@ class _ScanTagWidgetState extends State<ScanTagWidget> {
 class ItemQRScreen extends StatefulWidget {
   GeneralItemViewModel giViewModel;
 
-  ItemQRScreen(this.giViewModel);
+  ItemQRScreen({required this.giViewModel});
 
   @override
   ItemQRState createState() => ItemQRState();
@@ -103,22 +104,21 @@ class ItemQRState extends State<ItemQRScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
-        children: <Widget>[
-          Expanded(flex: 4, child: _buildQrView(context))
-        ],
+        children: <Widget>[Expanded(flex: 4, child: _buildQrView(context))],
       ),
     );
   }
 
-  Barcode result;
-  QRViewController controller;
+  Barcode? result;
+  QRViewController? controller;
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
 
   Widget _buildQrView(BuildContext context) {
     // For this example we check how width or tall the device is and change the scanArea and overlay accordingly.
     //  print('w ${MediaQuery.of(context).size.width}  h ${MediaQuery.of(context).size.height}' );
-     var minArea = min(MediaQuery.of(context).size.width, MediaQuery.of(context).size.height);
-     var scanArea = minArea / 4 * 3;
+    var minArea = min(
+        MediaQuery.of(context).size.width, MediaQuery.of(context).size.height);
+    var scanArea = minArea / 4 * 3;
     // var scanArea = (MediaQuery.of(context).size.width < 400 ||
     //         MediaQuery.of(context).size.height < 400)
     //     ? 200.0
@@ -147,7 +147,6 @@ class ItemQRState extends State<ItemQRScreen> {
       setState(() {
         result = scanData;
 
-        print('result2 ${result.code} ${_actionTaken}');
         if (!_actionTaken) {
           new Future.delayed(const Duration(milliseconds: 100), () {
             if (!widget.giViewModel.continueToNextItemWithTag(scanData.code)) {
@@ -159,11 +158,13 @@ class ItemQRState extends State<ItemQRScreen> {
               });
             }
           });
-
-          widget.giViewModel.onDispatch(QrScannerAction(
-              generalItemId: widget.giViewModel.item.itemId,
-              runId: widget.giViewModel.run.runId,
-              qrCode: scanData.code));
+          if (widget.giViewModel.item != null &&
+              widget.giViewModel.run?.runId != null) {
+            widget.giViewModel.onDispatch(QrScannerAction(
+                generalItemId: widget.giViewModel.item!.itemId,
+                runId: widget.giViewModel.run!.runId!,
+                qrCode: scanData.code));
+          }
 
           _actionTaken = true;
         }

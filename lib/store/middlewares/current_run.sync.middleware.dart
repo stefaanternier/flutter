@@ -1,4 +1,3 @@
-
 import 'package:redux_epics/redux_epics.dart';
 import 'package:youplay/api/actions.dart';
 import 'package:youplay/api/response.dart';
@@ -21,10 +20,11 @@ Stream<dynamic> _downloadResponses(
   return actions
       .where((action) => action is SyncResponsesServerToMobile)
       .asyncExpand((action) {
-    if ((action as SyncResponsesServerToMobile).generalItemId != null) {
+    if ((action as SyncResponsesServerToMobile).generalItemId != null &&
+        action.generalItemId != null) {
       return yieldResumeAction(
           action,
-          ResponseApi.getResponseForMe(action.runId, action.generalItemId)
+          ResponseApi.getResponseForMe(action.runId, action.generalItemId!)
               .then((ResponseList list) {
             return list;
           }));
@@ -32,7 +32,10 @@ Stream<dynamic> _downloadResponses(
     return yieldResumeAction(
         action,
         ResponseApi.getResponse(
-                action.runId, action.from, action.till, action.resumptionToken)
+                action.runId,
+                action.from ?? 1,
+                action.till ?? DateTime.now().millisecondsSinceEpoch,
+                action.resumptionToken)
             .then((ResponseList list) {
           return list;
         }));
@@ -43,8 +46,7 @@ Stream<dynamic> yieldResumeAction(
     action, Future<ResponseList> futureList) async* {
   ResponseList list = await futureList;
   if (list.resumptionToken != null) {
-    (action as SyncResponsesServerToMobile).resumptionToken =
-        list.resumptionToken;
+    (action as SyncResponsesServerToMobile).resumptionToken = list.resumptionToken!;
     yield action;
   }
   yield new SyncResponsesServerToMobileComplete(result: list);
@@ -69,7 +71,7 @@ Stream<dynamic> yieldResumeAction2(
   ARLearnActionsList list = await futureList;
   if (list.resumptionToken != null) {
     (action as SyncActionsServerToMobile).resumptionToken =
-        list.resumptionToken;
+        list.resumptionToken!;
     yield action;
   }
   yield new SyncARLearnActionsListServerToMobileComplete(result: list);
@@ -81,8 +83,8 @@ Stream<dynamic> _deleteResponse(
       .where((action) => action is DeleteResponseFromServer)
       .asyncMap((action) async {
     Response resp = await ResponseApi.deleteResponse(action.responseId);
-    if (resp != null && resp.responseId != null) {
-      return new DeleteResponseFromLocalStore(responseId: resp.responseId);
+    if (resp.responseId != null) {
+      return new DeleteResponseFromLocalStore(responseId: resp.responseId!);
     }
   });
 }
