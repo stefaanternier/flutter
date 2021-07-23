@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:youplay/actions/games.dart';
 import 'package:youplay/api/runs.dart';
-import 'package:youplay/state/ui_state.dart';
+import 'package:youplay/store/state/ui_state.dart';
 import 'package:flutter/material.dart';
 import 'package:redux_epics/redux_epics.dart';
 import 'package:youplay/store/state/app_state.dart';
@@ -93,7 +93,7 @@ Stream<dynamic> dispatchAddMeToRunActions(Future<int> data) async* {
   yield new SetCurrentGameAction(currentGame: gameId);
 //  yield new ApiGameAction(gameId);
 
-  yield new SetPage(PageType.myGames);
+  yield new SetPage(page: PageType.myGames);
 }
 
 //Stream<dynamic> _loadRunActionStream(Future<dynamic> results) async* {

@@ -6,6 +6,8 @@ import 'package:reselect/reselect.dart';
 
 AuthenticationState uiState(AppState state) => state.authentication;
 
+
+
 final Selector<AppState, bool> isAuthenticatedSelector= createSelector1(
     uiState, ( AuthenticationState authState) {
   return authState.authenticated;
