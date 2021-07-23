@@ -5,7 +5,7 @@ import 'package:youplay/store/state/current_game_state.dart';
 import 'dart:collection';
 import 'package:reselect/reselect.dart';
 import 'package:youplay/models/game.dart';
-import 'package:youplay/selectors/ui_selectors.dart';
+import 'package:youplay/store/selectors/ui_selectors.dart';
 import 'package:youplay/models/run.dart';
 import 'package:youplay/store/state/run_state.dart';
 import 'package:youplay/store/selectors/current_game.selectors.dart';

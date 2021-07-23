@@ -2,7 +2,7 @@ import 'dart:collection';
 
 import 'package:youplay/actions/games.dart';
 import 'package:youplay/actions/ui.dart';
-import 'package:youplay/state/ui_state.dart';
+import 'package:youplay/store/state/ui_state.dart';
 
 import 'package:redux_epics/redux_epics.dart';
 

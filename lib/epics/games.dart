@@ -5,7 +5,7 @@ import 'package:youplay/actions/errors.dart';
 import 'package:youplay/actions/games.dart';
 import 'package:youplay/api/games.dart';
 import 'package:youplay/store/state/app_state.dart';
-import 'package:youplay/state/ui_state.dart';
+import 'package:youplay/store/state/ui_state.dart';
 import 'package:redux_epics/redux_epics.dart';
 import 'package:youplay/store/actions/current_game.actions.dart';
 import 'package:youplay/store/actions/ui_actions.dart';
