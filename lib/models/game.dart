@@ -4,6 +4,7 @@ import 'dart:ui';
 
 import 'package:youplay/config/app_config.dart';
 import 'package:youplay/models/run.dart';
+import 'package:youplay/store/state/ui_state.dart';
 
 import 'general_item/dependency.dart';
 
@@ -75,6 +76,13 @@ class Game {
   int endsAt(HashMap<String, ARLearnAction> actions) {
     if (endsOn == null || actions == null) return -1;
     return endsOn!.evaluate(actions);
+  }
+
+  nextView(MessageView currentView) {
+    if (currentView == MessageView.mapView) {
+      return MessageView.listView;
+    }
+    return MessageView.mapView;
   }
 }
 
