@@ -7,7 +7,7 @@ import 'package:youplay/actions/actions.dart';
 import 'package:youplay/models/game_theme.dart';
 import 'package:youplay/models/general_item.dart';
 import 'package:youplay/state/authentication_state.dart';
-import 'package:youplay/state/ui_state.dart';
+import 'package:youplay/store/state/ui_state.dart';
 import 'package:youplay/store/actions/auth.actions.dart';
 import 'package:youplay/store/actions/ui_actions.dart';
 import 'package:youplay/store/selectors/current_game.selectors.dart';
@@ -67,7 +67,7 @@ class _ViewModel {
       },
         toLibrary: () {
           store.dispatch(new EraseAnonAccount());
-          store.dispatch(new SetPage(PageType.library));
+          store.dispatch(new SetPage(page: PageType.library));
         }
     );
   }
