@@ -26,7 +26,12 @@
 		"ok": "ok",
 		"or": "Of",
 		"password": "Wachtwoord",
-		"recoverPw": "Wachtwoord herstellen"
+		"recoverPw": "Wachtwoord herstellen",
+		"user-not-found" : "Gebruiker bestaat niet",
+		"unknown" : "Fout tijdens het inloggen",
+		"wrong-password" : "Foutief wachtwoord",
+		"invalid-email" : "Ongeldige e-mail",
+		"user-disabled" : "Gebruiksaccount is uitgeschakeld"
 	},
 	"makeaccount": {
 		"emailAddress": "Wat is je e-mail adres",
