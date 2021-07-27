@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -15,6 +14,7 @@ import 'package:youplay/store/actions/current_run.picture.actions.dart';
 import 'package:youplay/store/selectors/current_run.selectors.dart';
 import 'package:youplay/store/state/app_state.dart';
 import 'package:youplay/ui/components/messages_parts/richtext-top.container.dart';
+import 'package:youplay/ui/components/next_button/next_button.container.dart';
 
 import '../../../../localizations.dart';
 import 'components/game_themes.viewmodel.dart';
@@ -26,11 +26,14 @@ class _TextInputViewModel {
   List<Response> audioResponses;
   List<Response> fromServer;
 
-  _TextInputViewModel({required this.audioResponses,required this.fromServer});
+  _TextInputViewModel({required this.audioResponses, required this.fromServer});
 
-  static _TextInputViewModel fromStore(Store<AppState> store, GeneralItem item) {
+  static _TextInputViewModel fromStore(
+      Store<AppState> store, GeneralItem item) {
     return new _TextInputViewModel(
-        audioResponses: currentRunResponsesSelector(store.state).where((element) => element.item?.itemId == item.itemId).toList(growable: false),
+        audioResponses: currentRunResponsesSelector(store.state)
+            .where((element) => element.item?.itemId == item.itemId)
+            .toList(growable: false),
         fromServer: currentItemResponsesFromServerAsList(store.state));
   }
 
@@ -43,7 +46,7 @@ class _TextInputViewModel {
   }
 
   Response getItem(index) {
-    fromServer.sort((a, b)=> b.timestamp.compareTo(a.timestamp));
+    fromServer.sort((a, b) => b.timestamp.compareTo(a.timestamp));
     if (index < fromServer.length) {
       return fromServer[index];
     }
@@ -80,7 +83,7 @@ class TextQuestionScreen extends StatefulWidget {
   GeneralItem item;
   GeneralItemViewModel giViewModel;
 
-  TextQuestionScreen({required this.item, required  this.giViewModel});
+  TextQuestionScreen({required this.item, required this.giViewModel});
 
   @override
   _TextQuestionState createState() => new _TextQuestionState();
@@ -104,38 +107,55 @@ class _TextQuestionState extends State<TextQuestionScreen> {
     }
 
     Widget body = Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: <Widget>[
-        RichTextTopContainer(),
-        Flexible(
-            flex: 1,
-            child: Container(
-                color: Colors.black,
-                child: Padding(
-                  padding: EdgeInsets.all(15),
-                  child: new Scrollbar(
-                    child: new SingleChildScrollView(
-                      scrollDirection: Axis.vertical,
-                      reverse: true,
-                      child: TextField(
-                        autofocus: true,
-                        textInputAction: TextInputAction.send,
-                        controller: myController,
-                        onSubmitted: (value) {
-                          submitText(value, context);
-                        },
-                        keyboardType: TextInputType.multiline,
-                        maxLines: null,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20.0,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              RichTextTopContainer(),
+              Container(
+                  // flex: 1,
+                  child: Container(
+                      color: Colors.black,
+                      child: Padding(
+                        padding: EdgeInsets.all(15),
+                        child: new Scrollbar(
+                          child: new SingleChildScrollView(
+                            scrollDirection: Axis.vertical,
+                            reverse: true,
+                            child: TextField(
+                              autofocus: true,
+                              textInputAction: TextInputAction.send,
+                              controller: myController,
+                              onSubmitted: (value) {
+                                submitText(value, context);
+                              },
+                              keyboardType: TextInputType.multiline,
+                              maxLines: null,
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 20.0,
+                              ),
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                  ),
-                ))),
-      ],
-    );
+                      ))),
+
+            ],
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(46, 8.0, 46, 28),
+            child: CustomFlatButton(
+              title: "Verstuur", //todo vertaal
+              icon: Icons.send,
+              color: Colors.white,
+              onPressed: () {
+                submitText(myController.value.text, context);
+              },
+            ),
+          ),
+        ]);
     return GeneralItemWidget(
         item: this.widget.item,
         giViewModel: this.widget.giViewModel,
@@ -152,8 +172,10 @@ class _TextQuestionState extends State<TextQuestionScreen> {
 
   void submitText(String value, BuildContext context) {
     widget.giViewModel.onDispatch(TextResponseAction(
-        textResponse: Response(run: widget.giViewModel.run, item: widget.item, value: value)));
-    if (widget.giViewModel.item != null && widget.giViewModel.run?.runId != null ) {
+        textResponse: Response(
+            run: widget.giViewModel.run, item: widget.item, value: value)));
+    if (widget.giViewModel.item != null &&
+        widget.giViewModel.run?.runId != null) {
       widget.giViewModel.onDispatch(LocalAction(
         action: "answer_given",
         generalItemId: widget.giViewModel.item!.itemId,
@@ -164,7 +186,8 @@ class _TextQuestionState extends State<TextQuestionScreen> {
         generalItemId: widget.giViewModel.item!.itemId,
         runId: widget.giViewModel.run!.runId!,
       ));
-      widget.giViewModel.onDispatch(SyncFileResponse(runId: widget.giViewModel.run!.runId!));
+      widget.giViewModel
+          .onDispatch(SyncFileResponse(runId: widget.giViewModel.run!.runId!));
     }
 
     // Navigator.of(context).pop();
@@ -187,15 +210,16 @@ class _TextQuestionState extends State<TextQuestionScreen> {
                 RichTextTopContainer(),
                 Expanded(
                   child: StoreConnector<AppState, _TextInputViewModel>(
-                      converter: (store) => _TextInputViewModel.fromStore(store, widget.item),
+                      converter: (store) =>
+                          _TextInputViewModel.fromStore(store, widget.item),
                       builder: (context, _TextInputViewModel map) {
 //                print("map is back ${map.amountOfItems()}");
                         map.deleteAllResponses(this.deleted);
 //                print("map is back ${map.amountOfItems()}");
                         final DateTime now = DateTime.now();
 //                final DateFormat formatter = DateFormat('yyyy-MM-dd');
-                        final DateFormat formatter =
-                            DateFormat.yMMMMd(Localizations.localeOf(context).languageCode);
+                        final DateFormat formatter = DateFormat.yMMMMd(
+                            Localizations.localeOf(context).languageCode);
                         return ListView.separated(
                           separatorBuilder: (context, index) => Divider(
                             color: Colors.grey,
@@ -203,7 +227,8 @@ class _TextQuestionState extends State<TextQuestionScreen> {
                           itemCount: map.amountOfItems(),
                           itemBuilder: (context, index) {
                             final DateTime thatTime =
-                                DateTime.fromMillisecondsSinceEpoch(map.getItem(index).timestamp);
+                                DateTime.fromMillisecondsSinceEpoch(
+                                    map.getItem(index).timestamp);
                             return Dismissible(
                                 key: Key('${map.getItem(index).timestamp}'),
                                 background: slideLeftBackground(),
@@ -215,32 +240,22 @@ class _TextQuestionState extends State<TextQuestionScreen> {
                                   });
                                 },
                                 child: ListTile(
-                                  title:
-                                      Text("${map.getItem(index).value}", style: TextStyle(color: Colors.white)),
-                                  trailing: Text('${formatter.format(thatTime)} ',
-                                      style: TextStyle(color: Colors.white.withOpacity(0.7))),
-
+                                  title: Text("${map.getItem(index).value}",
+                                      style: TextStyle(color: Colors.white)),
+                                  trailing: Text(
+                                      '${formatter.format(thatTime)} ',
+                                      style: TextStyle(
+                                          color:
+                                              Colors.white.withOpacity(0.7))),
                                 ));
                           },
                         );
                       }),
                 ),
                 Padding(
-                    padding: const EdgeInsets.fromLTRB(46, 8.0, 46, 8),
-                    child: NextButton(
-                        buttonText: AppLocalizations.of(context).translate('screen.proceed'),
-                        overridePrimaryColor: widget.giViewModel.getPrimaryColor(),
-                        customButton:
-                        CustomRaisedButton(
-                          title: AppLocalizations.of(context).translate('screen.proceed'),
-                          // icon: new Icon(Icons.play_circle_outline, color: Colors.white),
-                          onPressed: () {
-                            widget.giViewModel.continueToNextItem(context);
-                          },
-                          primaryColor: widget.giViewModel.getPrimaryColor(),
-                          useThemeColor: true,
-                        ),
-                        giViewModel: widget.giViewModel)),
+                  padding: const EdgeInsets.fromLTRB(46, 8.0, 46, 8),
+                  child: NextButtonContainer(item: widget.giViewModel.item!),
+                ),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(46, 8.0, 46, 28),
                   child: CustomFlatButton(
@@ -257,10 +272,7 @@ class _TextQuestionState extends State<TextQuestionScreen> {
                 ),
               ],
             )));
-
-
   }
-
 
   deleteResponse(Response item) {
     if (item.responseId != null) {

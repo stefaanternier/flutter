@@ -7,6 +7,8 @@ import 'package:redux/redux.dart';
 import 'package:youplay/store/actions/auth.actions.dart';
 import 'package:youplay/store/actions/ui_actions.dart';
 
+import '../../localizations.dart';
+
 class LoginPageViewModel {
   bool authenticated;
   Function tapGoogleLogin;
@@ -73,9 +75,10 @@ class LoginPageViewModel {
           user: email.trim(),
           password: password.trim(),
           onSucces: (){},
-          onError: () {
-            final snackBar = SnackBar(content: Text("Error while login"));
+          onError: (String code) {
+            //final snackBar = SnackBar(content: Text("Error while login"));
 
+            final snackBar = SnackBar(content: Text(AppLocalizations.of(context).translate('login.'+code)));
             Scaffold.of(context).showSnackBar(snackBar);
             print("show snackbar?");
           },

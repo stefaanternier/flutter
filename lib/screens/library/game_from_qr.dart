@@ -151,8 +151,10 @@ class GameQRState extends State<GameQRScreen> {
       store.dispatch(CustomAccountLoginAction(
           user: account,
           password: password,
-          onError: () {
-            final snackBar = SnackBar(content: Text("Error while login"));
+          onError: (String code) {
+            final snackBar = SnackBar(content: Text(AppLocalizations.of(context).translate('login.'+code)));
+
+            // final snackBar = SnackBar(content: Text("Error while login"));
 
             Scaffold.of(context).showSnackBar(snackBar);
             _actionTaken = false;

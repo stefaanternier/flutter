@@ -8,6 +8,7 @@ import 'package:youplay/screens/general_item/util/messages/components/game_theme
 import 'package:youplay/screens/general_item/util/messages/components/next_button.dart';
 import 'package:youplay/screens/general_item/util/messages/generic_message.dart';
 import 'package:youplay/ui/components/messages_parts/richtext-top.container.dart';
+import 'package:youplay/ui/components/next_button/next_button.container.dart';
 
 import '../../../localizations.dart';
 import '../general_item.dart';
@@ -40,24 +41,9 @@ class PictureOverview extends StatelessWidget {
                 },
               )),
               Padding(
-                  padding: const EdgeInsets.fromLTRB(46, 8.0, 46, 8),
-                  child: NextButton(
-                      buttonText: item.description != ""
-                          ? item.description
-                          : AppLocalizations.of(context)
-                          .translate('screen.proceed'),
-                      overridePrimaryColor: themeModel.getPrimaryColor(),
-                      customButton: CustomRaisedButton(
-                        useThemeColor: true,
-                        title: AppLocalizations.of(context)
-                            .translate('screen.proceed'),
-                        // icon: new Icon(Icons.play_circle_outline, color: Colors.white),
-                        primaryColor: themeModel.getPrimaryColor(),
-                        onPressed: () {
-                          giViewModel.continueToNextItem(context);
-                        },
-                      ),
-                      giViewModel: giViewModel)),
+                padding: const EdgeInsets.fromLTRB(46, 8.0, 46, 8),
+                child: NextButtonContainer(item: giViewModel.item!),
+              ),
               Padding(
                 padding: const EdgeInsets.fromLTRB(46, 8.0, 46, 28),
                 child: CustomFlatButton(

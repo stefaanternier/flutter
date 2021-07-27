@@ -71,7 +71,7 @@ Stream<dynamic> customCredentialsLogin(
           action.onWrongCredentials();
         } else {
           print("login error is ${error}");
-          action.onError();
+          action.onError(error.code);
         }
       }));
 }

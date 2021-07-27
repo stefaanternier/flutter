@@ -15,11 +15,20 @@ class CustomFlatButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: double.infinity,
-      height: 51.0,
-      child: buildButton(context),
+    return Column(
+      children: [
+        SizedBox(
+          width: AppConfig.isTablet() ? 290 : double.infinity,
+          height: 51.0,
+          child: buildButton(context),
+        ),
+      ],
     );
+    // return SizedBox(
+    //   width: double.infinity,
+    //   height: 51.0,
+    //   child: buildButton(context),
+    // );
   }
 
   buildButton(BuildContext context) {

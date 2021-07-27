@@ -8,6 +8,7 @@ import 'package:youplay/ui/components/nav/navigation_drawer.dart';
 import 'package:youplay/store/state/app_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:youplay/ui/components/web/web_wrapper.dart';
 
 import '../../localizations.dart';
 
@@ -70,15 +71,17 @@ class _MyGamesState extends State<MyGamesListPage> {
             });
           }).build(context),
       drawer: ARLearnNavigationDrawerContainer(),
-      body: SingleChildScrollView(
-        child: new Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
+      body: WebWrapper(
+        child: SingleChildScrollView(
+          child: new Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
 
-            children: [
-              ListSeparationText(text: AppLocalizations.of(context).translate('games.myGames').toUpperCase()),
-              _buildMyGamesList(context, gameListViewModel)
-            ]),
+              children: [
+                ListSeparationText(text: AppLocalizations.of(context).translate('games.myGames').toUpperCase()),
+                _buildMyGamesList(context, gameListViewModel)
+              ]),
+        ),
       ),
     );
   }

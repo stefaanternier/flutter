@@ -13,6 +13,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:redux/redux.dart';
+import 'package:universal_platform/universal_platform.dart';
 import 'package:youplay/actions/run_actions.dart';
 import 'package:youplay/localizations.dart';
 import 'package:youplay/models/general_item.dart';
@@ -270,7 +271,7 @@ class _NarratorWithAudioState extends State<NarratorWithAudio> {
 Future<String?> getCustomPath({String extension = ''}) async {
   String customPath = '/flutter_audio_recorder_';
   io.Directory? appDocDirectory;
-  if (io.Platform.isIOS) {
+  if (UniversalPlatform.isIOS) {
     appDocDirectory = await getApplicationDocumentsDirectory();
   } else {
     appDocDirectory = await getExternalStorageDirectory();

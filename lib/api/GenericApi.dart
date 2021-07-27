@@ -12,6 +12,8 @@ class GenericApi {
     if (user == null) {
       return '';
     }
+     // String t = await user.getIdToken(true);
+     // print('token is $t');
     return await user.getIdToken(true);
   }
 

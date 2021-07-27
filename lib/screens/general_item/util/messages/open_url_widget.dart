@@ -3,6 +3,7 @@ import 'dart:io';
 
 // import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:universal_platform/universal_platform.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:youplay/config/app_config.dart';
 import 'package:youplay/models/general_item/open_url.dart';
@@ -28,7 +29,7 @@ class _OpenUrlWidgetState extends State<OpenUrlWidget> {
   @override
   void initState() {
     super.initState();
-    if (Platform.isAndroid) WebView.platform = SurfaceAndroidWebView();
+    if (UniversalPlatform.isAndroid) WebView.platform = SurfaceAndroidWebView();
   }
 
   @override

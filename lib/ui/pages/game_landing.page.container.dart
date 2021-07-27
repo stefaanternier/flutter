@@ -41,12 +41,12 @@ class GameLandingPageContainer extends StatelessWidget {
             key: ValueKey('loading${gameId}'),
           );
         }
-        print("in container before private mode");
+        //print("in container before private mode");
         if (vm.game!.privateMode) {
-          print("private mode is public  ${vm.game!.privateMode}");
+          // print("private mode is public  ${vm.game!.privateMode}");
           return GameLandingPublicPageContainer(game: vm.game!);
         } else {
-          print("private mode is ${vm.game!.privateMode}");
+          // print("private mode is ${vm.game!.privateMode}");
           return GameLandingPrivatePageContainer(game: vm.game!);
         }
       },

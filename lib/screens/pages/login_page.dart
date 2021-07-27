@@ -10,6 +10,7 @@ import 'package:youplay/screens/components/login/custom_login_fields.dart';
 import 'package:youplay/screens/ui_models/login_model.dart';
 import 'package:youplay/store/state/app_state.dart';
 import 'package:youplay/ui/components/nav/navigation_drawer.container.dart';
+import 'package:youplay/ui/components/web/web_wrapper.dart';
 
 import '../../localizations.dart';
 
@@ -21,7 +22,7 @@ class LoginPage extends StatelessWidget {
           title: Text("Login"),
         ),
         drawer: ARLearnNavigationDrawerContainer(),
-        body: _LoginScreenBody());
+        body: WebWrapper(child:_LoginScreenBody()));
   }
 }
 

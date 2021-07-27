@@ -13,7 +13,6 @@ import 'package:youplay/store/state/ui_state.dart';
 import 'package:youplay/ui/pages/game_landing.page.container.dart';
 import 'package:youplay/ui/pages/game_play.container.dart';
 
-
 class YouplayRouterDelegate extends RouterDelegate<YouplayRoutePath>
     with ChangeNotifier, PopNavigatorRouterDelegateMixin<YouplayRoutePath> {
   final GlobalKey<NavigatorState> navigatorKey;
@@ -21,10 +20,8 @@ class YouplayRouterDelegate extends RouterDelegate<YouplayRoutePath>
 
   YouplayRoutePath youplayRoutePath;
 
-  YouplayRouterDelegate({
-    required this.youplayRoutePath,
-    required this.updatePageType
-  })
+  YouplayRouterDelegate(
+      {required this.youplayRoutePath, required this.updatePageType})
       : navigatorKey = GlobalKey<NavigatorState>();
 
   YouplayRoutePath get currentConfiguration {
@@ -63,12 +60,14 @@ class YouplayRouterDelegate extends RouterDelegate<YouplayRoutePath>
           ),
           MaterialPage(
               key: ValueKey('GameLandingPage'),
-              child: GameLandingPageContainer(gameId: youplayRoutePath.pageId!) //gameId: _youplayRoutePath.gameId!
-          )
+              child: GameLandingPageContainer(
+                  gameId: youplayRoutePath
+                      .pageId!) //gameId: _youplayRoutePath.gameId!
+              )
         ];
-    // return GameLandingPage();
+      // return GameLandingPage();
       case PageType.runLandingPage:
-      // return RunLandingPage();
+        // return RunLandingPage();
         break;
 
       case PageType.game:
@@ -82,7 +81,7 @@ class YouplayRouterDelegate extends RouterDelegate<YouplayRoutePath>
           MaterialPage(
               key: ValueKey('GamePlayPage'),
               child: GamePlayContainer() //gameId: _youplayRoutePath.gameId!
-          )
+              )
         ];
       case PageType.gameItem:
         return [
@@ -95,19 +94,18 @@ class YouplayRouterDelegate extends RouterDelegate<YouplayRoutePath>
           MaterialPage(
               key: ValueKey('GamePlayPage'),
               child: GamePlayContainer() //gameId: _youplayRoutePath.gameId!
-          ),
+              ),
           MaterialPage(
               key: ValueKey('ItemPage'),
               child: GeneralItemScreen() //gameId: _youplayRoutePath.gameId!
-          )
+              )
         ];
-    //
+      //
       case PageType.login:
         return [
           MaterialPage(
             key: ValueKey('Login'),
-            child: LoginPage(
-            ),
+            child: LoginPage(),
           ),
         ];
 
@@ -122,7 +120,7 @@ class YouplayRouterDelegate extends RouterDelegate<YouplayRoutePath>
           MaterialPage(
               key: ValueKey('MyGamesPage'),
               child: MyGamesListPage() //gameId: _youplayRoutePath.gameId!
-          )
+              )
         ];
       case PageType.gameWithRuns:
         return [
@@ -135,13 +133,13 @@ class YouplayRouterDelegate extends RouterDelegate<YouplayRoutePath>
           MaterialPage(
               key: ValueKey('MyGamesPage'),
               child: MyGamesListPage() //gameId: _youplayRoutePath.gameId!
-          ),
+              ),
           MaterialPage(
               key: ValueKey('MyRunsOverviewPage'),
               child: GameRunsOverviewPage() //gameId: _youplayRoutePath.gameId!
-          ),
+              ),
         ];
-      // return authCheck(GameRunsOverviewPage(), pageModel);
+        // return authCheck(GameRunsOverviewPage(), pageModel);
         break;
 
       case PageType.scanGame:
@@ -153,9 +151,7 @@ class YouplayRouterDelegate extends RouterDelegate<YouplayRoutePath>
             ),
           ),
           MaterialPage(
-              key: ValueKey('QRScannerPage'),
-              child: GameQRScannerPage()
-          )
+              key: ValueKey('QRScannerPage'), child: GameQRScannerPage())
         ];
 
       case PageType.featured:
@@ -167,7 +163,6 @@ class YouplayRouterDelegate extends RouterDelegate<YouplayRoutePath>
             ),
           )
         ];
-
 
       case PageType.featured:
         return [
@@ -189,16 +184,14 @@ class YouplayRouterDelegate extends RouterDelegate<YouplayRoutePath>
           ),
           MaterialPage(
             key: ValueKey('Login'),
-            child: LoginPage(
-            ),
+            child: LoginPage(),
           ),
           MaterialPage(
             key: ValueKey('MakeAccount'),
-            child: CreateAccountPage(
-            ),
+            child: CreateAccountPage(),
           )
         ];
-      // return CreateAccountPage();
+        // return CreateAccountPage();
 //            return buildQRScanner(context);
 
         break;
@@ -213,7 +206,6 @@ class YouplayRouterDelegate extends RouterDelegate<YouplayRoutePath>
       )
     ];
   }
-
 
   @override
   Future<void> setNewRoutePath(YouplayRoutePath path) async {

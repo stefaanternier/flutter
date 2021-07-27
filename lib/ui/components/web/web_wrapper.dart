@@ -12,7 +12,7 @@ class WebWrapper extends StatelessWidget {
   Widget build(BuildContext context) {
     if (UniversalPlatform.isWeb) {
       return Container(
-        alignment: Alignment.center,
+        alignment: Alignment.topCenter,
         child: Container(
 
             constraints: BoxConstraints(maxHeight: 1280, maxWidth: 720),
