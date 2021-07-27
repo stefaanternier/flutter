@@ -26,7 +26,12 @@
 		"ok": "ok",
 		"or": "Or",
 		"password": "Password",
-		"recoverPw": "Recover password"
+		"recoverPw": "Recover password",
+		"user-not-found" : "User not found",
+		"unknown" : "Error while logging in",
+		"wrong-password" : "Wrong password",
+		"invalid-email" : "Invalid email",
+		"user-disabled" : "User account is disabled"
 	},
 	"makeaccount": {
 		"emailAddress": "What is your email address",
