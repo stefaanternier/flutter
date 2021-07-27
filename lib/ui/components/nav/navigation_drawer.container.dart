@@ -27,6 +27,7 @@ class ARLearnNavigationDrawerContainer extends StatelessWidget {
           showCurrentGame: vm.showCurrentGame(),
           currentGameTitle: vm.currentGameTitle,
           tapPage: (PageType page) {
+
             vm.onPageClicked(page);
           },
           tapExit: () {

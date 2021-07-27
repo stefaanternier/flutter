@@ -36,6 +36,7 @@ class ARLearnNavigationDrawer extends StatelessWidget {
                 leading: Icon(Icons.gamepad),
                 title: Text('${currentGameTitle}'),
                 onTap: () {
+                  Scaffold.of(context).openEndDrawer();
                   tapPage(PageType.game);
                 }),
           if (showCurrentGame) Divider(),
@@ -45,6 +46,7 @@ class ARLearnNavigationDrawer extends StatelessWidget {
               title:
                   Text(AppLocalizations.of(context).translate('games.myGames')),
               onTap: () {
+                Scaffold.of(context).openEndDrawer();
                 tapPage(PageType.myGames);
               },
             ),
@@ -53,6 +55,7 @@ class ARLearnNavigationDrawer extends StatelessWidget {
             title:
                 Text(AppLocalizations.of(context).translate('library.library')),
             onTap: () {
+              Scaffold.of(context).openEndDrawer();
               tapPage(PageType.featured);
             },
           ),
@@ -61,6 +64,7 @@ class ARLearnNavigationDrawer extends StatelessWidget {
               leading: Icon(FontAwesomeIcons.qrcode),
               title: Text(AppLocalizations.of(context).translate('scan.scan')),
               onTap: () {
+                Scaffold.of(context).openEndDrawer();
                 tapPage(PageType.scanGame);
               },
             ),
@@ -81,6 +85,7 @@ class ARLearnNavigationDrawer extends StatelessWidget {
               title:
                   Text(AppLocalizations.of(context).translate('login.login')),
               onTap: () {
+                Scaffold.of(context).openEndDrawer();
                 tapPage(PageType.login);
               },
             ),

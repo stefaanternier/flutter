@@ -3,6 +3,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:youplay/models/general_item.dart';
 import 'package:youplay/screens/util/extended_network_image.dart';
 import 'package:youplay/store/state/app_state.dart';
+import 'package:youplay/ui/components/web/web_wrapper.dart';
 
 import '../../general_item.dart';
 import 'components/game_themes.viewmodel.dart';
@@ -35,27 +36,30 @@ class GeneralItemWidget extends StatelessWidget {
     return null;
   }
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: ThemedAppBar(title: item.title, elevation: this.elevation),
         floatingActionButton: floatingActionButton,
-        body: new StoreConnector<AppState, GameThemesViewModel>(
-            converter: (store) => GameThemesViewModel.fromStore(store),
-            builder: (context, GameThemesViewModel themeModel) {
-              return Container(
-                padding: padding
-                    ? (renderBackground
-                        ? const EdgeInsets.fromLTRB(0, 0, 0, 0)
-                        : null)
-                    : null,
-                decoration: renderBackground //&& item.fileReferences != null
-                    ? getBoxDecoration(
-                        getBackground() ?? themeModel.gameTheme?.backgroundPath)
-                    : null,
-                child: body,
-              );
-            }));
+        body: WebWrapper(
+            child: new StoreConnector<AppState, GameThemesViewModel>(
+                converter: (store) => GameThemesViewModel.fromStore(store),
+                builder: (context, GameThemesViewModel themeModel) {
+                  return Container(
+                    padding: padding
+                        ? (renderBackground
+                            ? const EdgeInsets.fromLTRB(0, 0, 0, 0)
+                            : null)
+                        : null,
+                    decoration:
+                        renderBackground //&& item.fileReferences != null
+                            ? getBoxDecoration(getBackground() ??
+                                themeModel.gameTheme?.backgroundPath)
+                            : null,
+                    child: body,
+                  );
+                })));
   }
 }

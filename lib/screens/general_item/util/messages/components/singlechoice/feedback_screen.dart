@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:youplay/config/app_config.dart';
 import 'package:youplay/models/general_item.dart';
 import 'package:youplay/screens/general_item/util/messages/components/themed_container.dart';
+import 'package:youplay/ui/components/web/web_wrapper.dart';
 
 import '../../../../general_item.dart';
 import '../themed_app_bar.dart';
@@ -29,9 +30,9 @@ class FeedbackScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: ThemedAppBar(
-          title: result == 'wrong' ? "Onjuist" : "Correct",
+          title: result == 'wrong' ? "Onjuist2" : "Correct",
         ),
-        body: ThemedContainer(
+        body: WebWrapper(child:ThemedContainer(
             imageId: result,
             item: item,
             child: Column(
@@ -50,6 +51,6 @@ class FeedbackScreen extends StatelessWidget {
                             item: this.item,
                             giViewModel: this.giViewModel)))
               ],
-            )));
+            ))));
   }
 }

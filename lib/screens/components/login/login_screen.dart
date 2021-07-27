@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:universal_platform/universal_platform.dart';
 import 'package:youplay/config/app_config.dart';
 import 'package:youplay/screens/components/button/cust_flat_button.dart';
 import 'package:youplay/screens/components/button/cust_raised_button.dart';
@@ -28,10 +29,14 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   void initState() {
     emailController = TextEditingController(
-        text: AppConfig().loginConfig![widget.lang].defaultLoginName ?? '');
+        text: AppConfig().loginConfig![widget.lang]?.defaultLoginName ??
+            AppConfig().loginConfig!['nl']?.defaultLoginName ??
+            '');
     passwdController = TextEditingController(
         text:
-            AppConfig().loginConfig![widget.lang].defaultLoginPassword ?? '');
+            AppConfig().loginConfig![widget.lang]?.defaultLoginPassword ??
+                AppConfig().loginConfig!['nl']?.defaultLoginPassword ??
+                '');
   }
 
   @override
@@ -72,9 +77,10 @@ class _LoginScreenState extends State<LoginScreen> {
                         store.dispatch(CustomAccountLoginAction(
                             user: emailController.text,
                             password: passwdController.text,
-                            onError: () {
-                              final snackBar =
-                                  SnackBar(content: Text("Error while login"));
+                            onError: (String code) {
+                              // final snackBar =
+                              //     SnackBar(content: Text("Error while login"));
+                              final snackBar = SnackBar(content: Text(AppLocalizations.of(context).translate('login.'+code)));
 
                               Scaffold.of(context).showSnackBar(snackBar);
                               print("show snackbar?");
@@ -111,7 +117,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       },
                     )),
             SizedBox(height: 20),
-            (Platform.isIOS
+            (UniversalPlatform.isIOS
                 ? new StoreConnector<AppState, dynamic>(
                     distinct: true,
                     converter: (store) => store,

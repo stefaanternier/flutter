@@ -6,6 +6,7 @@ import 'package:youplay/ui/components/nav/navigation_drawer.container.dart';
 import 'package:youplay/ui/components/nav/navigation_drawer.dart';
 import 'package:youplay/ui/components/game_play/message_list.container.dart';
 import 'package:youplay/ui/components/game_play/toggle_view_button.container.dart';
+import 'package:youplay/ui/components/web/web_wrapper.dart';
 
 class GamePlay extends StatelessWidget {
   Color color;
@@ -28,6 +29,7 @@ class GamePlay extends StatelessWidget {
             ),
             actions:
                 UniversalPlatform.isWeb ? null : [ToggleViewButtonContainer()]),
-        body: MessageListContainer());
+        body: WebWrapper(
+            child: MessageListContainer()));
   }
 }

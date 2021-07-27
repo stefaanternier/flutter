@@ -16,6 +16,7 @@ import 'package:youplay/screens/general_item/general_item.dart';
 import 'package:youplay/store/selectors/current_run.selectors.dart';
 import 'package:youplay/store/state/app_state.dart';
 import 'package:youplay/ui/components/messages_parts/richtext-top.container.dart';
+import 'package:youplay/ui/components/next_button/next_button.container.dart';
 
 import 'components/next_button.dart';
 import 'generic_message.dart';
@@ -228,22 +229,9 @@ class _NarratorWithVideoState extends State<NarratorWithVideo> {
               }),
         ),
         Padding(
-            padding: const EdgeInsets.fromLTRB(46, 8.0, 46, 8),
-            child: NextButton(
-                buttonText:
-                    AppLocalizations.of(context).translate('screen.proceed'),
-                overridePrimaryColor: widget.giViewModel.getPrimaryColor(),
-                customButton: CustomRaisedButton(
-                  useThemeColor: true,
-                  title:
-                      AppLocalizations.of(context).translate('screen.proceed'),
-                  // icon: new Icon(Icons.play_circle_outline, color: Colors.white),
-                  primaryColor: widget.giViewModel.getPrimaryColor(),
-                  onPressed: () {
-                    widget.giViewModel.continueToNextItem(context);
-                  },
-                ),
-                giViewModel: widget.giViewModel)),
+          padding: const EdgeInsets.fromLTRB(46, 8.0, 46, 8),
+          child: NextButtonContainer(item: widget.giViewModel.item!),
+        ),
         Padding(
           padding: const EdgeInsets.fromLTRB(46, 8.0, 46, 28),
           child: CustomFlatButton(

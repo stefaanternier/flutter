@@ -17,13 +17,16 @@ class FeaturedGamesCarrouselViewModel {
     return FeaturedGamesCarrouselViewModel(
         games: featuredGamesSelector(store.state),
         openGame: (Game g) {
-          store.dispatch(LoadGameSuccessAction(game: g));
-          store.dispatch(LoadPublicGameRequestAction(gameId: g.gameId));
-          store.dispatch(ResetRunsAndGoToLandingPage());
-//          store.dispatch(SetPage(PageType.gameLandingPage));
-          if (store.state.authentication.authenticated) {
-            store.dispatch(ApiRunsParticipateAction(g.gameId));
-          }
-        });
+          store.dispatch(new SetPage(page: PageType.gameLandingPage, pageId: g.gameId));
+
+//           store.dispatch(LoadGameSuccessAction(game: g));
+//           store.dispatch(LoadPublicGameRequestAction(gameId: g.gameId));
+//           store.dispatch(ResetRunsAndGoToLandingPage());
+// //          store.dispatch(SetPage(PageType.gameLandingPage));
+//           if (store.state.authentication.authenticated) {
+//             store.dispatch(ApiRunsParticipateAction(g.gameId));
+//           }
+        }
+        );
   }
 }

@@ -28,7 +28,7 @@ class CustomAccountLoginAction {
 
   String password;
 
-  Function onError;
+  Function(String) onError;
   Function onWrongCredentials;
   Function onSucces;
 

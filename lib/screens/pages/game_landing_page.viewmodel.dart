@@ -12,6 +12,8 @@ import 'package:youplay/store/selectors/current_game.selectors.dart';
 import 'package:youplay/store/selectors/game_library.selectors.dart';
 import 'package:youplay/store/state/app_state.dart';
 
+import '../../localizations.dart';
+
 class GameLandingPageViewModel {
   Game? game;
   GameTheme? gameTheme;
@@ -50,8 +52,10 @@ class GameLandingPageViewModel {
           store.dispatch(CustomAccountLoginAction(
               user: email,
               password: password,
-              onError: () {
-                final snackBar = SnackBar(content: Text("Error while login"));
+              onError: (String code) {
+                final snackBar = SnackBar(content: Text(AppLocalizations.of(context).translate('login.'+code)));
+
+                // final snackBar = SnackBar(content: Text("Error while login"));
 
                 Scaffold.of(context).showSnackBar(snackBar);
                 print("show snackbar?");
