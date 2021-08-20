@@ -19,6 +19,8 @@ class GenericApi {
 
   static Future<Response> get(String path) async {
     var url = Uri.https(AppConfig().baseUrl, path);
+    // String token = await GenericApi.getIdToken();
+    // print('token is $token' );
     return await http.get(url,
         headers: {"Authorization": "Bearer " + await GenericApi.getIdToken()});
   }

@@ -17,16 +17,16 @@ RunState addLocalAction(RunState state, LocalAction toReduceAction) {
 
 
 RunState addActionsFromServer(RunState state, SyncARLearnActionsListServerToMobileComplete action) {
+  bool found = false;
   action.result.responses.forEach((arlearnaction) {
-    bool found = false;
     if (_actionReplaceNecessary(state.actionsFromServer, arlearnaction)) {
       state.actionsFromServer[_actionLookupString(arlearnaction)] = arlearnaction;
       found = true;
     }
-    if (found) {
-      state.actionsFromServer = HashMap.from(state.actionsFromServer);
-    }
   });
+  if (found) {
+    return state.copyWith(a:HashMap<String, ARLearnAction>.from(state.actionsFromServer));
+  }
   return state;
 }
 

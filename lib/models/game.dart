@@ -13,11 +13,15 @@ class Game {
   int? sharing;
   double? lat;
   double? lng;
+  double boardHeight;
+  double boardWidth;
   String language;
   String title;
   String iconAbbreviation;
   String description;
   String? messageListScreen;
+  List<int> messageListTypes;
+
   int theme;
   int lastModificationDate;
   bool privateMode;
@@ -33,6 +37,8 @@ class Game {
         privateMode = json['privateMode'] ?? false,
         lat = json['lat'],
         lng = json['lng'],
+        boardHeight = json['boardHeight'] != null? (json['boardHeight'] as int).toDouble() : 1920,
+        boardWidth = json['boardWidth'] != null? (json['boardWidth'] as int).toDouble() : 1080,
         endsOn =
             json['endsOn'] != null ? Dependency.fromJson(json['endsOn']) : null,
         language = json['language'],
@@ -40,6 +46,11 @@ class Game {
         title = json['title'] ?? '',
         description = json['description'] ?? '',
         messageListScreen = json['messageListScreen'],
+        messageListTypes = (json['messageListTypes'] ?? "")
+            .split(',')
+            .where((nAsString) => nAsString.trim() != "")
+            .map<int>((nAsString) => int.parse(nAsString))
+            .toList(),
         iconAbbreviation = json['iconAbbreviation'] ?? '',
         config = GameConfig.fromJson(json['config']);
 
@@ -49,12 +60,15 @@ class Game {
       required this.sharing,
       this.lat = -1,
       this.lng = -1,
+      required this.boardHeight,
+      required this.boardWidth,
       this.language = 'en',
       this.theme = 0,
       this.endsOn,
       this.privateMode = false,
       this.title = "no title",
       this.messageListScreen,
+      required this.messageListTypes,
       this.description = "",
       this.iconAbbreviation = ''});
 
@@ -78,11 +92,19 @@ class Game {
     return endsOn!.evaluate(actions);
   }
 
-  nextView(MessageView currentView) {
-    if (currentView == MessageView.mapView) {
-      return MessageView.listView;
+  nextView(int currentView) {
+    print("currentview ${currentView}");
+    if (messageListTypes.length <= 1) {
+      return currentView;
     }
-    return MessageView.mapView;
+    int index =
+        (messageListTypes.indexOf(currentView) + 1) % messageListTypes.length;
+    print("index ${index}");
+    return messageListTypes[index];
+    // if (currentView == MessageView.mapView) {
+    //   return MessageView.listView;
+    // }
+    // return MessageView.mapView;
   }
 }
 

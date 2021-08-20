@@ -42,6 +42,7 @@ Stream<dynamic> customCredentialsLogin(
   Stream<CustomAccountLoginAction> actions,
   EpicStore<AppState> store,
 ) {
+  print('auth is $_auth');
   return actions.asyncMap((action) => _auth
           .signInWithEmailAndPassword(
               email: action.user, password: action.password)
