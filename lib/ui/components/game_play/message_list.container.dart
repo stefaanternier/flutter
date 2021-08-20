@@ -27,44 +27,51 @@ class MessageListContainer extends StatefulWidget {
 class _MessageListContainerState extends State<MessageListContainer> {
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, _ViewModel>(
-      converter: (Store<AppState> store) => _ViewModel.fromStore(store),
-      builder: (context, vm) {
-        int now = new DateTime.now().millisecondsSinceEpoch;
-        List<ItemTimes> items = vm.items
-            .where((element) => (element.appearTime < now))
-            .toList(growable: false);
-        vm.items
-            .where((element) => (element.appearTime > now))
-            .forEach((itemTime) {
-          new Future.delayed(
-              Duration(milliseconds: (itemTime.appearTime - now)), () {
-            setState(() {});
-          });
-        });
+    return Center(
+      child: Center(
+        child: StoreConnector<AppState, _ViewModel>(
+          converter: (Store<AppState> store) => _ViewModel.fromStore(store),
+          builder: (context, vm) {
+            int now = new DateTime.now().millisecondsSinceEpoch;
+            List<ItemTimes> items = vm.items
+                .where((element) => (element.appearTime < now))
+                .toList(growable: false);
+            vm.items
+                .where((element) => (element.appearTime > now))
+                .forEach((itemTime) {
+              new Future.delayed(
+                  Duration(milliseconds: (itemTime.appearTime - now)), () {
+                setState(() {});
+              });
+            });
+print("itmes length = ${items.length}");
+            if (vm.listType == 2) {
+              return MessagesList(
+                items: items,
+                tapEntry: vm.tapEntry,
+              );
+            }
+            if (vm.listType == 1) {
 
-        if (vm.listType == MessageView.listView) {
-          return MessagesList(
-            items: items,
-            tapEntry: vm.tapEntry,
-          );
-        }
-        if (vm.listType == MessageView.metafoorView) {
-          return MetafoorView(
-            items: items,
-            tapEntry: vm.tapEntry,
-            backgroundPath:
-                vm.game?.messageListScreen ?? '/mediaLibrary/Bos/Jungle.png',
-          );
-        }
-        return LocationContext.around(
-            MessagesMapView(
-              items: items,
-              tapEntry:vm.tapEntry,
-            ),
-            vm.points,
-            vm.onLocationFound);
-      },
+              return MetafoorView(
+                items: items,
+                tapEntry: vm.tapEntry,
+                width: vm.game?.boardWidth?? 800,
+                height: vm.game?.boardHeight?? 860,
+                backgroundPath:
+                    vm.game?.messageListScreen ?? '/mediaLibrary/Bos/Jungle.png',
+              );
+            }
+            return LocationContext.around(
+                MessagesMapView(
+                  items: items,
+                  tapEntry:vm.tapEntry,
+                ),
+                vm.points,
+                vm.onLocationFound);
+          },
+        ),
+      ),
     );
   }
 }
@@ -75,7 +82,7 @@ class _ViewModel {
   List<LocationTrigger> points;
   Function onLocationFound;
   Game? game;
-  MessageView listType;
+  int listType;
 
   // int runId;
 
@@ -89,9 +96,15 @@ class _ViewModel {
 
   static _ViewModel fromStore(Store<AppState> store) {
     int runId = runIdSelector(store.state.currentRunState);
+    int lt = store.state.uiState.currentView;
+    // int i = lt.index;
+    Game? g = store.state.currentGameState.game;
+    // if (g != null && !g.messageListTypes.contains(i)) {
+    //   lt = MessageView.values[g.messageListTypes[0]-1];
+    // }
     return _ViewModel(
-        listType: store.state.uiState.currentView,
-        game: store.state.currentGameState.game,
+        listType: lt, //store.state.uiState.currentView,
+        game: g,//store.state.currentGameState.game,
         points: gameLocationTriggers(store.state),
         onLocationFound: (double lat, double lng, int radius) {
           if (runId != -1) {

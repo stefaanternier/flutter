@@ -5,26 +5,39 @@ import 'package:youplay/store/state/ui_state.dart';
 
 class ToggleViewButton extends StatelessWidget {
 
-  MessageView view;
+  int view;
+  int nextView;
   Function() togglePress;
 
   ToggleViewButton({
     required this.view,
+    required this.nextView,
     required this.togglePress,
     Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     IconData iconData = Icons.list;
-    switch(view) {
-      case MessageView.mapView:
+    String toolTip = "";
+    switch(nextView) {
+      case 2:
+        iconData = Icons.list;
+        toolTip = "naar lijst modus";
+        break;
+      case 3:
         iconData = FontAwesomeIcons.mapMarkedAlt;
+        toolTip = "naar kaart modus";
+        break;
+      case 1:
+        iconData = FontAwesomeIcons.chessBoard;
+        toolTip = "naar bord modus";
+        break;
     }
     return IconButton(
       icon: new Icon(
           iconData,
           color: Colors.white),
-      tooltip: 'Navigate to map mode',
+      tooltip: toolTip,
       onPressed: togglePress
           // () {
         // currentGameViewModel.dispatchToggleMessageView();

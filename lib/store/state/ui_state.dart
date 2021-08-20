@@ -30,7 +30,10 @@ class UiState {
   PageType currentPage = PageType.featured;
   int theme;
   int error;
-  MessageView currentView;
+  int currentView;
+  //1 = board
+  //2 = list
+  //3 = map
 
   UiState({
     // required this.gameIdToGame,
@@ -40,7 +43,7 @@ class UiState {
     this.theme = 0,
     this.error = -1,
     this.pageId,
-    this.currentView = MessageView.listView
+    this.currentView = 1
   });
 
   factory UiState.initState()  {
@@ -63,7 +66,7 @@ class UiState {
     int? newTheme,
     int? newError,
     int? newPageId,
-    MessageView? newView
+    int? newView
   }) {
 
     if (newPageId != null) {
@@ -98,9 +101,9 @@ class UiState {
 
 
 enum MessageView {
-  mapView,
   listView,
-  metafoorView
+  metafoorView,
+  mapView
 }
 
 class GameUiState {

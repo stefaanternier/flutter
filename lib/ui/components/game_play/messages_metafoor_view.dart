@@ -17,40 +17,51 @@ class MetafoorView extends StatelessWidget {
   List<ItemTimes> items = [];
   Function(GeneralItem) tapEntry;
   String backgroundPath;
+  double width;
+  double height;
 
   MetafoorView({
     required this.items,
     required this.tapEntry,
     required this.backgroundPath,
+    required this.width,
+    required this.height,
     Key? key}): super(key: key);
 
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
-    return Stack(
-        children: [
-      Container(
-        decoration: getBoxDecoration(this.backgroundPath),
-      ),
-    ]..addAll(items.map((item) {
-      double x =item.generalItem.relX??1;
-      double x2 =width;
-      double x3 =x * x2;
-      print('pos ${x}  ${x2} ${x3}');
-      return Positioned(
-              height: 50,
-              width: 50,
-              left: x3,
-              top: (item.generalItem.relY??1)*(height -80),
-              child: GestureDetector(
-                  onTap: () {
-                    this.tapEntry(item.generalItem);
-                  },
-                  child: MessageEntryIconContainer(item: item.generalItem)),
-            );}
+    return Center(
+      child: InteractiveViewer(
+        maxScale: 5,
+         minScale: 0.1,
+         constrained: false,
+        child: Center(
+          child: Stack(
+              children: [
+            SizedBox(
+              width: width,
+              height: height,
+              child: Container(
+                decoration: getBoxDecoration(this.backgroundPath),
+              ),
+            ),
+          ]..addAll(items.map((item) {
+            return Positioned(
+                    height: 50,
+                    width: 50,
+                    left: ((item.generalItem.authoringX??15) - 19),
+                    top: ((item.generalItem.authoringY??15) - 19),
+                    child: GestureDetector(
+                        onTap: () {
+                          this.tapEntry(item.generalItem);
+                        },
+                        child: MessageEntryIconContainer(item: item.generalItem)),
+                  );}
 
-        )));
+              ))),
+        ),
+      ),
+    );
   }
 }

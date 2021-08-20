@@ -11,7 +11,7 @@ class ToggleMessageViewAction {
 
 class SetMessageViewAction {
 
-  MessageView messageView;
+  int messageView;
   SetMessageViewAction({required this.messageView});
 }
 

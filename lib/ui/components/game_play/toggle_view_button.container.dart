@@ -19,8 +19,12 @@ class ToggleViewButtonContainer extends StatelessWidget {
     return StoreConnector<AppState, _ViewModel>(
       converter: _ViewModel.fromStore,
       builder: (context, vm) {
+        if (vm.nextView == vm.view) {
+          return Container();
+        }
         return ToggleViewButton(
           view: vm.view,
+          nextView: vm.nextView,
           togglePress: vm.togglePress,
         );
       },
@@ -30,15 +34,21 @@ class ToggleViewButtonContainer extends StatelessWidget {
 
 class _ViewModel {
   Function() togglePress;
-  MessageView view;
+  int view;
+  int nextView;
 
-  _ViewModel({required this.togglePress, required this.view});
+  _ViewModel({
+    required this.togglePress, 
+    required this.view,
+    required this.nextView
+  });
 
   static _ViewModel fromStore(Store<AppState> store) {
     Game? game = gameSelector(store.state.currentGameState);
-
+    int v = store.state.uiState.currentView;
     return _ViewModel(
-        view: store.state.uiState.currentView,
+        view: v,
+        nextView: game == null? 2: game.nextView(v),
         togglePress: () {
       print('toggle press ${game?.title}');
       if (game != null) store.dispatch(ToggleMessageViewAction(game: game));

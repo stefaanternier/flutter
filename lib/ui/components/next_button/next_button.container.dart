@@ -36,10 +36,19 @@ class _NextButtonContainerState extends State<NextButtonContainer> {
 
   @override
   Widget build(BuildContext context) {
+    int now = new DateTime.now().millisecondsSinceEpoch;
+
     return StoreConnector<AppState, _ViewModel>(
       converter: (Store<AppState> store) =>
           _ViewModel.fromStore(store, widget.item, context),
       builder: (context, vm) {
+        if (((vm.nextItem?.lastModificationDate??0) - now) > 0) {
+          _timer?.cancel();
+          _timer = new Timer(const Duration(milliseconds: 1000), () {
+            setState(() {
+            });
+          });
+        }
         return NextButton(
             visible: vm.buttonVisible,
             buttonText: vm.buttonText,
@@ -60,6 +69,7 @@ class _ViewModel {
   List<ItemTimes> moreRecentGames;
   Store<AppState> store;
   GeneralItem item;
+  GeneralItem? nextItem;
   _ButtonAction? buttonAction;
   Run? currentRun;
 
@@ -71,6 +81,7 @@ class _ViewModel {
       required this.moreRecentGames,
       required this.store,
       required this.item,
+        this.nextItem,
       this.buttonAction,
       this.currentRun});
 
@@ -90,6 +101,7 @@ class _ViewModel {
         color: itemColor(store.state),
         buttonText: text,
         item: item,
+        nextItem: nextItemObject(store.state),
         buttonAction: _ButtonAction.fromItem(item),
         currentRun: currentRunSelector(store.state.currentRunState));
   }
@@ -99,7 +111,7 @@ class _ViewModel {
       if (buttonAction!.isToMap()) {
         if (item != null) {
           store.dispatch(
-              new SetMessageViewAction(messageView: MessageView.mapView)
+              new SetMessageViewAction(messageView: 3)//MessageView.mapView
           );
         }
 
@@ -108,7 +120,7 @@ class _ViewModel {
       }
       if (buttonAction!.isToList()) {
         store.dispatch(
-            new SetMessageViewAction(messageView: MessageView.listView)
+            new SetMessageViewAction(messageView: 2)
         );
         // store.dispatch(new ToggleMessageViewAction(
         //     gameId: item.gameId, messageView: MessageView.listView));
