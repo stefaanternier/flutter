@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:youplay/screens/game/message_view.dart';
-import 'package:youplay/store/state/ui_state.dart';
+
 
 class ToggleViewButton extends StatelessWidget {
 
