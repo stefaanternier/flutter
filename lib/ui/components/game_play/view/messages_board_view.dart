@@ -1,17 +1,7 @@
-import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_redux/flutter_redux.dart';
-import 'package:youplay/config/app_config.dart';
-import 'package:youplay/models/game.dart';
 import 'package:youplay/models/general_item.dart';
-import 'package:youplay/screens/components/game_play/message_list_entry.dart';
+import 'package:youplay/ui/components/game_play/list_entry/message_list_entry_icon_container.dart';
 import 'package:youplay/screens/util/extended_network_image.dart';
-import 'package:youplay/screens/util/icons_helper.dart';
-import 'package:youplay/screens/util/location/context2.dart';
-import 'package:youplay/store/state/app_state.dart';
-
-import '../../../../screens/components/game_play/message_list_entry_icon_container.dart';
-import '../../../../screens/components/game_play/message_list_view.viewmodel.dart';
 
 class MetafoorView extends StatelessWidget {
   List<ItemTimes> items = [];

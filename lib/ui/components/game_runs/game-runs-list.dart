@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:youplay/models/run.dart';
-import 'package:youplay/screens/components/game_run_overview/list_tile.dart';
+import 'package:youplay/ui/components/game_runs/run_list_entry.dart';
 
 class GameRunList extends StatelessWidget {
 
@@ -20,7 +20,7 @@ class GameRunList extends StatelessWidget {
               (index) => Column(
             children: [
               Divider(),
-              RunListTile(
+              RunListEntry(
                   title:
                   "${(runList[index]).title}",
                   lastModificationDate: runList[index].lastModificationDate,
