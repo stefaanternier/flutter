@@ -6,7 +6,7 @@ import 'package:youplay/actions/run_actions.dart';
 import 'package:youplay/config/app_config.dart';
 import 'package:youplay/models/game.dart';
 import 'package:youplay/models/general_item.dart';
-import 'package:youplay/screens/components/game_play/messages_map_view.dart';
+import 'package:youplay/ui/components/game_play/view/messages_map_view.dart';
 import 'package:youplay/screens/general_item/general_item.dart';
 import 'package:youplay/screens/util/location/context2.dart';
 import 'package:youplay/selectors/selectors.dart';
@@ -16,8 +16,8 @@ import 'package:youplay/store/selectors/current_run.selectors.dart';
 import 'package:youplay/store/state/app_state.dart';
 import 'package:youplay/store/state/ui_state.dart';
 
-import '../../../screens/components/game_play/messages_list_view.dart';
-import 'messages_metafoor_view.dart';
+import 'view/messages_list_view.dart';
+import 'view/messages_board_view.dart';
 
 class MessageListContainer extends StatefulWidget {
   @override
@@ -44,7 +44,6 @@ class _MessageListContainerState extends State<MessageListContainer> {
                 setState(() {});
               });
             });
-print("itmes length = ${items.length}");
             if (vm.listType == 2) {
               return MessagesList(
                 items: items,

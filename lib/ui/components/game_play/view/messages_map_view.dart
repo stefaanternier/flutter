@@ -3,20 +3,17 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_redux/flutter_redux.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:youplay/models/game.dart';
 import 'package:youplay/models/general_item.dart';
-import 'package:youplay/screens/ui_models/message_view_model.dart';
-import 'package:youplay/screens/util/location/context2.dart';
-import 'package:youplay/store/state/app_state.dart';
 
 class MessagesMapView extends StatefulWidget {
   List<ItemTimes> items = [];
   Function(GeneralItem) tapEntry;
   Game? game;
-  MessagesMapView({this.game,required  this.items, required  this.tapEntry})
+
+  MessagesMapView({this.game, required this.items, required this.tapEntry})
       : _kInitialPosition = CameraPosition(
           target: (game == null || game.lat == null || game.lng == null)
               ? LatLng(50.886959, 5.973426)
@@ -34,16 +31,11 @@ class MessagesMapView extends StatefulWidget {
 }
 
 class _MessagesMapViewState extends State<MessagesMapView> {
-  StreamSubscription<LocationData>? _locationChangedSubscription;
-
   Completer<GoogleMapController> _controller = Completer();
-
-  LocationData? _locationData;
 
   @override
   void initState() {
     super.initState();
-    // initLoc();
   }
 
   void initLoc(GoogleMapController controller) async {
@@ -66,29 +58,28 @@ class _MessagesMapViewState extends State<MessagesMapView> {
       }
     }
     LocationData locationData = await location.getLocation();
-    if (locationData != null && locationData.latitude!=null&& locationData.longitude!=null) {
+    if (locationData.latitude != null &&
+        locationData.longitude != null) {
       controller.animateCamera(CameraUpdate.newLatLngZoom(
-          LatLng(locationData.latitude!, locationData.longitude!), 17));
+          LatLng(locationData.latitude!, locationData.longitude!), 16));
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    LocationData? data = LocationContext.of(context)?.lastLocation;
-    // print("data is ${data.latitude}");
-    List<Marker> markers = [];
-    widget.items
-        .where((element) =>
-            element.generalItem.showOnMap == null ||
-            element.generalItem.showOnMap)
-        .forEach((item) {
-      if (item.generalItem.lat != null) {
-        markers.add(buildMarker(item.generalItem, () {
-          widget.tapEntry(item.generalItem);
-        }));
-      }
-    });
-    Set<Marker> _markers = Set<Marker>.of(markers);
+    Set<Marker> _markers = widget.items
+        .where((element) => element.generalItem.showOnMap)
+        .where((element) => element.generalItem.lat != null)
+        .map((item) => Marker(
+              markerId: MarkerId("${item.generalItem.itemId}"),
+              position:
+                  LatLng(item.generalItem.lat ?? 50, item.generalItem.lng ?? 6),
+              infoWindow: InfoWindow(
+                  title: "${item.generalItem.title}",
+                  onTap: () => widget.tapEntry(item.generalItem)),
+              onTap: () {},
+            ))
+        .toSet();
     return GoogleMap(
       gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>[
         Factory<OneSequenceGestureRecognizer>(
@@ -103,25 +94,6 @@ class _MessagesMapViewState extends State<MessagesMapView> {
         _controller.complete(controller);
         initLoc(controller);
       },
-    );
-  }
-
-  Marker buildMarker(GeneralItem generalItem, Function onTap) {
-    return Marker(
-      markerId: MarkerId("${generalItem.itemId}"),
-      position: LatLng(generalItem.lat??50, generalItem.lng??6),
-      infoWindow: InfoWindow(
-          title: "${generalItem.title}",
-//              snippet: '*',
-          onTap: () {
-            print("tap ${generalItem.title}");
-            if (generalItem != null) {
-              print("tap ${generalItem.title}");
-              onTap();
-            }
-            ;
-          }),
-      onTap: () {},
     );
   }
 }

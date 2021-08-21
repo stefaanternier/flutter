@@ -3,15 +3,17 @@ import 'package:youplay/router/youplay-route-path.dart';
 import 'package:youplay/screens/general_item/general_item.dart';
 import 'package:youplay/screens/library/game_from_qr.dart';
 import 'package:youplay/screens/pages/create_account_page.dart';
-import 'package:youplay/screens/pages/featured_games_page.dart';
 import 'package:youplay/screens/pages/game_landing_page.dart';
 import 'package:youplay/screens/pages/game_play_page.dart';
 import 'package:youplay/screens/pages/game_runs_overview_page.dart';
 import 'package:youplay/screens/pages/login_page.dart';
 import 'package:youplay/screens/pages/my_games_list_page.dart';
 import 'package:youplay/store/state/ui_state.dart';
+import 'package:youplay/ui/pages/collection.page.dart';
 import 'package:youplay/ui/pages/game_landing.page.container.dart';
 import 'package:youplay/ui/pages/game_play.container.dart';
+import 'package:youplay/ui/pages/game_runs.page.dart';
+import 'package:youplay/ui/pages/my-games-list.page.dart';
 
 class YouplayRouterDelegate extends RouterDelegate<YouplayRoutePath>
     with ChangeNotifier, PopNavigatorRouterDelegateMixin<YouplayRoutePath> {
@@ -119,7 +121,7 @@ class YouplayRouterDelegate extends RouterDelegate<YouplayRoutePath>
           ),
           MaterialPage(
               key: ValueKey('MyGamesPage'),
-              child: MyGamesListPage() //gameId: _youplayRoutePath.gameId!
+              child: MyGamesListPageNew() //gameId: _youplayRoutePath.gameId!
               )
         ];
       case PageType.gameWithRuns:
@@ -132,11 +134,11 @@ class YouplayRouterDelegate extends RouterDelegate<YouplayRoutePath>
           ),
           MaterialPage(
               key: ValueKey('MyGamesPage'),
-              child: MyGamesListPage() //gameId: _youplayRoutePath.gameId!
+              child: MyGamesListPageNew() //gameId: _youplayRoutePath.gameId!
               ),
           MaterialPage(
               key: ValueKey('MyRunsOverviewPage'),
-              child: GameRunsOverviewPage() //gameId: _youplayRoutePath.gameId!
+              child: GameRunsPage() //gameId: _youplayRoutePath.gameId!
               ),
         ];
         // return authCheck(GameRunsOverviewPage(), pageModel);
