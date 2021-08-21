@@ -17,17 +17,6 @@ class LoadParticipateGamesListResponseAction extends GenericWebResponseAction {
 
   LoadParticipateGamesListResponseAction({resultAsString}): super(resultAsString:resultAsString);
 
-//  decode() {
-//    this.resultAsJson = jsonDecode(this.resultAsString);
-//  }
-
-//  getResultsAsJson() {
-//    if (resultAsJson == null) {
-//      decode();
-//    }
-//    return resultAsJson;
-//  }
-
   List<int> getResultIdentifiers() {
     dynamic json = getResultsAsJson();
     if (json["items"] == null) return [];
@@ -58,25 +47,10 @@ class LoadParticipateGameResponseAction {
 
   LoadParticipateGameResponseAction({required this.game, required  this.gameId}); //: super(resultAsString:resultAsString);
 
-//  decode() {
-//    this.resultAsJson = jsonDecode(this.resultAsString);
-//  }
-//
-//  bool isError() {
-//    if (resultAsJson == null) {
-//      decode();
-//    }
-//    return resultAsJson["error"] != null;
-//  }
+}
 
-//  getResultsAsJson() {
-//    if (resultAsJson == null) {
-//      decode();
-//    }
-//    return resultAsJson;
-//  }
+class SetGameQuery {
+  String? query;
 
-//  Game getGame() {
-//    return Game.fromJson(getResultsAsJson());
-//  }
+  SetGameQuery({this.query});
 }

@@ -77,7 +77,7 @@ class NarratorItem extends GeneralItem {
         authoringY: json['authoringY'],
         relX: json['relX'],
         relY: json['relY'],
-        showOnMap: json['showOnMap'] ?? false,
+        showOnMap: json['showOnMap'] ?? true,
         showInList: json['showInList'] == null ? true : json['showInList'],
         openQuestion: json['openQuestion'] != null
             ? OpenQuestion.fromJson(json["openQuestion"])
