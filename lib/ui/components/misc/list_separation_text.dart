@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class ListSeparationText extends StatelessWidget {
-  String text;
+  final String text;
 
   ListSeparationText({required this.text});
 

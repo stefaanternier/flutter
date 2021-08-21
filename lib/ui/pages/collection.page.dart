@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:youplay/config/app_config.dart';
 import 'package:youplay/screens/components/featured_games/featured_game_carrousel.dart';
-import 'package:youplay/screens/components/my_game_list/list_seperation_text.dart';
-// import 'package:youplay/screens/components/search_widget/recent_games_list.dart';
-
 import 'package:youplay/ui/components/collection/collection_search.container.dart';
-import 'package:youplay/ui/components/collection/search_result_list.dart';
 import 'package:youplay/ui/components/collection/recent_games_list.container.dart';
+import 'package:youplay/ui/components/collection/search_result_list.dart';
+import 'package:youplay/ui/components/misc/list_separation_text.dart';
 import 'package:youplay/ui/components/nav/navigation_drawer.container.dart';
 import 'package:youplay/ui/components/web/web_wrapper.dart';
 

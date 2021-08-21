@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:youplay/models/game.dart';
 import 'package:youplay/models/general_item.dart';
-import 'package:youplay/screens/components/game_play/message_list_entry.dart';
+import 'package:youplay/ui/components/game_play/list_entry/message_list_entry.dart';
 
 class MessagesList extends StatelessWidget {
 

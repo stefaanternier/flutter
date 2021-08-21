@@ -6,13 +6,13 @@ import 'package:youplay/screens/general_item/util/messages/components/themed_app
 import 'package:youplay/store/state/app_state.dart';
 import 'package:intl/intl.dart';
 
-class RunListTile extends StatelessWidget {
+class RunListEntry extends StatelessWidget {
   final String title;
   int lastModificationDate;
   final GestureTapCallback onTap;
   // Color iconColor;
 
-  RunListTile({required this.onTap, required this.title,required  this.lastModificationDate});
+  RunListEntry({required this.onTap, required this.title,required  this.lastModificationDate});
 
   @override
   Widget build(BuildContext context) {
@@ -44,9 +44,7 @@ class RunListTile extends StatelessWidget {
                 ),
               ),
             ),
-            // leading: Icon(
-            //   FontAwesomeIcons.playCircle,
-            // ),
+
             title: new Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
@@ -61,11 +59,6 @@ class RunListTile extends StatelessWidget {
             ),
             subtitle: Text(
                 '${formatter.format(DateTime.fromMillisecondsSinceEpoch(lastModificationDate))} '),
-//          subtitle: new Container(
-//            child: new Text(
-//              title,
-//            ),
-//          ),
 
           );
         });
