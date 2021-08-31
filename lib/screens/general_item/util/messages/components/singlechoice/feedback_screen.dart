@@ -6,6 +6,7 @@ import 'package:youplay/ui/components/web/web_wrapper.dart';
 
 import '../../../../general_item.dart';
 import '../themed_app_bar.dart';
+import '../themed_card.container.dart';
 import '../themed_card.dart';
 
 class FeedbackScreen extends StatelessWidget {
@@ -14,43 +15,45 @@ class FeedbackScreen extends StatelessWidget {
   GeneralItem item;
   String feedback;
   Color? overridePrimaryColor;
-  Function buttonClick;
+  Function() buttonClick;
   GeneralItemViewModel? giViewModel;
 
   FeedbackScreen(
       {required this.result,
-        required this.buttonText,
-        required this.item,
-        required this.feedback,
+      required this.buttonText,
+      required this.item,
+      required this.feedback,
       this.overridePrimaryColor,
-        required this.buttonClick,
-         this.giViewModel});
+      required this.buttonClick,
+      this.giViewModel});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: ThemedAppBar(
-          title: result == 'wrong' ? "Onjuist2" : "Correct",
+          title: result == 'wrong' ? "Onjuist" : "Juist",
         ),
-        body: WebWrapper(child:ThemedContainer(
-            imageId: result,
-            item: item,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                Opacity(
-                    opacity: 0.9,
-                    child: Padding(
-                        padding: EdgeInsets.fromLTRB(30, 0, 30, 10),
-                        child: ThemedCard(
-                            primaryColor: overridePrimaryColor ?? AppConfig().themeData!.primaryColor,
-                            buttonText: buttonText,
-                            buttonClick: buttonClick,
-                            feedback: feedback,
-                            item: this.item,
-                            giViewModel: this.giViewModel)))
-              ],
-            ))));
+        body: WebWrapper(
+            child: ThemedContainer(
+                imageId: result,
+                item: item,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: <Widget>[
+                    Opacity(
+                        opacity: 0.9,
+                        child: Padding(
+                            padding: EdgeInsets.fromLTRB(30, 0, 30, 10),
+                            child: ThemedCardContainer(
+                                // primaryColor: overridePrimaryColor ?? AppConfig().themeData!.primaryColor,
+                                buttonText: buttonText,
+                                buttonClick: buttonClick,
+                                feedback: feedback,
+                                item: this.item,
+                                // giViewModel: this.giViewModel
+                            )))
+                  ],
+                ))));
   }
 }

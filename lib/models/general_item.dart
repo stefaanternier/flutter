@@ -11,6 +11,7 @@ import 'package:youplay/models/run.dart';
 import 'package:youplay/models/general_item/dependency.dart';
 import 'package:youplay/models/general_item/narrator_item.dart';
 import 'package:flutter/material.dart';
+import 'package:youplay/ui/pages/game_landing.page.loading.dart';
 
 import 'general_item/audio_object.dart';
 import 'general_item/combination_lock.dart';
@@ -169,6 +170,12 @@ class GeneralItem {
     }
   }
 
+  Widget buildPage() {
+    return GameLandingLoadingPage(
+        init: (){},
+        text: "Deze is nog niet geïmplementeerd");
+  }
+
   static parseType(String type) {
     if (type == 'org.celstec.arlearn2.beans.generalItem.AudioObject')
       return ItemType.audio;
@@ -228,7 +235,12 @@ class LocationTrigger {
   double lng;
   int radius;
 
-  LocationTrigger({required this.lat, required this.lng, required this.radius});
+  int hash;
+  @override
+  int get hashCode => hash;
+
+  LocationTrigger({required this.lat, required this.lng, required this.radius})
+      : hash = (lat*1000).toInt() * (lng*1000).toInt() * radius;
 }
 
 //

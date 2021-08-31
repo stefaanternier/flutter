@@ -2,6 +2,7 @@ import 'package:youplay/models/general_item.dart';
 import 'package:youplay/models/general_item/dependency.dart';
 import 'package:flutter/material.dart';
 import 'package:youplay/models/general_item/single_choice.dart';
+import 'package:youplay/ui/components/messages_pages/combination-lock.widget.container.dart';
 
 import '../game.dart';
 
@@ -89,5 +90,9 @@ class CombinationLockGeneralItem extends GeneralItem {
 
   String getIcon() {
     return 'fa.unlock';
+  }
+
+  Widget buildPage() {
+    return CombinationLockWidgetContainer();
   }
 }

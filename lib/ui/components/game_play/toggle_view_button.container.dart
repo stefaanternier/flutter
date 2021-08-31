@@ -50,7 +50,6 @@ class _ViewModel {
         view: v,
         nextView: game == null? 2: game.nextView(v),
         togglePress: () {
-      print('toggle press ${game?.title}');
       if (game != null) store.dispatch(ToggleMessageViewAction(game: game));
     });
   }

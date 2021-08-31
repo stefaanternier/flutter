@@ -11,7 +11,7 @@ import '../../localizations.dart';
 
 class GameLandingLoginNecessaryPage extends StatelessWidget {
   Game game;
-  Function login;
+  Function() login;
 
   GameLandingLoginNecessaryPage({
     required this.game,

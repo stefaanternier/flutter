@@ -68,7 +68,7 @@ AppState swapGameState(AppState state, SetCurrentGameAction action) {
       allGamesState: state.allGamesState,
       authentication: state.authentication,
       uiState: uiReducer(state.uiState, action),
-      currentRunState: new RunState()
+      currentRunState: RunState.init()
   );
 }
 

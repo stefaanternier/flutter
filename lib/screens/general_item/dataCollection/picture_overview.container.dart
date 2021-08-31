@@ -2,30 +2,35 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 import 'package:youplay/models/general_item.dart';
+import 'package:youplay/models/general_item/narrator_item.dart';
 import 'package:youplay/screens/general_item/dataCollection/picture_overview.dart';
 import 'package:youplay/screens/general_item/util/messages/components/game_themes.viewmodel.dart';
 import 'package:youplay/store/state/app_state.dart';
 
 import '../general_item.dart';
 
+//deprecated delete
 class PictureOverviewContainer extends StatelessWidget {
 
-
-  GeneralItemViewModel giViewModel;
+  final PictureQuestion item;
+  // GeneralItemViewModel giViewModel;
 
   Function takePicture;
-  PictureOverviewContainer({required this.giViewModel, required this.takePicture});
+  PictureOverviewContainer({
+    required this.item,
+    required this.takePicture});
 
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, _ViewModel>(
       converter: (Store<AppState> store) => _ViewModel.fromStore(store),
       builder: (context, vm) {
-        if (giViewModel.item == null){
-          return Container(child: Text('item loading...'));  //todo make message beautiful
-        }
-        return PictureOverview(item: giViewModel.item!, giViewModel: giViewModel,
-            themeModel: vm.themeModel, takePicture: takePicture,);
+        // if (giViewModel.item == null){
+        //   return Container(child: Text('item loading...'));  //todo make message beautiful
+        // }
+        return PictureOverview(item: item,
+          // giViewModel: giViewModel,
+            takePicture: takePicture,);
       },
     );
   }

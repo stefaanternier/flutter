@@ -14,51 +14,69 @@ class RunState {
   List<int> deleteList = [];
 
   HashMap<int, GeneralItemsVisibility> itemVisibilityFromServer = new HashMap();
-  HashMap<int, GeneralItemsVisibility> itemInVisibilityFromServer =
-      new HashMap();
+  HashMap<int, GeneralItemsVisibility> itemInVisibilityFromServer = new HashMap();
 
-  dynamic messages;
+  // dynamic messages;
   int lastActionModification = 0;
 
   List<PictureResponse> outgoingPictureResponses = []; //remove this
   List<Response> outgoingResponses = [];
 
-  RunState({this.run});
+  bool syncingActionsFromServer;
 
-  RunState.fromRunState(RunState runState)
-      : run = runState.run,
-        lastSync = runState.lastSync,
-        actionsFromServer = runState.actionsFromServer ,
-        responsesFromServer = runState.responsesFromServer ,
-        unsynchronisedActions = runState.unsynchronisedActions ,
-        messages = runState.messages,
-        outgoingPictureResponses = runState.outgoingPictureResponses ,
-        outgoingResponses = runState.outgoingResponses ,
-        itemVisibilityFromServer =
-            runState.itemVisibilityFromServer ,
-        itemInVisibilityFromServer =
-            runState.itemInVisibilityFromServer;
+  static RunState init() => RunState(
+        syncingActionsFromServer: false,
+        outgoingResponses: [],
+        outgoingPictureResponses: [],
+        lastActionModification: 0,
+        itemVisibilityFromServer: new HashMap(),
+        itemInVisibilityFromServer: new HashMap(),
+        deleteList: [],
+        unsynchronisedActions: [],
+        responsesFromServer: new HashMap(),
+        actionsFromServer: new HashMap(),
+        lastSync: 10
+      );
 
-  RunState copyWith({run, l, a, respFromServer, u, m, op, or, it, reset, toDeleteItem}) {
-    RunState r = new RunState(run: run ?? this.run);
-    r.lastSync = l ?? this.lastSync;
-    r.actionsFromServer = a ?? this.actionsFromServer;
-    r.responsesFromServer = responsesFromServer ;
-    r.unsynchronisedActions = u ?? this.unsynchronisedActions;
-    r.messages = m ?? this.messages;
-    r.outgoingPictureResponses = op ?? this.outgoingPictureResponses;
-    r.outgoingResponses = or ?? this.outgoingResponses;
-    r.itemVisibilityFromServer = it ?? this.itemVisibilityFromServer;
-    r.lastActionModification = (reset != null && reset)
-        ? new DateTime.now().millisecondsSinceEpoch
-        : r.lastActionModification;
-    r.deleteList = (toDeleteItem!= null)? [...this.deleteList, toDeleteItem] : this.deleteList;
-    return r;
+  RunState({
+    this.run,
+    this.syncingActionsFromServer = false,
+    required this.lastSync,
+    required this.actionsFromServer,
+    required this.responsesFromServer,
+    required this.unsynchronisedActions,
+    // required this.messages,
+    required this.outgoingPictureResponses,
+    required this.outgoingResponses,
+    required this.itemVisibilityFromServer,
+    required this.itemInVisibilityFromServer,
+    required this.lastActionModification,
+    required this.deleteList,
+  });
+
+  RunState copyWith({run, l, a, respFromServer, u, op, or, it, itInV, reset, toDeleteItem, isSyncingActions}) {
+    return new RunState(
+        run: run ?? this.run,
+        syncingActionsFromServer: isSyncingActions ?? this.syncingActionsFromServer,
+        lastSync: l ?? this.lastSync,
+        actionsFromServer: a ?? this.actionsFromServer,
+        responsesFromServer: respFromServer ?? this.responsesFromServer,
+        unsynchronisedActions: u ?? this.unsynchronisedActions,
+        // messages: m ?? this.messages,
+        outgoingPictureResponses: op ?? this.outgoingPictureResponses,
+        outgoingResponses: or ?? this.outgoingResponses,
+        itemVisibilityFromServer: it ?? this.itemVisibilityFromServer,
+        itemInVisibilityFromServer: itInV ?? this.itemInVisibilityFromServer,
+        deleteList: (toDeleteItem != null) ? [...this.deleteList, toDeleteItem] : this.deleteList,
+        lastActionModification:
+            (reset != null && reset) ? new DateTime.now().millisecondsSinceEpoch : this.lastActionModification);
   }
 
-  RunState.fromJson(Map json) : run = Run.fromJson(json["run"]);
+  RunState.fromJson(Map json)
+      : run = Run.fromJson(json["run"]),
+        syncingActionsFromServer = false;
 
   dynamic toJson() => {
-        'run': run?.toJson()?? {},
+        'run': run?.toJson() ?? {},
       };
 }

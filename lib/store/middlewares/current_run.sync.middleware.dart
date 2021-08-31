@@ -46,7 +46,8 @@ Stream<dynamic> yieldResumeAction(
     action, Future<ResponseList> futureList) async* {
   ResponseList list = await futureList;
   if (list.resumptionToken != null) {
-    (action as SyncResponsesServerToMobile).resumptionToken = list.resumptionToken!;
+    (action as SyncResponsesServerToMobile).resumptionToken =
+        list.resumptionToken!;
     yield action;
   }
   yield new SyncResponsesServerToMobileComplete(result: list);
@@ -72,9 +73,20 @@ Stream<dynamic> yieldResumeAction2(
   if (list.resumptionToken != null) {
     (action as SyncActionsServerToMobile).resumptionToken =
         list.resumptionToken!;
+    print ('---syncing again ${list.responses.length}' );
     yield action;
+    yield new SyncARLearnActionsListServerToMobileComplete(
+        result: list,
+        isLast: false
+    );
+  } else {
+    print ('---resumption token null stop sync ${list.responses.length}');
+    yield new SyncARLearnActionsListServerToMobileComplete(
+        result: list,
+        isLast: true
+    );
   }
-  yield new SyncARLearnActionsListServerToMobileComplete(result: list);
+
 }
 
 Stream<dynamic> _deleteResponse(

@@ -1,8 +1,8 @@
+import 'package:flutter/material.dart';
 import 'package:universal_platform/universal_platform.dart';
 import 'package:youplay/models/general_item.dart';
 import 'package:youplay/models/general_item/dependency.dart';
-import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:youplay/ui/components/messages_pages/scan-tag.widget.container.dart';
 
 class ScanTagGeneralItem extends GeneralItem {
 
@@ -67,5 +67,10 @@ class ScanTagGeneralItem extends GeneralItem {
   String getIcon(){
     
     return 'fa.qrcode';
+  }
+
+  Widget buildPage() {
+    return  ScanTagWidgetContainer();
+
   }
 }

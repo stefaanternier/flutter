@@ -13,6 +13,7 @@ import 'package:youplay/ui/pages/collection.page.dart';
 import 'package:youplay/ui/pages/game_landing.page.container.dart';
 import 'package:youplay/ui/pages/game_play.container.dart';
 import 'package:youplay/ui/pages/game_runs.page.dart';
+import 'package:youplay/ui/pages/message.page.container.dart';
 import 'package:youplay/ui/pages/my-games-list.page.dart';
 
 class YouplayRouterDelegate extends RouterDelegate<YouplayRoutePath>
@@ -97,10 +98,14 @@ class YouplayRouterDelegate extends RouterDelegate<YouplayRoutePath>
               key: ValueKey('GamePlayPage'),
               child: GamePlayContainer() //gameId: _youplayRoutePath.gameId!
               ),
+          // MaterialPage(
+          //     key: ValueKey('ItemPage'),
+          //     child: GeneralItemScreen() //gameId: _youplayRoutePath.gameId!
+          //     ),
           MaterialPage(
               key: ValueKey('ItemPage'),
-              child: GeneralItemScreen() //gameId: _youplayRoutePath.gameId!
-              )
+              child: MessagePageContainer() //gameId: _youplayRoutePath.gameId!
+          )
         ];
       //
       case PageType.login:

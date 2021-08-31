@@ -190,7 +190,6 @@ class _TextQuestionState extends State<TextQuestionScreen> {
           .onDispatch(SyncFileResponse(runId: widget.giViewModel.run!.runId!));
     }
 
-    // Navigator.of(context).pop();
     setState(() {
       showList = true;
     });
@@ -203,7 +202,7 @@ class _TextQuestionState extends State<TextQuestionScreen> {
         padding: false,
         elevation: false,
         body: Container(
-            color: Color.fromRGBO(0, 0, 0, 1),
+            color: Color.fromRGBO(0, 0, 0, 0.7),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
@@ -213,11 +212,8 @@ class _TextQuestionState extends State<TextQuestionScreen> {
                       converter: (store) =>
                           _TextInputViewModel.fromStore(store, widget.item),
                       builder: (context, _TextInputViewModel map) {
-//                print("map is back ${map.amountOfItems()}");
                         map.deleteAllResponses(this.deleted);
-//                print("map is back ${map.amountOfItems()}");
                         final DateTime now = DateTime.now();
-//                final DateFormat formatter = DateFormat('yyyy-MM-dd');
                         final DateFormat formatter = DateFormat.yMMMMd(
                             Localizations.localeOf(context).languageCode);
                         return ListView.separated(

@@ -91,8 +91,9 @@ class SyncActionsServerToMobileComplete{
 
 class SyncARLearnActionsListServerToMobileComplete{
   ARLearnActionsList result;
+  bool isLast;
 
-  SyncARLearnActionsListServerToMobileComplete({required this.result});
+  SyncARLearnActionsListServerToMobileComplete({required this.result, required this.isLast});
 }
 
 class DeleteResponseFromServer {

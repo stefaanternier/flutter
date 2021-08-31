@@ -42,12 +42,6 @@ class _SingleChoiceWithImageState extends State<SingleChoiceWithImage> {
     });
   }
 
-//  Color getPrimaryColor() {
-//    return widget.item.primaryColor == null
-//        ? widget.giViewModel.game.config.primaryColor
-//        : widget.item.primaryColor;
-//  }
-
   @override
   Widget build(BuildContext context) {
     String feedback = '';
@@ -98,7 +92,7 @@ class _SingleChoiceWithImageState extends State<SingleChoiceWithImage> {
           primaryColor: widget.giViewModel.getPrimaryColor(),
           answers: widget.item.answers,
           selected: _selected,
-          buttonClick: (answerId) {
+          buttonClick: (answerId, int? i) {
             setState(() {
               resetSelected();
               _selected[answerId] = !(_selected[answerId]??false);

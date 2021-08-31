@@ -7,6 +7,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:youplay/config/app_config.dart';
 import 'package:youplay/models/general_item.dart';
 import 'package:youplay/models/general_item/multiple_choice_image.dart';
+import 'package:youplay/screens/components/button/cust_raised_button.container.dart';
 import 'package:youplay/screens/util/extended_network_image.dart';
 import 'package:youplay/store/state/app_state.dart';
 
@@ -19,23 +20,25 @@ class ImageQuestion extends StatelessWidget {
   String? buttonText; //correct or
   GeneralItem item;
   String? feedback;
-  Color primaryColor;
-  Function buttonClick;
-  Function submitClick;
+  Color? primaryColor;
+  Function(String, int?) buttonClick;
+  Function() submitClick;
   bool buttonVisible;
   List<ImageChoiceAnswer> answers;
   Map<String, bool> selected;
-  GeneralItemViewModel giViewModel;
+  GeneralItemViewModel? giViewModel;
 
   ImageQuestion(
       {required this.item,
-      required this.primaryColor,
+      this.primaryColor,
+        this.buttonText,
+      //required this.primaryColor,
       required this.answers,
       required this.selected,
       required this.buttonVisible,
       required this.buttonClick,
       required this.submitClick,
-      required this.giViewModel,
+      this.giViewModel,
       Key? key})
       : super(key: key);
 
@@ -51,9 +54,8 @@ class ImageQuestion extends StatelessWidget {
             children: <Widget>[
               Opacity(
                   opacity: 0.9,
-                  child: Padding(
-                      padding: EdgeInsets.fromLTRB(30, 0, 30, 10),
-                      child: buildBottomCard(context, themeModel)))
+                  child:
+                      Padding(padding: EdgeInsets.fromLTRB(30, 0, 30, 10), child: buildBottomCard(context, themeModel)))
             ],
           ));
         });
@@ -75,35 +77,40 @@ class ImageQuestion extends StatelessWidget {
                     padding: const EdgeInsets.all(10),
                     child: Text(
                       "${(item as dynamic).text}",
-                      style: TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black),
+                      style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.black),
                     )),
-                visible: (item as dynamic).text != '' &&
-                    (item as dynamic).text != null,
+                visible: (item as dynamic).text != '' && (item as dynamic).text != null,
               ),
               Container(
                   padding: const EdgeInsets.all(10),
-                  child: buildGrid((index, length) => buildClickArea(
-                      getScale(index, length), index, context, themeModel))),
+                  child: buildGrid(
+                      (index, length) => buildClickArea(getScale(index, length), index, context, themeModel))),
               Visibility(
                 visible: buttonVisible,
                 child: Padding(
-                  padding: EdgeInsets.fromLTRB(15, 0, 15, 12),
-                  child: NextButton(
-                    buttonText: item.description != ""
-                        ? item.description
-                        : AppLocalizations.of(context)
-                            .translate('screen.proceed'),
-                    overridePrimaryColor: giViewModel.getPrimaryColor(),
-                    giViewModel: giViewModel,
-                    makeVisible: buttonVisible,
-                    overrideButtonPress: () {
-                      submitClick();
-                    },
-                  ),
-                ),
+                    padding: EdgeInsets.fromLTRB(15, 0, 15, 12),
+                    child: CustomRaisedButtonContainer(
+                      title: buttonText ?? 'todo',
+                      // primaryColor: widget.overridePrimaryColor != null
+                      //     ? widget.overridePrimaryColor
+                      //     : this.widget.giViewModel.getPrimaryColor(),
+                      onPressed: (){
+                        submitClick();
+                      },
+                    )
+                    // NextButton(
+                    //   buttonText: item.description != ""
+                    //       ? item.description
+                    //       : AppLocalizations.of(context)
+                    //           .translate('screen.proceed'),
+                    //   overridePrimaryColor: giViewModel.getPrimaryColor(),
+                    //   giViewModel: giViewModel,
+                    //   makeVisible: buttonVisible,
+                    //   overrideButtonPress: () {
+                    //     submitClick();
+                    //   },
+                    // ),
+                    ),
               ),
             ],
           ),
@@ -123,10 +130,8 @@ class ImageQuestion extends StatelessWidget {
             (answers.length / scale).ceil(),
             (colIndex) => Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: List<Widget>.generate(
-                    min(scale, (answers.length - colIndex * scale)),
-                    (rowIndex) => widgetBuilder(
-                        colIndex * scale + rowIndex, answers.length))
+                children: List<Widget>.generate(min(scale, (answers.length - colIndex * scale)),
+                    (rowIndex) => widgetBuilder(colIndex * scale + rowIndex, answers.length))
 
 //                <Widget>[widgetBuilder(colIndex*scale+0),,],
                 )));
@@ -142,8 +147,7 @@ class ImageQuestion extends StatelessWidget {
     return 1;
   }
 
-  Widget buildClickArea(double scale, int index, BuildContext context,
-      GameThemesViewModel themeModel) {
+  Widget buildClickArea(double scale, int index, BuildContext context, GameThemesViewModel themeModel) {
     return new Expanded(
         child: AspectRatio(
       aspectRatio: scale,
@@ -151,7 +155,7 @@ class ImageQuestion extends StatelessWidget {
           padding: EdgeInsets.all(4),
           child: GestureDetector(
               onTap: () {
-                buttonClick(answers[index].id);
+                buttonClick(answers[index].id, index);
 //                  setState(() {
 //                    _selected[widget.answers[index].id] =
 //                    !_selected[widget.answers[index].id];
@@ -160,8 +164,7 @@ class ImageQuestion extends StatelessWidget {
               child: Stack(
                 children: [
                   Container(
-                    decoration: getBoxDecoration(
-                        item.fileReferences?[answers[index].id]),
+                    decoration: getBoxDecoration(item.fileReferences?[answers[index].id]),
                   ),
                   Visibility(
                     visible: selected[answers[index].id] ?? false,
@@ -170,7 +173,7 @@ class ImageQuestion extends StatelessWidget {
                       right: 5,
                       child: Icon(
                         Icons.check_circle,
-                        color: primaryColor,
+                        // color: primaryColor, //todo
                       ),
                     ),
                   ),
@@ -186,11 +189,10 @@ class ImageQuestion extends StatelessWidget {
                           alignment: const Alignment(0, 0),
                           children: [
                             Container(
-                              color: primaryColor,
-                            ),
+                                // color: primaryColor, //todo
+                                ),
                             Center(
-                              child: Text('${index + 1}',
-                                  style: TextStyle(color: Colors.white)),
+                              child: Text('${index + 1}', style: TextStyle(color: Colors.white)),
                             )
                           ],
                         ),

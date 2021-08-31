@@ -1,23 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 import 'package:youplay/config/app_config.dart';
-import 'package:youplay/models/game.dart';
-import 'package:youplay/models/game_theme.dart';
-import 'package:youplay/models/general_item.dart';
 import 'package:youplay/store/selectors/current_game.selectors.dart';
 import 'package:youplay/store/selectors/game_messages.selector.dart';
-import 'package:youplay/store/selectors/game_theme.selectors.dart';
 import 'package:youplay/store/state/app_state.dart';
 import 'package:youplay/ui/components/appbar/themed-appbar.dart';
-import 'package:youplay/ui/components/icon/game_icon.dart';
-import 'package:youplay/ui/components/messages_parts/richtext-top.dart';
 
-class ThemedAppbarContainer extends StatelessWidget {
+class ThemedAppbarContainer extends StatelessWidget with PreferredSizeWidget {
+  @override
+  final Size preferredSize;
   final String title;
-  bool elevation = true;
-  ThemedAppbarContainer({Key? key, required this.title, this.elevation = true}) : super(key: key);
+  final bool elevation;
+  ThemedAppbarContainer({Key? key, required this.title, this.elevation = true}) : preferredSize = Size.fromHeight(50.0),
+        super(key: key);
 
 
   @override

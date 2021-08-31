@@ -43,10 +43,10 @@ AppState appReducer(AppState state, action) {
       authentication: authenticationReducer(state.authentication, action),
       uiState: uiReducer(state.uiState, action)
   );
-  if (newState == state) {
-    return state;
-  }
-  print("action changed state ${action.runtimeType}");
+  // if (newState == state) {
+  //   return state;
+  // }
+  print("action changed state ${action.runtimeType} ${newState.hashCode}");
   return newState;
 }
 

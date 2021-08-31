@@ -5,11 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:intl/intl.dart';
 import 'package:redux/redux.dart';
-import 'package:youplay/localizations.dart';
 import 'package:youplay/models/general_item.dart';
 import 'package:youplay/models/response.dart';
 import 'package:youplay/screens/components/button/cust_flat_button.dart';
-import 'package:youplay/screens/components/button/cust_raised_button.dart';
 import 'package:youplay/screens/general_item/dataCollection/play_video.dart';
 import 'package:youplay/screens/general_item/dataCollection/record_video.dart';
 import 'package:youplay/screens/general_item/general_item.dart';
@@ -18,7 +16,6 @@ import 'package:youplay/store/state/app_state.dart';
 import 'package:youplay/ui/components/messages_parts/richtext-top.container.dart';
 import 'package:youplay/ui/components/next_button/next_button.container.dart';
 
-import 'components/next_button.dart';
 import 'generic_message.dart';
 
 enum VideoRecordingStatus { stopped, play, recording }

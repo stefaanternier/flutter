@@ -42,7 +42,7 @@ class _ViewModel {
   GameTheme? gameTheme;
   bool isAuthenticated;
   bool anon;
-  Function startAgain;
+  Function() startAgain;
   Function toLibrary;
 
   _ViewModel({

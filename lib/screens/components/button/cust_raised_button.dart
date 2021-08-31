@@ -5,18 +5,18 @@ import 'package:youplay/screens/general_item/util/messages/components/game_theme
 import 'package:youplay/store/state/app_state.dart';
 
 class CustomRaisedButton extends StatelessWidget {
-  Function onPressed;
-  String title;
-  Icon? icon;
-  bool useThemeColor;
-  Color? primaryColor;
-  bool disabled;
+  final Function() onPressed;
+  final String title;
+  final Icon? icon;
+  // bool useThemeColor;
+  final Color? primaryColor;
+  final bool disabled;
 
   CustomRaisedButton(
       {required this.onPressed,
       required this.title,
       this.icon,
-      this.useThemeColor = false,
+      // this.useThemeColor = false,
       this.primaryColor,
       this.disabled = false});
 
@@ -34,30 +34,35 @@ class CustomRaisedButton extends StatelessWidget {
   }
 
   buildButton(BuildContext context) {
-    if (!useThemeColor) {
+    // if (!useThemeColor) {
       return _buildRawButton();
-    }
-    return new StoreConnector<AppState, GameThemesViewModel>(
-        converter: (store) => GameThemesViewModel.fromStore(store),
-        builder: (context, GameThemesViewModel themeModel) {
-          return _buildRawButton(themeModel: themeModel);
-        });
+    // }
+    // return new StoreConnector<AppState, GameThemesViewModel>(
+    //     converter: (store) => GameThemesViewModel.fromStore(store),
+    //     builder: (context, GameThemesViewModel themeModel) {
+    //       return _buildRawButton(themeModel: themeModel);
+    //     });
   }
 
   _buildRawButton({GameThemesViewModel? themeModel}) {
+
     if (icon == null) {
-      return RaisedButton(
-          color: (this.primaryColor != null)
-              ? this.primaryColor
-              : (themeModel == null ? null : themeModel.getPrimaryColor()),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(26.0),
-          ),
+      return ElevatedButton(
+          style: ElevatedButton.styleFrom(
+              primary: (this.primaryColor != null)
+                  ? this.primaryColor
+                  : (themeModel == null ? null : themeModel.getPrimaryColor()),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(26.0),
+              ),
+              textStyle: TextStyle(
+                  fontSize: 30,
+
+                  fontWeight: FontWeight.bold)),
+
           onPressed: disabled
               ? null
-              : () {
-                  onPressed();
-                },
+              : onPressed,
           child: Text(
             '$title',
             style: AppConfig().customTheme!.nextButtonStyle,
@@ -72,9 +77,7 @@ class CustomRaisedButton extends StatelessWidget {
           ),
           onPressed: disabled
               ? null
-              : () {
-                  onPressed();
-                },
+              : onPressed,
           icon: icon!,
           label: Text(
             title,

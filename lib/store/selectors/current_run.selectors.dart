@@ -13,58 +13,52 @@ import 'package:youplay/store/state/run_state.dart';
 import 'current_game.selectors.dart';
 
 final runStateFeature = (AppState state) => state.currentRunState;
-final responsesFromServerFeature =
-    (AppState state) => state.currentRunState.responsesFromServer;
+final responsesFromServerFeature = (AppState state) => state.currentRunState.responsesFromServer;
 
 final runIdSelector = (RunState state) => state.run?.runId ?? -1;
 final currentRunSelector = (RunState state) => state.run;
-final currentRunSel = (AppState state) =>
-    runStateFeature(state) != null ? runStateFeature(state).run : null;
+final currentRunSel = (AppState state) => runStateFeature(state) != null ? runStateFeature(state).run : null;
 
-final actionsFromServerSel =
-    (AppState state) => runStateFeature(state).actionsFromServer;
-final currentRunActionsSelector =
-    (AppState state) => runStateFeature(state).unsynchronisedActions;
+final actionsFromServerSel = (AppState state) => runStateFeature(state).actionsFromServer;
+final currentRunActionsSelector = (AppState state) => runStateFeature(state).unsynchronisedActions;
 
-final responsesFromServerSel =
-    (AppState state) => runStateFeature(state).responsesFromServer;
+final syncingActionsFromServerSelector = (AppState state) => runStateFeature(state).syncingActionsFromServer;
+
+final responsesFromServerSel = (AppState state) => runStateFeature(state).responsesFromServer;
 
 //final currentRunOutgoingPicturesSelector = (AppState state) => runStateFeature(state).outgoingPictureResponses;
-final currentRunResponsesSelector =
-    (AppState state) => runStateFeature(state).outgoingResponses;
+final currentRunResponsesSelector = (AppState state) => runStateFeature(state).outgoingResponses;
 
 final Selector<AppState, HashMap<String, ARLearnAction>> localAndUnsyncActions =
     createSelector2(actionsFromServerSel, currentRunActionsSelector,
         (HashMap<String, ARLearnAction> server, List<ARLearnAction> local) {
-  HashMap<String, ARLearnAction> actions =
-      HashMap<String, ARLearnAction>.from(server);
+  HashMap<String, ARLearnAction> actions = HashMap<String, ARLearnAction>.from(server);
   for (int i = 0; i < local.length; i++) {
-    actions["${local[i].action}:${local[i].generalItemId}"] = local[i];
+    actions[local[i].key] = local[i];
   }
   return actions;
 });
 
-final lastActionModificationSelector =
-    (AppState state) => runStateFeature(state).lastActionModification;
+final lastActionModificationSelector = (AppState state) => runStateFeature(state).lastActionModification;
 
 //final Selector<AppState, List<ARLearnAction>> actionsFromServerSelector =
 //    createSelector1(runStateFeature, (RunState runstate) {
 //  return runstate.actionsFromServer.values.toList(growable: false);
 //});
 
-final currentRunPictureResponsesSelector =
-    (AppState state) => runStateFeature(state).outgoingPictureResponses;
+final currentRunPictureResponsesSelector = (AppState state) => runStateFeature(state).outgoingPictureResponses;
+
+final Selector<AppState, bool> isSyncingActions =
+    createSelector1(syncingActionsFromServerSelector, (bool state) => state);
 
 final Selector<AppState, bool> correctAnswerGivenSelector =
-    createSelector2(localAndUnsyncActions, currentItemId,
-        (HashMap<String, ARLearnAction> actionsFromServer, int? id) {
+    createSelector2(localAndUnsyncActions, currentItemId, (HashMap<String, ARLearnAction> actionsFromServer, int? id) {
   return actionsFromServer.containsKey("answer_correct:$id");
 });
 
-final Selector<AppState, List<ItemTimes>> itemTimesSortedByTime = createSelector3(
-    gameStateFeature, localAndUnsyncActions, lastActionModificationSelector,
-    (GamesState gameState, HashMap<String, ARLearnAction> actionsFromServer,
-        int modification) {
+final Selector<AppState, List<ItemTimes>> itemTimesSortedByTime =
+    createSelector3(gameStateFeature, localAndUnsyncActions, lastActionModificationSelector,
+        (GamesState gameState, HashMap<String, ARLearnAction> actionsFromServer, int modification) {
   if (gameState.game == null) {
     return [];
   }
@@ -78,8 +72,7 @@ final Selector<AppState, List<ItemTimes>> itemTimesSortedByTime = createSelector
     if (localVisibleAt != -1) {
       if (localInvisibleAt == -1 || localInvisibleAt > now) {
         if (item.gameId == gameState.game!.gameId) {
-          visibleItems
-              .add(ItemTimes(generalItem: item, appearTime: localVisibleAt));
+          visibleItems.add(ItemTimes(generalItem: item, appearTime: localVisibleAt));
         }
       }
     }
@@ -90,10 +83,9 @@ final Selector<AppState, List<ItemTimes>> itemTimesSortedByTime = createSelector
   return visibleItems;
 });
 
-final Selector<AppState, bool> gameHasFinished = createSelector3(
-    gameStateFeature, localAndUnsyncActions, lastActionModificationSelector,
-    (GamesState gameState, HashMap<String, ARLearnAction> actionsFromServer,
-        int modification) {
+final Selector<AppState, bool> gameHasFinished =
+    createSelector3(gameStateFeature, localAndUnsyncActions, lastActionModificationSelector,
+        (GamesState gameState, HashMap<String, ARLearnAction> actionsFromServer, int modification) {
   if (gameState.game == null) {
     return false;
   }
@@ -106,17 +98,14 @@ final Selector<AppState, bool> gameHasFinished = createSelector3(
 final Selector<AppState, List<ItemTimes>> listOnlyCurrentGeneralItems =
     createSelector1(itemTimesSortedByTime, (List<ItemTimes> currentGeneralItems) {
   return currentGeneralItems.where((element) {
-    return element.generalItem.showInList == null ||
-        element.generalItem.showInList;
+    return element.generalItem.showInList == null || element.generalItem.showInList;
   }).toList(growable: false);
 });
 
 final Selector<AppState, List<ItemTimes>> mapOnlyCurrentGeneralItems =
     createSelector1(itemTimesSortedByTime, (List<ItemTimes> currentGeneralItems) {
   return currentGeneralItems
-      .where((element) =>
-          element.generalItem.showOnMap == null ||
-          element.generalItem.showOnMap)
+      .where((element) => element.generalItem.showOnMap == null || element.generalItem.showOnMap)
       .toList(growable: false);
 });
 

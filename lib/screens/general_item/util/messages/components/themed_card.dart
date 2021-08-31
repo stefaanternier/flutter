@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:youplay/config/app_config.dart';
 import 'package:youplay/models/general_item.dart';
+import 'package:youplay/screens/components/button/cust_raised_button.container.dart';
 import 'package:youplay/screens/components/button/cust_raised_button.dart';
 import 'package:youplay/store/state/app_state.dart';
 
@@ -15,7 +16,7 @@ class ThemedCard extends StatelessWidget {
   final Color primaryColor;
   final String buttonText;
   final String feedback;
-  final Function buttonClick;
+  final Function() buttonClick;
   GeneralItem item;
   GeneralItemViewModel? giViewModel;
 
@@ -39,79 +40,39 @@ class ThemedCard extends StatelessWidget {
               children: <Widget>[
                 Container(
                     padding: const EdgeInsets.all(25),
-                    child: Text("${feedback}",
-                        style: AppConfig().customTheme!.cardTextStyle)),
+                    child: Text("${feedback}", style: AppConfig().customTheme!.cardTextStyle)),
+                // Padding(
+                //   padding: EdgeInsets.fromLTRB(15, 0, 15, 12),
+                //   child: Visibility(
+                //     visible: this.giViewModel != null,
+                //     child: this.giViewModel == null
+                //         ? Container()
+                //         : NextButton(
+                //             buttonText: item.description != ""
+                //                 ? item.description
+                //                 : AppLocalizations.of(context).translate('screen.proceed'),
+                //             overridePrimaryColor: giViewModel!.getPrimaryColor(),
+                //             giViewModel: giViewModel!,
+                //           ),
+                //   ),
+                // ),
                 Padding(
                   padding: EdgeInsets.fromLTRB(15, 0, 15, 12),
-                  child: Visibility(
-                    visible: this.giViewModel != null,
-                    child: this.giViewModel == null
-                        ? Container()
-                        : NextButton(
-                            buttonText: item.description != ""
-                                ? item.description
-                                : AppLocalizations.of(context)
-                                    .translate('screen.proceed'),
-                            overridePrimaryColor:
-                                giViewModel!.getPrimaryColor(),
-                            giViewModel: giViewModel!,
-                          ),
-                  ),
-                ),
-
-                Padding(
-                  padding: EdgeInsets.fromLTRB(15, 0, 15, 12),
-                  child: Visibility(
-                      visible: this.giViewModel == null,
+                  // child: Visibility(
+                  //     visible: this.giViewModel == null,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           SizedBox(
-
-                            width: AppConfig.isTablet() ? 290 : double.infinity,
-                            height: 51.0,
-                            child: CustomRaisedButton(
-                              title: '${buttonText}',
-                              primaryColor: primaryColor != null
-                                    ? primaryColor
-                                    : themeModel.getPrimaryColor(),
-                              onPressed: this.buttonClick,
-                            )
-
-                            // child: FlatButton(
-                            //   child: Text(
-                            //     '${buttonText} ${AppConfig().customTheme!.nextButtonStyle}',
-                            //     style: AppConfig().customTheme!.nextButtonStyle,
-                            //   ),
-                            //   color: primaryColor != null
-                            //       ? primaryColor
-                            //       : themeModel.getPrimaryColor(),
-                            //   onPressed: () {
-                            //     this.buttonClick();
-                            //   },
-                            // ),
-                          ),
+                              width: AppConfig.isTablet() ? 290 : double.infinity,
+                              height: 51.0,
+                              child: CustomRaisedButtonContainer(
+                                title: buttonText,
+                                onPressed: this.buttonClick,
+                              )),
                         ],
-                      )),
+                      ),
                 )
-
-                // child: ButtonBar(
-                //   children: <Widget>[
-                //     FlatButton(
-                //       child: Text(
-                //         '${buttonText}',
-                //         style: AppConfig().customTheme!.nextButtonStyle,
-                //       ),
-                //       color: primaryColor != null
-                //           ? primaryColor
-                //           : themeModel.getPrimaryColor(),
-                //       onPressed: (){
-                //         this.buttonClick();
-                //       },
-                //     ),
-                //   ],
-                // ),
-                // )
               ],
             ),
           );

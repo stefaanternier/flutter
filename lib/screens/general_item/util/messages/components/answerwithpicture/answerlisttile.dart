@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:youplay/config/app_config.dart';
 import 'package:youplay/models/response.dart';
 import 'package:intl/intl.dart';
+import 'package:youplay/screens/util/extended_network_image.dart';
 
 class AnswerWithPictureTile extends StatelessWidget {
   Response response;
@@ -17,6 +18,7 @@ class AnswerWithPictureTile extends StatelessWidget {
         .languageCode);
     final DateTime thatTime =
     DateTime.fromMillisecondsSinceEpoch(response.timestamp);
+    print('response value ${response.value}');
     return Padding(
       padding: const EdgeInsets.all(1.0),
       child: GestureDetector(
@@ -25,15 +27,16 @@ class AnswerWithPictureTile extends StatelessWidget {
             tapPictureTile(response);
           }
         },
+
         child: Row(
           children: [
-            // new CachedNetworkImage(
-            //     fit: BoxFit.cover,
-            //     height: 79,
-            //     width: 79,
-            //     imageUrl:
-            //     "https://storage.googleapis.com/${AppConfig()
-            //         .projectID}.appspot.com/${response.value}"),
+            SizedBox(
+              width: 79,
+              height: 79,
+              child: Container(
+                decoration: getBoxDecoration('/${response.value}'),
+              )
+            ),
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: Column(

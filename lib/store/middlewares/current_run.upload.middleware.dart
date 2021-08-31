@@ -60,10 +60,18 @@ Future<PictureResponse?> _uploadFile(
         .child("${store.state.authentication.userId}")
         .child(timeStamp + '.'+extension);
     print('ref ${ref.fullPath}');
+    String cType = '';
+    if (firstResponse is AudioResponse) {
+      cType = 'audio/mp3';
+    } else  if (firstResponse is VideoResponse) {
+      cType = 'video/mp4';
+    } else if (firstResponse is PictureResponse) {
+      cType = 'image/jpg';
+    }
     final firebase_storage.UploadTask uploadTask = ref.putFile(
       file,
       firebase_storage.SettableMetadata(
-        contentType: 'audio/mp3',
+        contentType: cType,
         contentLanguage: 'en',
         customMetadata: <String, String>{'description': 'User picture'},
       ),

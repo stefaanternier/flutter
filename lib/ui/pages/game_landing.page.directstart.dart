@@ -12,7 +12,7 @@ import '../../localizations.dart';
 
 class  GameLandingDirectStartPage extends StatelessWidget {
   Game game;
-  Function createRunAndStart;
+  Function() createRunAndStart;
   GameLandingDirectStartPage({ required this.game,
     required this.createRunAndStart,
     Key? key}) : super(key: key);

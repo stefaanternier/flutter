@@ -9,7 +9,7 @@ import 'package:youplay/screens/util/extended_network_image.dart';
 class GameOver extends StatefulWidget {
   GameTheme? theme;
   bool anon;
-  Function startAgain;
+  Function() startAgain;
   Function toLibrary;
 
   GameOver(

@@ -43,7 +43,7 @@ class UiState {
     this.theme = 0,
     this.error = -1,
     this.pageId,
-    this.currentView = 1
+    this.currentView = 0
   });
 
   factory UiState.initState()  {

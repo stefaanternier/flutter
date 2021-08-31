@@ -6,18 +6,19 @@ import 'package:youplay/models/general_item.dart';
 import '../../../general_item.dart';
 
 class ContentCardText extends StatelessWidget {
-  GeneralItemViewModel giViewModel;
+  GeneralItemViewModel? giViewModel;
   Widget? button;
   String? title;
   String? text;
-  bool showOnlyButton;
+  // bool showOnlyButton;
 
-  ContentCardText(
-      {required this.giViewModel,
+  ContentCardText({
+    this.giViewModel,
       this.button,
       this.text,
       this.title,
-      required this.showOnlyButton});
+      // required this.showOnlyButton
+  });
 
   // : super(item: giViewModel.item,
   // content:  null,

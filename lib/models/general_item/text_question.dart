@@ -1,5 +1,7 @@
 
+import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:youplay/ui/components/messages_pages/text-question.widget.container.dart';
 
 import '../general_item.dart';
 import 'dependency.dart';
@@ -79,5 +81,9 @@ class TextQuestion extends GeneralItem {
 
   String getIcon() {
     return 'fa.edit';
+  }
+
+  Widget buildPage() {
+    return TextQuestionWidgetContainer();
   }
 }

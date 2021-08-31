@@ -1,10 +1,11 @@
 import 'dart:ui';
 
+import 'package:flutter/material.dart';
 import 'package:youplay/models/general_item.dart';
 import 'package:youplay/models/general_item/dependency.dart';
 import 'package:youplay/models/general_item/open_question.dart';
-
-import '../game.dart';
+import 'package:youplay/ui/components/messages_pages/narrator.widget.container.dart';
+import 'package:youplay/ui/components/messages_pages/picture-question.widget.container.dart';
 
 class NarratorItem extends GeneralItem {
   String? heading;
@@ -97,6 +98,10 @@ class NarratorItem extends GeneralItem {
             ? Dependency.fromJson(json['disappearOn'])
             : null);
   }
+
+  Widget buildPage() {
+    return NarratorWidgetContainer();
+  }
 }
 
 class PictureQuestion extends GeneralItem {
@@ -174,6 +179,9 @@ class PictureQuestion extends GeneralItem {
 
   String getIcon() {
     return 'fa.camera';
+  }
+  Widget buildPage() {
+    return PictureQuestionWidgetContainer();
   }
 }
 

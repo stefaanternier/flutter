@@ -50,13 +50,13 @@ class _NarratorItemWidgetState extends State<NarratorItemWidget> {
               ContentCardText(
                   title: (widget.giViewModel.item as NarratorItem).heading,
                   text: widget.giViewModel.item?.richText,
-                  giViewModel: widget.giViewModel,
+                   giViewModel: widget.giViewModel,
                   button: (showButton || (widget.giViewModel.item !=null))
                       ?
                   NextButtonContainer(item: widget.giViewModel.item!)
 
                       : null,
-                  showOnlyButton: showOnlyButton)
+                  )
           )
         ],
       )

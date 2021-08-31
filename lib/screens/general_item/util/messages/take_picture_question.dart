@@ -7,6 +7,7 @@ import 'package:youplay/actions/run_actions.dart';
 import 'package:youplay/config/app_config.dart';
 import 'package:youplay/localizations.dart';
 import 'package:youplay/models/general_item.dart';
+import 'package:youplay/models/general_item/narrator_item.dart';
 import 'package:youplay/models/response.dart';
 import 'package:youplay/screens/components/button/cust_flat_button.dart';
 import 'package:youplay/screens/components/button/cust_raised_button.dart';
@@ -39,7 +40,10 @@ class _NarratorWithPictureState extends State<NarratorWithPicture> {
   Widget build(BuildContext context) {
     switch (currentState) {
       case PictureQuestionStates.overview:
-        return PictureOverviewContainer(giViewModel: widget.giViewModel, takePicture: (){
+        return PictureOverviewContainer(
+          // giViewModel: widget.giViewModel,
+          item: widget.item as PictureQuestion,
+          takePicture: (){
           setState(() {
             currentState = PictureQuestionStates.takePicture;
           });
@@ -47,8 +51,8 @@ class _NarratorWithPictureState extends State<NarratorWithPicture> {
 
       case PictureQuestionStates.takePicture:
         return TakePictureWidget(
-          giViewModel: widget.giViewModel,
-          run: widget.giViewModel.run,
+          // giViewModel: widget.giViewModel,
+          // run: widget.giViewModel.run,
           generalItem: widget.giViewModel.item,
           cancelCallBack: () {
             setState(() {
@@ -66,9 +70,9 @@ class _NarratorWithPictureState extends State<NarratorWithPicture> {
       case PictureQuestionStates.annotateMetadata:
         if (widget.giViewModel.item != null && widget.giViewModel.run?.runId != null && imagePath != null) {
           return PictureFilePreviewContainer(
-            giViewModel: widget.giViewModel,
+            // giViewModel: widget.giViewModel,
             imagePath: imagePath!,
-            run: widget.giViewModel.run!,
+            // run: widget.giViewModel.run!,
             generalItem: widget.giViewModel.item!,
             finished: () {
               setState(() {

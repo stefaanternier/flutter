@@ -22,7 +22,7 @@ class GeneralItemWidget extends StatelessWidget {
       {required this.item,
       required this.giViewModel,
       required this.body,
-      this.floatingActionButton,
+      // this.floatingActionButton,
       this.renderBackground = true,
       this.padding = true,
       this.elevation = true});

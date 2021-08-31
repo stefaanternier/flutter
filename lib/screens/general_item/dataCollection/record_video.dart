@@ -3,13 +3,13 @@ import 'dart:io';
 
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:video_player/video_player.dart';
 import 'package:youplay/actions/run_actions.dart';
 import 'package:youplay/models/response.dart';
 import 'package:youplay/screens/util/utils.dart';
 import 'package:youplay/store/actions/current_run.actions.dart';
 import 'package:youplay/store/actions/current_run.picture.actions.dart';
+import 'package:youplay/ui/components/buttons/video_record_button.dart';
 import 'package:youplay/ui/components/messages_parts/richtext-top.container.dart';
 
 import '../general_item.dart';
@@ -64,70 +64,23 @@ class _RecordVideoWidgetState extends State<RecordVideoWidget> {
                 controller!.value == null ||
                 !controller!.value.isInitialized)
             ? Container()
-            : Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.max,
-                children: <Widget>[
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(30, 45, 30, 45),
-                      child: ClipOval(
-                        child: Material(
-                          color: Colors.white, // button color
-                          child: status == VideoRecordingStatus.stopped
-                              ? InkWell(
-                                  splashColor: Colors.black12, // inkwell color
+            :
+        VideoRecordButton(
+          isRecording: status == VideoRecordingStatus.stopped,
+          tapRecord: () {
+            setState(() {
+              status = VideoRecordingStatus.recording;
+            });
+            startVideoRecording();
+          },
+          tapStop: () {
+            setState(() {
+              status = VideoRecordingStatus.stopped;
+            });
+            stopVideoRecording();
+          },
+        ),
 
-                                  child: SizedBox(
-                                    width: 94,
-                                    height: 94,
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(10.0),
-                                      child: Container(
-                                          decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(50),
-                                              border: Border.all(
-                                                  width: 3,
-                                                  color: Colors.black)),
-                                          // inkwell colo
-                                          child: ClipOval(
-                                              child: GestureDetector(
-                                            onTap: () {
-                                              print("tapped");
-                                              setState(() {
-                                                status = VideoRecordingStatus
-                                                    .recording;
-                                              });
-                                              startVideoRecording();
-                                            },
-                                            child: Material(
-                                              color: Colors.red,
-                                            ),
-                                          ))),
-                                    ),
-                                  ),
-                                )
-                              : InkWell(
-                                  splashColor: Colors.red, // inkwell color
-                                  child: SizedBox(
-                                      width: 94,
-                                      height: 94,
-                                      child: Icon(
-                                        Icons.stop,
-                                        color: Colors.red,
-                                        size: 50,
-                                      )),
-                                  onTap: () {
-                                    setState(() {
-                                      status = VideoRecordingStatus.stopped;
-                                    });
-                                    stopVideoRecording();
-                                  },
-                                ),
-                        ),
-                      ),
-                    )
-                  ])
       ],
     );
     ;
@@ -149,8 +102,12 @@ class _RecordVideoWidgetState extends State<RecordVideoWidget> {
   }
 
   void _initializeCamera() async {
+    CameraDescription? cameraDesc = await getCamera(_direction);
+    if (cameraDesc == null) {
+      return;
+    }
     controller = CameraController(
-        await getCamera(_direction), ResolutionPreset.medium,
+        cameraDesc, ResolutionPreset.medium,
         enableAudio: true);
     await controller!.initialize().then((_) {
       setState(() {});
@@ -189,15 +146,6 @@ class _RecordVideoWidgetState extends State<RecordVideoWidget> {
     if (!(controller!.value.isInitialized)) {
       return null;
     }
-
-    // final Directory extDir = await getApplicationDocumentsDirectory();
-    // final String dirPath = '${extDir.path}/Movies/flutter_test';
-    // Directory file = await Directory(dirPath).create(recursive: true);
-    // bool testExists = file.existsSync();
-    // print ('exists $file  $testExists');
-    // final String filePath = '$dirPath/${timestamp()}.mp4';
-    //
-    // print('filepath $filePath');
     if (controller!.value.isRecordingVideo) {
       // A recording is already started, do nothing.
       return null;

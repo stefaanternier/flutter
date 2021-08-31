@@ -67,7 +67,6 @@ class _CombinationLockWidgetState extends State<CombinationLockWidget> {
       for (int i = 0; i < longest; i++) {
         this._answer += "0";
       }
-      print("answer is " + this._answer);
     }
   }
 

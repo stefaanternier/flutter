@@ -1,51 +1,32 @@
 import 'dart:async';
 import 'dart:collection';
 import 'dart:io' as io;
-import 'dart:io';
 
 import 'package:flutter/material.dart';
-
-// import 'package:flutter_audio_recorder/flutter_audio_recorder.dart';
-import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_sound/flutter_sound.dart';
 import 'package:flutter_sound/public/flutter_sound_recorder.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:redux/redux.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:universal_platform/universal_platform.dart';
 import 'package:youplay/actions/run_actions.dart';
-import 'package:youplay/localizations.dart';
 import 'package:youplay/models/general_item.dart';
 import 'package:youplay/models/response.dart';
-import 'package:youplay/screens/components/button/cust_flat_button.dart';
-import 'package:youplay/screens/components/button/cust_raised_button.dart';
 import 'package:youplay/screens/general_item/general_item.dart';
-import 'package:youplay/screens/general_item/util/messages/components/list_audio_player.dart';
 import 'package:youplay/store/actions/current_run.actions.dart';
 import 'package:youplay/store/actions/current_run.picture.actions.dart';
-import 'package:youplay/store/selectors/current_run.selectors.dart';
-import 'package:youplay/store/state/app_state.dart';
 import 'package:youplay/ui/components/messages/audio-list-recordings.dart';
-import 'package:youplay/ui/components/messages/audio-results-list.container.dart';
-import 'package:youplay/ui/components/messages/audio-slide-left-background.dart';
-import 'package:youplay/ui/components/messages_parts/richtext-top.container.dart';
-import 'package:youplay/ui/components/next_button/next_button.container.dart';
 
 import 'components/audio_meter.dart';
-import 'components/game_themes.viewmodel.dart';
-import 'components/next_button.dart';
 import 'generic_message.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 enum AudioRecordingStatus { stopped, paused, recording }
 
 format(Duration d) => d.toString().split('.').first.padLeft(8, "0");
 
-class ItemEntry<number> extends LinkedListEntry<ItemEntry> {
+class ItemEntryBis<number> extends LinkedListEntry<ItemEntryBis> {
   number value;
 
-  ItemEntry(this.value);
+  ItemEntryBis(this.value);
 
   String toString() => "${super.toString()} : value.toString()";
 }
@@ -62,7 +43,7 @@ class NarratorWithAudio extends StatefulWidget {
 
 class _NarratorWithAudioState extends State<NarratorWithAudio> {
   AudioRecordingStatus status = AudioRecordingStatus.stopped;
-  LinkedList<LinkedListEntry> meteringList = new LinkedList<ItemEntry>();
+  LinkedList<LinkedListEntry> meteringList = new LinkedList<ItemEntryBis>();
   List<Response> deleted = [];
 
   int selectedItem = -1;
@@ -100,13 +81,13 @@ class _NarratorWithAudioState extends State<NarratorWithAudio> {
     });
     var status = await Permission.microphone.request();
 
-    meteringList.addFirst(ItemEntry(0));
+    meteringList.addFirst(ItemEntryBis(0));
     await _myRecorder.setSubscriptionDuration(Duration(milliseconds: 200));
 
     _myRecorder.onProgress?.listen((event) {
       print('event ${event}');
       setState(() {
-        meteringList.addFirst(ItemEntry(event.decibels));
+        meteringList.addFirst(ItemEntryBis(event.decibels));
         this.currentDuration = event.duration;
       });
     });

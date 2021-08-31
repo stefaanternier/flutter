@@ -2,6 +2,7 @@ import 'package:youplay/models/general_item.dart';
 import 'package:youplay/models/general_item/dependency.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:youplay/ui/components/messages_pages/video-player.widget.container.dart';
 
 import '../game.dart';
 
@@ -81,6 +82,10 @@ class VideoObjectGeneralItem extends GeneralItem {
 
   String getIcon() {
     return 'fa.film';
+  }
+
+  Widget buildPage() {
+    return VideoPlayerWidgetContainer();
   }
 }
 
