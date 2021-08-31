@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:youplay/models/game.dart';
 import 'package:youplay/models/game_theme.dart';
 import 'package:youplay/state/authentication_state.dart';
@@ -49,7 +50,7 @@ class AppState {
     gameIdToRun: new HashMap<int, List<Run>>(),
     gameIdToGameState: new HashMap<int, GamesState>(),
     currentGameState: new GamesState(),
-    currentRunState: new RunState(),
+    currentRunState: RunState.init(),
     gameLibrary: GameLibraryState(
       partialFeaturedGames: [],
       partialSearchedGames: [],
@@ -106,7 +107,7 @@ class AppState {
   @override
   bool operator == (dynamic other) {
     AppState o = other as AppState;
-    return (this.themIdToTheme == other.themIdToTheme) &&
+    bool appChange =  (this.themIdToTheme == other.themIdToTheme) &&
         (this.allGamesState == other.allGamesState) &&
         (this.currentGameState == other.currentGameState) &&
         (this.currentRunState == other.currentRunState) &&
@@ -116,5 +117,10 @@ class AppState {
         (this.participateGames == other.participateGames)&&
         (this.authentication == other.authentication)&&
         (this.uiState == other.uiState);
+
+    if (!appChange) {
+      print('-- state store  has changed ${currentRunState.hashCode} -- ${other.currentRunState.hashCode}');
+    }
+    return appChange;
   }
 }

@@ -1,6 +1,8 @@
 import 'package:youplay/models/general_item.dart';
 import 'package:youplay/models/general_item/dependency.dart';
 import 'package:flutter/material.dart';
+import 'package:youplay/ui/components/messages_pages/multiple-choice.widget.container.dart';
+import 'package:youplay/ui/components/messages_pages/single-choice.widget.container.dart';
 
 import '../game.dart';
 
@@ -89,6 +91,10 @@ class SingleChoiceGeneralItem extends GeneralItem {
   String getIcon() {
     return 'fa.list';
   }
+
+  Widget buildPage() {
+    return SingleChoiceWidgetContainer();
+  }
 }
 
 class MultipleChoiceGeneralItem extends GeneralItem {
@@ -175,6 +181,10 @@ class MultipleChoiceGeneralItem extends GeneralItem {
 
   String getIcon() {
     return 'fa.list';
+  }
+
+  Widget buildPage() {
+    return MultipleChoiceWidgetContainer();
   }
 }
 

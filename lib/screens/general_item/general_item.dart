@@ -1,4 +1,3 @@
-import 'dart:io';
 
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +6,6 @@ import 'package:redux/redux.dart';
 import 'package:universal_platform/universal_platform.dart';
 import 'package:youplay/actions/games.dart';
 import 'package:youplay/actions/run_actions.dart';
-import 'package:youplay/actions/runs.dart';
 import 'package:youplay/actions/ui.dart';
 import 'package:youplay/config/app_config.dart';
 import 'package:youplay/models/game.dart';
@@ -19,7 +17,6 @@ import 'package:youplay/models/general_item/open_url.dart';
 import 'package:youplay/models/general_item/scan_tag.dart';
 import 'package:youplay/models/general_item/single_choice.dart';
 import 'package:youplay/models/general_item/single_choice_image.dart';
-import 'package:youplay/models/general_item/video_object.dart';
 import 'package:youplay/models/run.dart';
 import 'package:youplay/screens/general_item/util/messages/audio_object.dart';
 import 'package:youplay/screens/general_item/util/messages/combination_lock.dart';
@@ -35,19 +32,14 @@ import 'package:youplay/screens/general_item/util/messages/single_choice.dart';
 import 'package:youplay/screens/general_item/util/messages/single_choice_image.dart';
 import 'package:youplay/screens/general_item/util/messages/take_picture_question.dart';
 import 'package:youplay/screens/general_item/util/messages/text_question.dart';
-import 'package:youplay/screens/general_item/util/messages/video_object.dart';
 import 'package:youplay/screens/general_item/util/messages/video_object_new.dart';
 import 'package:youplay/selectors/selectors.dart';
-import 'package:youplay/store/selectors/ui_selectors.dart';
-import 'package:youplay/store/state/ui_state.dart';
 import 'package:youplay/store/actions/current_run.actions.dart';
-import 'package:youplay/store/actions/ui_actions.dart';
 import 'package:youplay/store/selectors/current-run.items.selectors.dart';
 import 'package:youplay/store/selectors/current_game.selectors.dart';
 import 'package:youplay/store/selectors/current_run.selectors.dart';
 import 'package:youplay/store/selectors/game_messages.selector.dart';
 import 'package:youplay/store/state/app_state.dart';
-import 'package:youplay/store/state/run_state.dart';
 
 import '../../localizations.dart';
 import 'util/messages/open_url_widget.dart';
@@ -259,8 +251,31 @@ class GeneralItemScreen extends StatelessWidget {
                 item: (notNullItem as AudioObjectGeneralItem),
                 giViewModel: giViewModel,
                 key: Key('${item.itemId}'));
-
         return returnWidget;
+
+        case ItemType.combinationlock:
+        return CombinationLockWidget(
+            item: notNullItem as CombinationLockGeneralItem,
+            giViewModel: giViewModel,
+            key: Key('${notNullItem.itemId}'));
+      case ItemType.scanTag:
+        return ScanTagWidget(
+            item: (notNullItem as ScanTagGeneralItem),
+            giViewModel: giViewModel);
+        break;
+      case ItemType.multiplechoice:
+        return MultipleChoiceWidget(
+            item: (notNullItem as MultipleChoiceGeneralItem),
+            giViewModel: giViewModel,
+            key: Key('${notNullItem.itemId}'));
+      case ItemType.singlechoice:
+        return SingleChoiceWidget(
+            item: notNullItem as SingleChoiceGeneralItem,
+            giViewModel: giViewModel,
+            key: Key('${notNullItem.itemId}'));
+
+
+
       case ItemType.video:
         VideoObjectNew? returnWidget;
         String? unencPath;
@@ -324,26 +339,9 @@ class GeneralItemScreen extends StatelessWidget {
       //     giViewModel: giViewModel,
       //     key: Key('${item.itemId}'));
 
-      case ItemType.combinationlock:
-        return CombinationLockWidget(
-            item: notNullItem as CombinationLockGeneralItem,
-            giViewModel: giViewModel,
-            key: Key('${notNullItem.itemId}'));
-      case ItemType.singlechoice:
-        return SingleChoiceWidget(
-            item: notNullItem as SingleChoiceGeneralItem,
-            giViewModel: giViewModel,
-            key: Key('${notNullItem.itemId}'));
-      case ItemType.multiplechoice:
-        return MultipleChoiceWidget(
-            item: (notNullItem as MultipleChoiceGeneralItem),
-            giViewModel: giViewModel,
-            key: Key('${notNullItem.itemId}'));
-      case ItemType.scanTag:
-        return ScanTagWidget(
-            item: (notNullItem as ScanTagGeneralItem),
-            giViewModel: giViewModel);
-        break;
+
+
+
       case ItemType.singlechoiceimage:
         return SingleChoiceWithImage(
             item: (notNullItem as SingleChoiceImageGeneralItem),
@@ -356,6 +354,7 @@ class GeneralItemScreen extends StatelessWidget {
             giViewModel: giViewModel,
             key: Key('${item.itemId}'));
         break;
+
       case ItemType.picturequestion:
         return new NarratorWithPicture(
             item: notNullItem, giViewModel: giViewModel);
@@ -368,6 +367,7 @@ class GeneralItemScreen extends StatelessWidget {
         return new TextQuestionScreen(
             item: notNullItem, giViewModel: giViewModel);
         break;
+
       case ItemType.videoquestion:
         return new NarratorWithVideo(
             item: notNullItem, giViewModel: giViewModel);

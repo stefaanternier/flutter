@@ -25,7 +25,6 @@ class RouteWidgetContainer extends StatelessWidget {
       converter: _ViewModel.fromStore,
       distinct: true,
       builder: (context, vm) {
-        print('in from store ${vm.pageType}');
         return RouteWidget(
           routeInformationParser:
               BookRouteInformationParser(updatePageType: vm.updatePageType),

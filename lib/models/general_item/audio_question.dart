@@ -1,6 +1,8 @@
 
+import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:universal_platform/universal_platform.dart';
+import 'package:youplay/ui/components/messages_pages/audio-question.widget.container.dart';
 
 import '../general_item.dart';
 import 'dependency.dart';
@@ -85,6 +87,10 @@ class AudioQuestion extends GeneralItem {
   }
   bool get isSupported {
     return !UniversalPlatform.isWeb;
+  }
+
+  Widget buildPage () {
+    return AudioQuestionWidgetContainer();
   }
 
 }

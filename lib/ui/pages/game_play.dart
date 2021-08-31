@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:universal_platform/universal_platform.dart';
-import 'package:youplay/ui/components/nav/navigation_drawer.container.dart';
-
-import 'package:youplay/ui/components/nav/navigation_drawer.dart';
 import 'package:youplay/ui/components/game_play/message_list.container.dart';
 import 'package:youplay/ui/components/game_play/toggle_view_button.container.dart';
+import 'package:youplay/ui/components/nav/navigation_drawer.container.dart';
 import 'package:youplay/ui/components/web/web_wrapper.dart';
 
 class GamePlay extends StatelessWidget {
@@ -30,6 +27,6 @@ class GamePlay extends StatelessWidget {
             actions:
                 UniversalPlatform.isWeb ? null : [ToggleViewButtonContainer()]),
         body: WebWrapper(
-            child: MessageListContainer()));
+            child: MessagesViewContainer()));
   }
 }

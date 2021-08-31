@@ -11,10 +11,10 @@ class ContentCard extends StatelessWidget {
   Widget? content;
   Widget? button;
   bool showOnlyButton;
-  GeneralItemViewModel giViewModel;
+  // GeneralItemViewModel giViewModel;
 
   ContentCard(
-      { this.content, this.button, this.showOnlyButton = false, required this.giViewModel});
+      { this.content, this.button, this.showOnlyButton = false});
 
   @override
   Widget build(BuildContext context) {

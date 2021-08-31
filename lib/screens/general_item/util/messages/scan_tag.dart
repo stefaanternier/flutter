@@ -34,13 +34,8 @@ class _ScanTagWidgetState extends State<ScanTagWidget> {
           children: [
             Stack(
               fit: StackFit.expand,
-//              alignment: const Alignment(-0.5, 0),
               children: <Widget>[
                 new ItemQRScreen(giViewModel: widget.giViewModel),
-                // Padding(
-                //   padding: EdgeInsets.fromLTRB(30, 30, 30, 30),
-                //   child: Image.asset('graphics/generalItems/scanOverlay.png'),
-                // )
               ],
             ),
             Opacity(
@@ -51,26 +46,7 @@ class _ScanTagWidgetState extends State<ScanTagWidget> {
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-//                        Container(
-//                            padding: const EdgeInsets.all(10),
-//                            child: Text(
-//                              "${widget.item.title}",
-//                              style: TextStyle(
-//                                fontSize: 24,
-//                                fontWeight: FontWeight.bold,
-//                              ),
-//                            )),
-//                        Container(
-//                            padding: const EdgeInsets.all(10),
-//                            child: Text(
-//                              "${widget.item.richText}",
-//                              style: TextStyle(
-//                                  fontSize: (24 /
-//                                      3 *
-//                                      MediaQuery.of(context).devicePixelRatio)),
-//                            )),
-                      ],
+                      children: <Widget>[],
                     ),
                   ),
                 )),
@@ -89,11 +65,12 @@ class ItemQRScreen extends StatefulWidget {
 }
 
 class ItemQRState extends State<ItemQRScreen> {
-  ItemQRState();
+  Barcode? result;
+  QRViewController? controller;
+  final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
+  bool _actionTaken = false;
 
-  // bool _isDetecting = false;
-  // bool _actionTaken = false;
-  // CameraLensDirection _direction = CameraLensDirection.back;
+  ItemQRState();
 
   @override
   void initState() {
@@ -109,15 +86,12 @@ class ItemQRState extends State<ItemQRScreen> {
     );
   }
 
-  Barcode? result;
-  QRViewController? controller;
-  final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
+
 
   Widget _buildQrView(BuildContext context) {
     // For this example we check how width or tall the device is and change the scanArea and overlay accordingly.
     //  print('w ${MediaQuery.of(context).size.width}  h ${MediaQuery.of(context).size.height}' );
-    var minArea = min(
-        MediaQuery.of(context).size.width, MediaQuery.of(context).size.height);
+    var minArea = min(MediaQuery.of(context).size.width, MediaQuery.of(context).size.height);
     var scanArea = minArea / 4 * 3;
     // var scanArea = (MediaQuery.of(context).size.width < 400 ||
     //         MediaQuery.of(context).size.height < 400)
@@ -137,7 +111,7 @@ class ItemQRState extends State<ItemQRScreen> {
     );
   }
 
-  bool _actionTaken = false;
+
 
   void _onQRViewCreated(QRViewController controller) {
     setState(() {
@@ -151,15 +125,13 @@ class ItemQRState extends State<ItemQRScreen> {
           new Future.delayed(const Duration(milliseconds: 100), () {
             if (!widget.giViewModel.continueToNextItemWithTag(scanData.code)) {
               new Future.delayed(const Duration(milliseconds: 200), () {
-                if (!widget.giViewModel
-                    .continueToNextItemWithTag(scanData.code)) {
+                if (!widget.giViewModel.continueToNextItemWithTag(scanData.code)) {
                   Navigator.pop(context);
                 }
               });
             }
           });
-          if (widget.giViewModel.item != null &&
-              widget.giViewModel.run?.runId != null) {
+          if (widget.giViewModel.item != null && widget.giViewModel.run?.runId != null) {
             widget.giViewModel.onDispatch(QrScannerAction(
                 generalItemId: widget.giViewModel.item!.itemId,
                 runId: widget.giViewModel.run!.runId!,

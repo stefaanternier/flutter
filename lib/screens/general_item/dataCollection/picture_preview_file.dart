@@ -1,20 +1,24 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:youplay/models/general_item/narrator_item.dart';
 import 'package:youplay/screens/general_item/util/messages/components/themed_app_bar.dart';
 import 'package:youplay/screens/general_item/util/messages/generic_message.dart';
+import 'package:youplay/ui/components/appbar/themed-appbar.container.dart';
 
 import '../general_item.dart';
 
 class PictureFilePreview extends StatefulWidget {
   String imagePath;
   final Function submitPicture;
-  GeneralItemViewModel giViewModel;
+  // GeneralItemViewModel giViewModel;
+  final PictureQuestion item;
 
   PictureFilePreview(
       {required this.imagePath,
       required this.submitPicture,
-      required this.giViewModel});
+      required this.item
+      });
 
   @override
   _PictureFilePreviewState createState() => _PictureFilePreviewState();
@@ -27,8 +31,7 @@ class _PictureFilePreviewState extends State<PictureFilePreview> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color.fromRGBO(0, 0, 0, 1),
-      appBar:
-          ThemedAppBar(title: widget.giViewModel.item?.title??'', elevation: false),
+      appBar: ThemedAppbarContainer(title: widget.item.title, elevation: false),
       body: Container(
         color: Color.fromRGBO(0, 0, 0, 1),
         child: SingleChildScrollView(
@@ -37,13 +40,12 @@ class _PictureFilePreviewState extends State<PictureFilePreview> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Visibility(
-                visible: widget.giViewModel.item?.richText != null,
+                visible: widget.item.richText != '',
                 child: Container(
-                    color: widget.giViewModel.getPrimaryColor(),
+                    // color: widget.giViewModel.getPrimaryColor(),
                     child: Padding(
                       padding: EdgeInsets.all(15),
-                      child: Text(
-                        "${widget.giViewModel.item?.richText??''}",
+                      child: Text(widget.item.richText,
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 16.0,

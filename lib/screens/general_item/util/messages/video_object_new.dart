@@ -27,7 +27,6 @@ class _VideoAppState extends State<VideoObjectNew> {
   double _maxposition = 0;
 
   bool isFinished = false;
-  bool completeActionSent = false;
 
   @override
   void initState() {
@@ -58,20 +57,10 @@ class _VideoAppState extends State<VideoObjectNew> {
         });
       })
       ..initialize().then((_) {
-        // print('init_2 ${(DateTime.now().millisecondsSinceEpoch - time)}');
-        // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
         setState(() {
-
           _controller!.seekTo(new Duration(milliseconds: 50));
         });
 
-        // Future.delayed(const Duration(milliseconds: 500), () {
-        //
-        //   setState(() {
-        //     // Here you can write your code for open new view
-        //   });
-        //
-        // });
       });
   }
 

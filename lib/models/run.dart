@@ -61,6 +61,8 @@ class ARLearnAction {
   int timestamp;
   String? generalItemType;
 
+  String get key => "${action}:${generalItemId}";
+
   ARLearnAction({
      this.identifier,
     required this.runId,
@@ -90,7 +92,8 @@ class ARLearnAction {
         generalItemId = json['generalItemId']!=null?int.parse("${json['generalItemId']}"):null,
         account= json['account'],
         timestamp = int.parse("${json['timestamp']}"),
-        generalItemType = json['generalItemType'];
+        generalItemType = json['generalItemType']
+  ;
 
   String getKeyUniqueWithinRun() {
     String result = this.action+":";
@@ -105,24 +108,3 @@ class ARLearnAction {
 }
 
 
-//
-//class Response {
-//  int id;
-//  int generalItemId;
-//  Map responseValue;
-//  bool revoked;
-//  int runId;
-//  int timeStamp;
-//  String account;
-//
-//  Response({
-//    this.id,
-//    this.generalItemId,
-//    this.account,
-//    this.runId,
-//    this.responseValue,
-//    this.revoked,
-//    this.timeStamp
-//});
-
-//}

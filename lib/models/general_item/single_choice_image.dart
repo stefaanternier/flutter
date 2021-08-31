@@ -1,6 +1,7 @@
 import 'package:youplay/models/general_item.dart';
 import 'package:youplay/models/general_item/dependency.dart';
 import 'package:flutter/material.dart';
+import 'package:youplay/ui/components/messages_pages/single-choice-image.widget.container.dart';
 
 import '../game.dart';
 import 'multiple_choice_image.dart';
@@ -51,6 +52,10 @@ class SingleChoiceImageGeneralItem extends GeneralItem {
 
   String getIcon() {
     return 'fa.image';
+  }
+
+  Widget buildPage() {
+    return SingleChoiceImageWidgetContainer();
   }
 
   factory SingleChoiceImageGeneralItem.fromJson(Map json) {

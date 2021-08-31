@@ -84,6 +84,7 @@ class Complete extends LocalAction {
 }
 
 class LocationAction extends LocalAction {
+
   LocationAction(
       {required double lat,
       required double lng,

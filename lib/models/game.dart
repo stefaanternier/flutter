@@ -93,18 +93,18 @@ class Game {
   }
 
   nextView(int currentView) {
-    print("currentview ${currentView}");
+    if (currentView ==0) {
+      if (messageListTypes.length ==0 ) {
+        return 2;
+      }
+      return messageListTypes[0];
+    }
     if (messageListTypes.length <= 1) {
       return currentView;
     }
     int index =
         (messageListTypes.indexOf(currentView) + 1) % messageListTypes.length;
-    print("index ${index}");
     return messageListTypes[index];
-    // if (currentView == MessageView.mapView) {
-    //   return MessageView.listView;
-    // }
-    // return MessageView.mapView;
   }
 }
 

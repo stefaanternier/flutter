@@ -97,7 +97,7 @@ class _MultipleChoiceWithImageState extends State<MultipleChoiceWithImage> {
           primaryColor: widget.giViewModel.getPrimaryColor(),
           answers: widget.item.answers,
           selected: _selected,
-          buttonClick: (answerId) {
+          buttonClick: (answerId, int? i ) {
             setState(() {
               _selected[answerId] = !(_selected[answerId]??false);
             });

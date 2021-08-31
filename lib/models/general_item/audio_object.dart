@@ -3,6 +3,7 @@ import 'package:youplay/models/general_item.dart';
 import 'package:youplay/models/general_item/dependency.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:youplay/ui/components/messages_pages/audio-player.widget.container.dart';
 
 import '../game.dart';
 
@@ -87,6 +88,10 @@ class AudioObjectGeneralItem extends GeneralItem {
   }
   bool get isSupported {
     return true;
+  }
+
+  Widget buildPage() {
+    return AudioPlayerWidgetContainer();
   }
 }
 

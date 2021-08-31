@@ -6,8 +6,6 @@ import 'package:youplay/actions/run_actions.dart';
 import 'package:youplay/config/app_config.dart';
 import 'package:youplay/models/game.dart';
 import 'package:youplay/models/general_item.dart';
-import 'package:youplay/ui/components/game_play/view/messages_map_view.dart';
-import 'package:youplay/screens/general_item/general_item.dart';
 import 'package:youplay/screens/util/location/context2.dart';
 import 'package:youplay/selectors/selectors.dart';
 import 'package:youplay/store/actions/current_run.actions.dart';
@@ -15,32 +13,36 @@ import 'package:youplay/store/actions/ui_actions.dart';
 import 'package:youplay/store/selectors/current_run.selectors.dart';
 import 'package:youplay/store/state/app_state.dart';
 import 'package:youplay/store/state/ui_state.dart';
+import 'package:youplay/ui/components/game_play/view/messages_map_view.dart';
 
-import 'view/messages_list_view.dart';
 import 'view/messages_board_view.dart';
+import 'view/messages_list_view.dart';
 
-class MessageListContainer extends StatefulWidget {
+class MessagesViewContainer extends StatefulWidget {
   @override
-  _MessageListContainerState createState() => _MessageListContainerState();
+  _MessagesViewContainerState createState() => _MessagesViewContainerState();
 }
 
-class _MessageListContainerState extends State<MessageListContainer> {
+class _MessagesViewContainerState extends State<MessagesViewContainer> {
   @override
   Widget build(BuildContext context) {
     return Center(
       child: Center(
         child: StoreConnector<AppState, _ViewModel>(
           converter: (Store<AppState> store) => _ViewModel.fromStore(store),
+          distinct: true,
           builder: (context, vm) {
+            print('rebuild messages ${vm.items.length}');
+            if (vm.isLoading) {
+              return Center(
+                  child: CircularProgressIndicator(
+                key: ValueKey('loadinggameplay'),
+              ));
+            }
             int now = new DateTime.now().millisecondsSinceEpoch;
-            List<ItemTimes> items = vm.items
-                .where((element) => (element.appearTime < now))
-                .toList(growable: false);
-            vm.items
-                .where((element) => (element.appearTime > now))
-                .forEach((itemTime) {
-              new Future.delayed(
-                  Duration(milliseconds: (itemTime.appearTime - now)), () {
+            List<ItemTimes> items = vm.items.where((element) => (element.appearTime < now)).toList(growable: false);
+            vm.items.where((element) => (element.appearTime > now)).forEach((itemTime) {
+              new Future.delayed(Duration(milliseconds: (itemTime.appearTime - now)), () {
                 setState(() {});
               });
             });
@@ -51,23 +53,22 @@ class _MessageListContainerState extends State<MessageListContainer> {
               );
             }
             if (vm.listType == 1) {
-
               return MetafoorView(
                 items: items,
                 tapEntry: vm.tapEntry,
-                width: vm.game?.boardWidth?? 800,
-                height: vm.game?.boardHeight?? 860,
-                backgroundPath:
-                    vm.game?.messageListScreen ?? '/mediaLibrary/Bos/Jungle.png',
+                width: vm.game?.boardWidth ?? 800,
+                height: vm.game?.boardHeight ?? 860,
+                backgroundPath: vm.game?.messageListScreen ?? '/mediaLibrary/Bos/Jungle.png',
               );
             }
-            return LocationContext.around(
+            return
                 MessagesMapView(
                   items: items,
-                  tapEntry:vm.tapEntry,
-                ),
-                vm.points,
-                vm.onLocationFound);
+                  tapEntry: vm.tapEntry,
+                );
+            // ,
+            //     vm.points,
+            //     vm.onLocationFound);
           },
         ),
       ),
@@ -82,8 +83,7 @@ class _ViewModel {
   Function onLocationFound;
   Game? game;
   int listType;
-
-  // int runId;
+  bool isLoading;
 
   _ViewModel(
       {required this.items,
@@ -91,36 +91,40 @@ class _ViewModel {
       required this.points,
       required this.onLocationFound,
       required this.listType,
-      this.game});
+      this.game,
+      required this.isLoading});
 
   static _ViewModel fromStore(Store<AppState> store) {
     int runId = runIdSelector(store.state.currentRunState);
     int lt = store.state.uiState.currentView;
     // int i = lt.index;
     Game? g = store.state.currentGameState.game;
+    if (lt == 0 && g != null) {
+      store.dispatch(ToggleMessageViewAction(game: g));
+    }
     // if (g != null && !g.messageListTypes.contains(i)) {
     //   lt = MessageView.values[g.messageListTypes[0]-1];
     // }
     return _ViewModel(
-        listType: lt, //store.state.uiState.currentView,
-        game: g,//store.state.currentGameState.game,
+        isLoading: isSyncingActions(store.state),
+        listType: lt,
+        //store.state.uiState.currentView,
+        game: g,
+        //store.state.currentGameState.game,
         points: gameLocationTriggers(store.state),
         onLocationFound: (double lat, double lng, int radius) {
           if (runId != -1) {
-            store.dispatch(LocationAction(
-                lat: lat, lng: lng, radius: radius, runId: runId));
+            store.dispatch(LocationAction(lat: lat, lng: lng, radius: radius, runId: runId));
           }
         },
         items: itemTimesSortedByTime(store.state),
         tapEntry: (GeneralItem item) {
-          AppConfig().analytics?.logViewItem(
-              itemId: '${item.itemId}',
-              itemName: '${item.title}',
-              itemCategory: '${item.gameId}');
+          AppConfig()
+              .analytics
+              ?.logViewItem(itemId: '${item.itemId}', itemName: '${item.title}', itemCategory: '${item.gameId}');
 
           store.dispatch(SetCurrentGeneralItemId(item.itemId));
-          store.dispatch(
-              new ReadItemAction(runId: runId, generalItemId: item.itemId));
+          store.dispatch(new ReadItemAction(runId: runId, generalItemId: item.itemId));
           store.dispatch(new SyncResponsesServerToMobile(
             runId: runId,
             generalItemId: item.itemId,
@@ -133,4 +137,17 @@ class _ViewModel {
           // );
         });
   }
+
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    return other is _ViewModel
+        && (other.items.length == items.length)
+        && (other.isLoading == isLoading)
+    ;
+  }
+
+  @override
+  int get hashCode => items.hashCode;
 }

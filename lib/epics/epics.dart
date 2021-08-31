@@ -2,6 +2,7 @@ import 'package:redux_epics/redux_epics.dart';
 import 'package:youplay/store/middlewares/current_run.middleware.dart';
 import 'package:youplay/store/middlewares/game_library.middleware.dart';
 import 'package:youplay/store/middlewares/game_theme.middleware.dart';
+import 'package:youplay/store/middlewares/locations.middleware.dart';
 import 'package:youplay/store/state/app_state.dart';
 import 'package:youplay/epics/store_epics.dart';
 import 'package:youplay/epics/account_epics.dart';
@@ -70,7 +71,8 @@ final epic = combineEpics<AppState>([
   deleteResponseForRunEpic,
   gameLibraryEpics,
   testEpoic,
-  gameThemeEpics
+  gameThemeEpics,
+  locationEpic
 ]);
 
 

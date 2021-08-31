@@ -1,6 +1,7 @@
 import 'package:youplay/models/general_item.dart';
 import 'package:youplay/models/general_item/dependency.dart';
 import 'package:flutter/material.dart';
+import 'package:youplay/ui/components/messages_pages/multiple-choice-image.widget.container.dart';
 
 import '../game.dart';
 
@@ -88,6 +89,10 @@ class MultipleChoiceImageGeneralItem extends GeneralItem {
 
   String getIcon() {
     return 'fa.th';
+  }
+
+  Widget buildPage() {
+    return MultipleChoiceImageWidgetContainer();
   }
 }
 

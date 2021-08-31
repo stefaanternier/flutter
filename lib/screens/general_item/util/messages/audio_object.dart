@@ -160,33 +160,6 @@ mainAxisSize: MainAxisSize.max,
     );
   }
 
-//  Widget showContinue(Widget videoPlayer, BuildContext context) {
-//    RaisedButton button = RaisedButton(
-//      color: Theme
-//          .of(context)
-//          .accentColor,
-//      splashColor: Colors.red,
-//      child: Text(
-//        'VERDER',
-//        style: TextStyle(color: Colors.white.withOpacity(0.8)),
-//      ),
-//      onPressed: () {
-//        widget.giViewModel.continueToNextItem();
-//      },
-//    );
-//
-//    return Stack(
-//      alignment: const Alignment(0.8, 0.8),
-//      children: [
-//        videoPlayer,
-//        Opacity(
-//          opacity: 1.0,
-//          child: button,
-//        ),
-//      ],
-//    );
-//  }
-
   Widget addPlayButtonTo( BuildContext context) {
     Icon icon = Icon(
       Icons.play_circle_filled,
@@ -211,29 +184,14 @@ mainAxisSize: MainAxisSize.max,
             } else if (status == AudioPlayerState.PAUSED) {
               audioPlayer.resume();
             }
-            // if (_controller.value.isPlaying) {
-            //   _controller.pause();
-            // } else {
-            //   _controller.play();
-            //   showControls = false;
-            // }
+
           });
         });
       },
       child: icon,
     );
 return gestureDetector;
-    // return Stack(
-    //   alignment: const Alignment(0, 0),
-    //   children: [
-    //     // videoPlayer,
-    //     // gestureDetector
-    //     Opacity(
-    //       opacity: 1.0,
-    //       child: gestureDetector,
-    //     ),
-    //   ],
-    // );
+
   }
 
   @override

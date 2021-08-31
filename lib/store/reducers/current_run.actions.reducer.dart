@@ -25,7 +25,16 @@ RunState addActionsFromServer(RunState state, SyncARLearnActionsListServerToMobi
     }
   });
   if (found) {
-    return state.copyWith(a:HashMap<String, ARLearnAction>.from(state.actionsFromServer));
+    if (action.isLast) {
+      print('--sync complete');
+    } else {
+      print('--sync ongoing');
+    }
+    return state.copyWith(a:HashMap<String, ARLearnAction>.from(state.actionsFromServer), isSyncingActions: !action.isLast);
+  }
+  if (action.isLast) {
+    print('--sync complete ---');
+    return state.copyWith(isSyncingActions: !action.isLast);
   }
   return state;
 }
@@ -48,7 +57,7 @@ RunState addOneActionFromServer(RunState state, SyncActionComplete storeAction) 
   state.unsynchronisedActions = state.unsynchronisedActions.where((action) =>
       !(storeAction.action!.action == action.action &&
           storeAction.action!.generalItemId == action.generalItemId)).toList(growable: true);
-  return state;
+  return state.copyWith(a: state.actionsFromServer);
 }
 
 bool _actionReplaceNecessary(HashMap<String, ARLearnAction> map, ARLearnAction action) {

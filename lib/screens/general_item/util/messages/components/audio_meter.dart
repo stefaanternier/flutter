@@ -3,7 +3,14 @@ import 'dart:collection';
 
 import 'package:flutter/material.dart';
 
-import '../record_audio_question.dart';
+
+class ItemEntry<number> extends LinkedListEntry<ItemEntry> {
+  number value;
+
+  ItemEntry(this.value);
+
+  String toString() => "${super.toString()} : value.toString()";
+}
 
 class AudioMeter extends CustomPainter {
   LinkedList<LinkedListEntry> meteringList;

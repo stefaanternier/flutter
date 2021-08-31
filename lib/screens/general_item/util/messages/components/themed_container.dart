@@ -15,9 +15,7 @@ class ThemedContainer extends StatelessWidget {
   final String imageId;
   final GeneralItem item;
 
-  ThemedContainer({required this.child, required this.imageId,required  this.item});
-
-
+  ThemedContainer({required this.child, required this.imageId, required this.item});
 
   @override
   Widget build(BuildContext context) {
@@ -34,15 +32,15 @@ class ThemedContainer extends StatelessWidget {
   }
 
   String? getPath(GameThemesViewModel themeModel) {
-    if (item.fileReferences != null && item.fileReferences?[imageId] != null) {
-          return item.fileReferences![imageId]!;
+    if (item.fileReferences != null && item.fileReferences?[imageId] != null && item.fileReferences?[imageId] != '') {
+      return item.fileReferences![imageId]!;
     }
     if (this.imageId == 'wrong') {
-      return  themeModel.gameTheme?.wrongPath;
+      return themeModel.gameTheme?.wrongPath;
     }
     if (this.imageId == 'correct') {
-      return  themeModel.gameTheme?.correctPath;
+      return themeModel.gameTheme?.correctPath;
     }
-    return  themeModel.gameTheme?.backgroundPath;
+    return themeModel.gameTheme?.backgroundPath;
   }
 }

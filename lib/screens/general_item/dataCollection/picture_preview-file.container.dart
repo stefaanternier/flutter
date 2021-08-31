@@ -3,34 +3,38 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 import 'package:youplay/actions/run_actions.dart';
 import 'package:youplay/models/general_item.dart';
+import 'package:youplay/models/general_item/narrator_item.dart';
 import 'package:youplay/models/response.dart';
 import 'package:youplay/models/run.dart';
 import 'package:youplay/screens/general_item/dataCollection/picture_preview_file.dart';
 import 'package:youplay/store/actions/current_run.actions.dart';
 import 'package:youplay/store/actions/current_run.picture.actions.dart';
+import 'package:youplay/store/selectors/current_run.selectors.dart';
 import 'package:youplay/store/state/app_state.dart';
 
 import '../general_item.dart';
 
 class PictureFilePreviewContainer extends StatelessWidget {
-  String imagePath;
-  Run run;
-  GeneralItem generalItem;
-  Function finished;
-  GeneralItemViewModel giViewModel;
+ final String imagePath;
+ final GeneralItem generalItem;
+ final Function finished;
+  // GeneralItemViewModel giViewModel;
 
   PictureFilePreviewContainer(
-      {required this.imagePath, required this.giViewModel,required  this.run, required this.generalItem, required this.finished});
+      {required this.imagePath,
+        // required this.giViewModel,
+        required this.generalItem, required this.finished});
 
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, _ViewModel>(
       converter: (Store<AppState> store) =>
-          _ViewModel.fromStore(store, run, generalItem, imagePath, finished),
+          _ViewModel.fromStore(store, generalItem, imagePath, finished),
       builder: (context, vm) {
         return PictureFilePreview(
+          item: generalItem as PictureQuestion,
           imagePath: imagePath,
-          giViewModel: giViewModel,
+          // giViewModel: giViewModel,
           submitPicture: vm.submitPicture,
         );
       },
@@ -43,15 +47,16 @@ class _ViewModel {
 
   _ViewModel({required this.submitPicture});
 
-  static _ViewModel fromStore(Store<AppState> store, Run run, GeneralItem item,
+  static _ViewModel fromStore(Store<AppState> store, GeneralItem item,
       String path, Function finished) {
+    Run? run = currentRunSelector(store.state.currentRunState);
     return _ViewModel(
       submitPicture: (String text) {
-        if (run.runId!=null) {
+        if (run?.runId!=null) {
           store.dispatch(LocalAction(
             action: "answer_given",
             generalItemId: item.itemId,
-            runId: run.runId!,
+            runId: run!.runId!,
           ));
           store.dispatch(PictureResponseAction(
               pictureResponse:

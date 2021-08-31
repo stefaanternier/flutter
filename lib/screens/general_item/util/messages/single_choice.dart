@@ -88,8 +88,7 @@ class _SingleChoiceWidgetState extends State<SingleChoiceWidget> {
                         answers: widget.item.answers,
                         selected: _selected,
                         changeSelection: (bool value, int i, String id) {
-                          setState(
-                            () {
+                          setState(() {
                               widget.item.answers.forEach((choice) {
                                 _selected[choice.id] = false;
                               });

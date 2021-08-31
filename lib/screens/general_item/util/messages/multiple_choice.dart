@@ -24,7 +24,7 @@ class MultipleChoiceWidget extends StatefulWidget {
 }
 
 class _MultipleChoiceWidgetState extends State<MultipleChoiceWidget> {
-  bool newLibrary = true;
+
   Map<String, bool> _selected = new Map();
   bool _showFalseFeedback = false;
   bool _showCorrectFeedback = false;
