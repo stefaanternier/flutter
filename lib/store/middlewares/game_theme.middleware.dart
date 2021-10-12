@@ -15,6 +15,16 @@ Stream<dynamic> _retrieveGameMessages(Stream<dynamic> actions, EpicStore<AppStat
       .catchError((error) => new ApiResultError(error: error, message: 'error in retrieve game messages')));
 }
 
+Stream<dynamic> _retrieveGameTheme(Stream<dynamic> actions, EpicStore<AppState> store) {
+  return actions
+      .whereType<LoadGameTheme>()
+  // .where((action) => action is )
+      .asyncMap((action) => GamesApi.getTheme(action.themeIdentifier)
+      .then((results) => new LoadGameThemeSuccess(gameTheme: results)) //todo check if gameIds when reducing are still current game
+      .catchError((error) => new ApiResultError(error: error, message: 'error in retrieve game messages')));
+}
+
 final gameThemeEpics = combineEpics<AppState>([
   new TypedEpic<AppState, dynamic>(_retrieveGameMessages),
+  new TypedEpic<AppState, dynamic>(_retrieveGameTheme),
 ]);

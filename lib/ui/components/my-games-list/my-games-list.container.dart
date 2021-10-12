@@ -29,18 +29,19 @@ class MyGamesListContainer extends StatelessWidget {
 
 class _ViewModel {
   List<Game> gameList;
-  Function(int) tapGame;
+  Function(Game) tapGame;
 
   _ViewModel({required this.gameList, required this.tapGame});
 
   static _ViewModel fromStore(Store<AppState> store) {
     return _ViewModel(
         gameList: allGames(store.state.allGamesState),
-        tapGame: (int gameId) {
+        tapGame: (Game game) {
           return () {
-            store.dispatch(SetCurrentGameAction(currentGame: gameId));
-            store.dispatch(LoadGameRequestAction(gameId: gameId));
-            store.dispatch(ApiRunsParticipateAction(gameId));
+            store.dispatch(SetCurrentGameAction(currentGame: game.gameId));
+            store.dispatch(LoadGameRequestAction(gameId: game.gameId));
+            store.dispatch(ApiRunsParticipateAction(game.gameId));
+
             store.dispatch(SetPage(page: PageType.gameWithRuns));
           };
         });

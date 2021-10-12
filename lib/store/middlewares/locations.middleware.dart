@@ -43,10 +43,8 @@ Stream<dynamic> _startListening(Stream<dynamic> actions, EpicStore<AppState> sto
 }
 
 Stream<dynamic> _processLocationData(Stream<dynamic> actions, EpicStore<AppState> store) {
-  //gameLocationTriggers(store.state).length > 0);
-  print('execute process location date');
+
   return actions.where((action) => action is LocationData).map((action) => checkLocations(store, action)).where((e) {
-    print('matching lenght is ${e.length}');
     return e.length > 0;
   }).map((event) => event[0]);
 }

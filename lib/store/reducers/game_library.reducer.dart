@@ -29,6 +29,7 @@ GameLibraryState _recentGamesReducer(
 
 GameLibraryState _loadOneLibraryGameReducer(
     GameLibraryState state, LoadOneFeaturedGameResultAction action) {
+  action.game.rank = action.rank;
   return state.copyWith(oneGame: action.game);
 }
 

@@ -25,7 +25,7 @@ class GamePlay extends StatelessWidget {
               ),
             ),
             actions:
-                UniversalPlatform.isWeb ? null : [ToggleViewButtonContainer()]),
+                 [ToggleViewButtonContainer()]),
         body: WebWrapper(
             child: MessagesViewContainer()));
   }

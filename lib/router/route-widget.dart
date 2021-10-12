@@ -31,12 +31,16 @@ class RouteWidget extends StatelessWidget {
       theme: AppConfig().themeData,
       routerDelegate: routerDelegate,
       routeInformationParser: routeInformationParser,
-      // home: new SplashScreen(),
-      // initialRoute: '/',
-      // onGenerateRoute: RouteConfiguration.onGenerateRoute,
-      // navigatorObservers: [
-      //   FirebaseAnalyticsObserver(analytics: analytics),
-      // ],
+      // theme: ThemeData.dark().copyWith(
+      //   pageTransitionsTheme: PageTransitionsTheme(
+      //     builders: {
+      //       // Set your transitions here:
+      //       TargetPlatform.android: CupertinoPageTransitionsBuilder(),
+      //       TargetPlatform.iOS: FadeUpwardsPageTransitionsBuilder(),
+      //       TargetPlatform.macOS: FadeUpwardsPageTransitionsBuilder(),
+      //     },
+      //   ),
+      // ),
     );
   }
 }

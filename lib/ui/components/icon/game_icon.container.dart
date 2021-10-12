@@ -4,6 +4,7 @@ import 'package:redux/redux.dart';
 import 'package:youplay/models/game.dart';
 import 'package:youplay/models/game_theme.dart';
 import 'package:youplay/models/general_item.dart';
+import 'package:youplay/store/actions/game_theme.actions.dart';
 import 'package:youplay/store/selectors/game_messages.selector.dart';
 import 'package:youplay/store/selectors/game_theme.selectors.dart';
 import 'package:youplay/store/state/app_state.dart';
@@ -31,6 +32,7 @@ class GameIconContainer extends StatelessWidget {
     }
     return StoreConnector<AppState, _ViewModel>(
       converter: (store) => _ViewModel.fromStore(store, game!),
+      distinct: true,
       builder: (context, vm) {
         return GameIcon(
           game: vm.game,
@@ -49,6 +51,10 @@ class _ViewModel {
   _ViewModel({required this.game, this.gameTheme});
 
   static _ViewModel fromStore(Store<AppState> store, Game game) {
+    if (allThemesSelector(store.state)[game.theme] == null && game.theme != 0) {
+      store.dispatch(LoadGameTheme(themeIdentifier: game.theme));
+    }
+
     return _ViewModel(
         game: game,
         gameTheme: allThemesSelector(store.state)[game.theme]
@@ -58,4 +64,14 @@ class _ViewModel {
   String? iconPath() {
     return gameTheme?.iconPath;
   }
+
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    return other is _ViewModel && (other.gameTheme?.themeId == gameTheme?.themeId);
+  }
+
+  @override
+  int get hashCode => gameTheme?.themeId ?? -1;
 }

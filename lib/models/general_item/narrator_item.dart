@@ -29,8 +29,8 @@ class NarratorItem extends GeneralItem {
       double? lng,
       double? authoringX,
       double? authoringY,
-        double? relX,
-        double? relY,
+      double? relX,
+      double? relY,
       required bool showOnMap,
       required bool showInList,
       OpenQuestion? openQuestion})
@@ -80,23 +80,14 @@ class NarratorItem extends GeneralItem {
         relY: json['relY'],
         showOnMap: json['showOnMap'] ?? true,
         showInList: json['showInList'] == null ? true : json['showInList'],
-        openQuestion: json['openQuestion'] != null
-            ? OpenQuestion.fromJson(json["openQuestion"])
-            : null,
+        openQuestion: json['openQuestion'] != null ? OpenQuestion.fromJson(json["openQuestion"]) : null,
         fileReferences: json['fileReferences'] != null
             ? new Map.fromIterable(json["fileReferences"],
-                key: (item) => item['key'],
-                value: (item) => item['fileReference'] ?? '')
+                key: (item) => item['key'], value: (item) => item['fileReference'] ?? '')
             : {},
-        primaryColor: json['primaryColor'] != null
-            ? colorFromHex(json['primaryColor'])
-            : null,
-        dependsOn: json['dependsOn'] != null
-            ? Dependency.fromJson(json['dependsOn'])
-            : null,
-        disappearOn: json['disappearOn'] != null
-            ? Dependency.fromJson(json['disappearOn'])
-            : null);
+        primaryColor: json['primaryColor'] != null ? colorFromHex(json['primaryColor']) : null,
+        dependsOn: json['dependsOn'] != null ? Dependency.fromJson(json['dependsOn']) : null,
+        disappearOn: json['disappearOn'] != null ? Dependency.fromJson(json['disappearOn']) : null);
   }
 
   Widget buildPage() {
@@ -120,6 +111,8 @@ class PictureQuestion extends GeneralItem {
       Color? primaryColor,
       double? lat,
       double? lng,
+      double? authoringX,
+      double? authoringY,
       required bool showOnMap,
       required bool showInList,
       OpenQuestion? openQuestion})
@@ -139,6 +132,8 @@ class PictureQuestion extends GeneralItem {
             primaryColor: primaryColor,
             lat: lat,
             lng: lng,
+            authoringX: authoringX,
+            authoringY: authoringY,
             showOnMap: showOnMap,
             showInList: showInList,
             openQuestion: openQuestion);
@@ -156,30 +151,24 @@ class PictureQuestion extends GeneralItem {
         description: (json['description'] ?? "").trim(),
         lat: json['lat'],
         lng: json['lng'] != null ? json['lng'] : null,
+        authoringX: json['authoringX'],
+        authoringY: json['authoringY'],
         showOnMap: json['showOnMap'] ?? false,
         showInList: json['showInList'] == null ? true : json['showInList'],
-        openQuestion: json['openQuestion'] != null
-            ? OpenQuestion.fromJson(json["openQuestion"])
-            : null,
+        openQuestion: json['openQuestion'] != null ? OpenQuestion.fromJson(json["openQuestion"]) : null,
         fileReferences: json['fileReferences'] != null
             ? new Map.fromIterable(json["fileReferences"],
-                key: (item) => item['key'],
-                value: (item) => item['fileReference'] ?? '')
+                key: (item) => item['key'], value: (item) => item['fileReference'] ?? '')
             : {},
-        primaryColor: json['primaryColor'] != null
-            ? colorFromHex(json['primaryColor'])
-            : null,
-        dependsOn: json['dependsOn'] != null
-            ? Dependency.fromJson(json['dependsOn'])
-            : null,
-        disappearOn: json['disappearOn'] != null
-            ? Dependency.fromJson(json['disappearOn'])
-            : null);
+        primaryColor: json['primaryColor'] != null ? colorFromHex(json['primaryColor']) : null,
+        dependsOn: json['dependsOn'] != null ? Dependency.fromJson(json['dependsOn']) : null,
+        disappearOn: json['disappearOn'] != null ? Dependency.fromJson(json['disappearOn']) : null);
   }
 
   String getIcon() {
     return 'fa.camera';
   }
+
   Widget buildPage() {
     return PictureQuestionWidgetContainer();
   }

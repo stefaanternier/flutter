@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
@@ -11,6 +13,7 @@ import 'package:youplay/selectors/selectors.dart';
 import 'package:youplay/store/actions/current_run.actions.dart';
 import 'package:youplay/store/actions/ui_actions.dart';
 import 'package:youplay/store/selectors/current_run.selectors.dart';
+import 'package:youplay/store/selectors/game_messages.selector.dart';
 import 'package:youplay/store/state/app_state.dart';
 import 'package:youplay/store/state/ui_state.dart';
 import 'package:youplay/ui/components/game_play/view/messages_map_view.dart';
@@ -32,7 +35,6 @@ class _MessagesViewContainerState extends State<MessagesViewContainer> {
           converter: (Store<AppState> store) => _ViewModel.fromStore(store),
           distinct: true,
           builder: (context, vm) {
-            print('rebuild messages ${vm.items.length}');
             if (vm.isLoading) {
               return Center(
                   child: CircularProgressIndicator(
@@ -46,6 +48,7 @@ class _MessagesViewContainerState extends State<MessagesViewContainer> {
                 setState(() {});
               });
             });
+            print('vm.listType ${vm.listType}');
             if (vm.listType == 2) {
               return MessagesList(
                 items: items,
@@ -106,7 +109,7 @@ class _ViewModel {
     //   lt = MessageView.values[g.messageListTypes[0]-1];
     // }
     return _ViewModel(
-        isLoading: isSyncingActions(store.state),
+        isLoading: isSyncingActions(store.state) || isSyncingMessages(store.state),
         listType: lt,
         //store.state.uiState.currentView,
         game: g,
@@ -122,7 +125,6 @@ class _ViewModel {
           AppConfig()
               .analytics
               ?.logViewItem(itemId: '${item.itemId}', itemName: '${item.title}', itemCategory: '${item.gameId}');
-
           store.dispatch(SetCurrentGeneralItemId(item.itemId));
           store.dispatch(new ReadItemAction(runId: runId, generalItemId: item.itemId));
           store.dispatch(new SyncResponsesServerToMobile(
@@ -144,6 +146,7 @@ class _ViewModel {
     }
     return other is _ViewModel
         && (other.items.length == items.length)
+        && (other.listType == listType)
         && (other.isLoading == isLoading)
     ;
   }

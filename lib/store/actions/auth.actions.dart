@@ -13,7 +13,7 @@ class AppleLoginAction {
 }
 
 class AnonymousLoginAction {
-  Function? onSucces;
+  Function()? onSucces;
   Function? onError;
 
   AnonymousLoginAction({this.onSucces, this.onError});

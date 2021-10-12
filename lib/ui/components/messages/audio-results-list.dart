@@ -37,7 +37,9 @@ class AudioResultsList extends StatelessWidget {
               //   map.deleteAllResponses(this.deleted);
               // });
             },
-            child: ListAudioPlayer(response: audioResponses[index]));
+            child: //Container(),
+             ListAudioPlayer(response: audioResponses[index])
+        );
       },
     );
   }

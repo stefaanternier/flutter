@@ -5,6 +5,7 @@ import 'package:youplay/models/general_item/narrator_item.dart';
 import 'package:youplay/screens/general_item/util/messages/components/themed_app_bar.dart';
 import 'package:youplay/screens/general_item/util/messages/generic_message.dart';
 import 'package:youplay/ui/components/appbar/themed-appbar.container.dart';
+import 'package:youplay/ui/components/web/web_wrapper.dart';
 
 import '../general_item.dart';
 
@@ -32,53 +33,55 @@ class _PictureFilePreviewState extends State<PictureFilePreview> {
     return Scaffold(
       backgroundColor: Color.fromRGBO(0, 0, 0, 1),
       appBar: ThemedAppbarContainer(title: widget.item.title, elevation: false),
-      body: Container(
-        color: Color.fromRGBO(0, 0, 0, 1),
-        child: SingleChildScrollView(
-          scrollDirection: Axis.vertical,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Visibility(
-                visible: widget.item.richText != '',
-                child: Container(
-                    // color: widget.giViewModel.getPrimaryColor(),
-                    child: Padding(
-                      padding: EdgeInsets.all(15),
-                      child: Text(widget.item.richText,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16.0,
-                        ),
-                      ),
-                    )),
-              ),
-              AspectRatio(
-                  aspectRatio: 1, //controller.value.aspectRatio,
+      body: WebWrapper(
+        child: Container(
+          color: Color.fromRGBO(0, 0, 0, 1),
+          child: SingleChildScrollView(
+            scrollDirection: Axis.vertical,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Visibility(
+                  visible: widget.item.richText != '',
                   child: Container(
-                      decoration: new BoxDecoration(
-                          image: new DecorationImage(
-                    fit: BoxFit.cover,
-                    image: new FileImage(File(widget.imagePath)),
-                  )))),
-              Padding(
-                padding: EdgeInsets.all(15),
-                child: TextField(
-                  autofocus: true,
-                  textInputAction: TextInputAction.send,
-                  controller: myController,
-                  onSubmitted: (value) {
-                    submitText(value, context);
-                  },
-                  keyboardType: TextInputType.multiline,
-                  maxLines: null,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20.0,
+                      // color: widget.giViewModel.getPrimaryColor(),
+                      child: Padding(
+                        padding: EdgeInsets.all(15),
+                        child: Text(widget.item.richText,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16.0,
+                          ),
+                        ),
+                      )),
+                ),
+                AspectRatio(
+                    aspectRatio: 1, //controller.value.aspectRatio,
+                    child: Container(
+                        decoration: new BoxDecoration(
+                            image: new DecorationImage(
+                      fit: BoxFit.cover,
+                      image: new FileImage(File(widget.imagePath)),
+                    )))),
+                Padding(
+                  padding: EdgeInsets.all(15),
+                  child: TextField(
+                    autofocus: true,
+                    textInputAction: TextInputAction.send,
+                    controller: myController,
+                    onSubmitted: (value) {
+                      submitText(value, context);
+                    },
+                    keyboardType: TextInputType.multiline,
+                    maxLines: null,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20.0,
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

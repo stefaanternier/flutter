@@ -9,7 +9,7 @@ class GamesState {
   HashMap<int, GeneralItem> itemIdToGeneralItem = new HashMap();
   HashMap<int, GameFile> fileIdToGameFile = new HashMap();
   int amountOfRuns = -1;
-
+  DateTime? lastSync;
   GamesState();
 
   GamesState.makeWithGame(Game g) : game = g;
@@ -20,13 +20,14 @@ class GamesState {
         'game': game?.toJson() ?? {},
       };
 
-  GamesState copyWith({game, items, gt, runAmount}) {
+  GamesState copyWith({game, items, gt, runAmount, lastSync}) {
     GamesState gs = new GamesState();
     gs.game = game ?? this.game;
     gs.itemIdToGeneralItem = items ?? this.itemIdToGeneralItem;
     gs.fileIdToGameFile = this.fileIdToGameFile;
     gs.gameTheme = gt ?? this.gameTheme;
     gs.amountOfRuns = runAmount ?? this.amountOfRuns;
+    gs.lastSync = lastSync ?? this.lastSync;
 //    if (loading) {
 //      gs.game.title = 'loading...';
 //    }

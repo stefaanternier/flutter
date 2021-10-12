@@ -16,8 +16,10 @@ class VideoObjectGeneralItem extends GeneralItem {
     required String title,
     required String richText,
     required String description,
-     double? lat,
-     double? lng,
+    double? lat,
+    double? lng,
+    double? authoringX,
+    double? authoringY,
     required bool showOnMap,
     required bool showInList,
     Dependency? dependsOn,
@@ -38,6 +40,8 @@ class VideoObjectGeneralItem extends GeneralItem {
             primaryColor: primaryColor,
             lat: lat,
             lng: lng,
+            authoringX: authoringX,
+            authoringY: authoringY,
             showOnMap: showOnMap,
             showInList: showInList,
             disappearOn: disappearOn,
@@ -49,34 +53,28 @@ class VideoObjectGeneralItem extends GeneralItem {
         itemId: int.parse(json['id']),
         deleted: json['deleted'],
         lastModificationDate: int.parse(json['lastModificationDate']),
-        sortKey: json['sortKey']??0,
+        sortKey: json['sortKey'] ?? 0,
         title: json['name'],
-        richText: json['richText']??'',
+        richText: json['richText'] ?? '',
         description: (json['description'] ?? "").trim(),
-        showOnMap: json['showOnMap']??false,
+        showOnMap: json['showOnMap'] ?? false,
         showInList: json['showInList'] == null ? true : json['showInList'],
         fileReferences: json['fileReferences'] != null
             ? new Map.fromIterable(json["fileReferences"],
-                key: (item) => item['key'],
-                value: (item) => item['fileReference']?? '')
+                key: (item) => item['key'], value: (item) => item['fileReference'] ?? '')
             : {},
-        primaryColor: json['primaryColor'] != null
-            ? colorFromHex(json['primaryColor'])
-            : null,
-        lat: json['lat'] ,
-        lng: json['lng'] ,
-        dependsOn: json['dependsOn'] != null
-            ? Dependency.fromJson(json['dependsOn'])
-            : null,
-        disappearOn: json['disappearOn'] != null
-            ? Dependency.fromJson(json['disappearOn'])
-            : null);
-    if (returnItem.fileReferences != null) {
-      if (returnItem.fileReferences!['video'] == null) {
-        returnItem.fileReferences!['video'] =
-            '/game/${returnItem.gameId}/generalItems/${returnItem.itemId}/video.mp4';
-      }
-    }
+        primaryColor: json['primaryColor'] != null ? colorFromHex(json['primaryColor']) : null,
+        lat: json['lat'],
+        lng: json['lng'],
+        authoringX: json['authoringX'],
+        authoringY: json['authoringY'],
+        dependsOn: json['dependsOn'] != null ? Dependency.fromJson(json['dependsOn']) : null,
+        disappearOn: json['disappearOn'] != null ? Dependency.fromJson(json['disappearOn']) : null);
+    // if (returnItem.fileReferences != null) {
+    //   if (returnItem.fileReferences!['video'] == null) {
+    //     returnItem.fileReferences!['video'] = '/game/${returnItem.gameId}/generalItems/${returnItem.itemId}/video.mp4';
+    //   }
+    // }
     return returnItem;
   }
 

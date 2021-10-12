@@ -8,10 +8,12 @@ import 'package:youplay/store/actions/auth.actions.dart';
 import 'package:youplay/store/actions/current_run.actions.dart';
 import 'package:youplay/store/selectors/current_game.selectors.dart';
 import 'package:youplay/store/state/app_state.dart';
+import 'package:youplay/ui/pages/game_runs.page.container.dart';
 
 import 'game_landing.page.createanon.dart';
 import 'game_landing.page.directstart.dart';
 import 'game_landing.page.loading.dart';
+import 'game_runs.page.dart';
 
 class GameLandingPublicPageContainer extends StatelessWidget {
   Game game;
@@ -39,8 +41,9 @@ class GameLandingPublicPageContainer extends StatelessWidget {
             createRunAndStart: vm.createRunAndStart,
           );
         }
-        return GameLandingLoadingPage(
-            init: () {}, text: "amount of runs is ${vm.amountOfRuns}");
+        return GameRunsPageContainer(game: game,);
+        // return GameLandingLoadingPage(
+        //     init: () {}, text: "amount of runs* is ${vm.amountOfRuns}");
       },
     );
   }

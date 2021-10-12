@@ -8,9 +8,7 @@ ThemeData youplayTheme = ThemeData(
     textTheme: ButtonTextTheme.primary,
   ),
 
-  textTheme: new TextTheme(
-    body1: new TextStyle(color: const Color(0xFFE2001A)),
-  ),
+
   primarySwatch: Colors.red,
   accentColor: const Color(0xFFE2001A),
 );

@@ -30,6 +30,8 @@ class MultipleChoiceImageGeneralItem extends GeneralItem {
     required bool showInList,
     double? lat,
     double? lng,
+    double? authoringX,
+    double? authoringY,
   }) : super(
             type: ItemType.multiplechoiceimage,
             gameId: gameId,
@@ -46,10 +48,13 @@ class MultipleChoiceImageGeneralItem extends GeneralItem {
             primaryColor: primaryColor,
             showOnMap: showOnMap,
             showInList: showInList,
+            authoringX: authoringX,
+            authoringY: authoringY,
             lat: lat,
             lng: lng);
 
   factory MultipleChoiceImageGeneralItem.fromJson(Map json) {
+    print('in MultipleChoiceImageGeneralItem ${json['authoringX']}');
     var returnItem = MultipleChoiceImageGeneralItem(
         gameId: int.parse(json['gameId']),
         itemId: int.parse(json['id']),
@@ -59,31 +64,25 @@ class MultipleChoiceImageGeneralItem extends GeneralItem {
         title: json['name'],
         richText: json['richText'] ?? '',
         description: (json['description'] ?? "").trim(),
-        text: json['text']??'',
-        showFeedback:
-            json['showFeedback'] == null ? false : json['showFeedback'],
+        text: json['text'] ?? '',
+        showFeedback: json['showFeedback'] == null ? false : json['showFeedback'],
         answers: json['answers'] == null
             ? []
-            : List<ImageChoiceAnswer>.generate(json['answers'].length,
-                (i) => ImageChoiceAnswer.fromJson(json['answers'][i])),
+            : List<ImageChoiceAnswer>.generate(
+                json['answers'].length, (i) => ImageChoiceAnswer.fromJson(json['answers'][i])),
         showOnMap: json['showOnMap'] ?? false,
         showInList: json['showInList'] == null ? true : json['showInList'],
         lat: json['lat'],
         lng: json['lng'],
+        authoringX: json['authoringX'],
+        authoringY: json['authoringY'],
         fileReferences: json['fileReferences'] != null
             ? new Map.fromIterable(json["fileReferences"],
-                key: (item) => item['key'],
-                value: (item) => item['fileReference'] ?? '')
+                key: (item) => item['key'], value: (item) => item['fileReference'] ?? '')
             : {},
-        primaryColor: json['primaryColor'] != null
-            ? colorFromHex(json['primaryColor'])
-            : null,
-        dependsOn: json['dependsOn'] != null
-            ? Dependency.fromJson(json['dependsOn'])
-            : null,
-        disappearOn: json['disappearOn'] != null
-            ? Dependency.fromJson(json['disappearOn'])
-            : null);
+        primaryColor: json['primaryColor'] != null ? colorFromHex(json['primaryColor']) : null,
+        dependsOn: json['dependsOn'] != null ? Dependency.fromJson(json['dependsOn']) : null,
+        disappearOn: json['disappearOn'] != null ? Dependency.fromJson(json['disappearOn']) : null);
     return returnItem;
   }
 
@@ -108,8 +107,7 @@ class ImageChoiceAnswer {
   String feedback;
   String id;
 
-  ImageChoiceAnswer(
-      {required this.isCorrect, required this.id, required this.feedback});
+  ImageChoiceAnswer({required this.isCorrect, required this.id, required this.feedback});
 
   ImageChoiceAnswer.fromJson(Map json)
       : isCorrect = json['isCorrect'],

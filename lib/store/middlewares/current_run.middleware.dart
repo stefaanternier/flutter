@@ -43,6 +43,7 @@ Stream<dynamic> _requestRun(Stream<dynamic> actions, EpicStore<AppState> store) 
 }
 
 Stream<dynamic> _createRun(int gameId, String name) async* {
+  print('create run $gameId -- $name');
   Run run = await RunsApi.requestRun(gameId, name);
   yield new SetCurrentRunAction(run: run);
   yield new SetPage(page: PageType.game, pageId: run.runId);

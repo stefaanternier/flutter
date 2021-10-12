@@ -125,15 +125,15 @@ class _PlayVideoWidgetState extends State<PlayVideoWidget> {
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: <Widget>[
-                                  Text(
-                                    "${format(Duration(milliseconds: _position.floor()))}",
-                                    style: new TextStyle(
-                                        color: Colors.white.withOpacity(0.7), fontSize: 12.0),
-                                  ),
-                                  Text(
-                                      "-${format(Duration(milliseconds: (_maxposition - _position).floor()))}",
-                                      style: new TextStyle(
-                                          color: Colors.white.withOpacity(0.7), fontSize: 12.0)),
+                                  // Text(
+                                  //   "${format(Duration(milliseconds: _position.floor()))}",
+                                  //   style: new TextStyle(
+                                  //       color: Colors.white.withOpacity(0.7), fontSize: 12.0),
+                                  // ),
+                                  // Text(
+                                  //     "-${format(Duration(milliseconds: (_maxposition - _position).floor()))}",
+                                  //     style: new TextStyle(
+                                  //         color: Colors.white.withOpacity(0.7), fontSize: 12.0)),
                                 ],
                               ),
                             )

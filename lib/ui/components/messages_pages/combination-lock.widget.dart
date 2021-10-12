@@ -17,24 +17,51 @@ class CombinationLockWidget extends StatefulWidget {
   final CombinationLockGeneralItem item;
   Function(String choiceId, bool isCorrect) processAnswerMatch;
   Function() processAnswerNoMatch;
-
-  CombinationLockWidget({
-    required this.item, required this.processAnswerMatch, required this.processAnswerNoMatch,
-    Key? key}) : super(key: key);
+  int lockLength;
+  bool isNumeric;
+  final Function() proceedToNextItem;
+  CombinationLockWidget(
+      {required this.item,
+      required this.processAnswerMatch,
+      required this.processAnswerNoMatch,
+      required this.proceedToNextItem,
+      required this.lockLength,
+      required this.isNumeric,
+      Key? key})
+      : super(key: key);
 
   @override
   _CombinationLockWidgetState createState() => _CombinationLockWidgetState();
 }
 
 class _CombinationLockWidgetState extends State<CombinationLockWidget> {
-  int _lockLength = 3;
+  // int _lockLength = 3;
   int _index = -1;
   String _answer = "-";
-  bool _numeric = true;
+  // bool _numeric = true;
 
   bool _showFalseFeedback = false;
   bool _showCorrectFeedback = false;
 
+  @override
+  initState() {
+    super.initState();
+    if (this._answer == "-") {
+      int longest = 0;
+      this.widget.item.answers.forEach((choice) {
+        if (choice.answer.length > longest) longest = choice.answer.length;
+      });
+      this._answer = "";
+      for (int i = 0; i < longest; i++) {
+        if (widget.isNumeric){
+          this._answer += "0";
+        } else {
+          this._answer += "a";
+        }
+
+      }
+    }
+  }
   @override
   Widget build(BuildContext context) {
     if (widget.item.showFeedback) {
@@ -45,8 +72,8 @@ class _CombinationLockWidgetState extends State<CombinationLockWidget> {
             item: widget.item,
             feedback: "${widget.item.answers[_index].feedback}",
             // overridePrimaryColor: widget.giViewModel.getPrimaryColor(),
-            buttonClick: () {
-              // widget.giViewModel.continueToNextItem(context);
+            buttonClick: (){
+              widget.proceedToNextItem();
             });
       } else if (_showFalseFeedback && _index >= 0 && _index < widget.item.answers.length) {
         return FeedbackScreen(
@@ -67,7 +94,7 @@ class _CombinationLockWidgetState extends State<CombinationLockWidget> {
         appBar: ThemedAppBar(title: widget.item.title, elevation: false),
         body: WebWrapper(
             child: MessageBackgroundWidgetContainer(
-              darken: true,
+          darken: true,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
@@ -81,9 +108,9 @@ class _CombinationLockWidgetState extends State<CombinationLockWidget> {
                         child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: List<CombinationLockEntry>.generate(
-                              _lockLength,
+                              widget.lockLength,
                               (i) => CombinationLockEntry(
-                                isNumeric: _numeric,
+                                isNumeric: widget.isNumeric,
                                 index: i,
                                 valueChanged: this.setValue,
                               ),
@@ -92,7 +119,8 @@ class _CombinationLockWidgetState extends State<CombinationLockWidget> {
                       Padding(
                           padding: const EdgeInsets.fromLTRB(46, 8.0, 46, 8),
                           child: NextButtonContainer(item: widget.item)),
-                      Padding(padding: const EdgeInsets.fromLTRB(46, 8.0, 46, 28),
+                      Padding(
+                          padding: const EdgeInsets.fromLTRB(46, 8.0, 46, 28),
                           child: CombinationLockButtonContainer(
                             unlock: unlock,
                           )),
@@ -116,6 +144,9 @@ class _CombinationLockWidgetState extends State<CombinationLockWidget> {
   unlock() {
     int counter = 0;
     bool matchFound = false;
+    setState(() {
+      _index = -1;
+    });
     widget.item.answers.forEach((choice) {
       if (choice.answer.indexOf(_answer) != -1) {
         matchFound = true;
@@ -133,8 +164,8 @@ class _CombinationLockWidgetState extends State<CombinationLockWidget> {
 
         setState(() {
           _answer = "";
-          for (int i = 0; i < _lockLength; i++) {
-            _answer += _numeric ? "0" : "a";
+          for (int i = 0; i < widget.lockLength; i++) {
+            _answer += widget.isNumeric ? "0" : "a";
           }
         });
       } else {

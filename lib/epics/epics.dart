@@ -42,7 +42,7 @@ final epic = combineEpics<AppState>([
 //  accountDetailsEpic,
   authLoginGoogleEpic,
   loadGoogleCredentials,
-  // authLoginAppleEpic,
+  authLoginAppleEpic,
   authLoginAnonymousCredentialsEpic,
 //  authLoginTwitterEpic,
 //  authLoginFacebookEpic,

@@ -35,7 +35,7 @@ Stream<dynamic> _searchGames(Stream<dynamic> actions, EpicStore<AppState> store)
 Stream<dynamic> _loadOneFeaturedGames(Stream<dynamic> actions, EpicStore<AppState> store) {
   return actions.where((action) => action is LoadOneFeaturedGameAction).asyncMap((action) =>
       StoreApi.game(action.game.gameId)
-          .then((game) => game != null ? new LoadOneFeaturedGameResultAction(game: game) : null));
+          .then((game) => game != null ? new LoadOneFeaturedGameResultAction(game: game, rank: action.game.rank) : null));
 }
 
 Stream<dynamic> _loadFeaturedGames(Stream<dynamic> actions, EpicStore<AppState> store) {

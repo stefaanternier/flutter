@@ -25,15 +25,15 @@ RunState addActionsFromServer(RunState state, SyncARLearnActionsListServerToMobi
     }
   });
   if (found) {
-    if (action.isLast) {
-      print('--sync complete');
-    } else {
-      print('--sync ongoing');
-    }
+    // if (action.isLast) {
+    //   // print('--sync complete');
+    // } else {
+    //   // print('--sync ongoing');
+    // }
     return state.copyWith(a:HashMap<String, ARLearnAction>.from(state.actionsFromServer), isSyncingActions: !action.isLast);
   }
   if (action.isLast) {
-    print('--sync complete ---');
+    // print('--sync complete ---');
     return state.copyWith(isSyncingActions: !action.isLast);
   }
   return state;

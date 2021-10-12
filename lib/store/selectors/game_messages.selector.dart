@@ -16,6 +16,12 @@ final Selector<AppState, GeneralItem?> currentGeneralItem = createSelector2(
   return state.itemIdToGeneralItem[itemId];
 });
 
+final Selector<AppState, bool> isSyncingMessages =
+createSelector1(gameStateFeature, (GamesState state) {
+// print("***last sync in selector ${state.lastSync}  ${(state.lastSync!.millisecondsSinceEpoch+10000 < DateTime.now().millisecondsSinceEpoch)} ");
+  return state.lastSync == null
+      ? false: (state.lastSync!.millisecondsSinceEpoch+10000 > DateTime.now().millisecondsSinceEpoch);
+});
 
 //        itemPrimaryColor: currentGeneralItem(store.state)?.primaryColor,
 
@@ -30,3 +36,5 @@ final Selector<AppState, Color> itemColor = createSelector2(
   }
   return state.gameTheme?.primaryColor ?? AppConfig().themeData!.primaryColor;
 });
+
+

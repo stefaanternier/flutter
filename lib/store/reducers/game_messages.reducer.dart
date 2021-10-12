@@ -1,4 +1,3 @@
-
 import 'package:youplay/models/general_item.dart';
 import 'package:youplay/store/state/current_game_state.dart';
 import 'dart:collection';
@@ -10,6 +9,7 @@ GamesState addMessagesToGameState(GamesState state, LoadGameMessagesListResponse
   if (state.game != null) {
     action.getGeneralItemList(state.game!.gameId).forEach((item) => itemMap[item.itemId] = item);
   }
-  return state.copyWith(items: itemMap);
+  // print('is last message ${action.getCursor()}');
+  return state.copyWith(
+      items: itemMap, lastSync: action.getCursor() == null ? DateTime.fromMicrosecondsSinceEpoch(0) : DateTime.now());
 }
-

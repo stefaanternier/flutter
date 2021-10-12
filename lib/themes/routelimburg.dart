@@ -8,9 +8,6 @@ ThemeData rlTheme = ThemeData(
     textTheme: ButtonTextTheme.primary,
   ),
 
-  textTheme: new TextTheme(
-    body1: new TextStyle(color: const Color.fromRGBO(23, 26, 151, 1)),
-  ),
   primarySwatch: Colors.blue,
   accentColor: const Color(0xFFfbb615),
 );

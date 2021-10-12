@@ -216,7 +216,7 @@ class _RunLandingPageState extends State<RunLandingPage> {
   }
 
   _showLogin(BuildContext context, RunLandingPageViewModel gameLandingPageModel) {
-    return LoginScreen(
+    return LoginScreenOld(
         lang: Localizations.localeOf(context).languageCode,
         onSuccess: () {
           setState(() {

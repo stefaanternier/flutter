@@ -13,8 +13,12 @@ import 'package:youplay/ui/pages/collection.page.dart';
 import 'package:youplay/ui/pages/game_landing.page.container.dart';
 import 'package:youplay/ui/pages/game_play.container.dart';
 import 'package:youplay/ui/pages/game_runs.page.dart';
+import 'package:youplay/ui/pages/login_page.container.dart';
+import 'package:youplay/ui/pages/login_page.dart';
 import 'package:youplay/ui/pages/message.page.container.dart';
 import 'package:youplay/ui/pages/my-games-list.page.dart';
+import 'package:youplay/ui/pages/splashscreen.container.dart';
+import 'package:youplay/ui/pages/splashscreen.dart';
 
 class YouplayRouterDelegate extends RouterDelegate<YouplayRoutePath>
     with ChangeNotifier, PopNavigatorRouterDelegateMixin<YouplayRoutePath> {
@@ -36,6 +40,7 @@ class YouplayRouterDelegate extends RouterDelegate<YouplayRoutePath>
     return Navigator(
       key: navigatorKey,
       pages: pages(),
+      observers: [HeroController()],
       onPopPage: (route, result) {
         if (!route.didPop(result)) {
           return false;
@@ -51,11 +56,24 @@ class YouplayRouterDelegate extends RouterDelegate<YouplayRoutePath>
   }
 
   List<Page<dynamic>> pages() {
-    print('page is ${youplayRoutePath.pageType}');
     switch (youplayRoutePath.pageType) {
+
+      case PageType.splash:
+        return [
+          MaterialPage(
+              key: ValueKey('Splash'),
+              child: SplashScreenContainer(
+                finished: (){
+                  youplayRoutePath.pageType = PageType.featured;
+                  notifyListeners();
+                },
+              ) //gameId: _youplayRoutePath.gameId!
+          )
+        ];
       case PageType.gameLandingPage:
         return [
           MaterialPage(
+
             key: ValueKey('Library'),
             child: FeaturedGamesPage(
               authenticated: true,
@@ -112,7 +130,7 @@ class YouplayRouterDelegate extends RouterDelegate<YouplayRoutePath>
         return [
           MaterialPage(
             key: ValueKey('Login'),
-            child: LoginPage(),
+            child: LoginPageContainer(), //LoginPage(),
           ),
         ];
 
@@ -143,7 +161,7 @@ class YouplayRouterDelegate extends RouterDelegate<YouplayRoutePath>
               ),
           MaterialPage(
               key: ValueKey('MyRunsOverviewPage'),
-              child: GameRunsPage() //gameId: _youplayRoutePath.gameId!
+              child: GameRunsPage(init: (){}) //gameId: _youplayRoutePath.gameId!
               ),
         ];
         // return authCheck(GameRunsOverviewPage(), pageModel);
@@ -163,7 +181,7 @@ class YouplayRouterDelegate extends RouterDelegate<YouplayRoutePath>
 
       case PageType.featured:
         return [
-          MaterialPage(
+          MyPage(
             key: ValueKey('Library'),
             child: FeaturedGamesPage(
               authenticated: true,
@@ -171,15 +189,16 @@ class YouplayRouterDelegate extends RouterDelegate<YouplayRoutePath>
           )
         ];
 
-      case PageType.featured:
-        return [
-          MaterialPage(
-            key: ValueKey('Library'),
-            child: FeaturedGamesPage(
-              authenticated: true,
-            ),
-          )
-        ];
+      // case PageType.featured:
+      //   print('loading featured page');
+      //   return [
+      //     MaterialPage(
+      //       key: ValueKey('Library'),
+      //       child: FeaturedGamesPage(
+      //         authenticated: true,
+      //       ),
+      //     )
+      //   ];
 
       case PageType.makeAccount:
         return [
@@ -203,7 +222,6 @@ class YouplayRouterDelegate extends RouterDelegate<YouplayRoutePath>
 
         break;
     }
-    print('page is default ${youplayRoutePath.pageType}');
     return [
       MaterialPage(
         key: ValueKey('Library'),
@@ -223,4 +241,26 @@ class YouplayRouterDelegate extends RouterDelegate<YouplayRoutePath>
 //   // _selectedBook = book;
 //   notifyListeners();
 // }
+}
+
+
+class MyPage extends Page {
+  final Widget child;
+
+  MyPage({required this.child, LocalKey? key}) : super(key: key);
+
+  @override
+  Route createRoute(BuildContext context) {
+    return PageRouteBuilder(
+      settings: this,
+      transitionDuration: Duration(milliseconds: 750),
+      pageBuilder: (BuildContext context, Animation<double> animation,
+          Animation<double> secondaryAnimation) {
+        return FadeTransition(
+          opacity: animation,
+          child: child,
+        );
+      },
+    );
+  }
 }

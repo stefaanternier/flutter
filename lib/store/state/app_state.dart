@@ -118,9 +118,9 @@ class AppState {
         (this.authentication == other.authentication)&&
         (this.uiState == other.uiState);
 
-    if (!appChange) {
-      print('-- state store  has changed ${currentRunState.hashCode} -- ${other.currentRunState.hashCode}');
-    }
+    // if (!appChange) {
+    //   print('-- state store  has changed ${currentRunState.hashCode} -- ${other.currentRunState.hashCode}');
+    // }
     return appChange;
   }
 }

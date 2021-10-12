@@ -18,7 +18,7 @@ class YouplayRoutePath {
       : isUnknown = false;
 
   YouplayRoutePath.home()
-      : pageType = PageType.featured,
+      : pageType = PageType.splash,
         isUnknown = false;
 
   YouplayRoutePath.game({
