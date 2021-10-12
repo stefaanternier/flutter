@@ -82,14 +82,6 @@ class _RecordingsViewModel {
   }
 }
 
-class ItemEntry<number> extends LinkedListEntry<ItemEntry> {
-  number value;
-
-  ItemEntry(this.value);
-
-  String toString() => "${super.toString()} : value.toString()";
-}
-
 class NarratorWithVideo extends StatefulWidget {
   GeneralItem item;
   GeneralItemViewModel giViewModel;

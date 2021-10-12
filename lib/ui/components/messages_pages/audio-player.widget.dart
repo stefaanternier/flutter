@@ -22,7 +22,7 @@ class AudioPlayerWidget extends StatefulWidget {
 
 class _AudioPlayerWidgetState extends State<AudioPlayerWidget> {
   late AudioPlayer audioPlayer;
-  AudioPlayerState status = AudioPlayerState.STOPPED;
+  PlayerState status = PlayerState.STOPPED;
 
   double _position = 0;
   double _maxposition = 10;
@@ -32,12 +32,12 @@ class _AudioPlayerWidgetState extends State<AudioPlayerWidget> {
   void initState() {
     super.initState();
     audioPlayer = AudioPlayer();
-    AudioPlayer.logEnabled = true;
-    audioPlayer.onPlayerStateChanged.listen((AudioPlayerState s) {
+    // AudioPlayer.logEnabled = true;
+    audioPlayer.onPlayerStateChanged.listen((PlayerState s) {
       if (!isFinished){
         setState(() {
           this.status = s;
-          if (s == AudioPlayerState.COMPLETED) {
+          if (s == PlayerState.COMPLETED) {
             this._position = this._maxposition;
             this.isFinished = true;
           }
@@ -80,11 +80,11 @@ class _AudioPlayerWidgetState extends State<AudioPlayerWidget> {
                     buttonTap: () {
                       new Timer(Duration(milliseconds: 10), () {
                         setState(() {
-                          if ((status == AudioPlayerState.STOPPED || status == AudioPlayerState.COMPLETED)) {
+                          if ((status == PlayerState.STOPPED || status == PlayerState.COMPLETED)) {
                             play();
-                          } else if (status == AudioPlayerState.PLAYING) {
+                          } else if (status == PlayerState.PLAYING) {
                             audioPlayer.pause();
-                          } else if (status == AudioPlayerState.PAUSED) {
+                          } else if (status == PlayerState.PAUSED) {
                             audioPlayer.resume();
                           }
 
@@ -96,9 +96,9 @@ class _AudioPlayerWidgetState extends State<AudioPlayerWidget> {
                     },
                     position: _position,
                     maxposition: _maxposition,
-                    showPlay: (status == AudioPlayerState.PAUSED ||
-                        status == AudioPlayerState.STOPPED ||
-                        status == AudioPlayerState.COMPLETED),
+                    showPlay: (status == PlayerState.PAUSED ||
+                        status == PlayerState.STOPPED ||
+                        status == PlayerState.COMPLETED),
                   ),
                 ),
               if (isFinished)

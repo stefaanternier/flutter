@@ -46,7 +46,7 @@ AppState appReducer(AppState state, action) {
   // if (newState == state) {
   //   return state;
   // }
-  print("action changed state ${action.runtimeType} ${newState.hashCode}");
+  // print("action changed state ${action.runtimeType} ${newState.hashCode}");
   return newState;
 }
 

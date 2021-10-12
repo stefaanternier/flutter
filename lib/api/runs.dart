@@ -45,6 +45,7 @@ class RunsApi extends GenericApi {
         'api/run/create/withSelf',
         run.toJson()
     );
+    print ('response ${response.body}');
     return Run.fromJson(jsonDecode(response.body));
   }
 

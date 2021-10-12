@@ -9,8 +9,5 @@ ThemeData uppgamesTheme = ThemeData(
   ),
 
 
-  textTheme: new TextTheme(
-    body1: new TextStyle(color: Colors.green),
-  ),
   brightness: Brightness.light,
 );

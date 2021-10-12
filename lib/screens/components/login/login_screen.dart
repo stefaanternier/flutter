@@ -12,17 +12,17 @@ import 'package:youplay/store/state/app_state.dart';
 
 import '../../../localizations.dart';
 
-class LoginScreen extends StatefulWidget {
+class LoginScreenOld extends StatefulWidget {
   String lang;
   Function onSuccess;
 
-  LoginScreen({required this.lang, required this.onSuccess});
+  LoginScreenOld({required this.lang, required this.onSuccess});
 
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  _LoginScreenOldState createState() => _LoginScreenOldState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _LoginScreenOldState extends State<LoginScreenOld> {
   late TextEditingController emailController;
   late TextEditingController passwdController;
 

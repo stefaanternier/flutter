@@ -19,6 +19,8 @@ class AudioObjectGeneralItem extends GeneralItem {
     required String description,
      double? lat,
      double? lng,
+    double? authoringX,
+    double? authoringY,
     required bool showOnMap,
     required bool showInList,
     Dependency? dependsOn,
@@ -39,6 +41,8 @@ class AudioObjectGeneralItem extends GeneralItem {
       primaryColor: primaryColor,
       lat: lat,
       lng: lng,
+      authoringX: authoringX,
+      authoringY: authoringY,
       showOnMap: showOnMap,
       showInList:showInList,
       disappearOn: disappearOn,
@@ -66,6 +70,8 @@ class AudioObjectGeneralItem extends GeneralItem {
             : null,
         lat: json['lat'] ,
         lng: json['lng'] ,
+        authoringX: json['authoringX'],
+        authoringY: json['authoringY'],
         dependsOn: json['dependsOn'] != null
             ? Dependency.fromJson(json['dependsOn'])
             : null,

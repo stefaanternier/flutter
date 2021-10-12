@@ -36,8 +36,8 @@ class LoadOneFeaturedGameAction {
 
 class LoadOneFeaturedGameResultAction {
   Game game;
-
-  LoadOneFeaturedGameResultAction({required this.game});
+  int rank;
+  LoadOneFeaturedGameResultAction({required this.game, required this.rank});
 }
 
 class LoadOneFeaturedRunAction {

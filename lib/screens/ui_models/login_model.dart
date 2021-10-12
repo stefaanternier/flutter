@@ -59,6 +59,7 @@ class LoginPageViewModel {
       },
       tapAppleLogin: () {
 
+        print('before dispa');
         store.dispatch(AppleLoginAction(
           onError: (e) {
             final snackBar = SnackBar(content: Text(e));

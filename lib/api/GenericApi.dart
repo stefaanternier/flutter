@@ -14,7 +14,7 @@ class GenericApi {
     }
      // String t = await user.getIdToken(true);
      // print('token is $t');
-    return await user.getIdToken(true);
+    return await user.getIdToken();
   }
 
   static Future<Response> get(String path) async {

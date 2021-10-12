@@ -23,13 +23,13 @@ class _PlayerState extends State<ListAudioPlayer> {
   double _position = 0;
   double _maxposition = 100;
   late AudioPlayer audioPlayer;
-  AudioPlayerState status = AudioPlayerState.STOPPED;
+  PlayerState status = PlayerState.STOPPED;
 
   @override
   void initState() {
     audioPlayer = AudioPlayer();
-    AudioPlayer.logEnabled = false;
-    audioPlayer.onPlayerStateChanged.listen((AudioPlayerState s) {
+    // AudioPlayer.logEnabled = false;
+    audioPlayer.onPlayerStateChanged.listen((PlayerState s) {
       setState(() {
         this.status = s;
       });
@@ -111,20 +111,20 @@ class _PlayerState extends State<ListAudioPlayer> {
                 ),
                 new IconButton(
                   icon: new Icon(
-                    (status == AudioPlayerState.PAUSED ||
-                        status == AudioPlayerState.STOPPED ||
-                        status == AudioPlayerState.COMPLETED)
+                    (status == PlayerState.PAUSED ||
+                        status == PlayerState.STOPPED ||
+                        status == PlayerState.COMPLETED)
                         ? Icons.play_arrow
                         : Icons.pause,
                     color: Colors.white,
                     size: 50,
                   ),
                   onPressed: () {
-                    if ((status == AudioPlayerState.STOPPED || status == AudioPlayerState.COMPLETED)) {
+                    if ((status == PlayerState.STOPPED || status == PlayerState.COMPLETED)) {
                       play();
-                    } else if (status == AudioPlayerState.PLAYING) {
+                    } else if (status == PlayerState.PLAYING) {
                       audioPlayer.pause();
-                    } else if (status == AudioPlayerState.PAUSED) {
+                    } else if (status == PlayerState.PAUSED) {
                       audioPlayer.resume();
                     }
                   },
@@ -136,7 +136,7 @@ class _PlayerState extends State<ListAudioPlayer> {
                     size: 50,
                   ),
                   onPressed: () {
-                    if (status != AudioPlayerState.COMPLETED) {
+                    if (status != PlayerState.COMPLETED) {
                       audioPlayer.seek(Duration(
                           milliseconds: min(_maxposition.floor(), (_position.floor() + 5000))));
                     }

@@ -1,32 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
-import 'package:redux/redux.dart';
-import 'package:youplay/actions/runs.dart';
 import 'package:youplay/actions/runs.dart';
 import 'package:youplay/models/game.dart';
-import 'package:youplay/models/game.dart';
-import 'package:youplay/selectors/authentication_selectors.dart';
 import 'package:youplay/selectors/authentication_selectors.dart';
 import 'package:youplay/store/actions/auth.actions.dart';
-import 'package:youplay/store/actions/auth.actions.dart';
-import 'package:youplay/store/actions/current_run.actions.dart';
 import 'package:youplay/store/actions/current_run.actions.dart';
 import 'package:youplay/store/actions/ui_actions.dart';
 import 'package:youplay/store/selectors/current_game.selectors.dart';
-import 'package:youplay/store/selectors/current_game.selectors.dart';
-import 'package:youplay/store/state/app_state.dart';
 import 'package:youplay/store/state/app_state.dart';
 import 'package:youplay/store/state/ui_state.dart';
-import 'package:youplay/ui/components/nav/navigation_drawer.container.dart';
 
-import '../../localizations.dart';
-import 'game_landing.page.createanon.dart';
 import 'game_landing.page.directstart.dart';
 import 'game_landing.page.loading.dart';
-import 'game_landing.page.login.dart';
 import 'game_landing.page.loginnecessary.dart';
+import 'login_page.dart';
 
 class GameLandingPrivatePageContainer extends StatefulWidget {
   Game game;
@@ -49,12 +37,23 @@ class _GameLandingPrivatePageContainerState
       converter: (store) => _ViewModel.fromStore(store, widget.game),
       builder: (context, vm) {
         if (showLogin) {
-          return GameLandingLoginPage(loginSucces: () {
+
+          return LoginPageNew(
+            anonLogin: false,
+            loginSuccessful: (){
             setState(() {
               showLogin = false;
               vm.loadRuns();
             });
-          });
+          },
+            anonLoginSuccessful: () {},
+          );
+          // return GameLandingLoginPage(loginSucces: () {
+          //   setState(() {
+          //     showLogin = false;
+          //     vm.loadRuns();
+          //   });
+          // });
         }
         if (!vm.authenticated || vm.isAnon) {
           return GameLandingLoginNecessaryPage(

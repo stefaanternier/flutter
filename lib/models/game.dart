@@ -2,6 +2,7 @@ import 'dart:collection';
 import 'dart:ui';
 import 'dart:ui';
 
+import 'package:universal_platform/universal_platform.dart';
 import 'package:youplay/config/app_config.dart';
 import 'package:youplay/models/run.dart';
 import 'package:youplay/store/state/ui_state.dart';
@@ -11,6 +12,8 @@ import 'general_item/dependency.dart';
 class Game {
   int gameId;
   int? sharing;
+  int? rank;
+
   double? lat;
   double? lng;
   double boardHeight;
@@ -30,17 +33,15 @@ class Game {
 
   Game.fromJson(Map json)
       : gameId = int.parse("${json['gameId']}"),
-        lastModificationDate = json['lastModificationDate'] != null
-            ? int.parse("${json['lastModificationDate']}")
-            : 0,
+        lastModificationDate = json['lastModificationDate'] != null ? int.parse("${json['lastModificationDate']}") : 0,
         sharing = json['sharing'],
+        rank = json['rank'] != null ? int.parse("${json['rank']}") : 1,
         privateMode = json['privateMode'] ?? false,
         lat = json['lat'],
         lng = json['lng'],
-        boardHeight = json['boardHeight'] != null? (json['boardHeight'] as int).toDouble() : 1920,
-        boardWidth = json['boardWidth'] != null? (json['boardWidth'] as int).toDouble() : 1080,
-        endsOn =
-            json['endsOn'] != null ? Dependency.fromJson(json['endsOn']) : null,
+        boardHeight = json['boardHeight'] != null ? (json['boardHeight'] as int).toDouble() : 1920,
+        boardWidth = json['boardWidth'] != null ? (json['boardWidth'] as int).toDouble() : 1080,
+        endsOn = json['endsOn'] != null ? Dependency.fromJson(json['endsOn']) : null,
         language = json['language'],
         theme = int.parse("${json['theme']}"),
         title = json['title'] ?? '',
@@ -50,6 +51,7 @@ class Game {
             .split(',')
             .where((nAsString) => nAsString.trim() != "")
             .map<int>((nAsString) => int.parse(nAsString))
+            .where((x) => !(UniversalPlatform.isWeb && x == 3)) //exclude maps for web
             .toList(),
         iconAbbreviation = json['iconAbbreviation'] ?? '',
         config = GameConfig.fromJson(json['config']);
@@ -58,6 +60,7 @@ class Game {
       {required this.gameId,
       this.lastModificationDate = 0,
       required this.sharing,
+      this.rank,
       this.lat = -1,
       this.lng = -1,
       required this.boardHeight,
@@ -93,18 +96,21 @@ class Game {
   }
 
   nextView(int currentView) {
-    if (currentView ==0) {
-      if (messageListTypes.length ==0 ) {
-        return 2;
-      }
-      return messageListTypes[0];
+    if (currentView == 0) {
+      return firstView;
     }
     if (messageListTypes.length <= 1) {
       return currentView;
     }
-    int index =
-        (messageListTypes.indexOf(currentView) + 1) % messageListTypes.length;
+    int index = (messageListTypes.indexOf(currentView) + 1) % messageListTypes.length;
     return messageListTypes[index];
+  }
+
+  int get firstView {
+    if (messageListTypes.length == 0) {
+      return 2;
+    }
+    return messageListTypes[0];
   }
 }
 
@@ -136,9 +142,8 @@ class GameConfig {
         // primaryColor = json['primaryColor'] != null
         //     ? colorFromHex(json['primaryColor'])
         //     : AppConfig().themeData.primaryColor,
-        secondaryColor = json['secondaryColor'] != null
-            ? colorFromHex(json['secondaryColor'])
-            : AppConfig().themeData!.accentColor;
+        secondaryColor =
+            json['secondaryColor'] != null ? colorFromHex(json['secondaryColor']) : AppConfig().themeData!.accentColor;
 }
 
 Color colorFromHex(String hexString) {

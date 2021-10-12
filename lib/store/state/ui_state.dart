@@ -3,6 +3,7 @@ import 'dart:collection';
 import 'package:youplay/models/game.dart';
 
 enum PageType {
+  splash,
   featured,
   game, //shoudl be gameListView
   // gameMapView,
@@ -39,7 +40,7 @@ class UiState {
     // required this.gameIdToGame,
     this.currentGameId = -1,
     this.currentItemId,
-    this.currentPage = PageType.featured,
+    this.currentPage = PageType.splash,
     this.theme = 0,
     this.error = -1,
     this.pageId,

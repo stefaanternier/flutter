@@ -66,53 +66,57 @@ class ImageQuestion extends StatelessWidget {
     return Card(
       child: LimitedBox(
         maxHeight: MediaQuery.of(context).size.height * 0.66,
-        child: SingleChildScrollView(
-          scrollDirection: Axis.vertical,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Visibility(
-                child: Container(
+        child: Scrollbar(
+          isAlwaysShown: true,
+          child: SingleChildScrollView(
+            scrollDirection: Axis.vertical,
+
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Visibility(
+                  child: Container(
+                      padding: const EdgeInsets.all(10),
+                      child: Text(
+                        "${(item as dynamic).text}",
+                        style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.black),
+                      )),
+                  visible: (item as dynamic).text != '' && (item as dynamic).text != null,
+                ),
+                Container(
                     padding: const EdgeInsets.all(10),
-                    child: Text(
-                      "${(item as dynamic).text}",
-                      style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.black),
-                    )),
-                visible: (item as dynamic).text != '' && (item as dynamic).text != null,
-              ),
-              Container(
-                  padding: const EdgeInsets.all(10),
-                  child: buildGrid(
-                      (index, length) => buildClickArea(getScale(index, length), index, context, themeModel))),
-              Visibility(
-                visible: buttonVisible,
-                child: Padding(
-                    padding: EdgeInsets.fromLTRB(15, 0, 15, 12),
-                    child: CustomRaisedButtonContainer(
-                      title: buttonText ?? 'todo',
-                      // primaryColor: widget.overridePrimaryColor != null
-                      //     ? widget.overridePrimaryColor
-                      //     : this.widget.giViewModel.getPrimaryColor(),
-                      onPressed: (){
-                        submitClick();
-                      },
-                    )
-                    // NextButton(
-                    //   buttonText: item.description != ""
-                    //       ? item.description
-                    //       : AppLocalizations.of(context)
-                    //           .translate('screen.proceed'),
-                    //   overridePrimaryColor: giViewModel.getPrimaryColor(),
-                    //   giViewModel: giViewModel,
-                    //   makeVisible: buttonVisible,
-                    //   overrideButtonPress: () {
-                    //     submitClick();
-                    //   },
-                    // ),
-                    ),
-              ),
-            ],
+                    child: buildGrid(
+                        (index, length) => buildClickArea(getScale(index, length), index, context, themeModel))),
+                Visibility(
+                  visible: buttonVisible,
+                  child: Padding(
+                      padding: EdgeInsets.fromLTRB(15, 0, 15, 12),
+                      child: CustomRaisedButtonContainer(
+                        title: buttonText ?? 'todo',
+                        // primaryColor: widget.overridePrimaryColor != null
+                        //     ? widget.overridePrimaryColor
+                        //     : this.widget.giViewModel.getPrimaryColor(),
+                        onPressed: (){
+                          submitClick();
+                        },
+                      )
+                      // NextButton(
+                      //   buttonText: item.description != ""
+                      //       ? item.description
+                      //       : AppLocalizations.of(context)
+                      //           .translate('screen.proceed'),
+                      //   overridePrimaryColor: giViewModel.getPrimaryColor(),
+                      //   giViewModel: giViewModel,
+                      //   makeVisible: buttonVisible,
+                      //   overrideButtonPress: () {
+                      //     submitClick();
+                      //   },
+                      // ),
+                      ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -173,7 +177,7 @@ class ImageQuestion extends StatelessWidget {
                       right: 5,
                       child: Icon(
                         Icons.check_circle,
-                        // color: primaryColor, //todo
+                        color: themeModel.getPrimaryColor(), //todo
                       ),
                     ),
                   ),

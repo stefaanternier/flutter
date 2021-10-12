@@ -44,11 +44,6 @@ class __LoginScreenBodyState extends State<_LoginScreenBody> {
         converter: (store) => LoginPageViewModel.fromStore(store, context),
         builder: (context, loginScreenViewModel) {
 
-
-          Function pressCustomLogin = (email, pwd) {
-            Navigator.of(context).pop();
-          };
-
           CustomLoginFields fields = CustomLoginFields(
               onPressed: (h) {
                 setState(() {
@@ -69,6 +64,7 @@ class __LoginScreenBodyState extends State<_LoginScreenBody> {
                   .localeOf(context)
                   .languageCode);
           CustomRaisedButton login = CustomRaisedButton(
+
               onPressed: () {
                 loginScreenViewModel.tapCustomLogin(email, pw);
               },

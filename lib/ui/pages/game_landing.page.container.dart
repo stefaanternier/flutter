@@ -13,7 +13,7 @@ import 'package:youplay/ui/components/messages_parts/richtext-top.dart';
 
 import 'game_lading.page.unauth-playanon.dart';
 import 'game_landing.page.loading.dart';
-import 'game_landing.page.login.dart';
+
 import 'game_landing.page.private.container.dart';
 import 'game_landing.page.public.container.dart';
 import 'game_landing.page.public.dart';
@@ -33,9 +33,7 @@ class GameLandingPageContainer extends StatelessWidget {
       converter: (store) => _ViewModel.fromStore(store, gameId),
       builder: (context, vm) {
 
-        print("in container");
         if (vm.game == null || vm.game!.gameId != gameId) {
-          print("in container null");
           return GameLandingLoadingPage(
             init: vm.loadGame,
             key: ValueKey('loading${gameId}'),

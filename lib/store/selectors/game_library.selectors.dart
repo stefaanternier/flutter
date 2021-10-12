@@ -11,12 +11,19 @@ final allGames = (AppState state) => state.gameLibrary.fullGames;
 
 final Selector<AppState, List<Game>> featuredGamesSelector = createSelector2(
     partialSelector, allGames, (List<Game> partial, Map<int, Game> fullGames) {
-  return partial
+  List<Game> list = partial
       .where((game) => fullGames[game.gameId] != null)
       .map((game) => fullGames[game.gameId])
       .where((game)=> game != null)
       .map((game) => game!)
       .toList(growable: false) ;
+  list.sort((game1, game2) {
+    int date1 = game1.rank ?? 1;
+    int date2 = game2.rank ?? 1;
+    print("rank $date1 $date2");
+    return date1.compareTo(date2);
+  });
+  return list;
 });
 
 final Selector<AppState, List<Game>> searchedGamesSelector = createSelector2(

@@ -78,7 +78,7 @@ class _MultipleChoiceImageWidgetState extends State<MultipleChoiceImageWidget> {
         appBar: ThemedAppBar(title: widget.item.title, elevation: true),
         body: WebWrapper(
             child: MessageBackgroundWidgetContainer(
-              child: ImageQuestion(
+              child: ImageQuestion( //todo refactor image question
                 item: widget.item,
                 buttonText: (widget.item.description != '')
                     ? widget.item.description
@@ -93,7 +93,6 @@ class _MultipleChoiceImageWidgetState extends State<MultipleChoiceImageWidget> {
                 },
                 buttonVisible: this.answerGiven(),
                 submitClick: () {
-                  print('in sssss mit p1r');
                   this.submitPressed();
                 },
               ),

@@ -15,7 +15,6 @@ import 'package:youplay/store/selectors/current_run.selectors.dart';
 import 'package:youplay/store/selectors/game_messages.selector.dart';
 import 'package:youplay/store/state/app_state.dart';
 import 'package:youplay/ui/components/messages_pages/single-choice-image.widget.dart';
-
 import 'multiple-choice-image.widget.dart';
 
 class MultipleChoiceImageWidgetContainer extends StatelessWidget {

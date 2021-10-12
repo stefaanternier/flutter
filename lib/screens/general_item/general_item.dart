@@ -246,12 +246,12 @@ class GeneralItemScreen extends StatelessWidget {
         return OpenUrlWidget(
             item: (notNullItem as OpenUrl), giViewModel: giViewModel);
       case ItemType.audio:
-        AudioObjectGeneralItemScreen returnWidget =
-            AudioObjectGeneralItemScreen(
-                item: (notNullItem as AudioObjectGeneralItem),
-                giViewModel: giViewModel,
-                key: Key('${item.itemId}'));
-        return returnWidget;
+      //   AudioObjectGeneralItemScreen returnWidget =
+      //       AudioObjectGeneralItemScreen(
+      //           item: (notNullItem as AudioObjectGeneralItem),
+      //           giViewModel: giViewModel,
+      //           key: Key('${item.itemId}'));
+      //   return returnWidget;
 
         case ItemType.combinationlock:
         return CombinationLockWidget(

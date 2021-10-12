@@ -29,6 +29,8 @@ class CombinationLockGeneralItem extends GeneralItem {
     Map<String, String>? fileReferences,
     double? lat,
     double? lng,
+    double? authoringX,
+    double? authoringY,
     required bool showOnMap,
     required bool showInList,
   }) : super(
@@ -47,6 +49,8 @@ class CombinationLockGeneralItem extends GeneralItem {
             primaryColor: primaryColor,
             showOnMap: showOnMap,
             showInList: showInList,
+            authoringX: authoringX,
+            authoringY: authoringY,
             lat: lat,
             lng: lng);
 
@@ -58,33 +62,26 @@ class CombinationLockGeneralItem extends GeneralItem {
         lastModificationDate: int.parse(json['lastModificationDate']),
         sortKey: json['sortKey'] ?? 0,
         title: json['name'],
-        text: json['text']??'',
-        showFeedback:
-            json['showFeedback'] == null ? false : json['showFeedback'],
+        text: json['text'] ?? '',
+        showFeedback: json['showFeedback'] == null ? false : json['showFeedback'],
         richText: json['richText'] ?? '',
         description: (json['description'] ?? "").trim(),
         answers: json['answers'] == null
             ? []
-            : List<ChoiceAnswer>.generate(json['answers'].length,
-                (i) => ChoiceAnswer.fromJson(json['answers'][i])),
+            : List<ChoiceAnswer>.generate(json['answers'].length, (i) => ChoiceAnswer.fromJson(json['answers'][i])),
         showOnMap: json['showOnMap'] ?? false,
         showInList: json['showInList'] == null ? true : json['showInList'],
         lat: json['lat'],
         lng: json['lng'],
+        authoringX: json['authoringX'],
+        authoringY: json['authoringY'],
         fileReferences: json['fileReferences'] != null
             ? new Map.fromIterable(json["fileReferences"],
-                key: (item) => item['key'],
-                value: (item) => item['fileReference'] ?? '')
+                key: (item) => item['key'], value: (item) => item['fileReference'] ?? '')
             : {},
-        primaryColor: json['primaryColor'] != null
-            ? colorFromHex(json['primaryColor'])
-            : null,
-        dependsOn: json['dependsOn'] != null
-            ? Dependency.fromJson(json['dependsOn'])
-            : null,
-        disappearOn: json['disappearOn'] != null
-            ? Dependency.fromJson(json['disappearOn'])
-            : null);
+        primaryColor: json['primaryColor'] != null ? colorFromHex(json['primaryColor']) : null,
+        dependsOn: json['dependsOn'] != null ? Dependency.fromJson(json['dependsOn']) : null,
+        disappearOn: json['disappearOn'] != null ? Dependency.fromJson(json['disappearOn']) : null);
     return returnItem;
   }
 

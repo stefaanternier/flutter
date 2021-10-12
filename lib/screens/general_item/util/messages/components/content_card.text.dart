@@ -5,7 +5,7 @@ import 'package:youplay/models/general_item.dart';
 
 import '../../../general_item.dart';
 
-class ContentCardText extends StatelessWidget {
+class ContentCardText extends StatefulWidget {
   GeneralItemViewModel? giViewModel;
   Widget? button;
   String? title;
@@ -20,28 +20,38 @@ class ContentCardText extends StatelessWidget {
       // required this.showOnlyButton
   });
 
-  // : super(item: giViewModel.item,
-  // content:  null,
-  // button: button, showOnlyButton: showOnlyButton);
+  @override
+  State<ContentCardText> createState() => _ContentCardTextState();
+}
+
+class _ContentCardTextState extends State<ContentCardText> {
+  late ScrollController _scrollController;
+
+  //final ScrollController _scrollController = ScrollController();
+  @override
+  void initState() {
+    super.initState();
+    _scrollController = ScrollController();
+  }
 
   @override
   Widget build(BuildContext context) {
     // if (this.button == null) return Container();
     List<Widget> widgets = [];
-    bool hasTitle = title != null && title!.trim().isNotEmpty;
-    bool hasText = text != null && text!.trim().isNotEmpty;
+    bool hasTitle = widget.title != null && widget.title!.trim().isNotEmpty;
+    bool hasText = widget.text != null && widget.text!.trim().isNotEmpty;
     if (hasTitle) widgets.add(buildTitle());
     if (hasText && !UniversalPlatform.isWeb) widgets.add(buildContent(context));
     if (hasText && UniversalPlatform.isWeb)
       widgets.add(buildContentWeb(context));
-    if (button != null) widgets.add(buildButton());
+    if (widget.button != null) widgets.add(buildButton());
     if (widgets.isEmpty) {
       return Container();
     }
     if (!hasTitle && !hasText) {
       return Padding(
         padding: const EdgeInsets.fromLTRB(28, 30, 28, 30),
-        child: button,
+        child: widget.button,
       );
     }
     return Card(
@@ -59,7 +69,7 @@ class ContentCardText extends StatelessWidget {
   buildTitle() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0, 0, 0, 26),
-      child: Text('${this.title?.toUpperCase()}',
+      child: Text('${this.widget.title?.toUpperCase()}',
           style: AppConfig.isTablet()
               ? AppConfig().customTheme!.cardTitleStyleTablet
               : AppConfig().customTheme!.cardTitleStyle),
@@ -74,11 +84,20 @@ class ContentCardText extends StatelessWidget {
         padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
         child: Stack(
           children: [
-            new SingleChildScrollView(
-              scrollDirection: Axis.vertical, //.horizontal(
-              child: Text('${this.text} \n\n',
-                  style: AppConfig().customTheme!.cardContentStyle),
-            ),
+
+             Container(
+               child: Scrollbar(
+                 controller: _scrollController,
+                 isAlwaysShown: true,
+                 child: new SingleChildScrollView(
+                   controller: _scrollController,
+                    scrollDirection: Axis.vertical, //.horizontal(
+                    child: Text('${this.widget.text} \n\n',
+                        style: AppConfig().customTheme!.cardContentStyle),
+                  ),
+               ),
+             ),
+
             Positioned(
                 bottom: 0,
                 right: 0,
@@ -93,6 +112,7 @@ class ContentCardText extends StatelessWidget {
                   },
                   child: new SingleChildScrollView(
                     scrollDirection: Axis.vertical, //.horizontal(
+
                     child: Container(
                       height: 50,
                       color: Colors.white,
@@ -114,7 +134,7 @@ class ContentCardText extends StatelessWidget {
           padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
           child: new SingleChildScrollView(
             scrollDirection: Axis.vertical, //.horizontal(
-            child: Text('${this.text} \n\n',
+            child: Text('${this.widget.text} \n\n',
                 style: AppConfig().customTheme!.cardContentStyle),
           )),
     );
@@ -123,7 +143,7 @@ class ContentCardText extends StatelessWidget {
   buildButton() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0, 0, 0, 26),
-      child: button,
+      child: widget.button,
     );
   }
 }

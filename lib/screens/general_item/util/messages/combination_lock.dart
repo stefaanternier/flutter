@@ -21,13 +21,13 @@ class CombinationLockWidget extends StatefulWidget {
   CombinationLockGeneralItem item;
   GeneralItemViewModel giViewModel;
 
+
   CombinationLockWidget(
       {required this.item, required this.giViewModel, Key? key})
       : super(key: key);
 
   @override
-  _CombinationLockWidgetState createState() =>
-      new _CombinationLockWidgetState();
+  _CombinationLockWidgetState createState() => new _CombinationLockWidgetState();
 }
 
 class _CombinationLockWidgetState extends State<CombinationLockWidget> {
@@ -109,8 +109,7 @@ class _CombinationLockWidgetState extends State<CombinationLockWidget> {
 
   Widget _buildQuestion(BuildContext context) {
     if (this.widget.giViewModel.item == null) {
-      return Container(
-          child: Text('item loading...')); //todo make message beautiful
+      return Container(child: Text('item loading...')); //todo make message beautiful
     }
     return GeneralItemWidget(
         item: this.widget.item,
@@ -152,21 +151,12 @@ class _CombinationLockWidgetState extends State<CombinationLockWidget> {
                       Padding(
                           padding: const EdgeInsets.fromLTRB(46, 8.0, 46, 8),
                           child: NextButton(
-                              buttonText: this
-                                          .widget
-                                          .giViewModel
-                                          .item!
-                                          .description !=
-                                      ""
+                              buttonText: this.widget.giViewModel.item!.description != ""
                                   ? this.widget.giViewModel.item!.description
-                                  : AppLocalizations.of(context)
-                                      .translate('screen.proceed'),
-                              overridePrimaryColor:
-                                  widget.giViewModel.getPrimaryColor(),
+                                  : AppLocalizations.of(context).translate('screen.proceed'),
+                              overridePrimaryColor: widget.giViewModel.getPrimaryColor(),
                               giViewModel: widget.giViewModel)),
-                      Padding(
-                          padding: const EdgeInsets.fromLTRB(46, 8.0, 46, 28),
-                          child: buildLockButton()),
+                      Padding(padding: const EdgeInsets.fromLTRB(46, 8.0, 46, 28), child: buildLockButton()),
                     ],
                   )),
             ],
@@ -218,9 +208,7 @@ class _CombinationLockWidgetState extends State<CombinationLockWidget> {
                 if (_answer.length <= index) {
                   _answer = _answer + val[0];
                 } else {
-                  _answer = _answer.substring(0, index) +
-                      val[0] +
-                      _answer.substring(index + 1);
+                  _answer = _answer.substring(0, index) + val[0] + _answer.substring(index + 1);
                 }
               });
             },
@@ -243,13 +231,9 @@ class _CombinationLockWidgetState extends State<CombinationLockWidget> {
         setState(() {
           _index = counter;
         });
-        if (this.widget.giViewModel.item != null &&
-            widget.giViewModel.run?.runId != null) {
+        if (this.widget.giViewModel.item != null && widget.giViewModel.run?.runId != null) {
           widget.giViewModel.onDispatch(MultiplechoiceAction(
-              mcResponse: Response(
-                  run: widget.giViewModel.run,
-                  item: widget.item,
-                  value: choice.id)));
+              mcResponse: Response(run: widget.giViewModel.run, item: widget.item, value: choice.id)));
 
           widget.giViewModel.onDispatch(MultipleChoiceAnswerAction(
               generalItemId: widget.giViewModel.item!.itemId,
@@ -287,8 +271,7 @@ class _CombinationLockWidgetState extends State<CombinationLockWidget> {
       counter++;
     });
     if (!matchFound) {
-      if (this.widget.giViewModel.item != null &&
-          widget.giViewModel.run?.runId != null) {
+      if (this.widget.giViewModel.item != null && widget.giViewModel.run?.runId != null) {
         widget.giViewModel.onDispatch(AnswerWrong(
           generalItemId: widget.giViewModel.item!.itemId,
           runId: widget.giViewModel.run!.runId!,
@@ -300,8 +283,7 @@ class _CombinationLockWidgetState extends State<CombinationLockWidget> {
     }
     counter++;
     if (widget.giViewModel.run?.runId != null) {
-      widget.giViewModel
-          .onDispatch(SyncFileResponse(runId: widget.giViewModel.run!.runId!));
+      widget.giViewModel.onDispatch(SyncFileResponse(runId: widget.giViewModel.run!.runId!));
     }
   }
 }
