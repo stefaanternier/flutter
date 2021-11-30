@@ -13,21 +13,16 @@ import 'package:youplay/store/selectors/current_run.selectors.dart';
 import 'package:youplay/store/state/app_state.dart';
 
 class PictureFilePreviewContainer extends StatelessWidget {
- final String imagePath;
- final GeneralItem generalItem;
- final Function finished;
-  // GeneralItemViewModel giViewModel;
+  final String imagePath;
+  final GeneralItem generalItem;
+  final Function finished;
 
-  PictureFilePreviewContainer(
-      {required this.imagePath,
-        // required this.giViewModel,
-        required this.generalItem, required this.finished});
+  PictureFilePreviewContainer({required this.imagePath, required this.generalItem, required this.finished});
 
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, _ViewModel>(
-      converter: (Store<AppState> store) =>
-          _ViewModel.fromStore(store, generalItem, imagePath, finished),
+      converter: (Store<AppState> store) => _ViewModel.fromStore(store, generalItem, imagePath, finished),
       builder: (context, vm) {
         return PictureFilePreview(
           item: generalItem as PictureQuestion,
@@ -45,25 +40,21 @@ class _ViewModel {
 
   _ViewModel({required this.submitPicture});
 
-  static _ViewModel fromStore(Store<AppState> store, GeneralItem item,
-      String path, Function finished) {
+  static _ViewModel fromStore(Store<AppState> store, GeneralItem item, String path, Function finished) {
     Run? run = currentRunSelector(store.state.currentRunState);
     return _ViewModel(
       submitPicture: (String text) {
-        if (run?.runId!=null) {
+        if (run?.runId != null) {
           store.dispatch(LocalAction(
             action: "answer_given",
             generalItemId: item.itemId,
             runId: run!.runId!,
           ));
-          store.dispatch(PictureResponseAction(
-              pictureResponse:
-              PictureResponse(item: item, path: path, run: run, text: text)));
+          store.dispatch(
+              PictureResponseAction(pictureResponse: PictureResponse(item: item, path: path, run: run, text: text)));
           store.dispatch(SyncFileResponse(runId: run.runId!));
           finished();
         }
-
-
       },
     );
   }

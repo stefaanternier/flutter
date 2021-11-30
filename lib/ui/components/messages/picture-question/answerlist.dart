@@ -6,9 +6,9 @@ import 'answerlisttile.dart';
 class AnswerList extends StatelessWidget {
   List<Response> fromServer;
   Function tapResponse;
-  Function deleteReponse;
+  Function deleteResponse;
 
-  AnswerList({required this.fromServer,required  this.tapResponse, required this.deleteReponse});
+  AnswerList({required this.fromServer,required  this.tapResponse, required this.deleteResponse});
 
   @override
   Widget build(BuildContext context) {
@@ -20,13 +20,7 @@ class AnswerList extends StatelessWidget {
               key: Key('${fromServer[index].timestamp}'),
               background: slideLeftBackground(),
               onDismissed: (direction) {
-                deleteReponse(fromServer[index].responseId);
-                // setState(() {
-                  // this.deleted.add(map.getItem(index));
-                   //deleteResponse(map.delete(index));
-                  // map.deleteAllResponses(this.deleted);
-                // }
-                // );
+                deleteResponse(fromServer[index].responseId);
               },
               child: AnswerWithPictureTile(response: fromServer[index], tapPictureTile: tapResponse,)
             );
