@@ -3,15 +3,11 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:youplay/config/app_config.dart';
 import 'package:youplay/models/general_item/single_choice.dart';
 import 'package:youplay/screens/components/button/cust_raised_button.container.dart';
-import 'package:youplay/screens/components/button/cust_raised_button.dart';
 import 'package:youplay/store/state/app_state.dart';
 import 'package:youplay/ui/components/messages/themed-checkbox-tile.container.dart';
 
-import '../../../../../localizations.dart';
-import '../../../general_item.dart';
 import 'content_card.dart';
 import 'game_themes.viewmodel.dart';
-import 'next_button.dart';
 
 class ContentCardChoices extends ContentCard {
   List<ChoiceAnswer> answers;
@@ -20,12 +16,13 @@ class ContentCardChoices extends ContentCard {
   Function submitPressed;
   Color? overridePrimaryColor;
   bool buttonVisible;
-  GeneralItemViewModel? giViewModel;
+  // GeneralItemViewModel? giViewModel;
   String? buttonText;
   String? text;
 
   ContentCardChoices(
-      {this.giViewModel,
+      {
+        // this.giViewModel,
       this.text,
       this.buttonText,
       required this.answers,
@@ -55,12 +52,11 @@ class ContentCardChoices extends ContentCard {
     return Visibility(
       child: Container(
           padding: const EdgeInsets.all(10),
-          child: Text("${(giViewModel?.item as dynamic?)?.text ?? text}",
+          child: Text("${text}",
               style: AppConfig.isTablet()
                   ? AppConfig().customTheme!.cardTitleStyleTablet
                   : AppConfig().customTheme!.cardTitleStyle)),
-      visible: ((giViewModel?.item as dynamic?)?.text ?? text) != '' &&
-          ((giViewModel?.item as dynamic?)?.text ?? text) != null,
+      visible:  text != '' && text != null,
     );
   }
 

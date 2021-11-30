@@ -1,15 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:youplay/models/general_item/narrator_item.dart';
 import 'package:youplay/models/general_item/video_question.dart';
 import 'package:youplay/models/response.dart';
-import 'package:youplay/screens/general_item/util/messages/components/content_card.text.dart';
-import 'package:youplay/screens/general_item/util/messages/components/themed_app_bar.dart';
-import 'package:youplay/ui/components/messages/message-background.widget.container.dart';
 import 'package:youplay/ui/components/messages/video-question/video-question.list.widget.dart';
 import 'package:youplay/ui/components/messages/video-question/video-question.play.widget.dart';
 import 'package:youplay/ui/components/messages/video-question/video-question.recorder.widget.dart';
-import 'package:youplay/ui/components/next_button/next_button.container.dart';
-import 'package:youplay/ui/components/web/web_wrapper.dart';
 
 enum VideoQuestionStatus { list, record, play }
 

@@ -1,11 +1,11 @@
 //import 'package:youplay/actions/actions.dart';
-import 'package:youplay/selectors/authentication_selectors.dart';
-import 'package:youplay/store/state/app_state.dart';
-import 'package:youplay/store/state/ui_state.dart';
 import 'package:flutter/material.dart';
 import 'package:redux/redux.dart';
+import 'package:youplay/selectors/authentication_selectors.dart';
 import 'package:youplay/store/actions/auth.actions.dart';
 import 'package:youplay/store/actions/ui_actions.dart';
+import 'package:youplay/store/state/app_state.dart';
+import 'package:youplay/store/state/ui_state.dart';
 
 import '../../localizations.dart';
 

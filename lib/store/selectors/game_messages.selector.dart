@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:reselect/reselect.dart';
 import 'package:youplay/config/app_config.dart';
 import 'package:youplay/models/general_item.dart';
 import 'package:youplay/models/models.dart';
-
-import 'package:youplay/store/state/current_game_state.dart';
-import 'package:reselect/reselect.dart';
-import 'package:youplay/store/selectors/ui_selectors.dart';
 import 'package:youplay/store/selectors/current_game.selectors.dart';
+import 'package:youplay/store/selectors/ui_selectors.dart';
+import 'package:youplay/store/state/current_game_state.dart';
 
 final Selector<AppState, GeneralItem?> currentGeneralItem = createSelector2(
     gameStateFeature, currentItemId, (GamesState state, int? itemId) {

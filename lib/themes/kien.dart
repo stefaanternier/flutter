@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'customtransition.dart';
-
 ThemeData kienTheme = ThemeData(
 
   primaryColor: const Color(0xFFD3107F),

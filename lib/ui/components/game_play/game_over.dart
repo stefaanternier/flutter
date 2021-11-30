@@ -1,10 +1,12 @@
 // import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:youplay/config/app_config.dart';
 import 'package:youplay/models/game_theme.dart';
 import 'package:youplay/screens/components/button/cust_flat_button.dart';
 import 'package:youplay/screens/components/button/cust_raised_button.dart';
 import 'package:youplay/screens/util/extended_network_image.dart';
+import 'package:youplay/ui/components/appbar/themed-appbar.container.dart';
+import 'package:youplay/ui/components/nav/navigation_drawer.container.dart';
+import 'package:youplay/ui/components/web/web_wrapper.dart';
 
 class GameOver extends StatefulWidget {
   GameTheme? theme;
@@ -25,41 +27,47 @@ class GameOver extends StatefulWidget {
 class _GameOverState extends State<GameOver> {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(32.0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: <Widget>[
-          buildGameIcon(context),
-          buildGameTitle(context),
-          Container(
-              child: Text(
-            "Je hebt dit spel uitgespeeld.",
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              color: const Color(0xFFA0ABB5),
-              fontSize: 20.0,
-            ),
-          )),
-          this.widget.anon
-              ? Center(
-                  child: CustomRaisedButton(
-                    title: "Start opnieuw",
+    return Scaffold(
+      appBar: ThemedAppbarContainer(title: 'Game Over', elevation: false),
+      drawer: ARLearnNavigationDrawerContainer(),
+      body: WebWrapper(
+        child: Padding(
+          padding: const EdgeInsets.all(32.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              buildGameIcon(context),
+              buildGameTitle(context),
+              Container(
+                  child: Text(
+                "Je hebt dit spel uitgespeeld.",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: const Color(0xFFA0ABB5),
+                  fontSize: 20.0,
+                ),
+              )),
+              this.widget.anon
+                  ? Center(
+                      child: CustomRaisedButton(
+                        title: "Start opnieuw",
 //            icon: new Icon(Icons.play_circle_outline, color: Colors.white),
-                    onPressed: this.widget.startAgain,
-                  ),
-                )
-              : Container(),
-          this.widget.anon
-              ? Center(
-                  child: CustomFlatButton(
-                    title: "Bibliotheek",
+                        onPressed: this.widget.startAgain,
+                      ),
+                    )
+                  : Container(),
+              this.widget.anon
+                  ? Center(
+                      child: CustomFlatButton(
+                        title: "Bibliotheek",
 //            icon: new Icon(Icons.play_circle_outline, color: Colors.white),
-                    onPressed: this.widget.toLibrary,
-                  ),
-                )
-              : Container(),
-        ],
+                        onPressed: this.widget.toLibrary,
+                      ),
+                    )
+                  : Container(),
+            ],
+          ),
+        ),
       ),
     );
     // return Container(

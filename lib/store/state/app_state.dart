@@ -1,45 +1,37 @@
-import 'package:flutter/cupertino.dart';
-import 'package:youplay/models/game.dart';
-import 'package:youplay/models/game_theme.dart';
-import 'package:youplay/state/authentication_state.dart';
-import 'package:youplay/store/state/current_game_state.dart';
-import 'package:youplay/state/library_state.dart';
-import 'package:youplay/store/state/run_state.dart';
 import 'dart:collection';
 
-import 'package:youplay/store/state/ui_state.dart';
+import 'package:youplay/models/game_theme.dart';
 import 'package:youplay/models/run.dart';
-import 'package:firebase_storage/firebase_storage.dart';
+import 'package:youplay/state/authentication_state.dart';
 import 'package:youplay/store/state/all_games_state.dart';
+import 'package:youplay/store/state/current_game_state.dart';
+import 'package:youplay/store/state/run_state.dart';
+import 'package:youplay/store/state/ui_state.dart';
 
 import 'game_library.state.dart';
 
 class AppState {
   HashMap<int, GameTheme> themIdToTheme;
   HashMap<int, List<Run>> gameIdToRun;
-  HashMap<int, GamesState> gameIdToGameState;
+  // HashMap<int, GamesState> gameIdToGameState;
   GamesState currentGameState;
   RunState currentRunState;
 
   GameLibraryState gameLibrary;
-
-//  HashMap<int, RunState> runIdToRunState;
-  List<Game> participateGames; //deprecated
   AllGamesState allGamesState;
   UiState uiState;
 
-//  Library library;
   AuthenticationState authentication;
 
   AppState(
       {required this.themIdToTheme,
       required this.gameIdToRun,
-      required this.gameIdToGameState,
+      // required this.gameIdToGameState,
       required this.currentGameState,
       required this.currentRunState,
       required this.gameLibrary,
       required this.authentication,
-      required this.participateGames,
+      // required this.participateGames,
       required this.allGamesState,
       required this.uiState});
 
@@ -48,7 +40,7 @@ class AppState {
     authentication: AuthenticationState.unauthenticated(),
     themIdToTheme: new HashMap<int, GameTheme>(),
     gameIdToRun: new HashMap<int, List<Run>>(),
-    gameIdToGameState: new HashMap<int, GamesState>(),
+    // gameIdToGameState: new HashMap<int, GamesState>(),
     currentGameState: new GamesState(),
     currentRunState: RunState.init(),
     gameLibrary: GameLibraryState(
@@ -57,19 +49,19 @@ class AppState {
       recentGames: [],
       fullGames: new HashMap(),
     ),
-    participateGames: [],
+    // participateGames: [],
     uiState: UiState.initState(),
   );
 
   static AppState fromJson(dynamic json) {
     AppState state = AppState.emptyState();
-    (json["participateGames"] as List)
-        .forEach((js) => state.participateGames..add(Game.fromJson(js)));
+    // (json["participateGames"] as List)
+    //     .forEach((js) => state.participateGames..add(Game.fromJson(js)));
 
-    (json["gameIdToGameState"] as LinkedHashMap<String, dynamic>)
-        .forEach((String key, dynamic gamestate) {
-      state.gameIdToGameState[int.parse(key)] = GamesState.fromJson(gamestate);
-    });
+    // (json["gameIdToGameState"] as LinkedHashMap<String, dynamic>)
+    //     .forEach((String key, dynamic gamestate) {
+    //   state.gameIdToGameState[int.parse(key)] = GamesState.fromJson(gamestate);
+    // });
 //    (json["runIdToRunState"] as LinkedHashMap<String, dynamic>)
 //        .forEach((String key, dynamic runState) {
 //      state.runIdToRunState[int.parse(key)] = RunState.fromJson(runState);
@@ -80,27 +72,18 @@ class AppState {
 
   dynamic toJson() {
 //    print("serializing appstate");
-    dynamic test = this
-        .participateGames
-        .map((game) => game.toJson())
-        .toList(growable: false);
+//     dynamic test = this
+//         .participateGames
+//         .map((game) => game.toJson())
+//         .toList(growable: false);
     dynamic gStates = {};
-    this
-        .gameIdToGameState
-        .forEach((gameId, state) => gStates["${gameId}"] = state.toJson());
-//    dynamic rStates = {};
-//    this
-//        .runIdToRunState
-//        .forEach((runId, state) {
-//          if (runId != null) rStates["${runId}"] = state.toJson();
-//        });
+    // this
+    //     .gameIdToGameState
+    //     .forEach((gameId, state) => gStates["${gameId}"] = state.toJson());
     dynamic json = {
-//      'runIdToRunState': rStates,
-      'participateGames': test,
-      'authentication': this.authentication.toJson(),
-      'gameIdToGameState': gStates
+      'authentication': this.authentication.toJson()
+      // 'gameIdToGameState': gStates
     };
-//     print(json);
     return json;
   }
 
@@ -112,14 +95,15 @@ class AppState {
         (this.currentGameState == other.currentGameState) &&
         (this.currentRunState == other.currentRunState) &&
         (this.gameLibrary == other.gameLibrary) &&
-        (this.gameIdToGameState == other.gameIdToGameState) &&
+        // (this.gameIdToGameState == other.gameIdToGameState) &&
+
         (this.gameIdToRun == other.gameIdToRun) &&
-        (this.participateGames == other.participateGames)&&
+        // (this.participateGames == other.participateGames)&&
         (this.authentication == other.authentication)&&
         (this.uiState == other.uiState);
 
     // if (!appChange) {
-    //   print('-- state store  has changed ${currentRunState.hashCode} -- ${other.currentRunState.hashCode}');
+    //   print('-- state store ( $appChange)  has changed ${currentRunState.hashCode} -- ${other.currentRunState.hashCode}');
     // }
     return appChange;
   }

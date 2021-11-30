@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 import 'package:youplay/store/actions/all_games.actions.dart';
-import 'package:youplay/store/selectors/current_game.selectors.dart';
 import 'package:youplay/store/state/app_state.dart';
-import 'package:youplay/ui/components/appbar/themed-appbar.container.dart';
 import 'package:youplay/ui/components/my-games-list/search-games-appbar.dart';
 
 class SearchGamesAppbarContainer extends StatelessWidget with PreferredSizeWidget {

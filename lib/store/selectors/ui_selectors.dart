@@ -1,9 +1,7 @@
-import 'package:youplay/models/models.dart';
-import 'package:youplay/store/state/ui_state.dart';
 import 'package:reselect/reselect.dart';
+import 'package:youplay/models/models.dart';
 import 'package:youplay/store/selectors/current_game.selectors.dart';
-
-import 'package:youplay/store/selectors/current_run.selectors.dart';
+import 'package:youplay/store/state/ui_state.dart';
 
 UiState uiState(AppState state) => state.uiState;
 

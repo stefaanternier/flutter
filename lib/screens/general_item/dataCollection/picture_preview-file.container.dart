@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
-import 'package:youplay/actions/run_actions.dart';
 import 'package:youplay/models/general_item.dart';
 import 'package:youplay/models/general_item/narrator_item.dart';
 import 'package:youplay/models/response.dart';
 import 'package:youplay/models/run.dart';
 import 'package:youplay/screens/general_item/dataCollection/picture_preview_file.dart';
+import 'package:youplay/store/actions/current_run.action.actions.dart';
 import 'package:youplay/store/actions/current_run.actions.dart';
 import 'package:youplay/store/actions/current_run.picture.actions.dart';
 import 'package:youplay/store/selectors/current_run.selectors.dart';
 import 'package:youplay/store/state/app_state.dart';
-
-import '../general_item.dart';
 
 class PictureFilePreviewContainer extends StatelessWidget {
  final String imagePath;

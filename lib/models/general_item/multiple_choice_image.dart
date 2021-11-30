@@ -1,9 +1,7 @@
+import 'package:flutter/material.dart';
 import 'package:youplay/models/general_item.dart';
 import 'package:youplay/models/general_item/dependency.dart';
-import 'package:flutter/material.dart';
 import 'package:youplay/ui/components/messages_pages/multiple-choice-image.widget.container.dart';
-
-import '../game.dart';
 
 class MultipleChoiceImageGeneralItem extends GeneralItem {
   List<ImageChoiceAnswer> answers = [];
@@ -54,7 +52,7 @@ class MultipleChoiceImageGeneralItem extends GeneralItem {
             lng: lng);
 
   factory MultipleChoiceImageGeneralItem.fromJson(Map json) {
-    print('in MultipleChoiceImageGeneralItem ${json['authoringX']}');
+    print('in MultipleChoiceImageGeneralItem ${json['customMapX']}');
     var returnItem = MultipleChoiceImageGeneralItem(
         gameId: int.parse(json['gameId']),
         itemId: int.parse(json['id']),
@@ -74,8 +72,8 @@ class MultipleChoiceImageGeneralItem extends GeneralItem {
         showInList: json['showInList'] == null ? true : json['showInList'],
         lat: json['lat'],
         lng: json['lng'],
-        authoringX: json['authoringX'],
-        authoringY: json['authoringY'],
+        authoringX: json['customMapX'],
+        authoringY: json['customMapY'],
         fileReferences: json['fileReferences'] != null
             ? new Map.fromIterable(json["fileReferences"],
                 key: (item) => item['key'], value: (item) => item['fileReference'] ?? '')

@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:youplay/screens/components/button/cust_flat_button.dart';
 import 'package:youplay/screens/components/button/cust_raised_button.dart';
-import 'package:youplay/screens/components/login/login_screen.dart';
 import 'package:youplay/ui/components/nav/navigation_drawer.container.dart';
-import 'package:youplay/ui/components/nav/navigation_drawer.dart';
 
 import '../../localizations.dart';
 

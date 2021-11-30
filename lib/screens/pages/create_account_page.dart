@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:redux/redux.dart';
 import 'package:youplay/screens/components/button/cust_raised_button.dart';
-import 'package:youplay/ui/components/nav/navigation_drawer.container.dart';
-import 'package:youplay/ui/components/nav/navigation_drawer.dart';
 import 'package:youplay/store/actions/auth.actions.dart';
 import 'package:youplay/store/state/app_state.dart';
-import 'package:redux/redux.dart';
+import 'package:youplay/ui/components/nav/navigation_drawer.container.dart';
+
 import '../../localizations.dart';
 
 enum CreateStatus { email, password, displayName }

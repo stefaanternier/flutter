@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:youplay/localizations.dart';
-import 'package:youplay/models/general_item/narrator_item.dart';
 import 'package:youplay/models/general_item/single_choice.dart';
-import 'package:youplay/screens/general_item/util/messages/components/content_card.text.dart';
 import 'package:youplay/screens/general_item/util/messages/components/content_card_choices.dart';
 import 'package:youplay/screens/general_item/util/messages/components/singlechoice/feedback_screen.dart';
 import 'package:youplay/screens/general_item/util/messages/components/themed_app_bar.dart';
 import 'package:youplay/ui/components/messages/message-background.widget.container.dart';
-import 'package:youplay/ui/components/next_button/next_button.container.dart';
 import 'package:youplay/ui/components/web/web_wrapper.dart';
 
 class MultipleChoiceWidget extends StatefulWidget {

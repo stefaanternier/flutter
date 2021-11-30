@@ -1,23 +1,4 @@
-import 'package:universal_platform/universal_platform.dart';
-import 'package:youplay/actions/actions.dart';
-import 'package:youplay/actions/games.dart';
-import 'package:youplay/actions/ui.dart';
-import 'package:youplay/selectors/selectors.dart';
-import 'package:youplay/store/state/app_state.dart';
-import 'package:youplay/state/authentication_state.dart';
-import 'package:youplay/store/state/ui_state.dart';
-import 'package:youplay/selectors/authentication_selectors.dart';
-import 'package:youplay/store/selectors/ui_selectors.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_redux/flutter_redux.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:redux/redux.dart';
-import 'package:youplay/store/actions/ui_actions.dart';
-import 'package:youplay/store/selectors/current_game.selectors.dart';
-import 'package:youplay/store/selectors/current_run.selectors.dart';
-
-import '../../../localizations.dart';
-import '../../../screens/util/navigation_drawer.viewmodel.dart';
 
 
 //todo delete

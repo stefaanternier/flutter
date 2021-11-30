@@ -4,7 +4,7 @@ import 'package:redux/redux.dart';
 import 'package:youplay/models/general_item/narrator_item.dart';
 import 'package:youplay/store/selectors/game_messages.selector.dart';
 import 'package:youplay/store/state/app_state.dart';
-import 'narrator.widget.dart';
+
 import 'picture-question.widget.dart';
 
 class PictureQuestionWidgetContainer extends StatelessWidget {

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:youplay/ui/components/icon/current_game_icon.container.dart';
-import 'package:youplay/ui/components/icon/game_icon.container.dart';
 
 class GameRunsHeader extends StatelessWidget {
   const GameRunsHeader({Key? key}) : super(key: key);

@@ -2,8 +2,8 @@
 import 'package:reselect/reselect.dart';
 import 'package:youplay/models/general_item.dart';
 import 'package:youplay/models/models.dart';
-import 'package:youplay/store/selectors/ui_selectors.dart';
 import 'package:youplay/store/selectors/current_run.selectors.dart';
+import 'package:youplay/store/selectors/ui_selectors.dart';
 
 
 final Selector<AppState, GeneralItem?> nextItemObject = createSelector2(

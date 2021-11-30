@@ -1,10 +1,6 @@
-import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:intl/intl.dart';
-
-// import 'package:cached_network_image/cached_network_image.dart';
-import 'package:youplay/config/app_config.dart';
 import 'package:youplay/screens/util/extended_network_image.dart';
 import 'package:youplay/store/state/app_state.dart';
 

@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:youplay/router/youplay-route-path.dart';
 import 'package:youplay/store/state/ui_state.dart';
@@ -15,7 +16,12 @@ class BookRouteInformationParser
     final uri = Uri.parse(routeInformation.location ?? '/');
     // Handle '/'
     if (uri.pathSegments.length == 0) {
-      return YouplayRoutePath.home();
+      User? user = await FirebaseAuth.instance.currentUser;
+      if (user != null) {
+        return YouplayRoutePath.home();
+      } else {
+        return YouplayRoutePath.intro();
+      }
     }
 
     if (uri.pathSegments.length == 1) {
@@ -23,6 +29,7 @@ class BookRouteInformationParser
         return YouplayRoutePath(pageType: PageType.login);
       }
       if (uri.pathSegments[0] == 'featured') {
+        this.updatePageType(PageType.featured, -1);
         return YouplayRoutePath(pageType: PageType.featured);
       }
       if (uri.pathSegments[0] == 'myGames') {
@@ -31,6 +38,7 @@ class BookRouteInformationParser
       if (uri.pathSegments[0] == 'scan') {
         return YouplayRoutePath(pageType: PageType.scanGame);
       }
+      print("set paht to home1");
       return YouplayRoutePath.home();
     }
     // Handle '/game/:id'
@@ -44,10 +52,11 @@ class BookRouteInformationParser
       }
 
       if (uri.pathSegments[0] == 'run') {
+        print('parsing run ${uri}  ${uri.pathSegments[0]}');
         var remaining = uri.pathSegments[1];
         var id = int.tryParse(remaining);
         if (id == null) return YouplayRoutePath.unknown();
-        return YouplayRoutePath(pageType: PageType.game, pageId: id);
+        return YouplayRoutePath(pageType: PageType.runLandingPage, pageId: id);
       }
     }
     if (uri.pathSegments.length == 4) {
@@ -68,12 +77,12 @@ class BookRouteInformationParser
 
   @override
   RouteInformation restoreRouteInformation(YouplayRoutePath path) {
-    print('restore path ${path.pageId}');
+    // print('restore path ${path.pageType} -- ${path.pageId}');
     switch (path.pageType) {
       case PageType.gameLandingPage:
         return RouteInformation(location: '/game/${path.pageId}');
       case PageType.game:
-        return RouteInformation(location: '/run/${path.pageId}');
+        return RouteInformation(location: '/play/game/${path.pageId}');
 //              return GameScreen(false);
 //         return authCheck(GamePlayPage(), pageModel);
         break;
@@ -93,8 +102,8 @@ class BookRouteInformationParser
       case PageType.scanGame:
         return RouteInformation(location: '/scan');
       case PageType.runLandingPage:
-        // return RunLandingPage();
-        break;
+        print('restore run landing ${path.pageId}');
+        return RouteInformation(location: '/run/${path.pageId}');
       case PageType.gameWithRuns:
         // return authCheck(GameRunsOverviewPage(), pageModel);
         break;
@@ -122,6 +131,7 @@ class BookRouteInformationParser
     // if (path.isDetailsPage) {
     //   return RouteInformation(location: '/book/${path.id}');
     // }
+    // print('restore page not found ${path.pageType} -- ${path.pageId}');
     return RouteInformation(location: '/');
   }
 }

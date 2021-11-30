@@ -1,8 +1,6 @@
-import 'package:youplay/models/models.dart';
-import 'package:youplay/state/authentication_state.dart';
 import 'package:redux/redux.dart';
-import 'package:youplay/actions/actions.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:youplay/state/authentication_state.dart';
+import 'package:youplay/store/actions/auth.actions.dart';
 
 final authenticationReducer = combineReducers<AuthenticationState>([
   new TypedReducer<AuthenticationState, GoogleLoginSucceededAction>(

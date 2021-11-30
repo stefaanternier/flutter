@@ -1,28 +1,21 @@
 import 'dart:math';
 
-import 'package:youplay/actions/actions.dart';
-import 'package:youplay/actions/games.dart';
-import 'package:youplay/actions/runs.dart';
-import 'package:youplay/actions/ui.dart';
-import 'package:youplay/config/app_config.dart';
-import 'package:youplay/ui/components/nav/navigation_drawer.container.dart';
-import 'package:youplay/ui/components/nav/navigation_drawer.dart';
-import 'package:youplay/store/actions/current_game.actions.dart';
-import 'package:youplay/store/actions/game_library.actions.dart';
-import 'package:youplay/store/state/app_state.dart';
-import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
-
-// import 'package:firebase_ml_vision/firebase_ml_vision.dart';
-import 'package:youplay/screens/util/utils.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:redux/redux.dart';
-import 'package:youplay/store/state/ui_state.dart';
+import 'package:youplay/config/app_config.dart';
 import 'package:youplay/store/actions/auth.actions.dart';
+import 'package:youplay/store/actions/current_game.actions.dart';
+import 'package:youplay/store/actions/current_run.actions.dart';
+import 'package:youplay/store/actions/game_library.actions.dart';
 import 'package:youplay/store/actions/ui_actions.dart';
+import 'package:youplay/store/state/app_state.dart';
+import 'package:youplay/store/state/ui_state.dart';
+import 'package:youplay/ui/components/nav/navigation_drawer.container.dart';
 
 import '../../localizations.dart';
-import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 class GameQRScannerPage extends StatelessWidget {
   const GameQRScannerPage({Key? key}) : super(key: key);

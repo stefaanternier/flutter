@@ -1,8 +1,6 @@
 import 'dart:convert';
-import 'package:youplay/config/app_config.dart';
-import 'package:http/http.dart' as http;
+
 import 'package:youplay/models/response.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 import 'GenericApi.dart';
 

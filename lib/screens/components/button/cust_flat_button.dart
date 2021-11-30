@@ -6,11 +6,13 @@ class CustomFlatButton extends StatelessWidget {
   String title;
   IconData? icon;
   Color? color;
+  Color? colorBorder;
 
   CustomFlatButton(
       {required this.onPressed,
       required this.title,
       this.icon,
+        this.colorBorder = null,
       this.color = null});
 
   @override
@@ -38,7 +40,7 @@ class CustomFlatButton extends StatelessWidget {
               borderRadius: BorderRadius.circular(26.0),
               side: BorderSide(
                   width: 2,
-                  color: color ?? AppConfig().themeData!.primaryColor)),
+                  color: colorBorder ?? color ?? AppConfig().themeData!.primaryColor)),
           onPressed: () {
             onPressed();
           },
@@ -59,7 +61,7 @@ class CustomFlatButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(26.0),
             side: BorderSide(
                 width: 2,
-                color: color ?? AppConfig().themeData!.primaryColor)),
+                color: colorBorder ?? color ?? AppConfig().themeData!.primaryColor)),
         onPressed: () {
           onPressed();
         },

@@ -1,19 +1,20 @@
 import 'dart:collection';
 
+import 'package:flutter/material.dart';
 import 'package:youplay/models/general_item/audio_question.dart';
+import 'package:youplay/models/general_item/dependency.dart';
 import 'package:youplay/models/general_item/multiple_choice_image.dart';
+import 'package:youplay/models/general_item/narrator_item.dart';
 import 'package:youplay/models/general_item/open_question.dart';
 import 'package:youplay/models/general_item/scan_tag.dart';
 import 'package:youplay/models/general_item/single_choice.dart';
 import 'package:youplay/models/general_item/single_choice_image.dart';
 import 'package:youplay/models/general_item/video_object.dart';
 import 'package:youplay/models/run.dart';
-import 'package:youplay/models/general_item/dependency.dart';
-import 'package:youplay/models/general_item/narrator_item.dart';
-import 'package:flutter/material.dart';
 import 'package:youplay/ui/pages/game_landing.page.loading.dart';
 
 import 'general_item/audio_object.dart';
+import 'general_item/code_word.dart';
 import 'general_item/combination_lock.dart';
 import 'general_item/open_url.dart';
 import 'general_item/text_question.dart';
@@ -33,16 +34,20 @@ enum ItemType {
   audioquestion,
   textquestion,
   videoquestion,
-  combinationlock
+  combinationlock,
+  codeword
 }
 
 class ItemTimes {
   GeneralItem generalItem;
   int appearTime;
   int? disappearTime;
+  bool read;
 
   ItemTimes(
-      {required this.generalItem,
+      {
+        required this.read,
+        required this.generalItem,
       required this.appearTime,
       this.disappearTime});
 }
@@ -133,7 +138,9 @@ class GeneralItem {
         return VideoObjectGeneralItem.fromJson(json);
       case ItemType.combinationlock:
         return CombinationLockGeneralItem.fromJson(json);
-      case ItemType.singlechoice:
+      case ItemType.codeword:
+        return CodeWordGeneralItem.fromJson(json);
+        case ItemType.singlechoice:
         return SingleChoiceGeneralItem.fromJson(json);
       case ItemType.multiplechoice:
         return MultipleChoiceGeneralItem.fromJson(json);
@@ -185,6 +192,8 @@ class GeneralItem {
       return ItemType.scanTag;
     if (type == 'org.celstec.arlearn2.beans.generalItem.CombinationLock')
       return ItemType.combinationlock;
+    if (type == 'org.celstec.arlearn2.beans.generalItem.CodeWord')
+      return ItemType.codeword;
     if (type == 'org.celstec.arlearn2.beans.generalItem.SingleChoiceTest')
       return ItemType.singlechoice;
     if (type == 'org.celstec.arlearn2.beans.generalItem.MultipleChoiceTest')
@@ -214,6 +223,10 @@ class GeneralItem {
   int visibleAt(HashMap<String, ARLearnAction> actions) {
     if (dependsOn == null) return 0;
     return dependsOn!.evaluate(actions);
+  }
+
+  bool read(HashMap<String, ARLearnAction> actions) {
+    return actions['read:$itemId'] != null;
   }
 
   int disapperAt(HashMap<String, ARLearnAction> actions) {

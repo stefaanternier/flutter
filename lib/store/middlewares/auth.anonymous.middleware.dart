@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:redux_epics/redux_epics.dart';
-import 'package:youplay/actions/actions.dart';
 import 'package:youplay/api/account.dart';
 import 'package:youplay/store/actions/auth.actions.dart';
 import 'package:youplay/store/state/app_state.dart';

@@ -3,12 +3,14 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 import 'package:youplay/models/game.dart';
 import 'package:youplay/models/run.dart';
-import 'package:youplay/selectors/selectors.dart';
 import 'package:youplay/store/actions/current_run.actions.dart';
+import 'package:youplay/store/actions/gameid_to_runs.actions.dart';
 import 'package:youplay/store/actions/ui_actions.dart';
 import 'package:youplay/store/selectors/current_game.selectors.dart';
+import 'package:youplay/store/selectors/gameid_to_runs.selectors.dart';
 import 'package:youplay/store/state/app_state.dart';
 import 'package:youplay/store/state/ui_state.dart';
+
 import 'game-runs-list.dart';
 
 class GameRunsListContainer extends StatelessWidget {
@@ -23,6 +25,7 @@ class GameRunsListContainer extends StatelessWidget {
           return GameRunList(
             runList: vm.runList,
             tapRun: vm.tapRun,
+            deleteRun: vm.deleteRun,
           );
         });
   }
@@ -31,17 +34,26 @@ class GameRunsListContainer extends StatelessWidget {
 class _ViewModel {
   List<Run> runList;
   Function(int) tapRun;
+  final Function(Run) deleteRun;
 
   _ViewModel({
     required this.runList,
     required this.tapRun,
+    required this.deleteRun,
   });
 
   static _ViewModel fromStore(Store<AppState> store) {
     List<Run> rl = currentRunsSelector(store.state);
     Game? game = gameSelector(store.state.currentGameState);
+    rl.forEach((element) {
+      print('run is, ${element.deleted}');
+    });
+    print('redo viewmodel runlist size is ${rl.length}');
     return _ViewModel(
         runList: rl,
+        deleteRun: (Run run) {
+          store.dispatch(DeleteRunAction(run: run));
+        },
         tapRun: (int index) {
           store.dispatch(SetCurrentRunAction(run: rl[index]));
           store.dispatch(SetPage(page: PageType.game));

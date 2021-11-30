@@ -1,12 +1,39 @@
 
 import 'package:redux_epics/redux_epics.dart';
-import 'package:youplay/actions/run_actions.dart';
 import 'package:youplay/api/actions.dart';
+import 'package:youplay/api/games.dart';
+import 'package:youplay/api/runs.dart';
+import 'package:youplay/config/app_config.dart';
+import 'package:youplay/models/game.dart';
+import 'package:youplay/models/game_theme.dart';
 import 'package:youplay/models/run.dart';
+import 'package:youplay/store/actions/current_game.actions.dart';
+import 'package:youplay/store/actions/current_run.action.actions.dart';
+import 'package:youplay/store/actions/current_run.actions.dart';
+import 'package:youplay/store/actions/game_library.actions.dart';
 import 'package:youplay/store/state/app_state.dart';
 
-final uploadActionEpic =
-    new TypedEpic<AppState, LocalAction>(_postAction); //dispatched from take picture
+final uploadActionEpic = new TypedEpic<AppState, LocalAction>(_postAction);
+final loadPublicRunEpic = new TypedEpic<AppState, LoadPublicRunRequestAction>(_loadPublicRun);
+
+final runsParticipateEpic =
+new TypedEpic<AppState, ApiRunsParticipateAction>(_gameParticipateStream);
+
+Stream<dynamic> _gameParticipateStream(
+    Stream<dynamic> actions, EpicStore<AppState> store) {
+  return actions
+      .where((action) => action is ApiRunsParticipateAction)
+      .asyncMap((action) {
+    if (AppConfig().analytics != null) {
+      AppConfig().analytics!.logJoinGroup(groupId: '${action.gameId}');
+    }
+    return RunsApi.participate(action.gameId).then((results) =>
+    new ApiResultRunsParticipateAction(
+        runs: results, gameId: action.gameId));
+  });
+}
+
+//dispatched from take picture
 
 Stream<dynamic> _postAction(Stream<dynamic> actions, EpicStore<AppState> store) {
   return actions
@@ -21,4 +48,28 @@ Stream<dynamic> _postAction(Stream<dynamic> actions, EpicStore<AppState> store) 
     }
     return SyncActionComplete(action: null); // no more actions to post to server
   }));
+}
+
+
+
+Stream<dynamic> _loadPublicRun(Stream<dynamic> actions, EpicStore<AppState> store) {
+  return actions.where((action) => action is LoadPublicRunRequestAction)
+      .asyncExpand((action) {
+    return yieldLinkExpandRun(action.runId);
+
+  });
+}
+
+Stream<dynamic> yieldLinkExpandRun(int runId) async* {
+  dynamic runwithgame = await RunsApi.runWithGame(runId);
+  if (runwithgame != null && runwithgame['game'] != null) {
+    Game game = Game.fromJson(runwithgame['game']);
+    print('game titel ${game.title}');
+    GameTheme theme = await GamesApi.getTheme(game.theme);
+    yield new LoadGameSuccessAction(game: game, gameTheme: theme);
+    yield new LoadOneFeaturedRunAction(run: Run.fromJson(runwithgame));
+    yield ApiRunsParticipateAction(game.gameId);
+  } else {
+    print('what went wrong ${runwithgame}'); //todo
+  }
 }

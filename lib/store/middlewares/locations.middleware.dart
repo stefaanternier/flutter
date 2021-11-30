@@ -1,8 +1,8 @@
 import 'package:location/location.dart';
 import 'package:redux_epics/redux_epics.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:youplay/actions/run_actions.dart';
 import 'package:youplay/screens/util/location/gps_utils.dart';
+import 'package:youplay/store/actions/current_run.action.actions.dart';
 import 'package:youplay/store/actions/locations.actions.dart';
 import 'package:youplay/store/selectors/location.selectors.dart';
 import 'package:youplay/store/state/app_state.dart';

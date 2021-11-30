@@ -49,7 +49,7 @@ class _ViewModel {
   static _ViewModel fromStore(Store<AppState> store) {
     return _ViewModel(
         searchGames: searchedGamesSelector(store.state),
-        recentGames: store.state.gameLibrary.recentGames,
+        recentGames: recentGamesSelector(store.state), //.gameLibrary.recentGames,
         openGame: (Game g) {
           store.dispatch(
               new SetPage(page: PageType.gameLandingPage, pageId: g.gameId));

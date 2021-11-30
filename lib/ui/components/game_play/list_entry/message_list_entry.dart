@@ -4,54 +4,70 @@ import 'package:youplay/config/app_config.dart';
 import 'package:youplay/models/general_item.dart';
 
 import 'message_list_entry_icon_container.dart';
+import 'read_indication.container.dart';
 
 class MessageListEntry extends StatelessWidget {
   GeneralItem item;
   Function onEntryTap;
   int appearTime;
+  bool read;
 
   MessageListEntry(
-      {required this.item, required this.onEntryTap, required this.appearTime});
+      {
+        required this.read,
+        required this.item, required this.onEntryTap, required this.appearTime});
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(0, 17.0, 0, 17.0),
-      child: new ListTile(
-        leading: MessageEntryIconContainer(item: this.item),
-        // onTap: messageViewModel.itemTapAction(item.itemId, context, item.title, item.gameId), //todo
+    return Stack(
+      children :[
+        if (!read) Positioned(
+            left: 0,
+            top:0,
+            bottom: 0,
+            child: ReadIndicationContainer()),
+        Padding(
+        padding: const EdgeInsets.fromLTRB(0, 17.0, 0, 17.0),
+        child:new ListTile(
+            leading:
+            MessageEntryIconContainer(item: this.item)
+            ,
+            // onTap: messageViewModel.itemTapAction(item.itemId, context, item.title, item.gameId), //todo
 
-        enabled: item.isSupported,
-        title: new Text(
-          "${item.title.toUpperCase()}",
-          overflow: TextOverflow.ellipsis,
-          style: AppConfig().customTheme!.listEntryTitle,
-        ),
-        subtitle: new Container(
-          padding: const EdgeInsets.only(top: 5.0),
-          child: item.isSupported
-              ? new Text(
-            (item.richText != null) ? "${item.richText}" : "",
-            overflow: TextOverflow.ellipsis,
-            maxLines: 1,
-            style: AppConfig().customTheme!.listEntrySubTitle,
-          )
-              : new Text(
-            "Dit item wordt niet ondersteund in deze modus",
-            overflow: TextOverflow.ellipsis,
-            maxLines: 1,
-            style: AppConfig().customTheme!.listEntrySubTitle,
+            enabled: item.isSupported,
+            title: new Text(
+              "${item.title.toUpperCase()}",
+              overflow: TextOverflow.ellipsis,
+              style: AppConfig().customTheme!.listEntryTitle,
+            ),
+            subtitle: new Container(
+              padding: const EdgeInsets.only(top: 5.0),
+              child: item.isSupported
+                  ? new Text(
+                (item.richText != null) ? "${item.richText}" : "",
+                overflow: TextOverflow.ellipsis,
+                maxLines: 1,
+                style: AppConfig().customTheme!.listEntrySubTitle,
+              )
+                  : new Text(
+                "Dit item wordt niet ondersteund in deze modus",
+                overflow: TextOverflow.ellipsis,
+                maxLines: 1,
+                style: AppConfig().customTheme!.listEntrySubTitle,
+              ),
+            ),
+            trailing: new Container(
+                child: Text(
+                  textRowEnd(appearTime, item, context),
+                  style: AppConfig().customTheme!.listEntryEndOfLine,
+                )),
+            onTap: () {
+              onEntryTap();
+            },
           ),
-        ),
-        trailing: new Container(
-            child: Text(
-              textRowEnd(appearTime, item, context),
-              style: AppConfig().customTheme!.listEntryEndOfLine,
-            )),
-        onTap: () {
-          onEntryTap();
-        },
+
       ),
+    ]
     );
   }
 

@@ -1,20 +1,14 @@
 import 'dart:math';
 
-// import 'package:cached_network_image/cached_network_image.dart';
-import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:youplay/config/app_config.dart';
 import 'package:youplay/models/general_item.dart';
 import 'package:youplay/models/general_item/multiple_choice_image.dart';
 import 'package:youplay/screens/components/button/cust_raised_button.container.dart';
 import 'package:youplay/screens/util/extended_network_image.dart';
 import 'package:youplay/store/state/app_state.dart';
 
-import '../../../../../localizations.dart';
-import '../../../general_item.dart';
 import 'game_themes.viewmodel.dart';
-import 'next_button.dart';
 
 class ImageQuestion extends StatelessWidget {
   String? buttonText; //correct or
@@ -26,7 +20,7 @@ class ImageQuestion extends StatelessWidget {
   bool buttonVisible;
   List<ImageChoiceAnswer> answers;
   Map<String, bool> selected;
-  GeneralItemViewModel? giViewModel;
+  // GeneralItemViewModel? giViewModel;
 
   ImageQuestion(
       {required this.item,
@@ -38,7 +32,7 @@ class ImageQuestion extends StatelessWidget {
       required this.buttonVisible,
       required this.buttonClick,
       required this.submitClick,
-      this.giViewModel,
+      // this.giViewModel,
       Key? key})
       : super(key: key);
 

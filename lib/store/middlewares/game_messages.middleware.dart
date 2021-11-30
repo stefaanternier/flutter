@@ -1,5 +1,5 @@
 import 'package:redux_epics/redux_epics.dart';
-import 'package:youplay/actions/errors.dart';
+import 'package:youplay/store/actions/errors.dart';
 import 'package:youplay/api/general_items.dart';
 import 'package:youplay/store/actions/game_messages.actions.dart';
 import 'package:youplay/store/selectors/current_game.selectors.dart';

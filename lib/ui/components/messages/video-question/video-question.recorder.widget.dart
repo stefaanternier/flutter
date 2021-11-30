@@ -1,21 +1,23 @@
-import 'dart:io';
 
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:video_player/video_player.dart';
+import 'package:video_compress/video_compress.dart';
 import 'package:youplay/models/general_item/video_question.dart';
 import 'package:youplay/ui/components/appbar/themed-appbar.container.dart';
-import 'package:youplay/ui/components/buttons/camera_button.dart';
 import 'package:youplay/ui/components/buttons/video_record_button.dart';
 import 'package:youplay/ui/components/messages_parts/richtext-top.container.dart';
 import 'package:youplay/ui/pages/game_landing.page.loading.dart';
 
 import '../message-background.widget.container.dart';
+
 enum VideoRecordingStatus { stopped, recording }
+
 class VideoRecorder extends StatefulWidget {
   final VideoQuestion item;
+
   // final Function(String, int) dispatchRecording;
   final Function(String, int) newRecording;
+
   const VideoRecorder({required this.item, required this.newRecording, Key? key}) : super(key: key);
 
   @override
@@ -55,86 +57,52 @@ class _VideoRecorderState extends State<VideoRecorder> {
       resizeToAvoidBottomInset: false,
       appBar: ThemedAppbarContainer(title: widget.item.title, elevation: false),
       body: MessageBackgroundWidgetContainer(
-          // item: widget.giViewModel.item!,
-          // giViewModel: widget.giViewModel,
-          // padding: false,
-          // elevation: false,
-          child: Stack(
-        children: [
-          Container(
-            color: Color.fromRGBO(0, 0, 0, 0.7),
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                // SingleChildScrollView(
-                //   scrollDirection: Axis.vertical,
-                //   child:
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    RichTextTopContainer(),
-
-                    AspectRatio(
-                      aspectRatio: 1,
-                      child: ClipRect(
-                        child: OverflowBox(
-                          alignment: Alignment.center,
-                          child: FittedBox(
-                            fit: BoxFit.fitWidth,
-                            child: (controller == null)
-                                ? Container()
-                                : Container( //1280x720
-                               width: 720,
+        child: Container(
+          color: Color.fromRGBO(0, 0, 0, 0.7),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              RichTextTopContainer(),
+              AspectRatio(
+                aspectRatio: 1,
+                child: ClipRect(
+                  child: OverflowBox(
+                    alignment: Alignment.center,
+                    child: FittedBox(
+                      fit: BoxFit.fitWidth,
+                      child: (controller == null)
+                          ? Container()
+                          : Container(
+                              //1280x720
+                              width: 720,
                               height: 1280,
-                              child: CameraPreview(
-                                  controller!), // this is my CameraPreview
+                              child: CameraPreview(controller!), // this is my CameraPreview
                             ),
-                          ),
-                        ),
-                      ),
                     ),
-
-                    VideoRecordButton(
-                      isRecording: status == VideoRecordingStatus.stopped,
-                      tapRecord: () {
-                        setState(() {
-                          status = VideoRecordingStatus.recording;
-                        });
-                        startRecording();
-                      },
-                      tapStop: () {
-                        setState(() {
-                          status = VideoRecordingStatus.stopped;
-                        });
-                        stopVideoRecording();
-                      },
-                    ),
-                  ],
+                  ),
                 ),
-                // ),
-              ],
-            ),
+              ),
+              Expanded(
+                child: VideoRecordButton(
+                  isRecording: status == VideoRecordingStatus.stopped,
+                  tapRecord: () {
+                    setState(() {
+                      status = VideoRecordingStatus.recording;
+                    });
+                    startRecording();
+                  },
+                  tapStop: () {
+                    setState(() {
+                      status = VideoRecordingStatus.stopped;
+                    });
+                    stopVideoRecording();
+                  },
+                ),
+              ),
+            ],
           ),
-
-
-          // Positioned(
-          //     left: 0,
-          //     right: 0,
-          //     bottom: 30,
-          //     child:
-          //         Row(mainAxisAlignment: MainAxisAlignment.center, mainAxisSize: MainAxisSize.max, children: <Widget>[
-          //       Column(
-          //         mainAxisAlignment: MainAxisAlignment.center,
-          //         children: [
-          //           Padding(
-          //             padding: EdgeInsets.fromLTRB(30, 5, 30, 5),
-          //             child: CameraButton(onTap: () => startRecording()),
-          //           ),
-          //         ],
-          //       )
-          //     ]))
-        ],
-      )),
+        ),
+      ),
     );
   }
 
@@ -156,11 +124,10 @@ class _VideoRecorderState extends State<VideoRecorder> {
       //await controller.startVideoRecording(filePath);
       controller!.startVideoRecording();
     } on CameraException catch (e) {
-    print(e);
-    //_showCameraException(e);
-    return null;
+      print(e);
+      //_showCameraException(e);
+      return null;
     }
-
   }
 
   Future<void> stopVideoRecording() async {
@@ -173,29 +140,33 @@ class _VideoRecorderState extends State<VideoRecorder> {
 
     try {
       XFile result = await controller!.stopVideoRecording();
-      print('path is ${result.path}');
 
-      // setState(() {
-      //   this.videoPath = result.path;
-      // });
-
-      VideoPlayerController vpc = VideoPlayerController.file(File(result.path));
-      await vpc.initialize();
-      widget.newRecording(result.path, vpc.value.duration.inMilliseconds);
+      MediaInfo? mediaInfo = await VideoCompress.compressVideo(
+        result.path,
+        quality: VideoQuality.DefaultQuality,
+        deleteOrigin: true, // It's false by default
+      );
+      if (mediaInfo != null) {
+        // VideoPlayerController vpc = VideoPlayerController.file(File(mediaInfo.path!));
+        // await vpc.initialize();
+        // print('mediainfo duration ${mediaInfo.duration}');
+        // print('vpc duration ${vpc.value.duration.inMilliseconds}');
+        // widget.newRecording(mediaInfo.path!, vpc.value.duration.inMilliseconds);
+        widget.newRecording(mediaInfo.path!, mediaInfo.duration?.toInt() ?? 0);
+      }
     } on CameraException catch (e) {
       // _showCameraException(e);
       return null;
     }
   }
 
-
-
   void _initializeCamera() async {
     CameraDescription? cameraDesc = await getCamera(_direction);
     if (cameraDesc == null) {
       return;
     }
-    controller = CameraController(cameraDesc, ResolutionPreset.high, enableAudio: true);
+    controller =
+        CameraController(cameraDesc, ResolutionPreset.high, imageFormatGroup: ImageFormatGroup.jpeg, enableAudio: true);
     print('controller is init');
     await controller!.initialize().then((_) {
       setState(() {});

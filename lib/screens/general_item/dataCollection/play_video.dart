@@ -5,7 +5,6 @@ import 'package:video_player/video_player.dart';
 import 'package:youplay/config/app_config.dart';
 import 'package:youplay/models/general_item.dart';
 import 'package:youplay/models/response.dart';
-import 'package:youplay/screens/general_item/util/messages/components/list_audio_player.dart';
 import 'package:youplay/screens/general_item/util/messages/components/themed_app_bar.dart';
 
 class PlayVideoWidget extends StatefulWidget {

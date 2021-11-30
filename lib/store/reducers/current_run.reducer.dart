@@ -1,13 +1,13 @@
 import 'dart:collection';
 
 import 'package:redux/redux.dart';
-import 'package:youplay/actions/actions.dart';
-import 'package:youplay/actions/run_actions.dart';
+
 import 'package:youplay/models/response.dart';
-import 'package:youplay/models/run.dart';
+import 'package:youplay/store/actions/auth.actions.dart';
+import 'package:youplay/store/actions/current_run.action.actions.dart';
+import 'package:youplay/store/actions/current_run.actions.dart';
 import 'package:youplay/store/actions/current_run.picture.actions.dart';
 import 'package:youplay/store/state/run_state.dart';
-import 'package:youplay/store/actions/current_run.actions.dart';
 
 import 'current_run.actions.reducer.dart';
 

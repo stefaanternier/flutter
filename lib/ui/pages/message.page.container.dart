@@ -6,7 +6,6 @@ import 'package:youplay/store/selectors/game_messages.selector.dart';
 import 'package:youplay/store/state/app_state.dart';
 
 import 'game_landing.page.loading.dart';
-import 'message.page.dart';
 
 class MessagePageContainer extends StatelessWidget {
   const MessagePageContainer({Key? key}) : super(key: key);

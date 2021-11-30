@@ -1,11 +1,7 @@
-import 'package:universal_platform/universal_platform.dart';
+import 'package:flutter/material.dart';
 import 'package:youplay/models/general_item.dart';
 import 'package:youplay/models/general_item/dependency.dart';
-import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:youplay/ui/components/messages_pages/audio-player.widget.container.dart';
-
-import '../game.dart';
 
 class AudioObjectGeneralItem extends GeneralItem {
   AudioObjectGeneralItem({
@@ -70,8 +66,8 @@ class AudioObjectGeneralItem extends GeneralItem {
             : null,
         lat: json['lat'] ,
         lng: json['lng'] ,
-        authoringX: json['authoringX'],
-        authoringY: json['authoringY'],
+        authoringX: json['customMapX'],
+        authoringY: json['customMapY'],
         dependsOn: json['dependsOn'] != null
             ? Dependency.fromJson(json['dependsOn'])
             : null,

@@ -1,10 +1,7 @@
+import 'package:flutter/material.dart';
 import 'package:youplay/models/general_item.dart';
 import 'package:youplay/models/general_item/dependency.dart';
-import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:youplay/ui/components/messages_pages/video-player.widget.container.dart';
-
-import '../game.dart';
 
 class VideoObjectGeneralItem extends GeneralItem {
   VideoObjectGeneralItem({
@@ -66,8 +63,8 @@ class VideoObjectGeneralItem extends GeneralItem {
         primaryColor: json['primaryColor'] != null ? colorFromHex(json['primaryColor']) : null,
         lat: json['lat'],
         lng: json['lng'],
-        authoringX: json['authoringX'],
-        authoringY: json['authoringY'],
+        authoringX: json['customMapX'],
+        authoringY: json['customMapY'],
         dependsOn: json['dependsOn'] != null ? Dependency.fromJson(json['dependsOn']) : null,
         disappearOn: json['disappearOn'] != null ? Dependency.fromJson(json['disappearOn']) : null);
     // if (returnItem.fileReferences != null) {

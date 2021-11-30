@@ -15,19 +15,11 @@ class SetMessageViewAction {
   SetMessageViewAction({required this.messageView});
 }
 
+class SetCurrentGeneralItemId {
+  int itemId;
 
-
-//class ShowMapViewAction {
-//  int gameId;
-//
-//  ShowMapViewAction(this.gameId);
-//}
-//
-//class ShowListViewAction {
-//  int gameId;
-//
-//  ShowListViewAction(this.gameId);
-//}
+  SetCurrentGeneralItemId(this.itemId);
+}
 
 class SetPage {
   PageType page;

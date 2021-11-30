@@ -6,7 +6,6 @@ import 'package:youplay/models/models.dart';
 import 'package:youplay/models/response.dart';
 import 'package:youplay/models/run.dart';
 import 'package:youplay/store/selectors/ui_selectors.dart';
-import 'package:youplay/store/state/ui_state.dart';
 import 'package:youplay/store/state/current_game_state.dart';
 import 'package:youplay/store/state/run_state.dart';
 
@@ -72,7 +71,9 @@ final Selector<AppState, List<ItemTimes>> itemTimesSortedByTime =
     if (localVisibleAt != -1) {
       if (localInvisibleAt == -1 || localInvisibleAt > now) {
         if (item.gameId == gameState.game!.gameId) {
-          visibleItems.add(ItemTimes(generalItem: item, appearTime: localVisibleAt));
+          visibleItems.add(ItemTimes(
+              read: item.read(actionsFromServer),
+              generalItem: item, appearTime: localVisibleAt));
         }
       }
     }
@@ -109,15 +110,15 @@ final Selector<AppState, List<ItemTimes>> mapOnlyCurrentGeneralItems =
       .toList(growable: false);
 });
 
-final Selector<AppState, HashMap<int, Response>> responsesFromServerSelector =
-    createSelector1(runStateFeature, (RunState run) {
-  return run.responsesFromServer;
-});
+// final Selector<AppState, HashMap<int, Response>> responsesFromServerSelector =
+//     createSelector1(runStateFeature, (RunState run) {
+//   return run.responsesFromServer;
+// });
 
-final Selector<AppState, List<Response>> allResponsesFromServerAsList =
-    createSelector1(responsesFromServerSelector, (HashMap<int, Response> map) {
-  return map.values.toList(growable: false);
-});
+// final Selector<AppState, List<Response>> allResponsesFromServerAsList =
+//     createSelector1(responsesFromServerSelector, (HashMap<int, Response> map) {
+//   return map.values.toList(growable: false);
+// });
 
 final Selector<AppState, List<Response>> currentItemResponsesFromServerAsList =
     createSelector3(runStateFeature, responsesFromServerFeature, currentItemId,

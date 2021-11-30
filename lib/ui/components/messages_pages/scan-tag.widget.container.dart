@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
-import 'package:youplay/actions/games.dart';
-import 'package:youplay/actions/run_actions.dart';
 import 'package:youplay/models/general_item/scan_tag.dart';
 import 'package:youplay/models/run.dart';
 import 'package:youplay/selectors/selectors.dart';
+import 'package:youplay/store/actions/current_run.action.actions.dart';
+import 'package:youplay/store/actions/ui_actions.dart';
 import 'package:youplay/store/selectors/current_run.selectors.dart';
 import 'package:youplay/store/selectors/game_messages.selector.dart';
 import 'package:youplay/store/state/app_state.dart';
