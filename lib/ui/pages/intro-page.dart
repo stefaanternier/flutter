@@ -1,7 +1,7 @@
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
-import 'package:youplay/screens/components/button/cust_flat_button.dart';
-import 'package:youplay/screens/components/button/cust_raised_button.dart';
+import 'package:youplay/ui/components/buttons/cust_flat_button.dart';
+import 'package:youplay/ui/components/buttons/cust_raised_button.dart';
 import 'package:youplay/ui/components/nav/navigation_drawer.container.dart';
 import 'package:youplay/ui/components/web/web_wrapper.dart';
 

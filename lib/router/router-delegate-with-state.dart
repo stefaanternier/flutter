@@ -212,24 +212,13 @@ class YouplayRouterDelegate extends RouterDelegate<YouplayRoutePath>
 
       case PageType.featured:
         return [
-          MyPage(
+          TransitionWithDurationPage(
             key: ValueKey('Library'),
             child: FeaturedGamesPage(
               authenticated: true,
             ),
           )
         ];
-
-      // case PageType.featured:
-      //   print('loading featured page');
-      //   return [
-      //     MaterialPage(
-      //       key: ValueKey('Library'),
-      //       child: FeaturedGamesPage(
-      //         authenticated: true,
-      //       ),
-      //     )
-      //   ];
 
       case PageType.makeAccount:
         return [
@@ -268,17 +257,13 @@ class YouplayRouterDelegate extends RouterDelegate<YouplayRoutePath>
     youplayRoutePath = path;
   }
 
-// void _handleBookTapped(Book book) {
-//   // _selectedBook = book;
-//   notifyListeners();
-// }
 }
 
 
-class MyPage extends Page {
+class TransitionWithDurationPage extends Page {
   final Widget child;
 
-  MyPage({required this.child, LocalKey? key}) : super(key: key);
+  TransitionWithDurationPage({required this.child, LocalKey? key}) : super(key: key);
 
   @override
   Route createRoute(BuildContext context) {

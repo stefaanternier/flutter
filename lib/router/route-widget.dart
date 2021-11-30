@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:youplay/config/app_config.dart';
@@ -9,13 +8,11 @@ import '../localizations.dart';
 
 class RouteWidget extends StatelessWidget {
   YouplayRouterDelegate routerDelegate;
-  BookRouteInformationParser routeInformationParser;
+  YouplayRouteInformationParser routeInformationParser;
 
   RouteWidget({required this.routeInformationParser,
     required  this.routerDelegate,
-    Key? key})
-      :
-        super(key: key);
+    Key? key}) :super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -31,16 +28,6 @@ class RouteWidget extends StatelessWidget {
       theme: AppConfig().themeData,
       routerDelegate: routerDelegate,
       routeInformationParser: routeInformationParser,
-      // theme: ThemeData.dark().copyWith(
-      //   pageTransitionsTheme: PageTransitionsTheme(
-      //     builders: {
-      //       // Set your transitions here:
-      //       TargetPlatform.android: CupertinoPageTransitionsBuilder(),
-      //       TargetPlatform.iOS: FadeUpwardsPageTransitionsBuilder(),
-      //       TargetPlatform.macOS: FadeUpwardsPageTransitionsBuilder(),
-      //     },
-      //   ),
-      // ),
     );
   }
 }

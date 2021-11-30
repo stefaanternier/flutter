@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:universal_platform/universal_platform.dart';
-import 'package:youplay/screens/components/button/cust_flat_button.dart';
-import 'package:youplay/screens/components/button/cust_raised_button.dart';
+import 'package:youplay/ui/components/buttons/cust_flat_button.dart';
+import 'package:youplay/ui/components/buttons/cust_raised_button.dart';
 import 'package:youplay/screens/components/login/custom_login_fields.dart';
 import 'package:youplay/ui/components/login/login_action.container.dart';
 

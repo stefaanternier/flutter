@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:youplay/models/general_item/text_question.dart';
-import 'package:youplay/screens/components/button/cust_flat_button.dart';
+import 'package:youplay/ui/components/buttons/cust_flat_button.dart';
 import 'package:youplay/ui/components/appbar/themed-appbar.container.dart';
 import 'package:youplay/ui/components/messages/message-background.widget.container.dart';
 import 'package:youplay/ui/components/messages_parts/richtext-top.container.dart';

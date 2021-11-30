@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:youplay/models/general_item.dart';
-import 'package:youplay/screens/components/button/cust_flat_button.dart';
+import 'package:youplay/ui/components/buttons/cust_flat_button.dart';
 import 'package:youplay/ui/components/appbar/themed-appbar.container.dart';
 import 'package:youplay/ui/components/messages_parts/richtext-top.container.dart';
 import 'package:youplay/ui/components/next_button/next_button.container.dart';

@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:youplay/models/general_item.dart';
 import 'package:youplay/models/general_item/multiple_choice_image.dart';
-import 'package:youplay/screens/components/button/cust_raised_button.container.dart';
 import 'package:youplay/screens/util/extended_network_image.dart';
 import 'package:youplay/store/state/app_state.dart';
+import 'package:youplay/ui/components/buttons/cust_raised_button.container.dart';
 
 import 'game_themes.viewmodel.dart';
 
@@ -20,12 +20,13 @@ class ImageQuestion extends StatelessWidget {
   bool buttonVisible;
   List<ImageChoiceAnswer> answers;
   Map<String, bool> selected;
+
   // GeneralItemViewModel? giViewModel;
 
   ImageQuestion(
       {required this.item,
       this.primaryColor,
-        this.buttonText,
+      this.buttonText,
       //required this.primaryColor,
       required this.answers,
       required this.selected,
@@ -64,7 +65,6 @@ class ImageQuestion extends StatelessWidget {
           isAlwaysShown: true,
           child: SingleChildScrollView(
             scrollDirection: Axis.vertical,
-
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -91,23 +91,10 @@ class ImageQuestion extends StatelessWidget {
                         // primaryColor: widget.overridePrimaryColor != null
                         //     ? widget.overridePrimaryColor
                         //     : this.widget.giViewModel.getPrimaryColor(),
-                        onPressed: (){
+                        onPressed: () {
                           submitClick();
                         },
-                      )
-                      // NextButton(
-                      //   buttonText: item.description != ""
-                      //       ? item.description
-                      //       : AppLocalizations.of(context)
-                      //           .translate('screen.proceed'),
-                      //   overridePrimaryColor: giViewModel.getPrimaryColor(),
-                      //   giViewModel: giViewModel,
-                      //   makeVisible: buttonVisible,
-                      //   overrideButtonPress: () {
-                      //     submitClick();
-                      //   },
-                      // ),
-                      ),
+                      )),
                 ),
               ],
             ),

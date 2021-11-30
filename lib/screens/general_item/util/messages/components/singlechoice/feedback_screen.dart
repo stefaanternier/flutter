@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:youplay/models/general_item.dart';
 import 'package:youplay/screens/general_item/util/messages/components/themed_container.dart';
+import 'package:youplay/ui/components/cards/feedback_themed_card.container.dart';
 import 'package:youplay/ui/components/web/web_wrapper.dart';
-
 import '../themed_app_bar.dart';
-import '../themed_card.container.dart';
 
 class FeedbackScreen extends StatelessWidget {
   String result; //correct or wrong
@@ -43,14 +42,14 @@ class FeedbackScreen extends StatelessWidget {
                         opacity: 0.9,
                         child: Padding(
                             padding: EdgeInsets.fromLTRB(30, 0, 30, 10),
-                            child: ThemedCardContainer(
-                                // primaryColor: overridePrimaryColor ?? AppConfig().themeData!.primaryColor,
+                            child:
+                            FeedbackThemedCardContainer(
                                 buttonText: buttonText,
                                 buttonClick: buttonClick,
                                 feedback: feedback,
                                 item: this.item,
-                                // giViewModel: this.giViewModel
-                            )))
+                            )
+                        ))
                   ],
                 ))));
   }

@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:youplay/router/youplay-route-path.dart';
 import 'package:youplay/store/state/ui_state.dart';
 
-class BookRouteInformationParser
+class YouplayRouteInformationParser
     extends RouteInformationParser<YouplayRoutePath> {
 
   Function(PageType, int?) updatePageType;
 
-  BookRouteInformationParser({required this.updatePageType});
+  YouplayRouteInformationParser({required this.updatePageType});
 
   @override
   Future<YouplayRoutePath> parseRouteInformation(
