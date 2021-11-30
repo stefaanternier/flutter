@@ -18,9 +18,11 @@ class AnswerListContainer extends StatelessWidget {
     return new StoreConnector<AppState, _ViewModel>(
         converter: (store) => _ViewModel.fromStore(store),
         builder: (context, vm) {
-          return vm.fromServer == null
-              ? Container()
-              : AnswerList(fromServer: vm.fromServer, tapResponse: tapResponse, deleteReponse: vm.deleteResponse,);
+          return AnswerList(
+            fromServer: vm.fromServer,
+            tapResponse: tapResponse,
+            deleteResponse: vm.deleteResponse,
+          );
         });
   }
 }
@@ -30,17 +32,16 @@ class _ViewModel {
   List<Response> fromServer;
   Function deleteResponse;
 
-  _ViewModel({required this.pictureResponses, required this.fromServer,required  this.deleteResponse});
+  _ViewModel({required this.pictureResponses, required this.fromServer, required this.deleteResponse});
 
   static _ViewModel fromStore(Store<AppState> store) {
     return new _ViewModel(
         pictureResponses: currentRunPictureResponsesSelector(store.state),
         fromServer: currentItemResponsesFromServerAsList(store.state),
         deleteResponse: (int responseId) {
-          print ('todo delete ${responseId}');
+          print('todo delete ${responseId}');
           store.dispatch(DeleteResponseFromServer(responseId: responseId));
           store.dispatch(DeleteResponseFromLocalStore(responseId: responseId));
-
         });
   }
 }

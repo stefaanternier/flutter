@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:youplay/config/app_config.dart';
 import 'package:youplay/models/response.dart';
-//enum AudioPlayingStatus { stopped, paused, playing }
+
 format(Duration d) => d.inHours < 1
     ? d.toString().split('.').first.substring(2)
     : d.toString().split('.').first.padLeft(8, "0");

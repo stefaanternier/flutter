@@ -8,7 +8,6 @@ import 'package:youplay/ui/components/web/web_wrapper.dart';
 class PictureFilePreview extends StatefulWidget {
   String imagePath;
   final Function submitPicture;
-  // GeneralItemViewModel giViewModel;
   final PictureQuestion item;
 
   PictureFilePreview(

@@ -6,8 +6,8 @@ import 'package:youplay/screens/general_item/util/messages/components/list_audio
 import 'package:youplay/ui/components/messages/audio-slide-left-background.dart';
 
 class AudioResultsList extends StatelessWidget {
-  List<Response> audioResponses;
-  Function(Response) dismissAudio;
+  final List<Response> audioResponses;
+  final Function(Response) dismissAudio;
 
   AudioResultsList({
     required this.audioResponses,
@@ -27,15 +27,6 @@ class AudioResultsList extends StatelessWidget {
             background: AudioSlideLeftBackground(),
             onDismissed: (direction) {
               this.dismissAudio(audioResponses[index]);
-              // this.audioResponses = this
-              //     .audioResponses
-              //     .where((element) => element.responseId != audioResponses[index].responseId)
-              //     .toList(growable: false);
-              // setState(() {
-              //   this.deleted.add(map.getItem(index));
-              //   deleteResponse(map.delete(index));
-              //   map.deleteAllResponses(this.deleted);
-              // });
             },
             child: //Container(),
              ListAudioPlayer(response: audioResponses[index])

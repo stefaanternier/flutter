@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:youplay/models/general_item/narrator_item.dart';
-import 'package:youplay/screens/general_item/dataCollection/picture_overview.dart';
+import 'package:youplay/ui/components/messages/picture-question/picture_overview.dart';
 import 'package:youplay/screens/general_item/dataCollection/picture_preview-file.container.dart';
 import 'package:youplay/screens/general_item/dataCollection/take_picture.dart';
 
