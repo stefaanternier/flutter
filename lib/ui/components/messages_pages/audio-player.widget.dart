@@ -4,7 +4,7 @@ import 'dart:math';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:youplay/models/general_item/audio_object.dart';
-import 'package:youplay/screens/general_item/util/messages/components/themed_app_bar.dart';
+import 'package:youplay/ui/components/appbar/themed-appbar.container.dart';
 import 'package:youplay/ui/components/messages/audio_player/audio-player.controls.container.dart';
 import 'package:youplay/ui/components/messages/message-background.widget.container.dart';
 import 'package:youplay/ui/components/next_button/next_button.container.dart';
@@ -67,7 +67,7 @@ class _AudioPlayerWidgetState extends State<AudioPlayerWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
         resizeToAvoidBottomInset: false,
-        appBar: ThemedAppBar(title: widget.item.title, elevation: true),
+        appBar: ThemedAppbarContainer(title: widget.item.title, elevation: true),
         body: WebWrapper(
             child: MessageBackgroundWidgetContainer(
           child: Column(

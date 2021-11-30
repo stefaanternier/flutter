@@ -37,7 +37,7 @@ class _GameLandingPrivatePageContainerState
       builder: (context, vm) {
         if (showLogin) {
 
-          return LoginPageNew(
+          return LoginPage(
             anonLogin: false,
             loginSuccessful: (){
             setState(() {

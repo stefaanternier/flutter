@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:youplay/localizations.dart';
 import 'package:youplay/models/general_item/combination_lock.dart';
-import 'package:youplay/screens/general_item/util/messages/components/combination_lock_entry.dart';
 import 'package:youplay/screens/general_item/util/messages/components/singlechoice/feedback_screen.dart';
-import 'package:youplay/screens/general_item/util/messages/components/themed_app_bar.dart';
+import 'package:youplay/ui/components/appbar/themed-appbar.container.dart';
+import 'package:youplay/ui/components/messages/combination_lock/combination-lock-entry.dart';
 import 'package:youplay/ui/components/messages/message-background.widget.container.dart';
 import 'package:youplay/ui/components/messages_parts/richtext-top.container.dart';
 import 'package:youplay/ui/components/next_button/next_button.container.dart';
@@ -89,7 +89,7 @@ class _CombinationLockWidgetState extends State<CombinationLockWidget> {
     }
     return Scaffold(
         resizeToAvoidBottomInset: false,
-        appBar: ThemedAppBar(title: widget.item.title, elevation: false),
+        appBar: ThemedAppbarContainer(title: widget.item.title, elevation: false),
         body: WebWrapper(
             child: MessageBackgroundWidgetContainer(
           darken: true,

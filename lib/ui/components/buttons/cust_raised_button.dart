@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:youplay/config/app_config.dart';
-import 'package:youplay/screens/general_item/util/messages/components/game_themes.viewmodel.dart';
 
 class CustomRaisedButton extends StatelessWidget {
   final Function() onPressed;
@@ -32,23 +31,14 @@ class CustomRaisedButton extends StatelessWidget {
   }
 
   buildButton(BuildContext context) {
-    // if (!useThemeColor) {
     return _buildRawButton();
-    // }
-    // return new StoreConnector<AppState, GameThemesViewModel>(
-    //     converter: (store) => GameThemesViewModel.fromStore(store),
-    //     builder: (context, GameThemesViewModel themeModel) {
-    //       return _buildRawButton(themeModel: themeModel);
-    //     });
   }
 
-  _buildRawButton({GameThemesViewModel? themeModel}) {
+  _buildRawButton() {
     if (icon == null) {
       return ElevatedButton(
           style: ElevatedButton.styleFrom(
-              primary: (this._primaryColor != null)
-                  ? this._primaryColor
-                  : (themeModel == null ? null : themeModel.getPrimaryColor()),
+              primary: this._primaryColor,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(26.0),
               ),
@@ -60,9 +50,7 @@ class CustomRaisedButton extends StatelessWidget {
           ));
     } else {
       return RaisedButton.icon(
-          color: (this._primaryColor != null)
-              ? this._primaryColor
-              : (themeModel == null ? null : themeModel.getPrimaryColor()),
+          color: this._primaryColor,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(26.0),
           ),

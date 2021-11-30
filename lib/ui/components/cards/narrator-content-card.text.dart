@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:universal_platform/universal_platform.dart';
 import 'package:youplay/config/app_config.dart';
 
-class ContentCardText extends StatefulWidget {
+class NarratorContentCardText extends StatefulWidget {
 
   Widget? button;
   String? title;
   String? text;
 
-  ContentCardText({
+  NarratorContentCardText({
       this.button,
       this.text,
       this.title,
@@ -16,10 +16,10 @@ class ContentCardText extends StatefulWidget {
   });
 
   @override
-  State<ContentCardText> createState() => _ContentCardTextState();
+  State<NarratorContentCardText> createState() => _NarratorContentCardTextState();
 }
 
-class _ContentCardTextState extends State<ContentCardText> {
+class _NarratorContentCardTextState extends State<NarratorContentCardText> {
   late ScrollController _scrollController;
 
   @override

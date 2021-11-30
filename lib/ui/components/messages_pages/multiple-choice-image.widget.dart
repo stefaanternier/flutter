@@ -3,7 +3,7 @@ import 'package:youplay/localizations.dart';
 import 'package:youplay/models/general_item/multiple_choice_image.dart';
 import 'package:youplay/screens/general_item/util/messages/components/image_question.dart';
 import 'package:youplay/screens/general_item/util/messages/components/singlechoice/feedback_screen.dart';
-import 'package:youplay/screens/general_item/util/messages/components/themed_app_bar.dart';
+import 'package:youplay/ui/components/appbar/themed-appbar.container.dart';
 import 'package:youplay/ui/components/messages/message-background.widget.container.dart';
 import 'package:youplay/ui/components/web/web_wrapper.dart';
 
@@ -75,7 +75,7 @@ class _MultipleChoiceImageWidgetState extends State<MultipleChoiceImageWidget> {
 
     return Scaffold(
         resizeToAvoidBottomInset: false,
-        appBar: ThemedAppBar(title: widget.item.title, elevation: true),
+        appBar: ThemedAppbarContainer(title: widget.item.title, elevation: true),
         body: WebWrapper(
             child: MessageBackgroundWidgetContainer(
               child: ImageQuestion( //todo refactor image question

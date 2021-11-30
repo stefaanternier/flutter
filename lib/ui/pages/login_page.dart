@@ -3,12 +3,12 @@ import 'package:youplay/ui/components/login/login_screen.container.dart';
 import 'package:youplay/ui/components/nav/navigation_drawer.container.dart';
 import 'package:youplay/ui/components/web/web_wrapper.dart';
 
-class LoginPageNew extends StatelessWidget {
+class LoginPage extends StatelessWidget {
   final Function() loginSuccessful;
   final Function() anonLoginSuccessful;
   final bool anonLogin;
 
-  const LoginPageNew({
+  const LoginPage({
     required this.loginSuccessful,
     required this.anonLoginSuccessful,
     this.anonLogin = true,
