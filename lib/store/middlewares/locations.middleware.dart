@@ -1,11 +1,11 @@
 import 'package:location/location.dart';
 import 'package:redux_epics/redux_epics.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:youplay/screens/util/location/gps_utils.dart';
 import 'package:youplay/store/actions/current_run.action.actions.dart';
 import 'package:youplay/store/actions/locations.actions.dart';
 import 'package:youplay/store/selectors/location.selectors.dart';
 import 'package:youplay/store/state/app_state.dart';
+import 'package:youplay/util/gps_utils.dart';
 
 final locationEpic = combineEpics<AppState>([
   new TypedEpic<AppState, dynamic>(_startListening),
@@ -57,12 +57,10 @@ List<LocationAction> checkLocations(EpicStore<AppState> store, LocationData _pos
   }
   gameMinusActionLocationTriggers(store.state).forEach((point) {
     if (_position.latitude != null && _position.latitude != null && _position.accuracy != null) {
-      print ('distance is ${GpsUtils.distance(point.lat, point.lng, _position.latitude!, _position.longitude!, 1)} --${_position.accuracy} ${(point.radius - _position.accuracy!)}');
+      // print ('distance is ${GpsUtils.distance(point.lat, point.lng, _position.latitude!, _position.longitude!, 1)} --${_position.accuracy} ${(point.radius - _position.accuracy!)}');
       if (GpsUtils.distance(point.lat, point.lng, _position.latitude!, _position.longitude!, 1) <
           (point.radius - _position.accuracy!)) {
-        print ('found and adding');
         matchingActions.add(LocationAction(lat: point.lat, lng: point.lng, radius: point.radius, runId: runId));
-        //widget.onLocationFound(point.lat, point.lng, point.radius);
       }
     }
   });

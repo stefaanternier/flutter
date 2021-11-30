@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:youplay/models/game.dart';
-import 'package:youplay/screens/util/extended_network_image.dart';
+import 'package:youplay/util/extended_network_image.dart';
+import 'package:youplay/util/extended_network_image.dart';
 
 class FeaturedGamesCarrousel extends StatefulWidget {
-  List<Game> games;
-  Function(Game) openGame;
+  final List<Game> games;
+  final Function(Game) openGame;
 
   FeaturedGamesCarrousel({required this.games, required this.openGame, Key? key}) : super(key: key);
 

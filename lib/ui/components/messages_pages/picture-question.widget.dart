@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:youplay/models/general_item/narrator_item.dart';
 import 'package:youplay/ui/components/messages/picture-question/picture_overview.dart';
-import 'package:youplay/screens/general_item/dataCollection/picture_preview-file.container.dart';
-import 'package:youplay/screens/general_item/dataCollection/take_picture.dart';
+import 'package:youplay/ui/components/messages/picture-question/picture_preview-file.container.dart';
+import 'package:youplay/ui/components/messages/picture-question/take_picture.dart';
 
 enum PictureQuestionStates { overview, takePicture, annotateMetadata }
 
@@ -33,8 +33,6 @@ class _PictureQuestionWidgetState extends State<PictureQuestionWidget> {
 
       case PictureQuestionStates.takePicture:
         return TakePictureWidget(
-          // giViewModel: widget.giViewModel,
-          // run: widget.giViewModel.run,
           generalItem: widget.item,
           cancelCallBack: () {
             setState(() {
