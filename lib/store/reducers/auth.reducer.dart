@@ -1,12 +1,10 @@
 import 'package:redux/redux.dart';
-import 'package:youplay/state/authentication_state.dart';
 import 'package:youplay/store/actions/auth.actions.dart';
+import 'package:youplay/store/state/auth.state.dart';
 
 final authenticationReducer = combineReducers<AuthenticationState>([
   new TypedReducer<AuthenticationState, GoogleLoginSucceededAction>(
       _setGoogleIdToken),
-  // new TypedReducer<AuthenticationState, TwitterLoginSucceededAction>(
-  //     _setTwitterIdToken),
   new TypedReducer<AuthenticationState, FacebookLoginSucceededAction>(
       _setFacebookIdToken),
   new TypedReducer<AuthenticationState, AppleLoginSucceededAction>(

@@ -5,7 +5,6 @@ import 'package:youplay/models/general_item.dart';
 import 'package:youplay/models/general_item/single_choice_image.dart';
 import 'package:youplay/models/response.dart';
 import 'package:youplay/models/run.dart';
-import 'package:youplay/selectors/selectors.dart';
 import 'package:youplay/store/actions/current_run.action.actions.dart';
 import 'package:youplay/store/actions/current_run.actions.dart';
 import 'package:youplay/store/actions/current_run.picture.actions.dart';

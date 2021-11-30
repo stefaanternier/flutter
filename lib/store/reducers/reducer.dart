@@ -1,5 +1,4 @@
 import 'package:youplay/models/models.dart';
-import 'package:youplay/reducers/authentication_reducer.dart';
 import 'package:youplay/store/actions/auth.actions.dart';
 import 'package:youplay/store/actions/current_game.actions.dart';
 import 'package:youplay/store/reducers/game_library.reducer.dart';
@@ -7,6 +6,7 @@ import 'package:youplay/store/reducers/ui.reducer.dart';
 import 'package:youplay/store/state/ui_state.dart';
 
 import 'all_games.reducer.dart';
+import 'auth.reducer.dart';
 import 'current_game.reducer.dart';
 import 'current_run.reducer.dart';
 import 'game_theme.reducer.dart';

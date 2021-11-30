@@ -1,8 +1,8 @@
 import 'dart:convert';
 
-import 'package:youplay/store/actions/errors.dart';
 import 'package:youplay/models/game.dart';
 import 'package:youplay/models/game_theme.dart';
+import 'package:youplay/store/actions/errors.dart';
 
 import 'GenericApi.dart';
 
