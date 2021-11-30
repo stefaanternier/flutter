@@ -74,7 +74,6 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
               //widget.onPressed(true);
             },
             onEditingComplete: () {
-              //widget.onPressed(false);
               FocusScope.of(context).unfocus();
             },
             onChanged: (String text) {

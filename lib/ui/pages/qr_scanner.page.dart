@@ -59,14 +59,9 @@ class GameQRState extends State<GameQRScreen> {
 
   GameQRState({required this.store});
 
-  List _scanResults = [];
 
-  // CameraController _camera;
 
-  bool _isDetecting = false;
-  bool _actionTaken = false;
   bool _isProcessing = false;
-  bool _navigatorTriggered = false;
 
   CameraLensDirection _direction = CameraLensDirection.back;
 
@@ -122,9 +117,7 @@ class GameQRState extends State<GameQRScreen> {
     if (rawValue.contains('gameId')) {
       gameId = rawValue.substring(rawValue.indexOf('gameId') + 7);
     }
-//    print("game qr is ${gameId}");
     int gameIdInt = int.parse(gameId);
-//    print("parsed qr is ${gameIdInt}");
     store.dispatch(LoadPublicGameRequestAction(gameId: gameIdInt));
     store.dispatch(SetPage(page: PageType.gameLandingPage, pageId: gameIdInt));
     store.dispatch(ResetRunsAndGoToLandingPage());
@@ -136,21 +129,15 @@ class GameQRState extends State<GameQRScreen> {
   void triggerAccountQr(String rawValue, Store<AppState> store) {
     List<String> tokens = rawValue.split(":");
     if (tokens.length == 3) {
-      _actionTaken = true;
+
       String account = tokens[1];
       String password = tokens[2];
-
-//      print("account info $account $password");
       store.dispatch(CustomAccountLoginAction(
           user: account,
           password: password,
           onError: (String code) {
             final snackBar = SnackBar(content: Text(AppLocalizations.of(context).translate('login.'+code)));
-
-            // final snackBar = SnackBar(content: Text("Error while login"));
-
             Scaffold.of(context).showSnackBar(snackBar);
-            _actionTaken = false;
           },
           onWrongCredentials: () {
             final snackBar =
@@ -158,7 +145,7 @@ class GameQRState extends State<GameQRScreen> {
 
             Scaffold.of(context).showSnackBar(snackBar);
             setState(() {
-              _actionTaken = false;
+
               _isProcessing = false;
             });
           },
@@ -168,26 +155,10 @@ class GameQRState extends State<GameQRScreen> {
     }
   }
 
-//    return Scaffold(
-//      appBar: AppBar(
-//        title: const Text('Scan QR code game'),
-//      ),
-//      body: _buildImage(),
-//    );
-//  }
-
   Widget _buildQrView(BuildContext context) {
-    // For this example we check how width or tall the device is and change the scanArea and overlay accordingly.
-    // var scanArea = (MediaQuery.of(context).size.width < 400 ||
-    //     MediaQuery.of(context).size.height < 400)
-    //     ? 150.0
-    //     : 300.0;
-
     var minArea = min(
         MediaQuery.of(context).size.width, MediaQuery.of(context).size.height);
     var scanArea = minArea / 4 * 3;
-    // To ensure the Scanner view is properly sizes after rotation
-    // we need to listen for Flutter SizeChanged notification and update controller
     return QRView(
       key: qrKey,
       onQRViewCreated: _onQRViewCreated,
@@ -215,7 +186,7 @@ class GameQRState extends State<GameQRScreen> {
           setState(() {
             if (!_isProcessing) {
               _isProcessing = true;
-              _navigatorTriggered = true;
+
               if (checkGameQR(r.code)) {
                 triggerGameQr(r.code, store);
               } else if (checkAccountQR(r.code)) {
@@ -223,7 +194,7 @@ class GameQRState extends State<GameQRScreen> {
               } else if (checkUrl(r.code)) {
                 store.dispatch(new ParseLinkAction(link: r.code));
               } else {
-                _navigatorTriggered = false;
+
               }
             }
           });

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:youplay/screens/util/extended_network_image.dart';
+import 'package:youplay/util/extended_network_image.dart';
 
 class Themed extends StatelessWidget {
   final String? backgroundPath;

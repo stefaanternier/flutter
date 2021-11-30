@@ -5,7 +5,7 @@ import 'package:youplay/models/general_item.dart';
 import 'package:youplay/models/general_item/narrator_item.dart';
 import 'package:youplay/models/response.dart';
 import 'package:youplay/models/run.dart';
-import 'package:youplay/screens/general_item/dataCollection/picture_preview_file.dart';
+import 'package:youplay/ui/components/messages/picture-question/picture_preview_file.dart';
 import 'package:youplay/store/actions/current_run.action.actions.dart';
 import 'package:youplay/store/actions/current_run.actions.dart';
 import 'package:youplay/store/actions/current_run.picture.actions.dart';
@@ -27,7 +27,6 @@ class PictureFilePreviewContainer extends StatelessWidget {
         return PictureFilePreview(
           item: generalItem as PictureQuestion,
           imagePath: imagePath,
-          // giViewModel: giViewModel,
           submitPicture: vm.submitPicture,
         );
       },

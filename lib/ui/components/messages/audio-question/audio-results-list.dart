@@ -1,9 +1,8 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:youplay/models/response.dart';
-import 'package:youplay/screens/general_item/util/messages/components/list_audio_player.dart';
 import 'package:youplay/ui/components/messages/audio-slide-left-background.dart';
+
+import 'list_audio_player.dart';
 
 class AudioResultsList extends StatelessWidget {
   final List<Response> audioResponses;

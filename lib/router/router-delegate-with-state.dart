@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:youplay/router/youplay-route-path.dart';
-import 'package:youplay/screens/library/game_from_qr.dart';
-import 'package:youplay/screens/pages/create_account_page.dart';
 import 'package:youplay/store/state/ui_state.dart';
 import 'package:youplay/ui/pages/collection.page.dart';
+import 'package:youplay/ui/pages/create_account.page.dart';
 import 'package:youplay/ui/pages/game_landing.page.container.dart';
 import 'package:youplay/ui/pages/game_play.container.dart';
 import 'package:youplay/ui/pages/game_runs.page.dart';
@@ -11,6 +10,7 @@ import 'package:youplay/ui/pages/intro-page.container.dart';
 import 'package:youplay/ui/pages/login_page.container.dart';
 import 'package:youplay/ui/pages/message.page.container.dart';
 import 'package:youplay/ui/pages/my-games-list.page.dart';
+import 'package:youplay/ui/pages/qr_scanner.page.dart';
 import 'package:youplay/ui/pages/run_landing.page.container.dart';
 import 'package:youplay/ui/pages/splashscreen.container.dart';
 
@@ -236,10 +236,8 @@ class YouplayRouterDelegate extends RouterDelegate<YouplayRoutePath>
             child: CreateAccountPage(),
           )
         ];
-        // return CreateAccountPage();
-//            return buildQRScanner(context);
 
-        break;
+
     }
     return [
       MaterialPage(

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:youplay/screens/util/icons_helper.dart';
+import 'package:youplay/util/icons_helper.dart';
 
 class MessageEntryIcon extends StatelessWidget {
   Color primaryColor;

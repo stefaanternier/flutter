@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:youplay/models/general_item/audio_question.dart';
-import 'package:youplay/ui/components/messages/audio-list-recordings.dart';
+import 'package:youplay/ui/components/messages/audio-question/audio-list-recordings.dart';
 
 import '../messages/audio_recorder/audio-question.recorder.widget.dart';
 

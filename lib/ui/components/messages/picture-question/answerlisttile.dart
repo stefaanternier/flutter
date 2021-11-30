@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:youplay/models/response.dart';
-import 'package:youplay/screens/util/extended_network_image.dart';
+import 'package:youplay/util/extended_network_image.dart';
 
 class AnswerWithPictureTile extends StatelessWidget {
   Response response;

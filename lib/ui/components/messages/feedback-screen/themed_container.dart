@@ -22,10 +22,7 @@ class ThemedContainer extends StatelessWidget {
           return Themed(backgroundPath: vm.getPath(feedbackKind), body: child);
         });
   }
-
-
 }
-
 
 class _ViewModel {
   GameTheme? gameTheme;
