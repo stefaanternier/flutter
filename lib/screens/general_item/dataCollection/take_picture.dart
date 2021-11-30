@@ -1,21 +1,16 @@
 import 'dart:io';
 
 import 'package:camera/camera.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_image/flutter_native_image.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:youplay/models/general_item.dart';
-import 'package:youplay/models/run.dart';
 import 'package:youplay/screens/general_item/dataCollection/picture_preview_live.dart';
-import 'package:youplay/screens/general_item/util/messages/generic_message.dart';
 import 'package:youplay/screens/util/utils.dart';
 import 'package:youplay/ui/components/appbar/themed-appbar.container.dart';
 import 'package:youplay/ui/components/buttons/camera_button.dart';
 import 'package:youplay/ui/components/messages/message-background.widget.container.dart';
 import 'package:youplay/ui/components/messages_parts/richtext-top.container.dart';
-
-import '../general_item.dart';
 
 class TakePictureWidget extends StatefulWidget {
   // dynamic takePictureCallBack;

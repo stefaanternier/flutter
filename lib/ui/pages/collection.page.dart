@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:youplay/config/app_config.dart';
 import 'package:youplay/screens/components/featured_games/featured_game_carrousel.dart';
@@ -22,17 +24,27 @@ class FeaturedGamesPage extends StatefulWidget {
 class _FeaturedGamesPageState extends State<FeaturedGamesPage> {
   bool contentVisible = false;
 
+  Timer? hideContent;
 
   @override
   initState() {
     super.initState();
-    Future.delayed(Duration(milliseconds: 800), (){
+
+    hideContent = Timer(Duration(milliseconds: 800), (){
       setState(() {
         contentVisible = true;
       });
     });
 
 
+  }
+
+  @override
+  void dispose() {
+    if (hideContent != null) {
+      hideContent!.cancel();
+    }
+    super.dispose();
   }
 
   @override

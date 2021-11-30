@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:youplay/models/general_item.dart';
-import 'package:youplay/ui/components/game_play/list_entry/message_list_entry_icon_container.dart';
 import 'package:youplay/screens/util/extended_network_image.dart';
+import 'package:youplay/ui/components/game_play/list_entry/message_list_entry_icon_container.dart';
 
 class MetafoorView extends StatefulWidget {
   List<ItemTimes> items = [];

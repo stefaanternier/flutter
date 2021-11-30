@@ -1,8 +1,7 @@
 // import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:youplay/config/app_config.dart';
-import 'package:youplay/models/response.dart';
 import 'package:intl/intl.dart';
+import 'package:youplay/models/response.dart';
 import 'package:youplay/screens/util/extended_network_image.dart';
 
 class AnswerWithPictureTile extends StatelessWidget {

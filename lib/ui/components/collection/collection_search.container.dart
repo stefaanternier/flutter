@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
-import 'package:youplay/config/app_config.dart';
 import 'package:youplay/models/models.dart';
 import 'package:youplay/store/actions/game_library.actions.dart';
 import 'package:youplay/ui/components/collection/collection_search.dart';
-import '../../../localizations.dart';
 
 class CollectionSearchFieldContainer extends StatelessWidget {
   const CollectionSearchFieldContainer({Key? key}) : super(key: key);

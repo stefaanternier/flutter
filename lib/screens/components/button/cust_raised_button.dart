@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_redux/flutter_redux.dart';
 import 'package:youplay/config/app_config.dart';
 import 'package:youplay/screens/general_item/util/messages/components/game_themes.viewmodel.dart';
-import 'package:youplay/store/state/app_state.dart';
-import 'package:youplay/config/app_config.dart';
 
 class CustomRaisedButton extends StatelessWidget {
   final Function() onPressed;

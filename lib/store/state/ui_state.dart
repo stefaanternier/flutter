@@ -1,4 +1,3 @@
-import 'dart:collection';
 
 import 'package:youplay/models/game.dart';
 
@@ -18,6 +17,8 @@ enum PageType {
   // library,
   login,
   makeAccount,
+  intro,
+  introAfterSplash,
   // dev1,
   // dev2
 }
@@ -37,10 +38,9 @@ class UiState {
   //3 = map
 
   UiState({
-    // required this.gameIdToGame,
     this.currentGameId = -1,
     this.currentItemId,
-    this.currentPage = PageType.splash,
+    this.currentPage = PageType.featured,
     this.theme = 0,
     this.error = -1,
     this.pageId,
@@ -48,9 +48,8 @@ class UiState {
   });
 
   factory UiState.initState()  {
-    print('init state, so pageid is feature');
     return new UiState();
-  } //gameIdToGame: new HashMap());
+  }
 
   setCurrentGame(int gameId) {
     this.currentGameId = gameId;

@@ -5,8 +5,8 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:youplay/models/general_item/audio_object.dart';
 import 'package:youplay/screens/general_item/util/messages/components/themed_app_bar.dart';
-import 'package:youplay/ui/components/messages/message-background.widget.container.dart';
 import 'package:youplay/ui/components/messages/audio_player/audio-player.controls.container.dart';
+import 'package:youplay/ui/components/messages/message-background.widget.container.dart';
 import 'package:youplay/ui/components/next_button/next_button.container.dart';
 import 'package:youplay/ui/components/web/web_wrapper.dart';
 

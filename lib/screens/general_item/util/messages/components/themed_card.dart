@@ -4,13 +4,9 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:youplay/config/app_config.dart';
 import 'package:youplay/models/general_item.dart';
 import 'package:youplay/screens/components/button/cust_raised_button.container.dart';
-import 'package:youplay/screens/components/button/cust_raised_button.dart';
 import 'package:youplay/store/state/app_state.dart';
 
-import '../../../../../localizations.dart';
-import '../../../general_item.dart';
 import 'game_themes.viewmodel.dart';
-import 'next_button.dart';
 
 class ThemedCard extends StatelessWidget {
   final Color primaryColor;
@@ -18,7 +14,7 @@ class ThemedCard extends StatelessWidget {
   final String feedback;
   final Function() buttonClick;
   GeneralItem item;
-  GeneralItemViewModel? giViewModel;
+  // GeneralItemViewModel? giViewModel;
 
   ThemedCard(
       {required this.primaryColor,
@@ -26,7 +22,8 @@ class ThemedCard extends StatelessWidget {
       required this.feedback,
       required this.buttonClick,
       required this.item,
-      this.giViewModel});
+      // this.giViewModel
+      });
 
   @override
   Widget build(BuildContext context) {

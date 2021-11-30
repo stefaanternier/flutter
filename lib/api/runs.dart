@@ -1,8 +1,7 @@
 import 'dart:convert';
 
-import 'package:youplay/config/app_config.dart';
 import 'package:http/http.dart' as http;
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:youplay/config/app_config.dart';
 import 'package:youplay/models/run.dart';
 
 import 'GenericApi.dart';
@@ -53,5 +52,10 @@ class RunsApi extends GenericApi {
     final response = await GenericApi.get('api/run/$runId/addMe');
     return Run.fromJson(jsonDecode(response.body));
 
+  }
+
+  static Future<dynamic> deletePlayerFromRun(int runId) async {
+    final response = await GenericApi.delete('api/runs/player/me/$runId');
+    return response.body;
   }
 }

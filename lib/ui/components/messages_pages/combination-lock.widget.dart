@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:youplay/localizations.dart';
 import 'package:youplay/models/general_item/combination_lock.dart';
-import 'package:youplay/models/general_item/narrator_item.dart';
 import 'package:youplay/screens/general_item/util/messages/components/combination_lock_entry.dart';
-import 'package:youplay/screens/general_item/util/messages/components/content_card.text.dart';
 import 'package:youplay/screens/general_item/util/messages/components/singlechoice/feedback_screen.dart';
 import 'package:youplay/screens/general_item/util/messages/components/themed_app_bar.dart';
 import 'package:youplay/ui/components/messages/message-background.widget.container.dart';

@@ -1,22 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
+import 'package:universal_platform/universal_platform.dart';
 import 'package:youplay/models/game.dart';
-import 'package:youplay/models/general_item.dart';
 import 'package:youplay/selectors/authentication_selectors.dart';
 import 'package:youplay/store/actions/current_game.actions.dart';
 import 'package:youplay/store/selectors/current_game.selectors.dart';
-import 'package:youplay/store/selectors/game_messages.selector.dart';
 import 'package:youplay/store/state/app_state.dart';
-import 'package:youplay/ui/components/messages_parts/richtext-top.container.dart';
-import 'package:youplay/ui/components/messages_parts/richtext-top.dart';
+import 'package:youplay/ui/pages/play_game_with_native_app.dart';
 
-import 'game_lading.page.unauth-playanon.dart';
 import 'game_landing.page.loading.dart';
-
 import 'game_landing.page.private.container.dart';
 import 'game_landing.page.public.container.dart';
-import 'game_landing.page.public.dart';
 
 
 class GameLandingPageContainer extends StatelessWidget {
@@ -39,12 +34,14 @@ class GameLandingPageContainer extends StatelessWidget {
             key: ValueKey('loading${gameId}'),
           );
         }
-        //print("in container before private mode");
+        if (UniversalPlatform.isWeb && !vm.game!.webEnabled) {
+          return PlayAppNativePage(
+
+          );
+        }
         if (vm.game!.privateMode) {
-          // print("private mode is public  ${vm.game!.privateMode}");
           return GameLandingPublicPageContainer(game: vm.game!);
         } else {
-          // print("private mode is ${vm.game!.privateMode}");
           return GameLandingPrivatePageContainer(game: vm.game!);
         }
       },

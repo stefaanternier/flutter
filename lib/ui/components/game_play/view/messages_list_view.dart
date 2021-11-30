@@ -20,6 +20,7 @@ class MessagesList extends StatelessWidget {
       itemBuilder: (context, i) => new Column(
         children: <Widget>[
           new MessageListEntry(
+            read: items[i].read,
               item: items[i].generalItem,
               onEntryTap: () {
                 this.tapEntry(items[i].generalItem);

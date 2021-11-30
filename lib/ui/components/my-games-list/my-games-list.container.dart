@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
-import 'package:youplay/actions/runs.dart';
 import 'package:youplay/models/game.dart';
 import 'package:youplay/store/actions/current_game.actions.dart';
+import 'package:youplay/store/actions/current_run.actions.dart';
 import 'package:youplay/store/actions/ui_actions.dart';
 import 'package:youplay/store/selectors/all_games.selectors.dart';
 import 'package:youplay/store/state/app_state.dart';
@@ -34,6 +34,8 @@ class _ViewModel {
   _ViewModel({required this.gameList, required this.tapGame});
 
   static _ViewModel fromStore(Store<AppState> store) {
+
+
     return _ViewModel(
         gameList: allGames(store.state.allGamesState),
         tapGame: (Game game) {

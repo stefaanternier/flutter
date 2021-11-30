@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
-import 'package:youplay/models/general_item.dart';
-import 'package:youplay/store/selectors/game_messages.selector.dart';
 import 'package:youplay/store/state/app_state.dart';
-import 'package:youplay/ui/components/messages_parts/richtext-top.dart';
 import 'package:youplay/ui/components/nav/user_account_header.dart';
 
 

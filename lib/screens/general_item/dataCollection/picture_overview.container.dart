@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
-import 'package:youplay/models/general_item.dart';
 import 'package:youplay/models/general_item/narrator_item.dart';
 import 'package:youplay/screens/general_item/dataCollection/picture_overview.dart';
 import 'package:youplay/screens/general_item/util/messages/components/game_themes.viewmodel.dart';
 import 'package:youplay/store/state/app_state.dart';
-
-import '../general_item.dart';
 
 //deprecated delete
 class PictureOverviewContainer extends StatelessWidget {

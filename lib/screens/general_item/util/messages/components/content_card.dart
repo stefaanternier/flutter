@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:youplay/config/app_config.dart';
-import 'package:youplay/models/general_item.dart';
-
-import '../../../general_item.dart';
 
 class ContentCard extends StatelessWidget {
 

@@ -1,32 +1,31 @@
+import 'dart:collection';
+
+import 'package:reselect/reselect.dart';
 import 'package:youplay/models/general_item.dart';
 import 'package:youplay/models/general_item/dependency.dart';
 import 'package:youplay/models/models.dart';
-import 'package:youplay/store/state/current_game_state.dart';
-import 'dart:collection';
-import 'package:reselect/reselect.dart';
-import 'package:youplay/models/game.dart';
-import 'package:youplay/store/selectors/ui_selectors.dart';
 import 'package:youplay/models/run.dart';
-import 'package:youplay/store/state/run_state.dart';
 import 'package:youplay/store/selectors/current_game.selectors.dart';
 import 'package:youplay/store/selectors/current_run.selectors.dart';
+import 'package:youplay/store/selectors/ui_selectors.dart';
+import 'package:youplay/store/state/current_game_state.dart';
 
-HashMap<int, GamesState> gameStateMap(AppState state) => state.gameIdToGameState;
+// HashMap<int, GamesState> gameStateMap(AppState state) => state.gameIdToGameState;
 
 HashMap<int, List<Run>> gameToRunMap(AppState state) => state.gameIdToRun;
 
 //HashMap<int, RunState> runIdToRunState(AppState state) => state.runIdToRunState;
 
-List<Game> participateState(AppState state) => state.participateGames;
+// List<Game> participateState(AppState state) => state.participateGames;
 
-final Selector<AppState, List<Game>> myGamesList = createSelector1(gameStateMap, (HashMap<int, GamesState> games) {
-  return games.values
-      .toList()
-      .map((gameState) => gameState.game)
-      .where((game) => game != null)
-      .map((game) => game!)
-      .toList(growable: false);
-});
+// final Selector<AppState, List<Game>> myGamesList = createSelector1(gameStateMap, (HashMap<int, GamesState> games) {
+//   return games.values
+//       .toList()
+//       .map((gameState) => gameState.game)
+//       .where((game) => game != null)
+//       .map((game) => game!)
+//       .toList(growable: false);
+// });
 
 final Selector<AppState, int?> nextItem1 =
     createSelector2(itemTimesSortedByTime, currentItemId, (List<ItemTimes> items, int? itemId) {
@@ -77,10 +76,3 @@ final Selector<AppState, List<LocationTrigger>> gameLocationTriggers =
   return trigger;
 });
 
-final Selector<AppState, List<Run>> currentRunsSelector =
-    createSelector2(gameToRunMap, currentGameId, (HashMap<int, List<Run>> runs, int? gameId) {
-  if (gameId == null || runs[gameId] == null) {
-    return [];
-  }
-  return runs[gameId] ?? [];
-});

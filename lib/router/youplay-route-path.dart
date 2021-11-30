@@ -21,6 +21,10 @@ class YouplayRoutePath {
       : pageType = PageType.splash,
         isUnknown = false;
 
+  YouplayRoutePath.intro()
+      : pageType = PageType.intro,
+        isUnknown = false;
+
   YouplayRoutePath.game({
     required this.pageId}) :
         isUnknown = false,
@@ -38,6 +42,7 @@ class YouplayRoutePath {
     if (pageType == PageType.gameItem){
       return YouplayRoutePath(pageType: PageType.game, pageId: pageId);
     }
+    print("set paht to home via parent");
     return YouplayRoutePath.home();
   }
 

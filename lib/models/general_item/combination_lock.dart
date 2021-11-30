@@ -1,6 +1,6 @@
+import 'package:flutter/material.dart';
 import 'package:youplay/models/general_item.dart';
 import 'package:youplay/models/general_item/dependency.dart';
-import 'package:flutter/material.dart';
 import 'package:youplay/models/general_item/single_choice.dart';
 import 'package:youplay/ui/components/messages_pages/combination-lock.widget.container.dart';
 
@@ -64,7 +64,7 @@ class CombinationLockGeneralItem extends GeneralItem {
         title: json['name'],
         text: json['text'] ?? '',
         showFeedback: json['showFeedback'] == null ? false : json['showFeedback'],
-        richText: json['richText'] ?? '',
+        richText: json['text'] ?? '',
         description: (json['description'] ?? "").trim(),
         answers: json['answers'] == null
             ? []
@@ -73,8 +73,8 @@ class CombinationLockGeneralItem extends GeneralItem {
         showInList: json['showInList'] == null ? true : json['showInList'],
         lat: json['lat'],
         lng: json['lng'],
-        authoringX: json['authoringX'],
-        authoringY: json['authoringY'],
+        authoringX: json['customMapX'],
+        authoringY: json['customMapY'],
         fileReferences: json['fileReferences'] != null
             ? new Map.fromIterable(json["fileReferences"],
                 key: (item) => item['key'], value: (item) => item['fileReference'] ?? '')

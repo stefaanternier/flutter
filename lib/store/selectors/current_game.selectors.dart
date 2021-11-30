@@ -9,7 +9,7 @@ final gameStateFeature = (AppState state) => state.currentGameState;
 final gameSelector = (GamesState state) => state.game;
 final currentGameSelector = (AppState state) => state.currentGameState;
 
-final amountOfRunsSelector = (GamesState state) => state.amountOfRuns;
+// final amountOfRunsSelector = (GamesState state) => state.amountOfRuns;
 
 final gameThemeSelector = (GamesState state) => state.gameTheme;
 final gameThemePrimaryColorSelector =

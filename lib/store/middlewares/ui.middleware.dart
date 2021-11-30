@@ -1,9 +1,9 @@
 
 import 'package:redux_epics/redux_epics.dart';
-import 'package:youplay/store/state/ui_state.dart';
 import 'package:youplay/store/actions/all_games.actions.dart';
 import 'package:youplay/store/actions/ui_actions.dart';
 import 'package:youplay/store/state/app_state.dart';
+import 'package:youplay/store/state/ui_state.dart';
 
 final uiEpics = combineEpics<AppState>([
   new TypedEpic<AppState, SetPage>(_loadPageEpic),

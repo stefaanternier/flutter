@@ -1,12 +1,9 @@
-import 'dart:math';
 
+import 'package:reselect/reselect.dart';
 import 'package:youplay/models/models.dart';
 import 'package:youplay/state/authentication_state.dart';
-import 'package:reselect/reselect.dart';
 
 AuthenticationState uiState(AppState state) => state.authentication;
-
-
 
 final Selector<AppState, bool> isAuthenticatedSelector= createSelector1(
     uiState, ( AuthenticationState authState) {

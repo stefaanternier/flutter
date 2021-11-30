@@ -1,61 +1,39 @@
 import 'package:redux_epics/redux_epics.dart';
-import 'package:youplay/store/middlewares/current_run.middleware.dart';
-import 'package:youplay/store/middlewares/game_library.middleware.dart';
-import 'package:youplay/store/middlewares/game_theme.middleware.dart';
-import 'package:youplay/store/middlewares/locations.middleware.dart';
-import 'package:youplay/store/state/app_state.dart';
-import 'package:youplay/epics/store_epics.dart';
-import 'package:youplay/epics/account_epics.dart';
-import 'package:youplay/epics/games.dart';
-import 'package:youplay/epics/general_items.dart';
-import 'package:youplay/epics/runs.dart';
-import 'package:youplay/epics/run_actions.dart';
-import 'package:youplay/epics/game_library_qr.dart';
-
 import 'package:youplay/store/middlewares/all_games.middleware.dart';
 import 'package:youplay/store/middlewares/auth.anonymous.middleware.dart';
 import 'package:youplay/store/middlewares/auth.custom.middleware.dart';
 import 'package:youplay/store/middlewares/auth.google.middleware.dart';
 import 'package:youplay/store/middlewares/current_game.actions.middleware.dart';
 import 'package:youplay/store/middlewares/current_run.action.middleware.dart';
+import 'package:youplay/store/middlewares/current_run.middleware.dart';
 import 'package:youplay/store/middlewares/current_run.sync.middleware.dart';
 import 'package:youplay/store/middlewares/current_run.upload.middleware.dart';
+import 'package:youplay/store/middlewares/game_library.middleware.dart';
 import 'package:youplay/store/middlewares/game_messages.middleware.dart';
+import 'package:youplay/store/middlewares/game_theme.middleware.dart';
+import 'package:youplay/store/middlewares/gameid_to_runs.middleware.dart';
+import 'package:youplay/store/middlewares/locations.middleware.dart';
 import 'package:youplay/store/middlewares/ui.middleware.dart';
+import 'package:youplay/store/state/app_state.dart';
 
 final epic = combineEpics<AppState>([
-//  storeFeaturedGamesEpic,
-//  gameParticipateEpic,
-  runUsersEpic,
-//  gameEpic,
-  currentGameEpic,
-//  runGameEpic,
-//  gameGeneralItemEpic,
-  getRunEpic,
-  runVisibleItems,
   runsParticipateEpic,
-//  syncOutgoingActions,
+  currentGameEpic,
 
-  gameParticipateResultsEpic,
-//  gameParticipateResultsEpic,
-//  uploadResponseFilesEpic,
-//  accountDetailsEpic,
   authLoginGoogleEpic,
   loadGoogleCredentials,
   authLoginAppleEpic,
   authLoginAnonymousCredentialsEpic,
-//  authLoginTwitterEpic,
-//  authLoginFacebookEpic,
-   authLoginCustomCredentialsEpic,
+  authLoginCustomCredentialsEpic,
   createAccountEpic,
   resetPasswordEpic,
- // googleLoginSucceededEpic,
+  // googleLoginSucceededEpic,
 //  reLoginepic,
   authLogoutEpic,
   authReloginEpic,
   loadAppleCredentials,
   // qrActions,
-  addMeToRun,
+  // addMeToRun,
 //  listGameContent,
 //  syncGameContent,
 //  syncGameFile,
@@ -66,15 +44,15 @@ final epic = combineEpics<AppState>([
   uploadResponseFilesEpic,
   currentRunEpic,
   uploadActionEpic,
+  loadPublicRunEpic,
   downloadResponsesForRunEpic,
   downloadActionsForRunEpic,
   deleteResponseForRunEpic,
   gameLibraryEpics,
   testEpoic,
   gameThemeEpics,
-  locationEpic
+  locationEpic,
+  deleteRunEpic
 ]);
 
-
 var epicMiddleware = new EpicMiddleware(epic);
-

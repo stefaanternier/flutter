@@ -8,8 +8,8 @@ import 'package:youplay/router/youplay-route-information-parser.dart';
 import 'package:youplay/router/youplay-route-path.dart';
 import 'package:youplay/store/actions/ui_actions.dart';
 import 'package:youplay/store/selectors/ui_selectors.dart';
-import 'package:youplay/store/state/ui_state.dart';
 import 'package:youplay/store/state/app_state.dart';
+import 'package:youplay/store/state/ui_state.dart';
 
 class RouteWidgetContainer extends StatelessWidget {
   // BookRouteInformationParser routeInformationParser;
@@ -64,6 +64,7 @@ class _ViewModel {
 
   bool operator ==(Object other) {
     _ViewModel otherViewModel = other as _ViewModel;
+    // print ("route test is ${(other.pageType == pageType) & (other.pageId == pageId) & (other.itemId == itemId)}" );
     return (other.pageType == pageType) & (other.pageId == pageId) & (other.itemId == itemId);
   }
 

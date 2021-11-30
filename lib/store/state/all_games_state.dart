@@ -1,4 +1,5 @@
 import 'dart:collection';
+
 import 'package:youplay/models/game.dart';
 
 class AllGamesState {
@@ -13,4 +14,13 @@ class AllGamesState {
       participateGames: pgs ?? this.participateGames,
       idToGame: i2g ?? this.idToGame,
       query: q == '-' ? null : (q ?? this.query));
+
+  AllGamesState removeGame(int gameId)  {
+    idToGame.remove(gameId);
+   return new AllGamesState(
+       participateGames: this.participateGames.where((game) => game != gameId).toList(),
+       idToGame: new HashMap<int, Game>.from(this.idToGame),
+       query: this.query);
+  }
+
 }

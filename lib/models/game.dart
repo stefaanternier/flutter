@@ -1,11 +1,9 @@
 import 'dart:collection';
 import 'dart:ui';
-import 'dart:ui';
 
 import 'package:universal_platform/universal_platform.dart';
 import 'package:youplay/config/app_config.dart';
 import 'package:youplay/models/run.dart';
-import 'package:youplay/store/state/ui_state.dart';
 
 import 'general_item/dependency.dart';
 
@@ -28,6 +26,7 @@ class Game {
   int theme;
   int lastModificationDate;
   bool privateMode;
+  bool webEnabled;
   GameConfig? config;
   Dependency? endsOn;
 
@@ -37,6 +36,7 @@ class Game {
         sharing = json['sharing'],
         rank = json['rank'] != null ? int.parse("${json['rank']}") : 1,
         privateMode = json['privateMode'] ?? false,
+        webEnabled = json['webEnabled'] ?? false,
         lat = json['lat'],
         lng = json['lng'],
         boardHeight = json['boardHeight'] != null ? (json['boardHeight'] as int).toDouble() : 1920,
@@ -69,6 +69,7 @@ class Game {
       this.theme = 0,
       this.endsOn,
       this.privateMode = false,
+      this.webEnabled = false,
       this.title = "no title",
       this.messageListScreen,
       required this.messageListTypes,
@@ -87,6 +88,7 @@ class Game {
       'theme': this.theme,
       'iconAbbreviation': this.iconAbbreviation,
       'privateMode': this.privateMode,
+      'webEnabled': this.webEnabled,
     };
   }
 

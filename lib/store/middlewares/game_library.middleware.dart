@@ -1,14 +1,13 @@
 import 'package:redux_epics/redux_epics.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:youplay/actions/errors.dart';
-import 'package:youplay/actions/runs.dart';
+import 'package:youplay/store/actions/errors.dart';
+
 import 'package:youplay/api/StoreApi.dart';
 import 'package:youplay/api/games.dart';
-import 'package:youplay/api/runs.dart';
 import 'package:youplay/models/game.dart';
 import 'package:youplay/models/game_theme.dart';
-import 'package:youplay/models/run.dart';
 import 'package:youplay/store/actions/current_game.actions.dart';
+import 'package:youplay/store/actions/current_run.actions.dart';
 import 'package:youplay/store/actions/game_library.actions.dart';
 import 'package:youplay/store/actions/ui_actions.dart';
 import 'package:youplay/store/state/app_state.dart';
@@ -94,15 +93,17 @@ Stream<dynamic> yieldLinkExpandRun(String link) async* {
   print("runId is ${link.substring(link.lastIndexOf('/run/') + 5).trim()}");
   int runId = int.parse(link.substring(link.lastIndexOf('/run/') + 5).trim());
   yield ResetRunsAndGoToRunLandingPage(runId: runId);
-  dynamic runwithgame = await RunsApi.runWithGame(runId);
-  if (runwithgame != null) {
-    Game game = Game.fromJson(runwithgame['game']);
-    print('game titel ${game.title}');
-    GameTheme theme = await GamesApi.getTheme(game.theme);
-    yield new LoadGameSuccessAction(game: game, gameTheme: theme);
-    yield new LoadOneFeaturedRunAction(run: Run.fromJson(runwithgame));
-    yield ApiRunsParticipateAction(game.gameId);
-  }
+
+  //todo put back
+  // dynamic runwithgame = await RunsApi.runWithGame(runId);
+  // if (runwithgame != null) {
+  //   Game game = Game.fromJson(runwithgame['game']);
+  //   print('game titel ${game.title}');
+  //   GameTheme theme = await GamesApi.getTheme(game.theme);
+  //   yield new LoadGameSuccessAction(game: game, gameTheme: theme);
+  //   yield new LoadOneFeaturedRunAction(run: Run.fromJson(runwithgame));
+  //   yield ApiRunsParticipateAction(game.gameId);
+  // }
 }
 
 Stream<dynamic> yieldLinkExpandGame(String link) async* {

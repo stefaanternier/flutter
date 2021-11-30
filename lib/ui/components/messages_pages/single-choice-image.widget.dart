@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:youplay/localizations.dart';
-import 'package:youplay/models/general_item/single_choice.dart';
 import 'package:youplay/models/general_item/single_choice_image.dart';
-import 'package:youplay/screens/general_item/util/messages/components/content_card_choices.dart';
 import 'package:youplay/screens/general_item/util/messages/components/image_question.dart';
 import 'package:youplay/screens/general_item/util/messages/components/singlechoice/feedback_screen.dart';
 import 'package:youplay/screens/general_item/util/messages/components/themed_app_bar.dart';

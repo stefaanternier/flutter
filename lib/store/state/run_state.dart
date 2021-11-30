@@ -1,8 +1,8 @@
 import 'dart:collection';
 
 import 'package:youplay/models/general_item.dart';
-import 'package:youplay/models/run.dart';
 import 'package:youplay/models/response.dart';
+import 'package:youplay/models/run.dart';
 
 class RunState {
   Run? run;

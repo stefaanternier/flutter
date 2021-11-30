@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
-import 'package:youplay/actions/runs.dart';
 import 'package:youplay/models/game.dart';
 import 'package:youplay/selectors/authentication_selectors.dart';
 import 'package:youplay/store/actions/auth.actions.dart';
 import 'package:youplay/store/actions/current_run.actions.dart';
 import 'package:youplay/store/actions/ui_actions.dart';
-import 'package:youplay/store/selectors/current_game.selectors.dart';
+import 'package:youplay/store/selectors/gameid_to_runs.selectors.dart';
 import 'package:youplay/store/state/app_state.dart';
 import 'package:youplay/store/state/ui_state.dart';
 
@@ -82,7 +81,7 @@ class _GameLandingPrivatePageContainerState
           vm.toGameWithRunsPage();
         }
         return GameLandingLoadingPage(
-            init: () {}, text: "amount of runs is ${vm.amountOfRuns}");
+            init: () {}, text: "${vm.amountOfRuns} groep(en) geladen");
       },
     );
   }
@@ -117,7 +116,7 @@ class _ViewModel {
       toGameWithRunsPage: () {
         store.dispatch(new SetPage(page: PageType.gameWithRuns));
       },
-      amountOfRuns: amountOfRunsSelector(store.state.currentGameState),
+      amountOfRuns: amountOfRunsSelector(store.state),
       store: store,
     );
   }

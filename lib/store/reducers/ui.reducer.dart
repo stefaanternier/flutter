@@ -1,22 +1,17 @@
-import 'package:youplay/actions/errors.dart';
-import 'package:youplay/actions/ui.dart';
-import 'package:youplay/store/state/ui_state.dart';
-import 'package:redux/redux.dart';
-import 'package:youplay/actions/games.dart';
-import 'package:youplay/store/actions/current_game.actions.dart';
 import 'dart:collection';
 
+import 'package:redux/redux.dart';
+import 'package:youplay/store/actions/errors.dart';
+import 'package:youplay/store/actions/current_game.actions.dart';
 import 'package:youplay/store/actions/ui_actions.dart';
+import 'package:youplay/store/state/ui_state.dart';
 final uiReducer = combineReducers<UiState>([
   new TypedReducer<UiState, SetCurrentGameAction>(_setCurrentGame),
   new TypedReducer<UiState, SetCurrentGeneralItemId>(_setCurrentGeneralItem),
   new TypedReducer<UiState, SetPage>(_setPageReducer),
-  new TypedReducer<UiState, SetTheme>(_setThemeReducer),
   new TypedReducer<UiState, ApiResultError>(_setErrorReducer),
   new TypedReducer<UiState, ToggleMessageViewAction>(_toggleView),
   new TypedReducer<UiState, SetMessageViewAction>(_setView),
-  // new TypedReducer<HashMap<int, GameUiState>, ToggleMessageViewAction>(_toggleListView),
-
 
 ]);
 //todo cleanup
@@ -31,14 +26,15 @@ UiState _setCurrentGeneralItem(UiState state, SetCurrentGeneralItemId action) {
 }
 
 UiState _setPageReducer(UiState state, SetPage action) {
+  // print("in set page reducer ${action.page} ${action.pageId}");
   if (action.page == state.currentPage) return state;
   return state.copyWith(newPage: action.page, newPageId: action.pageId);
 }
 
-UiState _setThemeReducer(UiState state, SetTheme action) {
-  if (action.theme == state.theme) return state;
-  return state.copyWith(newTheme: action.theme);
-}
+// UiState _setThemeReducer(UiState state, SetTheme action) {
+//   if (action.theme == state.theme) return state;
+//   return state.copyWith(newTheme: action.theme);
+// }
 
 UiState _toggleView(UiState state, ToggleMessageViewAction action) {
 

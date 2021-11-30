@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:youplay/config/app_config.dart';
 import 'package:youplay/models/general_item.dart';
 import 'package:youplay/screens/general_item/util/messages/components/themed_container.dart';
 import 'package:youplay/ui/components/web/web_wrapper.dart';
 
-import '../../../../general_item.dart';
 import '../themed_app_bar.dart';
 import '../themed_card.container.dart';
-import '../themed_card.dart';
 
 class FeedbackScreen extends StatelessWidget {
   String result; //correct or wrong
@@ -16,7 +13,7 @@ class FeedbackScreen extends StatelessWidget {
   String feedback;
   Color? overridePrimaryColor;
   Function() buttonClick;
-  GeneralItemViewModel? giViewModel;
+  // GeneralItemViewModel? giViewModel;
 
   FeedbackScreen(
       {required this.result,
@@ -25,7 +22,8 @@ class FeedbackScreen extends StatelessWidget {
       required this.feedback,
       this.overridePrimaryColor,
       required this.buttonClick,
-      this.giViewModel});
+      // this.giViewModel
+      });
 
   @override
   Widget build(BuildContext context) {

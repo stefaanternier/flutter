@@ -1,19 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:universal_platform/universal_platform.dart';
 import 'package:youplay/config/app_config.dart';
-import 'package:youplay/models/general_item.dart';
-
-import '../../../general_item.dart';
 
 class ContentCardText extends StatefulWidget {
-  GeneralItemViewModel? giViewModel;
+  // GeneralItemViewModel? giViewModel;
   Widget? button;
   String? title;
   String? text;
   // bool showOnlyButton;
 
   ContentCardText({
-    this.giViewModel,
+    // this.giViewModel,
       this.button,
       this.text,
       this.title,

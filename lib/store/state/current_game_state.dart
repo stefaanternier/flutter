@@ -1,7 +1,8 @@
+import 'dart:collection';
+
 import 'package:youplay/models/game.dart';
 import 'package:youplay/models/game_theme.dart';
 import 'package:youplay/models/general_item.dart';
-import 'dart:collection';
 
 class GamesState {
   Game? game;

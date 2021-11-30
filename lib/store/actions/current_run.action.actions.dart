@@ -1,22 +1,5 @@
 import 'package:youplay/models/run.dart';
 
-//class SyncOutgoingActions{}
-
-//class SyncIncommingActions{
-//
-//  String resumptionToken ;
-//  int fromTime;
-//  List<ARLearnAction> actionsFromServer;
-//  int runId;
-//
-//  SyncIncommingActions({this.resumptionToken="-", this.fromTime, this.actionsFromServer, this.runId});
-//}
-
-class SyncActionComplete {
-  ARLearnAction? action;
-
-  SyncActionComplete({this.action});
-}
 
 class LocalAction {
   String action;
@@ -33,11 +16,6 @@ class LocalAction {
         generalItemId: generalItemId,
         timestamp: this.timeStamp);
   }
-}
-
-class StartRunAction extends LocalAction {
-  StartRunAction({required int runId})
-      : super(action: "startRun", runId: runId);
 }
 
 class ReadItemAction extends LocalAction {

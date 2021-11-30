@@ -3,7 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:redux_epics/redux_epics.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
-import 'package:youplay/actions/actions.dart';
 import 'package:youplay/api/account.dart';
 import 'package:youplay/store/actions/auth.actions.dart';
 import 'package:youplay/store/state/app_state.dart';

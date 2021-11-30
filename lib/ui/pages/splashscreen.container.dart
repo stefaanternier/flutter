@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
-import 'package:youplay/store/actions/ui_actions.dart';
 import 'package:youplay/store/state/app_state.dart';
-import 'package:youplay/store/state/ui_state.dart';
 import 'package:youplay/ui/pages/splashscreen.dart';
 
 class SplashScreenContainer extends StatelessWidget {

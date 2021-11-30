@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:youplay/models/game.dart';
 import 'package:intl/intl.dart';
+import 'package:youplay/models/game.dart';
 import 'package:youplay/ui/components/icon/game_icon.container.dart';
 
 class GameInfoListTile extends StatelessWidget {
