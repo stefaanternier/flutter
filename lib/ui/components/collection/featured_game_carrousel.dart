@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_redux/flutter_redux.dart';
 import 'package:intl/intl.dart';
+import 'package:youplay/models/game.dart';
 import 'package:youplay/screens/util/extended_network_image.dart';
-import 'package:youplay/store/state/app_state.dart';
-
-import 'featured_game_carrousel.viewmodel.dart';
 
 class FeaturedGamesCarrousel extends StatefulWidget {
-  FeaturedGamesCarrousel();
+  List<Game> games;
+  Function(Game) openGame;
+
+  FeaturedGamesCarrousel({required this.games, required this.openGame, Key? key}) : super(key: key);
 
   @override
   _FeaturedGamesCarrouselState createState() => new _FeaturedGamesCarrouselState();
@@ -18,21 +18,14 @@ class _FeaturedGamesCarrouselState extends State<FeaturedGamesCarrousel> {
 
   @override
   Widget build(BuildContext context) {
-    return new StoreConnector<AppState, FeaturedGamesCarrouselViewModel>(
-        distinct: true,
-        converter: (store) => FeaturedGamesCarrouselViewModel.fromStore(store),
-        builder: (context, deviceModel) => _buildPageView(context, deviceModel));
-  }
-
-  _buildPageView(BuildContext context, FeaturedGamesCarrouselViewModel featuredGamesModel) {
     final DateFormat formatter = DateFormat.yMMMMd(Localizations.localeOf(context).languageCode);
     return SizedBox(
       height: 200, // card height
       child: Center(
-        child: featuredGamesModel.games == null
+        child: widget.games == null
             ? Text("Foto's laden...")
             : PageView.builder(
-                itemCount: featuredGamesModel.games.length,
+                itemCount: widget.games.length,
                 controller: PageController(
                     viewportFraction: 0.8,
                   initialPage: 0
@@ -55,7 +48,7 @@ class _FeaturedGamesCarrouselState extends State<FeaturedGamesCarrousel> {
                               Expanded(
                                   flex: 2,
                                   child: Container(
-                                      decoration: getBoxDecoration('/featuredGames/backgrounds/${featuredGamesModel.games[i].gameId}.png'),
+                                      decoration: getBoxDecoration('/featuredGames/backgrounds/${widget.games[i].gameId}.png'),
                                       child: Column(
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         mainAxisAlignment: MainAxisAlignment.end,
@@ -63,7 +56,7 @@ class _FeaturedGamesCarrouselState extends State<FeaturedGamesCarrousel> {
                                           Padding(
                                               padding: EdgeInsets.all(10),
                                               child: Text(
-                                                "${featuredGamesModel.games[i].title}",
+                                                "${widget.games[i].title}",
                                                 style: TextStyle(
                                                     color: Colors.white,
                                                     fontSize: 18,
@@ -82,7 +75,7 @@ class _FeaturedGamesCarrouselState extends State<FeaturedGamesCarrousel> {
                                           Padding(
                                               padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
                                               child: Text(
-                                                "${formatter.format(DateTime.fromMillisecondsSinceEpoch(featuredGamesModel.games[i].lastModificationDate))}",
+                                                "${formatter.format(DateTime.fromMillisecondsSinceEpoch(widget.games[i].lastModificationDate))}",
                                                 style: TextStyle(
                                                   color: Colors.grey,
                                                   fontSize: 14,
@@ -97,7 +90,7 @@ class _FeaturedGamesCarrouselState extends State<FeaturedGamesCarrousel> {
                                   right:0,
                                   child: MaterialButton(
                                     onPressed: () {
-                                      featuredGamesModel.openGame(featuredGamesModel.games[i]);
+                                      widget.openGame(widget.games[i]);
                                     },
                                     color: Colors.white,
                                     textColor: Colors.black,

@@ -5,15 +5,15 @@ import 'package:youplay/models/general_item.dart';
 import 'package:youplay/store/selectors/game_messages.selector.dart';
 import 'package:youplay/store/state/app_state.dart';
 
-import 'themed_card.dart';
+import 'feedback_themed_card.dart';
 
-class ThemedCardContainer extends StatelessWidget {
+class FeedbackThemedCardContainer extends StatelessWidget {
   final String buttonText;
   final String feedback;
   final Function() buttonClick;
   final GeneralItem item;
 
-  const ThemedCardContainer(
+  const FeedbackThemedCardContainer(
       {required this.buttonText, required this.feedback, required this.buttonClick, required this.item, Key? key})
       : super(key: key);
 
@@ -23,7 +23,7 @@ class ThemedCardContainer extends StatelessWidget {
       converter: _ViewModel.fromStore,
       distinct: true,
       builder: (context, vm) {
-        return ThemedCard(
+        return FeedbackThemedCard(
             item: item, feedback: feedback, buttonText: buttonText, buttonClick: buttonClick, primaryColor: vm.color);
       },
     );

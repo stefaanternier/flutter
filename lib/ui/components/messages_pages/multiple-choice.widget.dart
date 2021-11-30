@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:youplay/localizations.dart';
 import 'package:youplay/models/general_item/single_choice.dart';
-import 'package:youplay/screens/general_item/util/messages/components/content_card_choices.dart';
 import 'package:youplay/screens/general_item/util/messages/components/singlechoice/feedback_screen.dart';
 import 'package:youplay/screens/general_item/util/messages/components/themed_app_bar.dart';
+import 'package:youplay/ui/components/cards/multiple_choice_card.dart';
 import 'package:youplay/ui/components/messages/message-background.widget.container.dart';
 import 'package:youplay/ui/components/web/web_wrapper.dart';
 
@@ -80,7 +80,7 @@ class _MultipleChoiceWidgetState extends State<MultipleChoiceWidget> {
                     Opacity(
                         opacity: 0.9,
                         child: Padding(padding: EdgeInsets.fromLTRB(20, 0, 20, 10),
-                            child: ContentCardChoices(
+                            child: MultipleChoicesCard(
                                 text : widget.item.text,
                                 buttonText: (widget.item.description != '') ? widget.item.description : AppLocalizations.of(context).translate('screen.proceed'),
                                 answers: widget.item.answers,

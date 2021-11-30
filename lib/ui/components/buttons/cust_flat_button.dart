@@ -8,12 +8,13 @@ class CustomFlatButton extends StatelessWidget {
   Color? color;
   Color? colorBorder;
 
-  CustomFlatButton(
-      {required this.onPressed,
-      required this.title,
-      this.icon,
-        this.colorBorder = null,
-      this.color = null});
+  CustomFlatButton({
+    required this.onPressed,
+    required this.title,
+    this.icon,
+    this.colorBorder,
+    this.color,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -26,11 +27,6 @@ class CustomFlatButton extends StatelessWidget {
         ),
       ],
     );
-    // return SizedBox(
-    //   width: double.infinity,
-    //   height: 51.0,
-    //   child: buildButton(context),
-    // );
   }
 
   buildButton(BuildContext context) {
@@ -38,9 +34,7 @@ class CustomFlatButton extends StatelessWidget {
       return FlatButton(
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(26.0),
-              side: BorderSide(
-                  width: 2,
-                  color: colorBorder ?? color ?? AppConfig().themeData!.primaryColor)),
+              side: BorderSide(width: 2, color: colorBorder ?? color ?? AppConfig().themeData!.primaryColor)),
           onPressed: () {
             onPressed();
           },
@@ -59,9 +53,7 @@ class CustomFlatButton extends StatelessWidget {
       return FlatButton(
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(26.0),
-            side: BorderSide(
-                width: 2,
-                color: colorBorder ?? color ?? AppConfig().themeData!.primaryColor)),
+            side: BorderSide(width: 2, color: colorBorder ?? color ?? AppConfig().themeData!.primaryColor)),
         onPressed: () {
           onPressed();
         },
@@ -69,14 +61,13 @@ class CustomFlatButton extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           mainAxisSize: MainAxisSize.max,
           children: [
-            new Icon(icon,
-                color: color?? AppConfig().themeData!.primaryColor),
+            new Icon(icon, color: color ?? AppConfig().themeData!.primaryColor),
             Flexible(
               flex: 1,
               child: Text(
                 '$title',
                 style: TextStyle(
-                    color: color?? AppConfig().themeData!.primaryColor,
+                  color: color ?? AppConfig().themeData!.primaryColor,
                   fontSize: 22.0,
                   fontWeight: FontWeight.w900,
                 ),
@@ -85,7 +76,6 @@ class CustomFlatButton extends StatelessWidget {
           ],
         ),
       );
-
     }
   }
 }

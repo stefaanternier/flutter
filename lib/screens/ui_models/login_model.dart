@@ -20,7 +20,6 @@ class LoginPageViewModel {
   Function tapCreateAccount;
   Function loadMyGames;
 
-//  final Store<AppState> store;
 
   LoginPageViewModel(
       {required this.authenticated,

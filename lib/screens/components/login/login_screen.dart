@@ -4,8 +4,8 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:universal_platform/universal_platform.dart';
 import 'package:youplay/config/app_config.dart';
-import 'package:youplay/screens/components/button/cust_flat_button.dart';
-import 'package:youplay/screens/components/button/cust_raised_button.dart';
+import 'package:youplay/ui/components/buttons/cust_flat_button.dart';
+import 'package:youplay/ui/components/buttons/cust_raised_button.dart';
 import 'package:youplay/store/actions/auth.actions.dart';
 import 'package:youplay/store/state/app_state.dart';
 

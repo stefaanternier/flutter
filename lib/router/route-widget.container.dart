@@ -27,7 +27,7 @@ class RouteWidgetContainer extends StatelessWidget {
       builder: (context, vm) {
         return RouteWidget(
           routeInformationParser:
-              BookRouteInformationParser(updatePageType: vm.updatePageType),
+              YouplayRouteInformationParser(updatePageType: vm.updatePageType),
           routerDelegate :
               new YouplayRouterDelegate(
                   youplayRoutePath: YouplayRoutePath(

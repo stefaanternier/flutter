@@ -3,18 +3,16 @@ import 'package:universal_platform/universal_platform.dart';
 import 'package:youplay/config/app_config.dart';
 
 class ContentCardText extends StatefulWidget {
-  // GeneralItemViewModel? giViewModel;
+
   Widget? button;
   String? title;
   String? text;
-  // bool showOnlyButton;
 
   ContentCardText({
-    // this.giViewModel,
       this.button,
       this.text,
       this.title,
-      // required this.showOnlyButton
+
   });
 
   @override
@@ -24,7 +22,6 @@ class ContentCardText extends StatefulWidget {
 class _ContentCardTextState extends State<ContentCardText> {
   late ScrollController _scrollController;
 
-  //final ScrollController _scrollController = ScrollController();
   @override
   void initState() {
     super.initState();
