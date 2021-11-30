@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:youplay/models/general_item/narrator_item.dart';
-import 'package:youplay/screens/general_item/util/messages/components/content_card.text.dart';
-import 'package:youplay/screens/general_item/util/messages/components/themed_app_bar.dart';
+import 'package:youplay/ui/components/appbar/themed-appbar.container.dart';
+import 'package:youplay/ui/components/cards/narrator-content-card.text.dart';
 import 'package:youplay/ui/components/messages/message-background.widget.container.dart';
 import 'package:youplay/ui/components/next_button/next_button.container.dart';
 import 'package:youplay/ui/components/web/web_wrapper.dart';
@@ -15,7 +15,7 @@ class NarratorWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         resizeToAvoidBottomInset: false,
-        appBar: ThemedAppBar(title: item.title, elevation: true),
+        appBar: ThemedAppbarContainer(title: item.title, elevation: true),
         body: WebWrapper(
             child: MessageBackgroundWidgetContainer(
           child: Column(
@@ -24,7 +24,7 @@ class NarratorWidget extends StatelessWidget {
             children: <Widget>[
               Padding(
                   padding: EdgeInsets.fromLTRB(15, 0, 15, 12),
-                  child: ContentCardText(
+                  child: NarratorContentCardText(
                     title: item.heading,
                     text: item.richText,
                     button: NextButtonContainer(item: item),

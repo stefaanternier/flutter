@@ -1,8 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:youplay/config/app_config.dart';
-import 'package:youplay/ui/components/collection/collection_search.container.dart';
 import 'package:youplay/ui/components/collection/featured_game_carrousel.container.dart';
 import 'package:youplay/ui/components/collection/recent_games_list.container.dart';
 import 'package:youplay/ui/components/collection/search_result_list.dart';

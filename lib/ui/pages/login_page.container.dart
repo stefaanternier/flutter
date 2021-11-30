@@ -15,7 +15,7 @@ class LoginPageContainer extends StatelessWidget {
     return StoreConnector<AppState, _ViewModel>(
       converter: (store) => _ViewModel.fromStore(store),
       builder: (context, vm) {
-        return LoginPageNew(loginSuccessful: vm.loginSuccessful, anonLoginSuccessful: vm.anonLoginSuccessful);
+        return LoginPage(loginSuccessful: vm.loginSuccessful, anonLoginSuccessful: vm.anonLoginSuccessful);
       },
     );
   }

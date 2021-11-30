@@ -9,9 +9,9 @@ import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:universal_platform/universal_platform.dart';
 import 'package:youplay/models/general_item.dart';
-import 'package:youplay/screens/general_item/util/messages/components/audio_meter.dart';
 import 'package:youplay/ui/components/appbar/themed-appbar.container.dart';
 import 'package:youplay/ui/components/buttons/audio_stop_button.dart';
+import 'package:youplay/ui/components/messages/audio_recorder/audio_meter.dart';
 import 'package:youplay/ui/components/messages/message-background.widget.container.dart';
 
 

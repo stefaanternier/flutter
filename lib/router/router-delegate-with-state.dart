@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:youplay/router/youplay-route-path.dart';
 import 'package:youplay/screens/library/game_from_qr.dart';
 import 'package:youplay/screens/pages/create_account_page.dart';
-import 'package:youplay/screens/pages/login_page.dart';
 import 'package:youplay/store/state/ui_state.dart';
 import 'package:youplay/ui/pages/collection.page.dart';
 import 'package:youplay/ui/pages/game_landing.page.container.dart';
@@ -230,7 +229,7 @@ class YouplayRouterDelegate extends RouterDelegate<YouplayRoutePath>
           ),
           MaterialPage(
             key: ValueKey('Login'),
-            child: LoginPage(),
+            child: LoginPageContainer(),
           ),
           MaterialPage(
             key: ValueKey('MakeAccount'),

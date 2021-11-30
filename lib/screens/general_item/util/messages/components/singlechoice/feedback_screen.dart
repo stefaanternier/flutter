@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:youplay/models/general_item.dart';
 import 'package:youplay/screens/general_item/util/messages/components/themed_container.dart';
+import 'package:youplay/ui/components/appbar/themed-appbar.container.dart';
 import 'package:youplay/ui/components/cards/feedback_themed_card.container.dart';
 import 'package:youplay/ui/components/web/web_wrapper.dart';
-import '../themed_app_bar.dart';
+
 
 class FeedbackScreen extends StatelessWidget {
   String result; //correct or wrong
@@ -27,7 +28,7 @@ class FeedbackScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: ThemedAppBar(
+        appBar: ThemedAppbarContainer(
           title: result == 'wrong' ? "Onjuist" : "Juist",
         ),
         body: WebWrapper(

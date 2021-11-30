@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:youplay/models/general_item/scan_tag.dart';
-import 'package:youplay/screens/general_item/util/messages/components/themed_app_bar.dart';
+import 'package:youplay/ui/components/appbar/themed-appbar.container.dart';
 import 'package:youplay/ui/components/web/web_wrapper.dart';
 
 class ScanTagWidget extends StatelessWidget {
@@ -18,7 +18,7 @@ class ScanTagWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         resizeToAvoidBottomInset: false,
-        appBar: ThemedAppBar(title: item.title, elevation: true),
+        appBar: ThemedAppbarContainer(title: item.title, elevation: true),
         body: WebWrapper(
             child: Column(
               children: <Widget>[Expanded(flex: 4, child: _buildQrView(context))],

@@ -23,8 +23,6 @@ class ThemedContainer extends StatelessWidget {
         builder: (context, GameThemesViewModel themeModel) {
           return Container(
             decoration: getBoxDecoration(getPath(themeModel)),
-            // decoration: new BoxDecoration(
-            //     image: new DecorationImage(fit: BoxFit.cover, image: backgroundImage(context, themeModel))),
             child: child,
           );
         });

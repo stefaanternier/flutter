@@ -1,10 +1,10 @@
 // import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:youplay/models/game_theme.dart';
-import 'package:youplay/ui/components/buttons/cust_flat_button.dart';
-import 'package:youplay/ui/components/buttons/cust_raised_button.dart';
 import 'package:youplay/screens/util/extended_network_image.dart';
 import 'package:youplay/ui/components/appbar/themed-appbar.container.dart';
+import 'package:youplay/ui/components/buttons/cust_flat_button.dart';
+import 'package:youplay/ui/components/buttons/cust_raised_button.dart';
 import 'package:youplay/ui/components/nav/navigation_drawer.container.dart';
 import 'package:youplay/ui/components/web/web_wrapper.dart';
 
