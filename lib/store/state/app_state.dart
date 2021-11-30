@@ -2,12 +2,12 @@ import 'dart:collection';
 
 import 'package:youplay/models/game_theme.dart';
 import 'package:youplay/models/run.dart';
-import 'package:youplay/state/authentication_state.dart';
 import 'package:youplay/store/state/all_games_state.dart';
 import 'package:youplay/store/state/current_game_state.dart';
 import 'package:youplay/store/state/run_state.dart';
 import 'package:youplay/store/state/ui_state.dart';
 
+import 'auth.state.dart';
 import 'game_library.state.dart';
 
 class AppState {

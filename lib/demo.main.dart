@@ -12,11 +12,11 @@ import 'package:uni_links/uni_links.dart';
 import 'package:youplay/config/app_config.dart';
 import 'package:youplay/models/models.dart';
 import 'package:youplay/screens/pages/home_page.dart';
+import 'package:youplay/store/actions/auth.actions.dart';
 import 'package:youplay/store/actions/game_library.actions.dart';
 import 'package:youplay/store/store.dart';
 import 'package:youplay/themes/kien.dart';
 
-import 'actions/actions.dart';
 import 'config/login_config.dart';
 import 'localizations.dart';
 import 'themes/dido.dart';

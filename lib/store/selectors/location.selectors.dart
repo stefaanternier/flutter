@@ -4,8 +4,9 @@ import 'package:reselect/reselect.dart';
 import 'package:youplay/models/general_item.dart';
 import 'package:youplay/models/models.dart';
 import 'package:youplay/models/run.dart';
-import 'package:youplay/selectors/selectors.dart';
 import 'package:youplay/store/selectors/current_run.selectors.dart';
+
+import 'current_run.location.selectors.dart';
 
 final Selector<AppState, List<LocationTrigger>>
     gameMinusActionLocationTriggers = createSelector2(

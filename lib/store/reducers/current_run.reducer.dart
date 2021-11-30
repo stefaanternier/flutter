@@ -1,7 +1,6 @@
 import 'dart:collection';
 
 import 'package:redux/redux.dart';
-
 import 'package:youplay/models/response.dart';
 import 'package:youplay/store/actions/auth.actions.dart';
 import 'package:youplay/store/actions/current_run.action.actions.dart';

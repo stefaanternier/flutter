@@ -1,7 +1,7 @@
 
 import 'package:reselect/reselect.dart';
 import 'package:youplay/models/models.dart';
-import 'package:youplay/state/authentication_state.dart';
+import 'package:youplay/store/state/auth.state.dart';
 
 AuthenticationState uiState(AppState state) => state.authentication;
 

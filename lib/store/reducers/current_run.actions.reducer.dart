@@ -1,6 +1,5 @@
 import 'dart:collection';
 
-
 import 'package:youplay/models/run.dart';
 import 'package:youplay/store/actions/auth.actions.dart';
 import 'package:youplay/store/actions/current_run.action.actions.dart';

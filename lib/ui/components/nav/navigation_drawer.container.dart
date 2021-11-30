@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
-import 'package:youplay/selectors/authentication_selectors.dart';
-import 'package:youplay/state/authentication_state.dart';
 import 'package:youplay/store/actions/auth.actions.dart';
 import 'package:youplay/store/actions/ui_actions.dart';
+import 'package:youplay/store/selectors/auth.selectors.dart';
 import 'package:youplay/store/selectors/current_game.selectors.dart';
 import 'package:youplay/store/selectors/current_run.selectors.dart';
 import 'package:youplay/store/state/app_state.dart';
+import 'package:youplay/store/state/auth.state.dart';
 import 'package:youplay/store/state/ui_state.dart';
 
 import 'navigation_drawer.dart';

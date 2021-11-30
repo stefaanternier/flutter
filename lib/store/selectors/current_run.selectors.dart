@@ -20,13 +20,11 @@ final currentRunSel = (AppState state) => runStateFeature(state) != null ? runSt
 
 final actionsFromServerSel = (AppState state) => runStateFeature(state).actionsFromServer;
 final currentRunActionsSelector = (AppState state) => runStateFeature(state).unsynchronisedActions;
-
 final syncingActionsFromServerSelector = (AppState state) => runStateFeature(state).syncingActionsFromServer;
-
 final responsesFromServerSel = (AppState state) => runStateFeature(state).responsesFromServer;
-
-//final currentRunOutgoingPicturesSelector = (AppState state) => runStateFeature(state).outgoingPictureResponses;
 final currentRunResponsesSelector = (AppState state) => runStateFeature(state).outgoingResponses;
+final lastActionModificationSelector = (AppState state) => runStateFeature(state).lastActionModification;
+final currentRunPictureResponsesSelector = (AppState state) => runStateFeature(state).outgoingPictureResponses;
 
 final Selector<AppState, HashMap<String, ARLearnAction>> localAndUnsyncActions =
     createSelector2(actionsFromServerSel, currentRunActionsSelector,
@@ -38,14 +36,7 @@ final Selector<AppState, HashMap<String, ARLearnAction>> localAndUnsyncActions =
   return actions;
 });
 
-final lastActionModificationSelector = (AppState state) => runStateFeature(state).lastActionModification;
 
-//final Selector<AppState, List<ARLearnAction>> actionsFromServerSelector =
-//    createSelector1(runStateFeature, (RunState runstate) {
-//  return runstate.actionsFromServer.values.toList(growable: false);
-//});
-
-final currentRunPictureResponsesSelector = (AppState state) => runStateFeature(state).outgoingPictureResponses;
 
 final Selector<AppState, bool> isSyncingActions =
     createSelector1(syncingActionsFromServerSelector, (bool state) => state);
@@ -110,16 +101,6 @@ final Selector<AppState, List<ItemTimes>> mapOnlyCurrentGeneralItems =
       .toList(growable: false);
 });
 
-// final Selector<AppState, HashMap<int, Response>> responsesFromServerSelector =
-//     createSelector1(runStateFeature, (RunState run) {
-//   return run.responsesFromServer;
-// });
-
-// final Selector<AppState, List<Response>> allResponsesFromServerAsList =
-//     createSelector1(responsesFromServerSelector, (HashMap<int, Response> map) {
-//   return map.values.toList(growable: false);
-// });
-
 final Selector<AppState, List<Response>> currentItemResponsesFromServerAsList =
     createSelector3(runStateFeature, responsesFromServerFeature, currentItemId,
         (dynamic runState, HashMap<int, Response> map, int? itemId) {
@@ -127,4 +108,25 @@ final Selector<AppState, List<Response>> currentItemResponsesFromServerAsList =
       .where((response) => response.generalItemId == itemId)
       .where((response) => runState.deleteList.indexOf(response.responseId) == -1)
       .toList(growable: true);
+});
+
+
+final Selector<AppState, int?> nextItem1 =
+createSelector2(itemTimesSortedByTime, currentItemId, (List<ItemTimes> items, int? itemId) {
+  for (int i = 1; i < items.length; i++) {
+    if (items[i].generalItem.itemId == itemId) {
+      return items[i - 1].generalItem.itemId;
+    }
+  }
+  return null;
+});
+
+final Selector<AppState, int> amountOfNewerItems =
+createSelector2(itemTimesSortedByTime, currentItemId, (List<ItemTimes> sortedItems, int? itemId) {
+  for (int i = 1; i < sortedItems.length; i++) {
+    if (sortedItems[i].generalItem.itemId == itemId) {
+      return i;
+    }
+  }
+  return 0;
 });

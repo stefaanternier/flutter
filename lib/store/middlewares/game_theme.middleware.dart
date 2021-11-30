@@ -1,7 +1,7 @@
 import 'package:redux_epics/redux_epics.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:youplay/store/actions/errors.dart';
 import 'package:youplay/api/games.dart';
+import 'package:youplay/store/actions/errors.dart';
 import 'package:youplay/store/actions/game_library.actions.dart';
 import 'package:youplay/store/actions/game_theme.actions.dart';
 import 'package:youplay/store/state/app_state.dart';
