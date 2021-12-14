@@ -19,7 +19,6 @@ final currentRunEpic = combineEpics<AppState>([
 Stream<dynamic> _registerToRun(Stream<dynamic> actions, EpicStore<AppState> store) {
   return actions.where((action) => action is RegisterToRunAction).asyncMap((action) async {
     Run run = await RunsApi.registerToRun((action as RegisterToRunAction).run.runId);
-
     return new SetCurrentRunAction(run: run);
   });
 }

@@ -40,7 +40,6 @@ class _ViewModel {
 
   static _ViewModel fromStore(Store<AppState> store) {
     if(gameLocationTriggers(store.state).length > 0) {
-      print('starting location polling');
       store.dispatch(new StartListeningForLocation());
     };
     return _ViewModel(

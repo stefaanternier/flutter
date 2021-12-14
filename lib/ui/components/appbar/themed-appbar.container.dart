@@ -12,7 +12,8 @@ class ThemedAppbarContainer extends StatelessWidget with PreferredSizeWidget {
   final Size preferredSize;
   final String title;
   final bool elevation;
-  ThemedAppbarContainer({Key? key, required this.title, this.elevation = true}) : preferredSize = Size.fromHeight(50.0),
+  final List<Widget>? actions;
+  ThemedAppbarContainer({Key? key, required this.title, this.elevation = true, this.actions}) : preferredSize = Size.fromHeight(50.0),
         super(key: key);
 
 
@@ -24,7 +25,8 @@ class ThemedAppbarContainer extends StatelessWidget with PreferredSizeWidget {
         return ThemedAppBar(
           title: title,
           elevation: elevation,
-          color: vm.getPrimaryColor()
+          color: vm.getPrimaryColor(),
+          actions: actions
         );
 
       },

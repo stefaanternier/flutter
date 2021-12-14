@@ -27,7 +27,7 @@ class _LoginActionState extends State<LoginAction> {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        FlatButton(
+        TextButton(
             child: Text(
               AppLocalizations.of(context).translate('login.forgot_password'),
               style:  new TextStyle(color:  AppConfig().themeData!.primaryColor),
@@ -47,14 +47,14 @@ class _LoginActionState extends State<LoginAction> {
                       // onChanged: setEmail,
                     ),
                     actions: [
-                      FlatButton(
+                      TextButton(
                         child: Text(AppLocalizations.of(context).translate('library.cancel')),
                         onPressed: () {
                           widget.keyboardIsHidden();
                           Navigator.of(context).pop();
                         },
                       ),
-                      FlatButton(
+                      TextButton(
                         child: Text(AppLocalizations.of(context).translate('login.ok'),
                             style:  new TextStyle(color:  AppConfig().themeData!.primaryColor)),
                         onPressed: () {
@@ -68,7 +68,7 @@ class _LoginActionState extends State<LoginAction> {
                 },
               );
             }),
-        FlatButton(
+        TextButton(
           child: Text('account aanmaken',
             style:  new TextStyle(color:  AppConfig().themeData!.primaryColor),),
           onPressed: widget.tapCreateAccount,

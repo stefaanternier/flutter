@@ -5,6 +5,7 @@ import 'package:youplay/models/game.dart';
 import 'package:youplay/models/run.dart';
 import 'package:youplay/store/actions/current_run.actions.dart';
 import 'package:youplay/store/actions/ui_actions.dart';
+import 'package:youplay/store/selectors/auth.selectors.dart';
 import 'package:youplay/store/state/app_state.dart';
 import 'package:youplay/store/state/ui_state.dart';
 
@@ -35,12 +36,18 @@ class _ViewModel {
   });
 
   static _ViewModel fromStore(Store<AppState> store, Run run, Game game) {
+    bool authenticated = isAuthenticatedSelector(store.state);
     return _ViewModel(join: () {
-      store.dispatch(RegisterToRunAction(run: run));
-      store.dispatch(SetCurrentRunAction(run: run));
-      store.dispatch(SetPage(page: PageType.game));
+      if (authenticated) {
+        store.dispatch(RegisterToRunAction(run: run));
+        store.dispatch(SetCurrentRunAction(run: run));
+        store.dispatch(SetPage(page: PageType.game));
 
-      store.dispatch(SetMessageViewAction(messageView: game.firstView));
+        store.dispatch(SetMessageViewAction(messageView: game.firstView));
+      } else {
+        store.dispatch(SetPage(page: PageType.login));
+      }
+
     });
   }
 }

@@ -33,20 +33,16 @@ class _ViewModel {
   int view;
   int nextView;
 
-  _ViewModel({
-    required this.togglePress, 
-    required this.view,
-    required this.nextView
-  });
+  _ViewModel({required this.togglePress, required this.view, required this.nextView});
 
   static _ViewModel fromStore(Store<AppState> store) {
     Game? game = gameSelector(store.state.currentGameState);
     int v = store.state.uiState.currentView;
     return _ViewModel(
         view: v,
-        nextView: game == null? 2: game.nextView(v),
+        nextView: game == null ? 2 : game.nextView(v),
         togglePress: () {
-      if (game != null) store.dispatch(ToggleMessageViewAction(game: game));
-    });
+          if (game != null) store.dispatch(ToggleMessageViewAction(game: game));
+        });
   }
 }

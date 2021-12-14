@@ -37,17 +37,14 @@ class CodeWordWidget extends StatefulWidget {
 }
 
 class _CodeWordWidgetState extends State<CodeWordWidget> {
-  // int _lockLength = 3;
   int _index = -1;
   String _answer = "";
-
-  // bool _numeric = true;
 
   bool _showFalseFeedback = false;
   bool _showCorrectFeedback = false;
 
   FocusNode focusNode = FocusNode();
-  bool show = true;
+  bool show = false;
   late TextField tf;
   TextEditingController _controller = new TextEditingController();
 
@@ -55,12 +52,14 @@ class _CodeWordWidgetState extends State<CodeWordWidget> {
   initState() {
     super.initState();
     _controller.addListener(() {
-
+print ("in controller add listeren");
       setState(() {
         _answer = _controller.text.toUpperCase();
         print ('answer is $_answer');
       });
     });
+
+
   }
 
   @override
@@ -91,50 +90,66 @@ class _CodeWordWidgetState extends State<CodeWordWidget> {
       }
     }
     if (widget.answer != null) {
-      return Scaffold(
-          resizeToAvoidBottomInset: false,
-          appBar: ThemedAppbarContainer(title: widget.item.title, elevation: false),
-          body: WebWrapper(
-              child: MessageBackgroundWidgetContainer(
-                darken: true,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: <Widget>[
-                    RichTextTopContainer(),
-                    Flexible(
-                      flex: 1,
-                      child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: <Widget>[
-                              Expanded(
-                                child: GestureDetector(
-                                  onTap: focusNode.requestFocus,
-                                  child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                      children: List<CodeWordEntry>.generate(
-                                        widget.lockLength,
-                                            (i) => CodeWordEntry(
-                                          index: i,
-                                          text: i < widget.answer!.length ? widget.answer![i] : ' ',
-                                        ),
-                                      )),
-                                ),
-                              ),
-                              Padding(
-                                  padding: const EdgeInsets.fromLTRB(46, 8.0, 46, 8),
-                                  child: NextButtonContainer(item: widget.item)),
-                              Padding(
-                                  padding: const EdgeInsets.fromLTRB(46, 8.0, 46, 28),
-                                  child: CombinationLockButtonContainer(
-                                    unlock: unlock,
-                                  )),
-                            ],
-                          )),
+      return GestureDetector(
 
-                  ],
-                ),
-              ))
-        // ),
+            onTap: (){
+              print('foucs');
+              // focusNode.requestFocus();
+            },
+        child: Scaffold(
+            resizeToAvoidBottomInset: false,
+            appBar: ThemedAppbarContainer(title: widget.item.title, elevation: false),
+            body: WebWrapper(
+                child: MessageBackgroundWidgetContainer(
+
+                  onTap: () {
+                    print('backgournd tap');
+                  },
+                  darken: true,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: <Widget>[
+                        RichTextTopContainer(),
+                        Flexible(
+                          flex: 1,
+                          child: GestureDetector(
+                            behavior: HitTestBehavior.translucent,
+                            onTap: (){
+                              print('foucs');
+                              focusNode.requestFocus();
+                            },
+                            child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children: <Widget>[
+                                  Expanded(
+                                    child:  Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                          children: List<CodeWordEntry>.generate(
+                                            widget.lockLength,
+                                                (i) => CodeWordEntry(
+                                              index: i,
+                                              text: i < widget.answer!.length ? widget.answer![i] : ' ',
+                                            ),
+                                          )),
+                                    ),
+
+                                  Padding(
+                                      padding: const EdgeInsets.fromLTRB(46, 8.0, 46, 8),
+                                      child: NextButtonContainer(item: widget.item)),
+                                  Padding(
+                                      padding: const EdgeInsets.fromLTRB(46, 8.0, 46, 28),
+                                      child: CombinationLockButtonContainer(
+                                        unlock: unlock,
+                                      )),
+                                ],
+                              )),),
+
+                      ],
+
+                  ),
+                ))
+          // ),
+        ),
       );
     }
 
@@ -144,6 +159,22 @@ class _CodeWordWidgetState extends State<CodeWordWidget> {
         appBar: ThemedAppbarContainer(title: widget.item.title, elevation: false),
         body: WebWrapper(
             child: MessageBackgroundWidgetContainer(
+              onTap: () {
+                if (!show) {
+                  focusNode.requestFocus();
+                  setState(() {
+                    show = true;
+                  });
+                } else {
+
+                  FocusScope.of(context).unfocus();
+
+                  setState(() {
+                    show = false;
+                  });
+                }
+
+              },
           darken: true,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -173,8 +204,15 @@ class _CodeWordWidgetState extends State<CodeWordWidget> {
                             enabledBorder: InputBorder.none,
                             focusedBorder: InputBorder.none,
                           ),
+                          onSubmitted: (test) {
+                            print('submitted $test');
+                            setState(() {
+                              show=false;
+                            });
+                          },
                         ),
                         Expanded(
+                          flex: show ? 0 : 1 ,
                           child: GestureDetector(
                             onTap: focusNode.requestFocus,
                             child: Row(
@@ -191,11 +229,14 @@ class _CodeWordWidgetState extends State<CodeWordWidget> {
                         Padding(
                             padding: const EdgeInsets.fromLTRB(46, 8.0, 46, 8),
                             child: NextButtonContainer(item: widget.item)),
-                        Padding(
-                            padding: const EdgeInsets.fromLTRB(46, 8.0, 46, 28),
-                            child: CombinationLockButtonContainer(
-                              unlock: unlock,
-                            )),
+                        Visibility(
+                          visible: !show,
+                          child: Padding(
+                              padding: const EdgeInsets.fromLTRB(46, 8.0, 46, 28),
+                              child: CombinationLockButtonContainer(
+                                unlock: unlock,
+                              )),
+                        ),
                       ],
                     )),
               )

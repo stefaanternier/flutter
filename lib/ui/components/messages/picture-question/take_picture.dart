@@ -10,17 +10,13 @@ import 'package:youplay/ui/components/buttons/camera_button.dart';
 import 'package:youplay/ui/components/messages/message-background.widget.container.dart';
 import 'package:youplay/ui/components/messages/picture-question/square_camara_preview_live.dart';
 import 'package:youplay/ui/components/messages_parts/richtext-top.container.dart';
-import 'package:youplay/util/utils.dart';
 
 class TakePictureWidget extends StatefulWidget {
   final Function cancelCallBack;
   final Function(String) pictureTaken;
   final GeneralItem? generalItem;
 
-  TakePictureWidget({
-      required this.cancelCallBack,
-      required this.generalItem,
-      required this.pictureTaken});
+  TakePictureWidget({required this.cancelCallBack, required this.generalItem, required this.pictureTaken});
 
   @override
   _TakePictureWidgetState createState() {
@@ -35,6 +31,7 @@ class _TakePictureWidgetState extends State<TakePictureWidget> {
 
   List<CameraDescription> cameras = [];
   CameraLensDirection _direction = CameraLensDirection.back;
+  int cameraIndex = 0;
 
   @override
   void dispose() {
@@ -49,8 +46,16 @@ class _TakePictureWidgetState extends State<TakePictureWidget> {
         this.cameras = cameras;
         print("cameras loaded ${this.cameras.length}");
       });
+      if (cameras.isNotEmpty) {
+        controller = CameraController(
+          cameras[0],
+          ResolutionPreset.high,
+        );
+        controller!.initialize().then((_) {
+          setState(() {});
+        });
+      }
     });
-    _initializeCamera();
     super.initState();
   }
 
@@ -58,7 +63,32 @@ class _TakePictureWidgetState extends State<TakePictureWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: ThemedAppbarContainer(title: widget.generalItem!.title, elevation: false),
+      appBar: ThemedAppbarContainer(title: widget.generalItem!.title, elevation: false, actions: [
+        if (cameras.length > 1)
+          new IconButton(
+            icon: new Icon(
+              Icons.flip_camera_ios,
+              color: Colors.white,
+            ),
+            onPressed: () async {
+              if (controller != null) {
+                await controller!.dispose();
+              }
+              setState(() {
+                cameraIndex += 1;
+                cameraIndex = cameraIndex % cameras.length;
+
+                controller = CameraController(
+                  this.cameras[cameraIndex],
+                  ResolutionPreset.high,
+                );
+                controller!.initialize().then((_) {
+                  setState(() {});
+                });
+              });
+            },
+          ),
+      ]),
       body: MessageBackgroundWidgetContainer(
           child: Stack(
         children: [
@@ -96,21 +126,6 @@ class _TakePictureWidgetState extends State<TakePictureWidget> {
     );
   }
 
-  void _initializeCamera() async {
-    CameraDescription? cameraDesc = await getCamera(_direction);
-    if (cameraDesc == null) {
-      return;
-    }
-    controller = CameraController(
-      cameraDesc,
-      ResolutionPreset.high,
-    );
-    await controller!.initialize().then((_) {
-      setState(() {
-        this.cameras = this.cameras;
-      });
-    });
-  }
 
   Future<List<CameraDescription>> _loadCameras() async {
     try {

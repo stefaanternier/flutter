@@ -48,8 +48,9 @@ class _ViewModel {
             runId: run!.runId!,
             qrCode: qrCode));
         new Future.delayed(const Duration(milliseconds: 200), () {
-
+print("before nextItemWith tag ${qrCode}");
           int? itemId = nextItemWithTag(qrCode)(store.state);
+print("after nextItemWith tag ${itemId}");
           if (itemId != null) {
             if (run.runId != null) {
               store.dispatch(

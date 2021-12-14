@@ -2,7 +2,7 @@ name: youplay
 description: A new Flutter project.
 
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
-version: 2.1.9+4049
+version: 2.1.11+4052
 
 environment:
   sdk: '>=2.14.0 <3.0.0'

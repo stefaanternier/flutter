@@ -24,8 +24,6 @@ AppState appReducer(AppState state, action) {
     return swapGameState(state, action);
   }
   AppState newState = new AppState(
-//    profile: profileReducer(state.profile, action),
-//    games: gamesReducer(state.games, action),
       themIdToTheme: themeIdToThemeReducer(state.themIdToTheme, action),
       allGamesState: allGamesReducer(state.allGamesState, action),
       // in use: new, same folder
@@ -35,10 +33,6 @@ AppState appReducer(AppState state, action) {
       gameLibrary: gameLibraryReducer(state.gameLibrary, action),
       // gameIdToGameState: gameReducer(state.gameIdToGameState, action),
       gameIdToRun: runsReducer(state.gameIdToRun, action),
-
-      // participateGames: participateGames(state.participateGames, action),
-
-//      library: libraryReducer(state.library, action),
 
       authentication: authenticationReducer(state.authentication, action),
       uiState: uiReducer(state.uiState, action)

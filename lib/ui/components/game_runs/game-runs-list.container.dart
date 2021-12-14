@@ -45,10 +45,10 @@ class _ViewModel {
   static _ViewModel fromStore(Store<AppState> store) {
     List<Run> rl = currentRunsSelector(store.state);
     Game? game = gameSelector(store.state.currentGameState);
-    rl.forEach((element) {
-      print('run is, ${element.deleted}');
-    });
-    print('redo viewmodel runlist size is ${rl.length}');
+    // rl.forEach((element) {
+    //   print('run is, ${element.deleted}');
+    // });
+    // print('redo viewmodel runlist size is ${rl.length}');
     return _ViewModel(
         runList: rl,
         deleteRun: (Run run) {
