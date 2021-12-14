@@ -30,7 +30,6 @@ class RunLandingPageContainer extends StatelessWidget {
     return StoreConnector<AppState, _ViewModel>(
       converter: (store) => _ViewModel.fromStore(store, runId),
       builder: (context, vm) {
-
         if (vm.game == null || vm.run == null) {
           return GameLandingLoadingPage(
             init: vm.loadGame,

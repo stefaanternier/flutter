@@ -103,7 +103,6 @@ class YouplayRouterDelegate extends RouterDelegate<YouplayRoutePath>
         ];
       // return GameLandingPage();
       case PageType.runLandingPage:
-        print('rendering rlp');
         return [
           MaterialPage(
 

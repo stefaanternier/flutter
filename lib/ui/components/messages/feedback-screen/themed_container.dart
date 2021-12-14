@@ -17,7 +17,7 @@ class ThemedContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new StoreConnector<AppState, _ViewModel>(
-        converter: _ViewModel.fromStore,
+        converter: (store) => _ViewModel.fromStore(store, item),
         builder: (context, _ViewModel vm) {
           return Themed(backgroundPath: vm.getPath(feedbackKind), body: child);
         });
@@ -26,21 +26,29 @@ class ThemedContainer extends StatelessWidget {
 
 class _ViewModel {
   GameTheme? gameTheme;
-
+  GeneralItem item;
   _ViewModel({
+    required this.item,
     this.gameTheme});
 
-  static _ViewModel fromStore(Store<AppState> store) {
+  static _ViewModel fromStore(Store<AppState> store, GeneralItem item) {
     return new _ViewModel(
       gameTheme: gameThemeSelector(store.state.currentGameState),
+      item: item
     );
   }
 
   String? getPath(String? feedbackKind) {
     if (feedbackKind == 'wrong') {
+      if (item.fileReferences?['wrong'] != null) {
+        return item.fileReferences!['wrong'];
+      }
        return gameTheme?.wrongPath;
     }
     if (feedbackKind == 'correct') {
+      if (item.fileReferences?['correct'] != null) {
+        return item.fileReferences!['correct'];
+      }
       return gameTheme?.correctPath;
     }
     return gameTheme?.backgroundPath;

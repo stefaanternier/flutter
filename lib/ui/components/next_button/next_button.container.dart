@@ -89,9 +89,10 @@ class _ViewModel {
     if (text.contains("::")) {
       int index = text.indexOf("::");
       text = text.substring(0, index);
-    } else if (text == '') {
-      text = AppLocalizations.of(context).translate('screen.proceed');
     }
+    // else if (text == '') {
+    //   text = AppLocalizations.of(context).translate('screen.proceed');
+    // }
 
     return _ViewModel(
         store: store,
@@ -150,7 +151,7 @@ class _ViewModel {
   }
 
   bool get buttonVisible {
-    return amountOfNewItems != 0;
+    return amountOfNewItems != 0 && buttonText != '';
   }
 
   int get amountOfNewItems {

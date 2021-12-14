@@ -24,9 +24,8 @@ class CameraSquarePreview extends StatelessWidget {
         // print('orientation ${orientation.}');
         final orientation =
         NativeDeviceOrientationReader.orientation(context);
-        print('Received new orientation: $orientation');
 
-        if (orientation == NativeDeviceOrientation.portraitDown || orientation == NativeDeviceOrientation.portraitUp ) {
+        if (!(orientation == NativeDeviceOrientation.landscapeLeft || orientation == NativeDeviceOrientation.landscapeRight) ) {
           var size = MediaQuery.of(context).size.width;
 
           print('nl size $size $orientation');
@@ -54,15 +53,12 @@ class CameraSquarePreview extends StatelessWidget {
         } else {
           if (UniversalPlatform.isIOS) {
             var size = MediaQuery.of(context).size.width;
-print('${MediaQuery.of(context).size.width} ${MediaQuery.of(context).size.height}  ${controller!.value.aspectRatio}');
             // return ;
-
-
-
             return
               RotatedBox(
                 quarterTurns: orientation == NativeDeviceOrientation.landscapeLeft? 1 : 3,
-                child: Center(
+                child:
+                Center(
                   child: Container(
                     width: size,
                     height: size,
@@ -86,7 +82,7 @@ print('${MediaQuery.of(context).size.width} ${MediaQuery.of(context).size.height
           } else {
             return
               RotatedBox(
-                quarterTurns: orientation == NativeDeviceOrientation.landscapeLeft? 3 : 1,
+                quarterTurns: orientation == NativeDeviceOrientation.landscapeLeft? 0 : 0,
                 child: Center(
                   child: AspectRatio(
                     aspectRatio: controller!.value.aspectRatio,

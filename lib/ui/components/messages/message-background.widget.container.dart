@@ -11,7 +11,14 @@ import 'package:youplay/store/state/app_state.dart';
 class MessageBackgroundWidgetContainer extends StatelessWidget {
   final Widget child;
   final bool darken;
-  MessageBackgroundWidgetContainer({required this.child, this.darken: false, Key? key}) : super(key: key);
+  final Function()? onTap;
+
+  MessageBackgroundWidgetContainer({
+    required this.child,
+    this.darken: false,
+    this.onTap,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,13 +26,13 @@ class MessageBackgroundWidgetContainer extends StatelessWidget {
       converter: _ViewModel.fromStore,
       distinct: true,
       builder: (context, vm) {
-        return Container(
-
-            decoration: getBoxDecoration(vm.getBackground() ?? vm.gameTheme?.backgroundPath),
-            child: Container(
-                color: darken ? Color.fromRGBO(0, 0, 0, 0.7) : null,
-                child: child
-            ));
+        return GestureDetector(
+          behavior: HitTestBehavior.translucent,
+          onTap: onTap,
+          child: Container(
+              decoration: getBoxDecoration(vm.getBackground() ?? vm.gameTheme?.backgroundPath),
+              child: Container(color: darken ? Color.fromRGBO(0, 0, 0, 0.7) : null, child: child)),
+        );
       },
     );
   }

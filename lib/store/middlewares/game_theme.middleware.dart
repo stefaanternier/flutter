@@ -21,7 +21,7 @@ Stream<dynamic> _retrieveGameTheme(Stream<dynamic> actions, EpicStore<AppState> 
       .whereType<LoadGameTheme>()
        .where((action) {
          dynamic themes = store.state.themIdToTheme;
-         print('game theme action ${action.themeIdentifier} ${themes[action.themeIdentifier]}');
+         // print('game theme action ${action.themeIdentifier} ${themes[action.themeIdentifier]}');
          return themes[action.themeIdentifier] == null;
   } )
       .asyncMap((action) => GamesApi.getTheme(action.themeIdentifier)
