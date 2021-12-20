@@ -58,6 +58,8 @@ class _MessagesViewContainerState extends State<MessagesViewContainer> {
                 tapEntry: vm.tapEntry,
                 width: vm.game?.boardWidth ?? 800,
                 height: vm.game?.boardHeight ?? 860,
+                screenHeight:  MediaQuery.of(context).size.height,
+                screenWidth:  MediaQuery.of(context).size.width,
                 backgroundPath: vm.game?.messageListScreen ?? '/mediaLibrary/Bos/Jungle.png',
               );
             }

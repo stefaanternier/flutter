@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:youplay/models/general_item.dart';
 import 'package:youplay/util/extended_network_image.dart';
 import 'package:youplay/ui/components/game_play/list_entry/message_list_entry_icon_container.dart';
+import 'dart:math';
 
 class MetafoorView extends StatefulWidget {
   List<ItemTimes> items = [];
@@ -9,6 +10,8 @@ class MetafoorView extends StatefulWidget {
   String backgroundPath;
   double width;
   double height;
+  double screenHeight;
+  double screenWidth;
 
   MetafoorView({
     required this.items,
@@ -16,6 +19,8 @@ class MetafoorView extends StatefulWidget {
     required this.backgroundPath,
     required this.width,
     required this.height,
+    required this.screenHeight,
+    required this.screenWidth,
     Key? key}): super(key: key);
 
   @override
@@ -28,10 +33,15 @@ class _MetafoorViewState extends State<MetafoorView> {
 
   @override
   void initState() {
+    double heightFactor = (widget.screenHeight-80) / (widget.height);
+    double widthFactor = widget.screenWidth / widget.width;
+    // print('height is ${widget.height} ${widget.screenHeight} ${heightFactor}') ;
+    // print('height is ${widget.width} ${widget.screenWidth}  ${widthFactor}');
     _controller = TransformationController();
-    _controller.value = Matrix4.identity() * 0.5;
+    _controller.value = Matrix4.identity() * max(heightFactor, widthFactor);
     super.initState();
   }
+
 
   @override
   void dispose() {

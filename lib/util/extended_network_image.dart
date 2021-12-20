@@ -4,11 +4,20 @@ import 'package:youplay/config/app_config.dart';
 
 BoxDecoration getBoxDecoration(String? path) {
   if (path != null) {
-    return new BoxDecoration(
-        image: new DecorationImage(
-            fit: BoxFit.cover,
-            image: ExtendedNetworkImageProvider(
-                '${AppConfig().storageUrl}${path}')));
+    if (path.startsWith('/')){
+      return new BoxDecoration(
+          image: new DecorationImage(
+              fit: BoxFit.cover,
+              image: ExtendedNetworkImageProvider(
+                  '${AppConfig().storageUrl}${path}')));
+    }else {
+      return new BoxDecoration(
+          image: new DecorationImage(
+              fit: BoxFit.cover,
+              image: ExtendedNetworkImageProvider(
+                  '${AppConfig().storageUrl}/${path}')));
+    }
+
   }
   return new BoxDecoration(
       image: new DecorationImage(
