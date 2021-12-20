@@ -24,6 +24,7 @@ class AppConfig {
 
   AppEnvironment? appEnvironment;
   String? appName;
+  bool? showIntro;
   String? description;
   String? appBarIcon;
   String baseUrl = '';
@@ -45,6 +46,7 @@ class AppConfig {
   void setAppConfig(
       {AppEnvironment? appEnvironment,
       String? appName,
+        bool? showIntro,
       String? description,
       String? appBarIcon,
       String? baseUrl,
@@ -61,6 +63,7 @@ class AppConfig {
       FirebaseAnalytics? analytics}) {
     this.appEnvironment = appEnvironment;
     this.appName = appName;
+    this.showIntro = showIntro ?? false;
     this.description = description;
     this.baseUrl = baseUrl ?? '';
     this.appBarIcon = appBarIcon;
