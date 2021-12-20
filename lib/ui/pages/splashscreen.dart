@@ -16,7 +16,7 @@ class SplashScreen extends StatelessWidget {
             title: Hero(
               tag: 'redSquare',
               child: new Image(
-                image: new AssetImage('graphics/icon/bibendocircleicon.png'),
+                image: new AssetImage(AppConfig().appBarIcon!),
                 height: 152.0,
                 width: 152.0,
 
