@@ -29,7 +29,7 @@ class UiState {
 
   int currentGameId;
   int? currentItemId;
-  PageType currentPage = PageType.featured;
+  PageType currentPage = PageType.splash;
   int theme;
   int error;
   int currentView;
@@ -40,7 +40,7 @@ class UiState {
   UiState({
     this.currentGameId = -1,
     this.currentItemId,
-    this.currentPage = PageType.featured,
+    this.currentPage = PageType.splash,
     this.theme = 0,
     this.error = -1,
     this.pageId,

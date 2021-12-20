@@ -69,6 +69,7 @@ void main() async {
     store.dispatch(new CustomLoginSucceededAction(
         user.displayName, user.email, user.uid, user.isAnonymous));
   } else {
+    if (AppConfig().themeData)
     store.dispatch(SetPage(page: PageType.intro));
   }
 

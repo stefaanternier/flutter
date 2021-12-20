@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:youplay/config/app_config.dart';
 import 'package:youplay/router/youplay-route-path.dart';
 import 'package:youplay/store/state/ui_state.dart';
 
@@ -20,7 +21,10 @@ class YouplayRouteInformationParser
       if (user != null) {
         return YouplayRoutePath.home();
       } else {
-        return YouplayRoutePath.intro();
+        if (AppConfig().showIntro??false) {
+          return YouplayRoutePath.intro();
+        }
+        return YouplayRoutePath.home();
       }
     }
 
