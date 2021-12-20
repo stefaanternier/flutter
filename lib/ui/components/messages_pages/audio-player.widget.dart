@@ -23,7 +23,7 @@ class AudioPlayerWidget extends StatefulWidget {
 class _AudioPlayerWidgetState extends State<AudioPlayerWidget> {
   late AudioPlayer audioPlayer;
   PlayerState status = PlayerState.STOPPED;
-
+  bool showControls = true;
   double _position = 0;
   double _maxposition = 10;
   bool isFinished = false;
@@ -34,7 +34,7 @@ class _AudioPlayerWidgetState extends State<AudioPlayerWidget> {
     audioPlayer = AudioPlayer();
     // AudioPlayer.logEnabled = true;
     audioPlayer.onPlayerStateChanged.listen((PlayerState s) {
-      if (!isFinished){
+      if (!isFinished) {
         setState(() {
           this.status = s;
           if (s == PlayerState.COMPLETED) {
@@ -43,7 +43,6 @@ class _AudioPlayerWidgetState extends State<AudioPlayerWidget> {
           }
         });
       }
-
     });
 
     audioPlayer.onAudioPositionChanged.listen((Duration p) async {
@@ -69,56 +68,64 @@ class _AudioPlayerWidgetState extends State<AudioPlayerWidget> {
         resizeToAvoidBottomInset: false,
         appBar: ThemedAppbarContainer(title: widget.item.title, elevation: true),
         body: WebWrapper(
-            child: MessageBackgroundWidgetContainer(
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              if (!isFinished)
-                Expanded(
-                  child: AudioPlayerControlsContainer(
-                    buttonTap: () {
-                      new Timer(Duration(milliseconds: 10), () {
-                        setState(() {
-                          if ((status == PlayerState.STOPPED || status == PlayerState.COMPLETED)) {
-                            play();
-                          } else if (status == PlayerState.PLAYING) {
-                            audioPlayer.pause();
-                          } else if (status == PlayerState.PAUSED) {
-                            audioPlayer.resume();
-                          }
-
-                        });
-                      });
-                    },
-                    seek: (double val) {
-                      audioPlayer.seek(Duration(milliseconds: val.floor()));
-                    },
-                    position: _position,
-                    maxposition: _maxposition,
-                    showPlay: (status == PlayerState.PAUSED ||
-                        status == PlayerState.STOPPED ||
-                        status == PlayerState.COMPLETED),
+            child: GestureDetector(
+          onTap: () {
+            setState(() {
+              showControls = !showControls;
+            });
+          },
+          child: MessageBackgroundWidgetContainer(
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                if (!isFinished)
+                  Expanded(
+                    child: !showControls
+                        ? Container()
+                        : AudioPlayerControlsContainer(
+                            buttonTap: () {
+                              new Timer(Duration(milliseconds: 10), () {
+                                setState(() {
+                                  if ((status == PlayerState.STOPPED || status == PlayerState.COMPLETED)) {
+                                    play();
+                                  } else if (status == PlayerState.PLAYING) {
+                                    audioPlayer.pause();
+                                  } else if (status == PlayerState.PAUSED) {
+                                    audioPlayer.resume();
+                                  }
+                                });
+                              });
+                            },
+                            seek: (double val) {
+                              audioPlayer.seek(Duration(milliseconds: val.floor()));
+                            },
+                            position: _position,
+                            maxposition: _maxposition,
+                            showPlay: (status == PlayerState.PAUSED ||
+                                status == PlayerState.STOPPED ||
+                                status == PlayerState.COMPLETED),
+                          ),
                   ),
-                ),
-              if (isFinished)
-                Expanded(
-                  child: Stack(
-                    // alignment: const Alignment(0.8, 0.7),
-                    children: [
-                      // videoPlayer,
-                      Positioned(
-                          bottom: 0,
-                          right: 0,
-                          left: 0,
-                          child: Padding(
-                            padding: const EdgeInsets.fromLTRB(28, 30, 28, 30),
-                            child: NextButtonContainer(item: widget.item),
-                          )),
-                    ],
-                  ),
-                )
-            ],
+                if (isFinished)
+                  Expanded(
+                    child: Stack(
+                      // alignment: const Alignment(0.8, 0.7),
+                      children: [
+                        // videoPlayer,
+                        Positioned(
+                            bottom: 0,
+                            right: 0,
+                            left: 0,
+                            child: Padding(
+                              padding: const EdgeInsets.fromLTRB(28, 30, 28, 30),
+                              child: NextButtonContainer(item: widget.item),
+                            )),
+                      ],
+                    ),
+                  )
+              ],
+            ),
           ),
         )));
   }

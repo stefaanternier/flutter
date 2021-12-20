@@ -48,7 +48,7 @@ class GamesApi extends GenericApi {
     // final response = await http.get(url,
     //     headers: {"Authorization": "Bearer " + await getIdToken()});
     // String idtoken = await getIdToken();
-    // print("game response ${response.body} ${idtoken}");
+    print("game theme response ${response.body} ");
     return GameTheme.fromJson(jsonDecode(response.body));
   }
 

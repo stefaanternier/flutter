@@ -27,8 +27,8 @@ class GameTheme {
         primaryColor =
             json['primaryColor'] != null ? colorFromHex(json['primaryColor']) : Colors.green,
         global = json['global'] == 'true',
-        iconPath = json['iconPath'],
-        backgroundPath = json['backgroundPath'],
-        correctPath = json['correctPath'],
-        wrongPath = json['wrongPath'];
+        iconPath = json['iconPath'] ?? 'themes/1/icon.png',
+        backgroundPath = json['backgroundPath'] ?? 'themes/1/screenshot-bg.png',
+        correctPath = json['correctPath'] ?? 'themes/1/screenshot-correct.png',
+        wrongPath = json['wrongPath'] ?? 'themes/1/screenshot-wrong.png';
 }
