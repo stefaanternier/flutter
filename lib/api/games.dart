@@ -40,7 +40,10 @@ class GamesApi extends GenericApi {
 
 
   static Future<GameTheme> getTheme(int themeId) async {
-    final response = await GenericApi.get('api/game/theme/$themeId');
+    dynamic response = await GenericApi.get('api/game/theme/$themeId');
+    if (response.statusCode == 204) {
+      response = await GenericApi.get('api/game/theme/1');
+    }
     // var url = Uri.https(AppConfig().baseUrl, 'api/game/theme/$themeId');
     // final response = await http.get(url,
     //     headers: {"Authorization": "Bearer " + await getIdToken()});
