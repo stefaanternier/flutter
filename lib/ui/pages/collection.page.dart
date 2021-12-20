@@ -57,7 +57,7 @@ class _FeaturedGamesPageState extends State<FeaturedGamesPage> {
         title: Hero(
           tag: 'redSquare',
           child: new Image(
-            image: new AssetImage('graphics/icon/bibendocircleicon.png'),
+            image: new AssetImage(AppConfig().appBarIcon!),
             height: 32.0,
             width: 32.0,
           ),
