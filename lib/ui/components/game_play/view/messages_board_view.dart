@@ -79,7 +79,9 @@ class _MetafoorViewState extends State<MetafoorView> {
                         onTap: () {
                           this.widget.tapEntry(item.generalItem);
                         },
-                        child: MessageEntryIconContainer(item: item.generalItem)),
+                        child: MessageEntryIconContainer(
+                            read: item.read,
+                            item: item.generalItem)),
                   );}
 
               ))),

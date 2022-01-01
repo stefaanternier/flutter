@@ -45,7 +45,6 @@ class _MessagesViewContainerState extends State<MessagesViewContainer> {
                 setState(() {});
               });
             });
-            print('vm.listType ${vm.listType}');
             if (vm.listType == 2) {
               return MessagesList(
                 items: items,
@@ -104,13 +103,9 @@ class _ViewModel {
     if (lt == 0 && g != null) {
       store.dispatch(ToggleMessageViewAction(game: g));
     }
-    // if (g != null && !g.messageListTypes.contains(i)) {
-    //   lt = MessageView.values[g.messageListTypes[0]-1];
-    // }
     return _ViewModel(
         isLoading: isSyncingActions(store.state) || isSyncingMessages(store.state),
         listType: lt,
-        //store.state.uiState.currentView,
         game: g,
         //store.state.currentGameState.game,
         points: gameLocationTriggers(store.state),
