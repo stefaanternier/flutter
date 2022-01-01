@@ -11,8 +11,9 @@ import 'message_list_entry_icon.dart';
 
 class MessageEntryIconContainer extends StatelessWidget {
   GeneralItem item;
-
-  MessageEntryIconContainer({required this.item});
+  bool read;
+  MessageEntryIconContainer({required this.read,
+    required this.item});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +22,7 @@ class MessageEntryIconContainer extends StatelessWidget {
       builder: (context, vm) {
         return MessageEntryIcon(
           icon: item.getIcon(),
-          primaryColor: vm.gameTheme?.primaryColor ?? AppConfig().themeData!.primaryColor
+          primaryColor: read? Colors.grey : vm.gameTheme?.primaryColor ?? AppConfig().themeData!.primaryColor
         );
       },
     );

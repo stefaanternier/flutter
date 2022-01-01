@@ -30,7 +30,7 @@ class MessageListEntry extends StatelessWidget {
         padding: const EdgeInsets.fromLTRB(0, 17.0, 0, 17.0),
         child:new ListTile(
             leading:
-            MessageEntryIconContainer(item: this.item)
+            MessageEntryIconContainer(read: false, item: this.item)
             ,
             // onTap: messageViewModel.itemTapAction(item.itemId, context, item.title, item.gameId), //todo
 

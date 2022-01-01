@@ -192,7 +192,7 @@ print ("in controller add listeren");
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: <Widget>[
-                        TextField(
+                        if (widget.lockLength >0) TextField(
                           maxLength: widget.lockLength,
                           style: TextStyle(fontSize: 36, fontWeight: FontWeight.bold,
                               color: Color.fromRGBO(255, 0, 0, 0)),
