@@ -22,7 +22,8 @@ class _GameRunsPageState extends State<GameRunsPage> {
         appBar: GameTitleThemedAppbarContainer(elevation: true),
         body: WebWrapper(
             child: SingleChildScrollView(
-                child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start, children: [
           GameRunsHeader(),
           GameRunsListContainer(),
           Divider(),
