@@ -21,6 +21,7 @@ class Game {
   String iconAbbreviation;
   String description;
   String? messageListScreen;
+  String? startButton;
   List<int> messageListTypes;
 
   int theme;
@@ -47,6 +48,7 @@ class Game {
         title = json['title'] ?? '',
         description = json['description'] ?? '',
         messageListScreen = json['messageListScreen'],
+        startButton = json['startButton'],
         messageListTypes = (json['messageListTypes'] ?? "")
             .split(',')
             .where((nAsString) => nAsString.trim() != "")
@@ -72,6 +74,7 @@ class Game {
       this.webEnabled = false,
       this.title = "no title",
       this.messageListScreen,
+      this.startButton,
       required this.messageListTypes,
       this.description = "",
       this.iconAbbreviation = ''});

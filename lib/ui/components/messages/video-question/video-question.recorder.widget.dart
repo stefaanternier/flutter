@@ -1,14 +1,18 @@
-
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:native_device_orientation/native_device_orientation.dart';
+import 'package:universal_platform/universal_platform.dart';
 import 'package:video_compress/video_compress.dart';
 import 'package:youplay/models/general_item/video_question.dart';
 import 'package:youplay/ui/components/appbar/themed-appbar.container.dart';
 import 'package:youplay/ui/components/buttons/video_record_button.dart';
+import 'package:youplay/ui/components/messages/video-question/rotate_preview_android.dart';
 import 'package:youplay/ui/components/messages_parts/richtext-top.container.dart';
 import 'package:youplay/ui/pages/game_landing.page.loading.dart';
 
 import '../message-background.widget.container.dart';
+import 'rotate_preview.dart';
 
 enum VideoRecordingStatus { stopped, recording }
 
@@ -25,10 +29,13 @@ class VideoRecorder extends StatefulWidget {
 }
 
 class _VideoRecorderState extends State<VideoRecorder> {
+  bool encoding = false;
   CameraController? controller;
   List<CameraDescription> cameras = [];
   CameraLensDirection _direction = CameraLensDirection.back;
+  int cameraIndex = 0;
   VideoRecordingStatus status = VideoRecordingStatus.stopped;
+  NativeDeviceOrientation recordOrientation = NativeDeviceOrientation.portraitUp;
 
   @override
   void initState() {
@@ -46,16 +53,47 @@ class _VideoRecorderState extends State<VideoRecorder> {
 
   @override
   Widget build(BuildContext context) {
+    if (encoding) {
+      return GameLandingLoadingPage(init: () {}, text: "Even wachten, we converteren de video...");
+    }
     if (cameras.isEmpty) {
       return GameLandingLoadingPage(init: () {}, text: "Even wachten, we laden de camera's...");
     }
     if (controller == null) {
-      return GameLandingLoadingPage(init: () {}, text: "Even wachten, we laden de video...");
+      return GameLandingLoadingPage(init: () {},
+          backgroundColor: Colors.black,
+          text: "Even wachten, we laden de video...");
     }
+
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: ThemedAppbarContainer(title: widget.item.title, elevation: false),
+      appBar: ThemedAppbarContainer(title: widget.item.title, elevation: false, actions: [
+        if (cameras.length > 1)
+          new IconButton(
+            icon: new Icon(
+              Icons.flip_camera_ios,
+              color: Colors.white,
+            ),
+            onPressed: () async {
+              if (controller != null) {
+                await controller!.dispose();
+              }
+              setState(() {
+                cameraIndex += 1;
+                cameraIndex = cameraIndex % cameras.length;
+
+                controller = CameraController(
+                  this.cameras[cameraIndex],
+                  ResolutionPreset.high,
+                );
+                controller!.initialize().then((_) {
+                  setState(() {});
+                });
+              });
+            },
+          ),
+      ],),
       body: MessageBackgroundWidgetContainer(
         child: Container(
           color: Color.fromRGBO(0, 0, 0, 0.7),
@@ -69,27 +107,33 @@ class _VideoRecorderState extends State<VideoRecorder> {
                   child: OverflowBox(
                     alignment: Alignment.center,
                     child: FittedBox(
-                      fit: BoxFit.fitWidth,
-                      child: (controller == null)
-                          ? Container()
-                          : Container(
-                              //1280x720
-                              width: 720,
-                              height: 1280,
-                              child: CameraPreview(controller!), // this is my CameraPreview
-                            ),
-                    ),
+                        fit: BoxFit.fitWidth,
+                        child: (controller == null)
+                            ? Container()
+                            : UniversalPlatform.isAndroid
+                                ? RotateCameraPreviewAndroid(
+                                    status: status,
+                                    cameraPreview: CameraPreview(controller!),
+                                    recordOrientation: recordOrientation,
+                                  )
+                                : RotateCameraPreviewIos(
+                                    status: status,
+                                    cameraPreview: CameraPreview(controller!),
+                                  )),
                   ),
                 ),
               ),
               Expanded(
                 child: VideoRecordButton(
                   isRecording: status == VideoRecordingStatus.stopped,
-                  tapRecord: () {
+                  tapRecord: () async {
+                    NativeDeviceOrientation orientation =
+                        await NativeDeviceOrientationCommunicator().orientation(useSensor: true);
                     setState(() {
                       status = VideoRecordingStatus.recording;
+                      recordOrientation = orientation;
                     });
-                    startRecording();
+                    startRecording(orientation);
                   },
                   tapStop: () {
                     setState(() {
@@ -106,7 +150,7 @@ class _VideoRecorderState extends State<VideoRecorder> {
     );
   }
 
-  void startRecording() {
+  void startRecording(NativeDeviceOrientation orientation) async {
     if (controller == null) {
       return null;
     }
@@ -119,9 +163,12 @@ class _VideoRecorderState extends State<VideoRecorder> {
     }
 
     try {
-      // videoPath = filePath;
+      if (orientation == NativeDeviceOrientation.landscapeLeft) {
+        await controller!.lockCaptureOrientation(DeviceOrientation.landscapeRight);
+      } else if (orientation == NativeDeviceOrientation.landscapeRight) {
+        await controller!.lockCaptureOrientation(DeviceOrientation.landscapeLeft);
+      }
 
-      //await controller.startVideoRecording(filePath);
       controller!.startVideoRecording();
     } on CameraException catch (e) {
       print(e);
@@ -137,7 +184,9 @@ class _VideoRecorderState extends State<VideoRecorder> {
     if (!controller!.value.isRecordingVideo) {
       return null;
     }
-
+    setState(() {
+      encoding = true;
+    });
     try {
       XFile result = await controller!.stopVideoRecording();
 
@@ -147,17 +196,15 @@ class _VideoRecorderState extends State<VideoRecorder> {
         deleteOrigin: true, // It's false by default
       );
       if (mediaInfo != null) {
-        // VideoPlayerController vpc = VideoPlayerController.file(File(mediaInfo.path!));
-        // await vpc.initialize();
-        // print('mediainfo duration ${mediaInfo.duration}');
-        // print('vpc duration ${vpc.value.duration.inMilliseconds}');
-        // widget.newRecording(mediaInfo.path!, vpc.value.duration.inMilliseconds);
         widget.newRecording(mediaInfo.path!, mediaInfo.duration?.toInt() ?? 0);
       }
     } on CameraException catch (e) {
       // _showCameraException(e);
       return null;
     }
+    setState(() {
+      encoding = false;
+    });
   }
 
   void _initializeCamera() async {

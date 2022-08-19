@@ -19,7 +19,7 @@ final Reducer<AllGamesState> allGamesReducer = combineReducers<AllGamesState>([
 
 
 AllGamesState  _removeParticipateRun(AllGamesState gamesState, ApiResultRunsParticipateAction action) {
-  print('check if game has runs ${action.runs.length} ${action.gameId}');
+  print('check if game has runs* ${action.runs.length} ${action.gameId}');
   if (action.runs.where((r) => !r.deleted).isEmpty){
     print('remove ${action.gameId}');
     return gamesState.removeGame(action.gameId);

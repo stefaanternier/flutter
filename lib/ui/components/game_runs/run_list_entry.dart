@@ -24,7 +24,7 @@ class RunListEntry extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final DateFormat formatter = DateFormat.yMMMMd(Localizations.localeOf(context).languageCode);
+    final DateFormat formatter = DateFormat.yMMMMd(Localizations.localeOf(context).languageCode).add_jm();
     return Dismissible(
       key: Key("${run.runId}"),
       background: DismissibleBackground(),

@@ -8,6 +8,7 @@ import 'package:youplay/store/actions/auth.actions.dart';
 import 'package:youplay/store/actions/ui_actions.dart';
 import 'package:youplay/store/selectors/auth.selectors.dart';
 import 'package:youplay/store/selectors/current_game.selectors.dart';
+import 'package:youplay/store/selectors/selector.gametheme.dart';
 import 'package:youplay/store/state/app_state.dart';
 import 'package:youplay/store/state/auth.state.dart';
 import 'package:youplay/store/state/ui_state.dart';
@@ -55,7 +56,7 @@ class _ViewModel {
     AuthenticationState authenticationState = authenticationInfo(store.state);
     return _ViewModel(
       isAuthenticated: authenticationState.authenticated,
-      gameTheme: gameThemeSelector(store.state.currentGameState),
+      gameTheme: currentThemeSelector(store.state),
       anon: authenticationState.anon,
       startAgain: () {
          store.dispatch(new EraseAnonAccountAndStartAgain());

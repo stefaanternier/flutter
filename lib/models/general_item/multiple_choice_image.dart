@@ -16,6 +16,7 @@ class MultipleChoiceImageGeneralItem extends GeneralItem {
     required int sortKey,
     required String title,
     required String richText,
+    String? icon,
     required String description,
     required this.text,
     required this.showFeedback,
@@ -38,6 +39,7 @@ class MultipleChoiceImageGeneralItem extends GeneralItem {
             lastModificationDate: lastModificationDate,
             sortKey: sortKey,
             title: title,
+            icon: icon,
             richText: richText,
             description: description,
             dependsOn: dependsOn,
@@ -61,6 +63,7 @@ class MultipleChoiceImageGeneralItem extends GeneralItem {
         sortKey: json['sortKey'] ?? 0,
         title: json['name'],
         richText: json['richText'] ?? '',
+        icon: json['icon'],
         description: (json['description'] ?? "").trim(),
         text: json['text'] ?? '',
         showFeedback: json['showFeedback'] == null ? false : json['showFeedback'],
@@ -85,7 +88,7 @@ class MultipleChoiceImageGeneralItem extends GeneralItem {
   }
 
   String getIcon() {
-    return 'fa.th';
+    return icon ?? 'fa.th';
   }
 
   Widget buildPage() {

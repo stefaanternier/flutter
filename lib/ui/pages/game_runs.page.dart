@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:youplay/ui/components/appbar/game-title-themed-app-bar.container.dart';
 import 'package:youplay/ui/components/game_runs/game-runs-header.dart';
 import 'package:youplay/ui/components/game_runs/game-runs-list.container.dart';
+import 'package:youplay/ui/components/game_runs/new_run.button.container.dart';
+import 'package:youplay/ui/components/game_runs/new_run.button.dart';
 import 'package:youplay/ui/components/nav/navigation_drawer.container.dart';
 import 'package:youplay/ui/components/web/web_wrapper.dart';
 
@@ -21,13 +23,14 @@ class _GameRunsPageState extends State<GameRunsPage> {
         drawer: ARLearnNavigationDrawerContainer(),
         appBar: GameTitleThemedAppbarContainer(elevation: true),
         body: WebWrapper(
-            child: SingleChildScrollView(
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start, children: [
-          GameRunsHeader(),
-          GameRunsListContainer(),
-          Divider(),
-        ]))));
+            child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+              Expanded(flex: 0, child: GameRunsHeader()),
+              Expanded(flex: 1, child: SingleChildScrollView(child: GameRunsListContainer())),
+              Expanded(flex: 0, child: NewRunButtonContainer())
+            ])));
   }
 
   @override

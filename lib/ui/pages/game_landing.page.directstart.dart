@@ -65,7 +65,7 @@ class  GameLandingDirectStartPage extends StatelessWidget {
                               ))),
                     ),
                     CustomRaisedButton(
-                      title: "START HET SPEL  ",
+                      title: game.startButton ?? "START HET SPEL  ",
                       onPressed: createRunAndStart,
                     ),
 

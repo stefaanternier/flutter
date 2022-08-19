@@ -6,7 +6,6 @@ import 'package:youplay/models/general_item.dart';
 
 class GamesState {
   Game? game;
-  GameTheme? gameTheme;
   HashMap<int, GeneralItem> itemIdToGeneralItem = new HashMap();
   HashMap<int, GameFile> fileIdToGameFile = new HashMap();
   int amountOfRuns = -1;
@@ -21,17 +20,13 @@ class GamesState {
         'game': game?.toJson() ?? {},
       };
 
-  GamesState copyWith({game, items, gt, runAmount, lastSync}) {
+  GamesState copyWith({game, items, runAmount, lastSync}) {
     GamesState gs = new GamesState();
     gs.game = game ?? this.game;
     gs.itemIdToGeneralItem = items ?? this.itemIdToGeneralItem;
     gs.fileIdToGameFile = this.fileIdToGameFile;
-    gs.gameTheme = gt ?? this.gameTheme;
     gs.amountOfRuns = runAmount ?? this.amountOfRuns;
     gs.lastSync = lastSync ?? this.lastSync;
-//    if (loading) {
-//      gs.game.title = 'loading...';
-//    }
     return gs;
   }
 }

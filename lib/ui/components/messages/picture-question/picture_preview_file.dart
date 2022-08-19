@@ -84,8 +84,6 @@ class _PictureFilePreviewState extends State<PictureFilePreview> {
   }
 
   void submitText(String value, BuildContext context) {
-    print("submitting text");
-    print(value);
     widget.submitPicture(value);
   }
 }

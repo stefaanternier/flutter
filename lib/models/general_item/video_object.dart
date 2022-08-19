@@ -4,14 +4,19 @@ import 'package:youplay/models/general_item/dependency.dart';
 import 'package:youplay/ui/components/messages_pages/video-player.widget.container.dart';
 
 class VideoObjectGeneralItem extends GeneralItem {
+
+  bool autoPlay;
+
   VideoObjectGeneralItem({
     required int gameId,
     required int itemId,
     required bool deleted,
+    required this.autoPlay,
     required int lastModificationDate,
     required int sortKey,
     required String title,
     required String richText,
+    String? icon,
     required String description,
     double? lat,
     double? lng,
@@ -32,6 +37,7 @@ class VideoObjectGeneralItem extends GeneralItem {
             sortKey: sortKey,
             title: title,
             richText: richText,
+      icon: icon,
             description: description,
             fileReferences: fileReferences,
             primaryColor: primaryColor,
@@ -49,10 +55,12 @@ class VideoObjectGeneralItem extends GeneralItem {
         gameId: int.parse(json['gameId']),
         itemId: int.parse(json['id']),
         deleted: json['deleted'],
+        autoPlay: json['autoPlay'] ?? false,
         lastModificationDate: int.parse(json['lastModificationDate']),
         sortKey: json['sortKey'] ?? 0,
         title: json['name'],
         richText: json['richText'] ?? '',
+        icon: json['icon'],
         description: (json['description'] ?? "").trim(),
         showOnMap: json['showOnMap'] ?? false,
         showInList: json['showInList'] == null ? true : json['showInList'],
@@ -76,7 +84,7 @@ class VideoObjectGeneralItem extends GeneralItem {
   }
 
   String getIcon() {
-    return 'fa.film';
+    return icon ?? 'fa.film';
   }
 
   Widget buildPage() {

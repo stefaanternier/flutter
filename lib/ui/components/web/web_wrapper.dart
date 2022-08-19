@@ -14,8 +14,9 @@ class WebWrapper extends StatelessWidget {
       return Container(
         alignment: Alignment.topCenter,
         child: Container(
-
-            constraints: BoxConstraints(maxHeight: 1280, maxWidth: 720),
+//MediaQuery.of(context).size.height
+            //constraints: BoxConstraints(maxHeight: 1280, maxWidth: 720),
+            constraints: BoxConstraints(maxHeight: 1280, maxWidth: MediaQuery.of(context).size.height/1280*720),
             child:child),
       );
 

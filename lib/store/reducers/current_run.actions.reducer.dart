@@ -11,6 +11,8 @@ RunState addLocalAction(RunState state, LocalAction toReduceAction) {
   if (_actionReplaceNecessary(state.actionsFromServer, action)) {
     state.unsynchronisedActions.add(action);
     state.unsynchronisedActions = List<ARLearnAction>.from(state.unsynchronisedActions);
+  } else {
+    toReduceAction.notConsumed();
   }
   return state;
 }

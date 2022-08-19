@@ -21,6 +21,7 @@ class SingleChoiceGeneralItem extends GeneralItem {
     required this.text,
     required this.showFeedback,
     required String richText,
+    String? icon,
     required String description,
     required this.answers,
     Dependency? dependsOn,
@@ -42,6 +43,7 @@ class SingleChoiceGeneralItem extends GeneralItem {
             sortKey: sortKey,
             title: title,
             richText: richText,
+      icon: icon,
             description: description,
             dependsOn: dependsOn,
             disappearOn: disappearOn,
@@ -65,6 +67,7 @@ class SingleChoiceGeneralItem extends GeneralItem {
         text: json['text'] ?? '',
         showFeedback: json['showFeedback'] == null ? false : json['showFeedback'],
         richText: json['richText'] ?? '',
+        icon: json['icon'],
         description: (json['description'] ?? "").trim(),
         answers: json['answers'] == null
             ? []
@@ -86,7 +89,7 @@ class SingleChoiceGeneralItem extends GeneralItem {
   }
 
   String getIcon() {
-    return 'fa.list';
+    return icon ?? 'fa.list';
   }
 
   Widget buildPage() {
@@ -107,6 +110,7 @@ class MultipleChoiceGeneralItem extends GeneralItem {
     required int sortKey,
     required String title,
     required String richText,
+    String? icon,
     required String description,
     required this.text,
     required this.answers,
@@ -130,6 +134,7 @@ class MultipleChoiceGeneralItem extends GeneralItem {
             sortKey: sortKey,
             title: title,
             richText: richText,
+      icon: icon,
             description: description,
             dependsOn: dependsOn,
             disappearOn: disappearOn,
@@ -152,6 +157,7 @@ class MultipleChoiceGeneralItem extends GeneralItem {
         title: json['name'],
         text: json['text'] ?? '',
         richText: json['richText'] ?? '',
+        icon: json['icon'],
         description: (json['description'] ?? "").trim(),
         showFeedback: json['showFeedback'] == null ? false : json['showFeedback'],
         answers: json['answers'] == null
@@ -174,7 +180,7 @@ class MultipleChoiceGeneralItem extends GeneralItem {
   }
 
   String getIcon() {
-    return 'fa.list';
+    return icon ?? 'fa.list';
   }
 
   Widget buildPage() {

@@ -48,13 +48,13 @@ class _ViewModel {
   _ViewModel({required this.game, this.gameTheme});
 
   static _ViewModel fromStore(Store<AppState> store, Game game) {
-    if (allThemesSelector(store.state)[game.theme] == null && game.theme != 0) {
+    if (allThemesSelector(store.state)['${game.theme}'] == null && game.theme != 0) {
       store.dispatch(LoadGameTheme(themeIdentifier: game.theme));
     }
 
     return _ViewModel(
         game: game,
-        gameTheme: allThemesSelector(store.state)[game.theme]
+        gameTheme: allThemesSelector(store.state)['${game.theme}']
     );
   }
 

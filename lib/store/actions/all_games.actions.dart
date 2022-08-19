@@ -39,10 +39,8 @@ class LoadParticipateGameRequestAction  {
 }
 
 class LoadParticipateGameResponseAction {
-//  String resultAsString;
   Game game;
   int gameId;
-//  dynamic resultAsJson;
 
   LoadParticipateGameResponseAction({required this.game, required  this.gameId}); //: super(resultAsString:resultAsString);
 

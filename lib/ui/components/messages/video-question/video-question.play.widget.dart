@@ -52,6 +52,7 @@ class _VideoQuestionPlayWidgetState extends State<VideoQuestionPlayWidget> {
                   setState(() {
                     isFinished = true;
                   });
+                  print('controller ${_controller.value.size.width < _controller.value.size.height}');
                   _controller.pause();
                   _controller.seekTo(Duration(milliseconds: 0));
                 },
@@ -70,6 +71,7 @@ class _VideoQuestionPlayWidgetState extends State<VideoQuestionPlayWidget> {
 
   @override
   Widget build(BuildContext context) {
+
     return WillPopScope(
       onWillPop: () async {
         setState(() {
@@ -93,11 +95,13 @@ class _VideoQuestionPlayWidgetState extends State<VideoQuestionPlayWidget> {
                         child: ClipRect(
                           child: OverflowBox(
                             alignment: Alignment.center,
-                            child: FittedBox(
-                              fit: BoxFit.fitWidth,
+                            child:
+
+                            FittedBox(
+                              fit: (_controller.value.size.width < _controller.value.size.height) ? BoxFit.fitWidth : BoxFit.fitHeight,
                               child: Container(
-                                width: 720,
-                                height: 1280,
+                                width: _controller.value.size.width, // < _controller.value.size.height ? 720 : 1280,
+                                height: _controller.value.size.height, // < _controller.value.size.height ? 1280,
                                 child: VideoPlayer(_controller), // this is my CameraPreview
                               ),
                             ),
@@ -142,11 +146,23 @@ class _VideoQuestionPlayWidgetState extends State<VideoQuestionPlayWidget> {
                         padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
                         child: Row(
                           children: <Widget>[
-                            Icon(
-                              Icons.fast_rewind,
-                              size: 40,
-                              color: Colors.white,
+                            InkWell(
+                              child: Padding(
+                                padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+                                child: Icon(
+                                  Icons.fast_rewind,
+                                  size: 40,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              onTap: () {
+                                setState(() {
+                                  _controller.seekTo(Duration(milliseconds: max((_position.floor() - 5000), 0) ));
+                                  // _controller.value.isPlaying ? _controller.pause() : _controller.play();
+                                });
+                              },
                             ),
+
                             InkWell(
                               child: Padding(
                                 padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
@@ -164,11 +180,24 @@ class _VideoQuestionPlayWidgetState extends State<VideoQuestionPlayWidget> {
                                 });
                               },
                             ),
-                            Icon(
-                              Icons.fast_forward,
-                              size: 40,
-                              color: Colors.white,
+                            InkWell(
+                              child: Padding(
+                                padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+                                child: Icon(
+                                  Icons.fast_forward,
+                                  size: 40,
+                                  color: Colors.white,
+
+                                ),
+                              ),
+                              onTap: () {
+                                setState(() {
+                                  _controller.seekTo(Duration(milliseconds: min((_position.floor() + 5000), _maxPosition.floor()) ));
+                                  // _controller.value.isPlaying ? _controller.pause() : _controller.play();
+                                });
+                              },
                             ),
+
                             Expanded(
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.end,

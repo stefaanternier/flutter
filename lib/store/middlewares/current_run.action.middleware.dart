@@ -10,8 +10,11 @@ import 'package:youplay/models/run.dart';
 import 'package:youplay/store/actions/current_game.actions.dart';
 import 'package:youplay/store/actions/current_run.action.actions.dart';
 import 'package:youplay/store/actions/current_run.actions.dart';
+import 'package:youplay/store/actions/errors.dart';
 import 'package:youplay/store/actions/game_library.actions.dart';
+import 'package:youplay/store/actions/ui_actions.dart';
 import 'package:youplay/store/state/app_state.dart';
+import 'package:youplay/store/state/ui_state.dart';
 
 final uploadActionEpic = new TypedEpic<AppState, LocalAction>(_postAction);
 final loadPublicRunEpic = new TypedEpic<AppState, LoadPublicRunRequestAction>(_loadPublicRun);
@@ -65,11 +68,12 @@ Stream<dynamic> yieldLinkExpandRun(int runId) async* {
   if (runwithgame != null && runwithgame['game'] != null) {
     Game game = Game.fromJson(runwithgame['game']);
     print('game titel ${game.title}');
-    GameTheme theme = await GamesApi.getTheme(game.theme);
-    yield new LoadGameSuccessAction(game: game, gameTheme: theme);
+    yield new LoadGameSuccessAction(game: game);
     yield new LoadOneFeaturedRunAction(run: Run.fromJson(runwithgame));
     yield ApiRunsParticipateAction(game.gameId);
   } else {
+    yield SetPage(page: PageType.error);
+    yield ApiResultError(error: ApiResultError.RUNDOESNOTEXIST, message: '');
     print('what went wrong ${runwithgame}'); //todo
   }
 }

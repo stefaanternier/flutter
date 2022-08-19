@@ -16,6 +16,8 @@ import 'package:youplay/store/middlewares/locations.middleware.dart';
 import 'package:youplay/store/middlewares/ui.middleware.dart';
 import 'package:youplay/store/state/app_state.dart';
 
+import 'epics.gametheme.dart';
+
 final epic = combineEpics<AppState>([
   runsParticipateEpic,
   currentGameEpic,

@@ -5,26 +5,28 @@ import 'package:youplay/models/run.dart';
 import 'package:youplay/store/state/all_games_state.dart';
 import 'package:youplay/store/state/current_game_state.dart';
 import 'package:youplay/store/state/run_state.dart';
+import 'package:youplay/store/state/state.gametheme.dart';
 import 'package:youplay/store/state/ui_state.dart';
 
 import 'auth.state.dart';
 import 'game_library.state.dart';
 
 class AppState {
-  HashMap<int, GameTheme> themIdToTheme;
   HashMap<int, List<Run>> gameIdToRun;
+
   // HashMap<int, GamesState> gameIdToGameState;
   GamesState currentGameState;
   RunState currentRunState;
 
   GameLibraryState gameLibrary;
   AllGamesState allGamesState;
+
+  GameThemeState gameThemeState;
   UiState uiState;
 
   AuthenticationState authentication;
 
-  AppState(
-      {required this.themIdToTheme,
+  AppState({
       required this.gameIdToRun,
       // required this.gameIdToGameState,
       required this.currentGameState,
@@ -33,40 +35,30 @@ class AppState {
       required this.authentication,
       // required this.participateGames,
       required this.allGamesState,
+      required this.gameThemeState,
       required this.uiState});
 
   factory AppState.emptyState() => new AppState(
-    allGamesState: new AllGamesState(participateGames: []),
-    authentication: AuthenticationState.unauthenticated(),
-    themIdToTheme: new HashMap<int, GameTheme>(),
-    gameIdToRun: new HashMap<int, List<Run>>(),
-    // gameIdToGameState: new HashMap<int, GamesState>(),
-    currentGameState: new GamesState(),
-    currentRunState: RunState.init(),
-    gameLibrary: GameLibraryState(
-      partialFeaturedGames: [],
-      partialSearchedGames: [],
-      recentGames: [],
-      fullGames: new HashMap(),
-    ),
-    // participateGames: [],
-    uiState: UiState.initState(),
-  );
+        allGamesState: new AllGamesState(participateGames: []),
+        authentication: AuthenticationState.unauthenticated(),
+        // themIdToTheme: new HashMap<int, GameTheme>(),
+        gameIdToRun: new HashMap<int, List<Run>>(),
+        // gameIdToGameState: new HashMap<int, GamesState>(),
+        currentGameState: new GamesState(),
+        currentRunState: RunState.init(),
+        gameLibrary: GameLibraryState(
+          partialFeaturedGames: [],
+          partialSearchedGames: [],
+          recentGames: [],
+          fullGames: new HashMap(),
+        ),
+        // participateGames: [],
+        gameThemeState: GameThemeState.initState(),
+        uiState: UiState.initState(),
+      );
 
   static AppState fromJson(dynamic json) {
     AppState state = AppState.emptyState();
-    // (json["participateGames"] as List)
-    //     .forEach((js) => state.participateGames..add(Game.fromJson(js)));
-
-    // (json["gameIdToGameState"] as LinkedHashMap<String, dynamic>)
-    //     .forEach((String key, dynamic gamestate) {
-    //   state.gameIdToGameState[int.parse(key)] = GamesState.fromJson(gamestate);
-    // });
-//    (json["runIdToRunState"] as LinkedHashMap<String, dynamic>)
-//        .forEach((String key, dynamic runState) {
-//      state.runIdToRunState[int.parse(key)] = RunState.fromJson(runState);
-//    });
-
     return state;
   }
 
@@ -88,9 +80,9 @@ class AppState {
   }
 
   @override
-  bool operator == (dynamic other) {
+  bool operator ==(dynamic other) {
     AppState o = other as AppState;
-    bool appChange =  (this.themIdToTheme == other.themIdToTheme) &&
+    bool appChange =
         (this.allGamesState == other.allGamesState) &&
         (this.currentGameState == other.currentGameState) &&
         (this.currentRunState == other.currentRunState) &&
@@ -99,7 +91,8 @@ class AppState {
 
         (this.gameIdToRun == other.gameIdToRun) &&
         // (this.participateGames == other.participateGames)&&
-        (this.authentication == other.authentication)&&
+        (this.authentication == other.authentication) &&
+        (this.gameThemeState == other.gameThemeState) &&
         (this.uiState == other.uiState);
 
     // if (!appChange) {
@@ -107,4 +100,14 @@ class AppState {
     // }
     return appChange;
   }
+
+  @override
+  int get hashCode => allGamesState.hashCode
+  ^ currentGameState.hashCode
+  ^ currentRunState.hashCode
+  ^ gameLibrary.hashCode
+  ^ gameIdToRun.hashCode
+  ^ authentication.hashCode
+  ^ gameThemeState.hashCode
+  ^ uiState.hashCode;
 }

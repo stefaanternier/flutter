@@ -3,6 +3,8 @@ import 'package:youplay/router/youplay-route-path.dart';
 import 'package:youplay/store/state/ui_state.dart';
 import 'package:youplay/ui/pages/collection.page.dart';
 import 'package:youplay/ui/pages/create_account.page.dart';
+import 'package:youplay/ui/pages/error.page.container.dart';
+import 'package:youplay/ui/pages/error.page.dart';
 import 'package:youplay/ui/pages/game_landing.page.container.dart';
 import 'package:youplay/ui/pages/game_play.container.dart';
 import 'package:youplay/ui/pages/game_runs.page.dart';
@@ -21,8 +23,7 @@ class YouplayRouterDelegate extends RouterDelegate<YouplayRoutePath>
 
   YouplayRoutePath youplayRoutePath;
 
-  YouplayRouterDelegate(
-      {required this.youplayRoutePath, required this.updatePageType})
+  YouplayRouterDelegate({required this.youplayRoutePath, required this.updatePageType})
       : navigatorKey = GlobalKey<NavigatorState>();
 
   YouplayRoutePath get currentConfiguration {
@@ -52,43 +53,38 @@ class YouplayRouterDelegate extends RouterDelegate<YouplayRoutePath>
   List<Page<dynamic>> pages() {
     switch (youplayRoutePath.pageType) {
       case PageType.intro:
+        print('new page type ');
         return [
           MaterialPage(
               key: ValueKey('Splash'),
               child: SplashScreenContainer(
-                finished: (){
+                finished: () {
                   youplayRoutePath.pageType = PageType.introAfterSplash;
                   print('to intro after splash');
                   notifyListeners();
                 },
               ) //gameId: _youplayRoutePath.gameId!
-          )
+              )
         ];
 
       case PageType.introAfterSplash:
-        return [
-          MaterialPage(
-              key: ValueKey('Intro'),
-              child: IntroPageContainer()
-          )
-        ];
+        return [MaterialPage(key: ValueKey('Intro'), child: IntroPageContainer())];
 
-    case PageType.splash:
+      case PageType.splash:
         return [
           MaterialPage(
               key: ValueKey('Splash'),
               child: SplashScreenContainer(
-                finished: (){
+                finished: () {
                   youplayRoutePath.pageType = PageType.featured;
                   notifyListeners();
                 },
               ) //gameId: _youplayRoutePath.gameId!
-          )
+              )
         ];
       case PageType.gameLandingPage:
         return [
           MaterialPage(
-
             key: ValueKey('Library'),
             child: FeaturedGamesPage(
               authenticated: true,
@@ -96,16 +92,13 @@ class YouplayRouterDelegate extends RouterDelegate<YouplayRoutePath>
           ),
           MaterialPage(
               key: ValueKey('GameLandingPage'),
-              child: GameLandingPageContainer(
-                  gameId: youplayRoutePath
-                      .pageId!) //gameId: _youplayRoutePath.gameId!
+              child: GameLandingPageContainer(gameId: youplayRoutePath.pageId!) //gameId: _youplayRoutePath.gameId!
               )
         ];
       // return GameLandingPage();
       case PageType.runLandingPage:
         return [
           MaterialPage(
-
             key: ValueKey('Library'),
             child: FeaturedGamesPage(
               authenticated: true,
@@ -113,10 +106,8 @@ class YouplayRouterDelegate extends RouterDelegate<YouplayRoutePath>
           ),
           MaterialPage(
               key: ValueKey('RunLandingPage'),
-              child: RunLandingPageContainer(
-                  runId: youplayRoutePath
-                      .pageId!) //gameId: _youplayRoutePath.gameId!
-          )
+              child: RunLandingPageContainer(runId: youplayRoutePath.pageId!) //gameId: _youplayRoutePath.gameId!
+              )
         ];
         break;
 
@@ -128,9 +119,7 @@ class YouplayRouterDelegate extends RouterDelegate<YouplayRoutePath>
               authenticated: true,
             ),
           ),
-          MaterialPage(
-              key: ValueKey('GamePlayPage'),
-              child: GamePlayContainer() //gameId: _youplayRoutePath.gameId!
+          MaterialPage(key: ValueKey('GamePlayPage'), child: GamePlayContainer() //gameId: _youplayRoutePath.gameId!
               )
         ];
       case PageType.gameItem:
@@ -141,18 +130,14 @@ class YouplayRouterDelegate extends RouterDelegate<YouplayRoutePath>
               authenticated: true,
             ),
           ),
-          MaterialPage(
-              key: ValueKey('GamePlayPage'),
-              child: GamePlayContainer() //gameId: _youplayRoutePath.gameId!
+          MaterialPage(key: ValueKey('GamePlayPage'), child: GamePlayContainer() //gameId: _youplayRoutePath.gameId!
               ),
           // MaterialPage(
           //     key: ValueKey('ItemPage'),
           //     child: GeneralItemScreen() //gameId: _youplayRoutePath.gameId!
           //     ),
-          MaterialPage(
-              key: ValueKey('ItemPage'),
-              child: MessagePageContainer() //gameId: _youplayRoutePath.gameId!
-          )
+          MaterialPage(key: ValueKey('ItemPage'), child: MessagePageContainer() //gameId: _youplayRoutePath.gameId!
+              )
         ];
       //
       case PageType.login:
@@ -171,9 +156,7 @@ class YouplayRouterDelegate extends RouterDelegate<YouplayRoutePath>
               authenticated: true,
             ),
           ),
-          MaterialPage(
-              key: ValueKey('MyGamesPage'),
-              child: MyGamesListPageNew() //gameId: _youplayRoutePath.gameId!
+          MaterialPage(key: ValueKey('MyGamesPage'), child: MyGamesListPageNew() //gameId: _youplayRoutePath.gameId!
               )
         ];
       case PageType.gameWithRuns:
@@ -184,13 +167,10 @@ class YouplayRouterDelegate extends RouterDelegate<YouplayRoutePath>
               authenticated: true,
             ),
           ),
-          MaterialPage(
-              key: ValueKey('MyGamesPage'),
-              child: MyGamesListPageNew() //gameId: _youplayRoutePath.gameId!
+          MaterialPage(key: ValueKey('MyGamesPage'), child: MyGamesListPageNew() //gameId: _youplayRoutePath.gameId!
               ),
           MaterialPage(
-              key: ValueKey('MyRunsOverviewPage'),
-              child: GameRunsPage(init: (){}) //gameId: _youplayRoutePath.gameId!
+              key: ValueKey('MyRunsOverviewPage'), child: GameRunsPage(init: () {}) //gameId: _youplayRoutePath.gameId!
               ),
         ];
         // return authCheck(GameRunsOverviewPage(), pageModel);
@@ -204,8 +184,7 @@ class YouplayRouterDelegate extends RouterDelegate<YouplayRoutePath>
               authenticated: true,
             ),
           ),
-          MaterialPage(
-              key: ValueKey('QRScannerPage'), child: GameQRScannerPage())
+          MaterialPage(key: ValueKey('QRScannerPage'), child: GameQRScannerPage())
         ];
 
       case PageType.featured:
@@ -236,7 +215,19 @@ class YouplayRouterDelegate extends RouterDelegate<YouplayRoutePath>
           )
         ];
 
-
+      case PageType.error:
+        return [
+          MaterialPage(
+            key: ValueKey('Library'),
+            child: FeaturedGamesPage(
+              authenticated: true,
+            ),
+          ),
+          MaterialPage(
+            key: ValueKey('MakeAccount'),
+            child: ErrorPageContainer(),
+          )
+        ];
     }
     return [
       MaterialPage(
@@ -252,9 +243,7 @@ class YouplayRouterDelegate extends RouterDelegate<YouplayRoutePath>
   Future<void> setNewRoutePath(YouplayRoutePath path) async {
     youplayRoutePath = path;
   }
-
 }
-
 
 class TransitionWithDurationPage extends Page {
   final Widget child;
@@ -266,8 +255,7 @@ class TransitionWithDurationPage extends Page {
     return PageRouteBuilder(
       settings: this,
       transitionDuration: Duration(milliseconds: 750),
-      pageBuilder: (BuildContext context, Animation<double> animation,
-          Animation<double> secondaryAnimation) {
+      pageBuilder: (BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) {
         return FadeTransition(
           opacity: animation,
           child: child,

@@ -45,7 +45,8 @@ class _AudioRecorderState extends State<AudioRecorder> {
 
   @override
   void dispose() {
-    _myRecorder.closeAudioSession();
+    // _myRecorder.closeAudioSession();
+    _myRecorder.closeRecorder();
 
     super.dispose();
   }
@@ -89,24 +90,23 @@ setState(() {
 
   Future<void> openTheRecorder() async {
     var status = await Permission.microphone.request();
+    if (status ==PermissionStatus.permanentlyDenied)
+      openAppSettings();
+    print('microphone $status');
     if (status != PermissionStatus.granted) {
       throw RecordingPermissionException('Microphone permission not granted');
     }
-    FlutterSoundRecorder? recorder = await _myRecorder.openAudioSession(
-        focus: AudioFocus.requestFocusAndStopOthers,
-        mode: SessionMode.modeSpokenAudio,
-        category: SessionCategory.record);
-    setState(() {
-      _myRecorder = recorder ?? _myRecorder;
-
-    });
+    // FlutterSoundRecorder? recorder = await _myRecorder.openAudioSession( //todo reenable
+    //     focus: AudioFocus.requestFocusAndStopOthers,
+    //     mode: SessionMode.modeSpokenAudio,
+    //     category: SessionCategory.record);
+    // setState(() {
+    //   _myRecorder = recorder ?? _myRecorder;
+    //
+    // });
   }
 
   Future _startRecording() async {
-    // String? customPath = await getCustomPath();
-    // setState(() {
-    //   cp = customPath;
-    // });
 
     meteringList.addFirst(ItemEntry(0));
     await _myRecorder.setSubscriptionDuration(Duration(milliseconds: 200));
@@ -133,15 +133,15 @@ setState(() {
       return;
     }
 
-    await flutterSoundHelper.convertFile(
-        test, Codec.aacADTS, outputFileNull, Codec.mp3); //Codec.aacADTS
+    // await flutterSoundHelper.convertFile( //todo reenable
+    //     test, Codec.aacADTS, outputFileNull, Codec.mp3); //Codec.aacADTS
     widget.dispatchRecording(outputFileNull, currentDuration?.inSeconds ?? 0);
 
     setState(() {
       meteringList.clear();
     });
 
-    await _myRecorder.closeAudioSession();
+    await _myRecorder.closeRecorder();
 
     // openTheRecorder().then((value) {
     //   setState(() {});

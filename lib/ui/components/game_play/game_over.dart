@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:youplay/models/game_theme.dart';
+import 'package:youplay/ui/components/game_runs/new_run.button.container.dart';
 import 'package:youplay/util/extended_network_image.dart';
 import 'package:youplay/ui/components/appbar/themed-appbar.container.dart';
 import 'package:youplay/ui/components/buttons/cust_flat_button.dart';
@@ -63,6 +64,7 @@ class _GameOverState extends State<GameOver> {
                       ),
                     )
                   : Container(),
+              NewRunButtonContainer(title: 'speel opnieuw')
             ],
           ),
         ),

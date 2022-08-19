@@ -52,6 +52,8 @@ class _MessagesViewContainerState extends State<MessagesViewContainer> {
               );
             }
             if (vm.listType == 1) {
+              print('boardwidth is ${vm.game?.boardWidth ?? 800}');
+              print('screenWidth is ${MediaQuery.of(context).size.width}');
               return MetafoorView(
                 items: items,
                 tapEntry: vm.tapEntry,

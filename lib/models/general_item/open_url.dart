@@ -18,6 +18,7 @@ class OpenUrl extends GeneralItem {
     required int sortKey,
     required String title,
     required String richText,
+    String? icon,
     required String description,
     Dependency? dependsOn,
     Dependency? disappearOn,
@@ -38,6 +39,7 @@ class OpenUrl extends GeneralItem {
             sortKey: sortKey,
             title: title,
             richText: richText,
+      icon: icon,
             description: description,
             dependsOn: dependsOn,
             disappearOn: disappearOn,
@@ -60,6 +62,7 @@ class OpenUrl extends GeneralItem {
         title: json['name'],
         url: json['url'] ?? 'https://www.bibendo.nl/',
         richText: json['richText'] ?? '',
+        icon: json['icon'],
         description: (json['description'] ?? "").trim(),
         lat: json['lat'],
         lng: json['lng'],
@@ -77,7 +80,7 @@ class OpenUrl extends GeneralItem {
   }
 
   String getIcon() {
-    return 'fas.code';
+    return icon ??  'fas.code';
   }
 
   bool get isSupported {

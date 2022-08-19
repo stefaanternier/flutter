@@ -88,10 +88,10 @@ class AppConfig {
     if (WidgetsBinding.instance == null) {
       return false;
     }
-    if (WidgetsBinding.instance!.window == null) {
+    if (WidgetsBinding.instance.window == null) {
       return false;
     }
-    final data = MediaQueryData.fromWindow(WidgetsBinding.instance!.window);
+    final data = MediaQueryData.fromWindow(WidgetsBinding.instance.window);
     return data.size.shortestSide > 600;
   }
 

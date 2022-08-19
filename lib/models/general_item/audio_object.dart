@@ -12,6 +12,7 @@ class AudioObjectGeneralItem extends GeneralItem {
     required int sortKey,
     required String title,
     required String richText,
+    String? icon,
     required String description,
      double? lat,
      double? lng,
@@ -32,6 +33,7 @@ class AudioObjectGeneralItem extends GeneralItem {
       sortKey: sortKey,
       title: title,
       richText: richText,
+      icon: icon,
       description: description,
       fileReferences: fileReferences,
       primaryColor: primaryColor,
@@ -53,6 +55,7 @@ class AudioObjectGeneralItem extends GeneralItem {
         sortKey: json['sortKey']??0,
         title: json['name'],
         richText: json['richText']??'',
+        icon: json['icon'],
         description: (json['description'] ?? "").trim(),
         showOnMap: json['showOnMap']??false,
         showInList: json['showInList'] == null? true: json['showInList'],
@@ -86,7 +89,7 @@ class AudioObjectGeneralItem extends GeneralItem {
   }
 
   String getIcon() {
-    return 'fa.headphones';
+    return icon ??  'fa.headphones';
   }
   bool get isSupported {
     return true;

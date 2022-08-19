@@ -1,6 +1,8 @@
 
 
+
 class ApiResultError {
+  static const int RUNDOESNOTEXIST = 101;
   int error;
   String message;
 

@@ -6,6 +6,7 @@ import 'package:youplay/store/actions/locations.actions.dart';
 import 'package:youplay/store/selectors/current_game.selectors.dart';
 import 'package:youplay/store/selectors/current_run.location.selectors.dart';
 import 'package:youplay/store/selectors/current_run.selectors.dart';
+import 'package:youplay/store/selectors/selector.gametheme.dart';
 import 'package:youplay/store/state/app_state.dart';
 import 'package:youplay/ui/components/game_play/game_over.container.dart';
 import 'package:youplay/ui/pages/game_play.dart';
@@ -23,6 +24,7 @@ class GamePlayContainer extends StatelessWidget {
           return GameOverContainer();
         }
         return GamePlay(
+          // maxView: vm.listType ==1,
           color: vm.color,
           title: vm.game?.title ?? '',
         );
@@ -35,16 +37,22 @@ class _ViewModel {
   Color color;
   Game? game;
   bool finished;
+  // int listType;
 
-  _ViewModel({required this.color, required this.game, required this.finished});
+  _ViewModel({
+    // required this.listType,
+    required this.color, required this.game, required this.finished});
 
   static _ViewModel fromStore(Store<AppState> store) {
     if(gameLocationTriggers(store.state).length > 0) {
       store.dispatch(new StartListeningForLocation());
-    };
+    }
+    // int lt = store.state.uiState.currentView;
+    // print('current view is ${lt}');
     return _ViewModel(
+      // listType: lt,
       game: gameSelector(store.state.currentGameState),
-      color: gameColor(store.state),
+      color: currentGameThemeColor(store.state),
       finished: gameHasFinished(store.state),
     );
   }
@@ -53,6 +61,7 @@ class _ViewModel {
     _ViewModel otherViewModel = other as _ViewModel;
     return (otherViewModel.color == color) &&
         (otherViewModel.game?.gameId == game?.gameId) &&
+        // (otherViewModel.listType == listType) &&
         (otherViewModel.finished == finished);
   }
 

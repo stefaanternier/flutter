@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:universal_platform/universal_platform.dart';
 import 'package:youplay/models/general_item.dart';
 import 'package:youplay/util/extended_network_image.dart';
 import 'package:youplay/ui/components/game_play/list_entry/message_list_entry_icon_container.dart';
@@ -35,8 +36,16 @@ class _MetafoorViewState extends State<MetafoorView> {
   void initState() {
     double heightFactor = (widget.screenHeight-80) / (widget.height);
     double widthFactor = widget.screenWidth / widget.width;
+
+    if (UniversalPlatform.isWeb) {
+      heightFactor = (min(widget.screenHeight, 1280)-80) / (widget.height);
+      //widthFactor = min(720, widget.screenWidth) / widget.width;
+      widthFactor = (widget.screenHeight/1280 *720) / widget.width;
+      print('in web $heightFactor $widthFactor ${widget.screenHeight} ${widget.screenWidth}  (${widget.height} / ${widget.width} )');
+    }
+
     // print('height is ${widget.height} ${widget.screenHeight} ${heightFactor}') ;
-    // print('height is ${widget.width} ${widget.screenWidth}  ${widthFactor}');
+    print('width is ${widget.width} ${widget.screenWidth}  $widthFactor');
     _controller = TransformationController();
     _controller.value = Matrix4.identity() * max(heightFactor, widthFactor);
     super.initState();

@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:universal_platform/universal_platform.dart';
 import 'package:video_player/video_player.dart';
 import 'package:youplay/models/general_item/video_object.dart';
 import 'package:youplay/ui/components/appbar/themed-appbar.container.dart';
@@ -10,6 +11,8 @@ import 'package:youplay/ui/components/messages/video_player/video-player.control
 import 'package:youplay/ui/components/next_button/next_button.container.dart';
 import 'package:youplay/ui/components/web/web_wrapper.dart';
 import 'package:youplay/ui/pages/game_landing.page.loading.dart';
+
+import '../messages/themed_loading_page.dart';
 
 class VideoPlayerWidget extends StatefulWidget {
   VideoObjectGeneralItem item;
@@ -71,6 +74,11 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> with AutomaticKee
       ..initialize().then((_) {
         setState(() {
           _controller!.seekTo(new Duration(milliseconds: 50));
+          if (!UniversalPlatform.isWeb && widget.item.autoPlay) {
+            _controller!.play();
+            showControls = false;
+          }
+
         });
       });
   }
@@ -87,11 +95,12 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> with AutomaticKee
 
     var screensize = MediaQuery.of(context);
     if (widget.url == null) {
-      return GameLandingLoadingPage(init: () {}, text: "Video ontbreekt, gebruik de auteursomgeving om een video te koppelen");
+      return ThemedLoadingMessage(title: widget.item.title, message: "Video ontbreekt, gebruik de auteursomgeving om een video te koppelen");
+      // return GameLandingLoadingPage(init: () {}, text: "Video ontbreekt, gebruik de auteursomgeving om een video te koppelen");
     }
     if (!(_controller?.value.isInitialized ?? false)) {
-      // print ('controller ${_controller}');
-      return GameLandingLoadingPage(init: () {}, text: "Even wachten, we laden de video...");
+      return ThemedLoadingMessage(title: widget.item.title, message: "Even wachten, we laden de video...");
+      // return GameLandingLoadingPage(init: () {}, text: "Even wachten, we laden de video...");
     }
 
     //videoPlayerController.value.size?.height

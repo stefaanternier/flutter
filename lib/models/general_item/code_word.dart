@@ -21,6 +21,7 @@ class CodeWordGeneralItem extends GeneralItem {
     required this.text,
     required this.showFeedback,
     required String richText,
+    String? icon,
     required String description,
     required this.answers,
     Dependency? dependsOn,
@@ -42,6 +43,7 @@ class CodeWordGeneralItem extends GeneralItem {
       sortKey: sortKey,
       title: title,
       richText: richText,
+      icon: icon,
       description: description,
       dependsOn: dependsOn,
       disappearOn: disappearOn,
@@ -65,6 +67,7 @@ class CodeWordGeneralItem extends GeneralItem {
         text: json['text'] ?? '',
         showFeedback: json['showFeedback'] == null ? false : json['showFeedback'],
         richText: json['text'] ?? '',
+        icon: json['icon'],
         description: (json['description'] ?? "").trim(),
         answers: json['answers'] == null
         ? []
@@ -86,7 +89,7 @@ class CodeWordGeneralItem extends GeneralItem {
   }
 
   String getIcon() {
-    return 'fa.terminal';
+    return icon ?? 'fa.terminal';
   }
 
   Widget buildPage() {

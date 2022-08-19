@@ -39,7 +39,6 @@ class _ViewModel {
         pictureResponses: currentRunPictureResponsesSelector(store.state),
         fromServer: currentItemResponsesFromServerAsList(store.state),
         deleteResponse: (int responseId) {
-          print('todo delete ${responseId}');
           store.dispatch(DeleteResponseFromServer(responseId: responseId));
           store.dispatch(DeleteResponseFromLocalStore(responseId: responseId));
         });

@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:youplay/models/run.dart';
 
 
@@ -16,6 +17,10 @@ class LocalAction {
         generalItemId: generalItemId,
         timestamp: this.timeStamp);
   }
+
+  notConsumed() {
+
+  }
 }
 
 class ReadItemAction extends LocalAction {
@@ -24,9 +29,19 @@ class ReadItemAction extends LocalAction {
 }
 
 class QrScannerAction extends LocalAction {
+
+  final BuildContext context;
   QrScannerAction(
-      {required int runId, required int generalItemId, required String qrCode})
+      {required this.context,  required int runId, required int generalItemId, required String qrCode})
       : super(action: qrCode, runId: runId, generalItemId: generalItemId);
+
+  notConsumed() {
+    const snackBar = SnackBar(
+      content: Text('Deze code werd reeds gescand! '),
+    );
+
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
 }
 
 class MultipleChoiceAnswerAction extends LocalAction {

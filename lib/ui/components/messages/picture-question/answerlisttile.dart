@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:youplay/models/response.dart';
+import 'package:youplay/ui/components/messages/picture-question/answer_picture_icon.dart';
 import 'package:youplay/util/extended_network_image.dart';
 
 class AnswerWithPictureTile extends StatelessWidget {
@@ -22,12 +23,7 @@ class AnswerWithPictureTile extends StatelessWidget {
         },
         child: Row(
           children: [
-            SizedBox(
-                width: 79,
-                height: 79,
-                child: Container(
-                  decoration: getBoxDecoration('/${response.value}'),
-                )),
+            AnswerPictureIcon(response: response),
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: Column(

@@ -5,6 +5,10 @@ import 'package:http/http.dart';
 import 'package:http/http.dart' as http;
 import 'package:youplay/config/app_config.dart';
 
+abstract class JsonSerializable {
+  Map toJson();
+}
+
 class GenericApi {
   static String apiUrl = AppConfig().baseUrl;
 
@@ -16,6 +20,12 @@ class GenericApi {
      // String t = await user.getIdToken(true);
      // print('token is $t');
     return await user.getIdToken();
+  }
+
+  Future<http.Response> getNew(String path) async {
+    return http.get(
+        Uri.https(AppConfig().baseUrl, path),
+        headers: {"Authorization": "Bearer " + await getIdToken()});
   }
 
   static Future<Response> get(String path) async {

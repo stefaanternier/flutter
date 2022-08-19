@@ -23,7 +23,6 @@ Stream<dynamic> _uploadReponseFilesEpic(Stream<dynamic> actions, EpicStore<AppSt
     } else if (firstResponse is VideoResponse) {
       firstResponse = await _uploadFile(firstResponse, store, action, 'mp4');
     } else if (firstResponse is PictureResponse) {
-      print("picture text is ${(firstResponse as PictureResponse).text}"  );
       firstResponse = await _uploadFile(firstResponse, store, action, 'jpg');
     }
     if (firstResponse != null) {
@@ -59,7 +58,6 @@ Future<PictureResponse?> _uploadFile(
         .child("${firstResponse.run!.runId}")
         .child("${store.state.authentication.userId}")
         .child(timeStamp + '.'+extension);
-    print('ref ${ref.fullPath}');
     String cType = '';
     if (firstResponse is AudioResponse) {
       cType = 'audio/mp3';

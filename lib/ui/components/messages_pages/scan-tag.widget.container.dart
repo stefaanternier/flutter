@@ -18,9 +18,10 @@ class ScanTagWidgetContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return StoreConnector<AppState, _ViewModel>(
       converter: (store) => _ViewModel.fromStore(store, context),
+      distinct: true,
       builder: (context, vm) {
         return ScanTagWidget(
-            item: vm.item,
+          item: vm.item,
           onResult: vm.onResult,
         );
       },
@@ -32,36 +33,34 @@ class _ViewModel {
   ScanTagGeneralItem item;
   final Function(String) onResult;
 
-  _ViewModel({
-    required this.item,
-    required this.onResult
-  });
+  _ViewModel({required this.item, required this.onResult});
 
   static _ViewModel fromStore(Store<AppState> store, BuildContext context) {
     ScanTagGeneralItem _item = currentGeneralItem(store.state) as ScanTagGeneralItem;
     return _ViewModel(
-      item: _item ,
-      onResult: (String qrCode) {
-        Run? run = currentRunSelector(store.state.currentRunState);
-        store.dispatch(QrScannerAction(
-            generalItemId: _item.itemId,
-            runId: run!.runId!,
-            qrCode: qrCode));
-        new Future.delayed(const Duration(milliseconds: 200), () {
-print("before nextItemWith tag ${qrCode}");
-          int? itemId = nextItemWithTag(qrCode)(store.state);
-print("after nextItemWith tag ${itemId}");
-          if (itemId != null) {
-            if (run.runId != null) {
-              store.dispatch(
-                  new ReadItemAction(runId: run.runId!, generalItemId: itemId));
+        item: _item,
+        onResult: (String qrCode) {
+          Run? run = currentRunSelector(store.state.currentRunState);
+          store.dispatch(QrScannerAction(context: context, generalItemId: _item.itemId, runId: run!.runId!, qrCode: qrCode));
+          new Future.delayed(const Duration(milliseconds: 200), () {
+            int? itemId = nextItemWithTag(qrCode)(store.state);
+            if (itemId != null) {
+              if (run.runId != null) {
+                store.dispatch(new ReadItemAction(runId: run.runId!, generalItemId: itemId));
+              }
+              store.dispatch(SetCurrentGeneralItemId(itemId));
+            } else {
+              Navigator.of(context).pop();
             }
-            store.dispatch(SetCurrentGeneralItemId(itemId));
-          } else {
-
-          }
+          });
         });
-      }
-    );
   }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is _ViewModel && runtimeType == other.runtimeType && item.itemId == other.item.itemId;
+
+  @override
+  int get hashCode => item.itemId;
 }

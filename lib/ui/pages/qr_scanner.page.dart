@@ -181,18 +181,19 @@ class GameQRState extends State<GameQRScreen> {
 
         print('result ${r.code}');
 
-        if (canProcessQr(r.code)) {
+
+        if (r.code != null && canProcessQr(r.code!)) {
           if (_isProcessing) return;
           setState(() {
             if (!_isProcessing) {
               _isProcessing = true;
 
-              if (checkGameQR(r.code)) {
-                triggerGameQr(r.code, store);
-              } else if (checkAccountQR(r.code)) {
-                triggerAccountQr(r.code, store);
+              if (checkGameQR(r.code!)) {
+                triggerGameQr(r.code!, store);
+              } else if (checkAccountQR(r.code!)) {
+                triggerAccountQr(r.code!, store);
               } else if (checkUrl(r.code)) {
-                store.dispatch(new ParseLinkAction(link: r.code));
+                store.dispatch(new ParseLinkAction(link: r.code!));
               } else {
 
               }

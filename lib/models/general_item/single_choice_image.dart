@@ -20,6 +20,7 @@ class SingleChoiceImageGeneralItem extends GeneralItem {
     required this.text,
     required this.showFeedback,
     required String richText,
+    String? icon,
     required String description,
     required this.answers,
     Dependency? dependsOn,
@@ -41,6 +42,7 @@ class SingleChoiceImageGeneralItem extends GeneralItem {
             sortKey: sortKey,
             title: title,
             richText: richText,
+      icon: icon,
             description: description,
             dependsOn: dependsOn,
             disappearOn: disappearOn,
@@ -54,7 +56,7 @@ class SingleChoiceImageGeneralItem extends GeneralItem {
             lng: lng);
 
   String getIcon() {
-    return 'fa.image';
+    return icon ?? 'fa.image';
   }
 
   Widget buildPage() {
@@ -72,6 +74,7 @@ class SingleChoiceImageGeneralItem extends GeneralItem {
         sortKey: json['sortKey'] ?? 0,
         title: json['name'],
         richText: json['richText'] ?? '',
+        icon: json['icon'],
         description: (json['description'] ?? "").trim(),
         text: json['text'] ?? '',
         showFeedback: json['showFeedback'] == null ? false : json['showFeedback'],

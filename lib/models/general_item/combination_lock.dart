@@ -20,6 +20,7 @@ class CombinationLockGeneralItem extends GeneralItem {
     required String title,
     required this.text,
     required this.showFeedback,
+    String? icon,
     required String richText,
     required String description,
     required this.answers,
@@ -42,6 +43,7 @@ class CombinationLockGeneralItem extends GeneralItem {
             sortKey: sortKey,
             title: title,
             richText: richText,
+      icon: icon,
             description: description,
             dependsOn: dependsOn,
             disappearOn: disappearOn,
@@ -65,6 +67,7 @@ class CombinationLockGeneralItem extends GeneralItem {
         text: json['text'] ?? '',
         showFeedback: json['showFeedback'] == null ? false : json['showFeedback'],
         richText: json['text'] ?? '',
+        icon: json['icon'],
         description: (json['description'] ?? "").trim(),
         answers: json['answers'] == null
             ? []
@@ -86,7 +89,7 @@ class CombinationLockGeneralItem extends GeneralItem {
   }
 
   String getIcon() {
-    return 'fa.unlock';
+    return icon ?? 'fa.unlock';
   }
 
   Widget buildPage() {

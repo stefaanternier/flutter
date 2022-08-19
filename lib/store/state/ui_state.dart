@@ -19,6 +19,7 @@ enum PageType {
   makeAccount,
   intro,
   introAfterSplash,
+  error,
   // dev1,
   // dev2
 }

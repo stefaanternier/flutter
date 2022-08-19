@@ -5,6 +5,7 @@ import 'package:youplay/config/app_config.dart';
 import 'package:youplay/models/game_theme.dart';
 import 'package:youplay/models/general_item.dart';
 import 'package:youplay/store/selectors/current_game.selectors.dart';
+import 'package:youplay/store/selectors/selector.gametheme.dart';
 import 'package:youplay/store/state/app_state.dart';
 
 import 'message_list_entry_icon.dart';
@@ -20,6 +21,7 @@ class MessageEntryIconContainer extends StatelessWidget {
     return StoreConnector<AppState, _ViewModel>(
       converter: (Store<AppState> store) => _ViewModel.fromStore(store),
       builder: (context, vm) {
+        print("entry icon ${item.title} - ${item.getIcon()}");
         return MessageEntryIcon(
           icon: item.getIcon(),
           primaryColor: read? Colors.grey : vm.gameTheme?.primaryColor ?? AppConfig().themeData!.primaryColor
@@ -36,7 +38,7 @@ class _ViewModel {
 
   static _ViewModel fromStore(Store<AppState> store) {
     return _ViewModel(
-      gameTheme: gameThemeSelector(store.state.currentGameState)
+      gameTheme: currentThemeSelector(store.state)
     );
   }
 }

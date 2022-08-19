@@ -36,8 +36,6 @@ final Selector<AppState, HashMap<String, ARLearnAction>> localAndUnsyncActions =
   return actions;
 });
 
-
-
 final Selector<AppState, bool> isSyncingActions =
     createSelector1(syncingActionsFromServerSelector, (bool state) => state);
 
@@ -62,9 +60,8 @@ final Selector<AppState, List<ItemTimes>> itemTimesSortedByTime =
     if (localVisibleAt != -1) {
       if (localInvisibleAt == -1 || localInvisibleAt > now) {
         if (item.gameId == gameState.game!.gameId) {
-          visibleItems.add(ItemTimes(
-              read: item.read(actionsFromServer),
-              generalItem: item, appearTime: localVisibleAt));
+          visibleItems
+              .add(ItemTimes(read: item.read(actionsFromServer), generalItem: item, appearTime: localVisibleAt));
         }
       }
     }
@@ -104,15 +101,16 @@ final Selector<AppState, List<ItemTimes>> mapOnlyCurrentGeneralItems =
 final Selector<AppState, List<Response>> currentItemResponsesFromServerAsList =
     createSelector3(runStateFeature, responsesFromServerFeature, currentItemId,
         (dynamic runState, HashMap<int, Response> map, int? itemId) {
-  return map.values
+  List<Response> fromServer = map.values
       .where((response) => response.generalItemId == itemId)
       .where((response) => runState.deleteList.indexOf(response.responseId) == -1)
       .toList(growable: true);
+  fromServer.sort((a, b)=> b.timestamp - a.timestamp);
+  return fromServer;
 });
 
-
 final Selector<AppState, int?> nextItem1 =
-createSelector2(itemTimesSortedByTime, currentItemId, (List<ItemTimes> items, int? itemId) {
+    createSelector2(itemTimesSortedByTime, currentItemId, (List<ItemTimes> items, int? itemId) {
   for (int i = 1; i < items.length; i++) {
     if (items[i].generalItem.itemId == itemId) {
       return items[i - 1].generalItem.itemId;
@@ -122,7 +120,7 @@ createSelector2(itemTimesSortedByTime, currentItemId, (List<ItemTimes> items, in
 });
 
 final Selector<AppState, int> amountOfNewerItems =
-createSelector2(itemTimesSortedByTime, currentItemId, (List<ItemTimes> sortedItems, int? itemId) {
+    createSelector2(itemTimesSortedByTime, currentItemId, (List<ItemTimes> sortedItems, int? itemId) {
   for (int i = 1; i < sortedItems.length; i++) {
     if (sortedItems[i].generalItem.itemId == itemId) {
       return i;

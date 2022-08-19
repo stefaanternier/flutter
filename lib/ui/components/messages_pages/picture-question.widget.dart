@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:youplay/models/general_item/narrator_item.dart';
+import 'package:youplay/models/response.dart';
 import 'package:youplay/ui/components/messages/picture-question/picture_overview.dart';
 import 'package:youplay/ui/components/messages/picture-question/picture_preview-file.container.dart';
 import 'package:youplay/ui/components/messages/picture-question/take_picture.dart';
 
-enum PictureQuestionStates { overview, takePicture, annotateMetadata }
+import '../messages/picture-question/picture-question.play.widget.dart';
+
+enum PictureQuestionStates { overview, takePicture, annotateMetadata, play }
 
 class PictureQuestionWidget extends StatefulWidget {
   final PictureQuestion item;
@@ -18,6 +21,7 @@ class PictureQuestionWidget extends StatefulWidget {
 class _PictureQuestionWidgetState extends State<PictureQuestionWidget> {
   PictureQuestionStates currentState = PictureQuestionStates.overview;
   String? imagePath;
+  Response? currentResponse;
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +31,12 @@ class _PictureQuestionWidgetState extends State<PictureQuestionWidget> {
             takePicture: () {
               setState(() {
                 currentState = PictureQuestionStates.takePicture;
+              });
+            },
+            tapPicture: (Response resp) {
+              setState(() {
+                currentResponse = resp;
+                currentState = PictureQuestionStates.play;
               });
             },
             item: widget.item);
@@ -46,6 +56,18 @@ class _PictureQuestionWidgetState extends State<PictureQuestionWidget> {
             });
           },
         );
+      case PictureQuestionStates.play:
+        return PictureQuestionPlayWidget(
+          back: () {
+            setState(() {
+              currentState = PictureQuestionStates.overview;
+            });
+          },
+          onDelete: () {},
+          item: widget.item,
+          response: currentResponse!,
+        );
+
       case PictureQuestionStates.annotateMetadata:
           return PictureFilePreviewContainer(
             imagePath: imagePath!,

@@ -2,6 +2,7 @@ import 'package:youplay/models/models.dart';
 import 'package:youplay/store/actions/auth.actions.dart';
 import 'package:youplay/store/actions/current_game.actions.dart';
 import 'package:youplay/store/reducers/game_library.reducer.dart';
+import 'package:youplay/store/reducers/reducer.gametheme.dart';
 import 'package:youplay/store/reducers/ui.reducer.dart';
 import 'package:youplay/store/state/ui_state.dart';
 
@@ -16,7 +17,7 @@ AppState appReducer(AppState state, action) {
   if (action is SignOutAction) {
     AppState newState = AppState.emptyState();
     newState.gameLibrary = state.gameLibrary;
-    newState.themIdToTheme = state.themIdToTheme;
+    newState.gameThemeState = state.gameThemeState;
     newState.uiState.currentPage = PageType.splash;
     return newState;
   }
@@ -24,7 +25,7 @@ AppState appReducer(AppState state, action) {
     return swapGameState(state, action);
   }
   AppState newState = new AppState(
-      themIdToTheme: themeIdToThemeReducer(state.themIdToTheme, action),
+      //themIdToTheme: themeIdToThemeReducer(state.themIdToTheme, action),
       allGamesState: allGamesReducer(state.allGamesState, action),
       // in use: new, same folder
       currentGameState: currentGameReducer(state.currentGameState, action),
@@ -33,7 +34,7 @@ AppState appReducer(AppState state, action) {
       gameLibrary: gameLibraryReducer(state.gameLibrary, action),
       // gameIdToGameState: gameReducer(state.gameIdToGameState, action),
       gameIdToRun: runsReducer(state.gameIdToRun, action),
-
+      gameThemeState: gameThemeReducer(state.gameThemeState, action),
       authentication: authenticationReducer(state.authentication, action),
       uiState: uiReducer(state.uiState, action)
   );

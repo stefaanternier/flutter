@@ -4,6 +4,7 @@ import 'game.dart';
 
 class GameTheme {
   int themeId;
+  String get id => '$themeId';
   Color primaryColor;
 
 //  Color primaryColorC = Colors.lightGreen;

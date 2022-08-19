@@ -21,7 +21,6 @@ class GameRunsListContainer extends StatelessWidget {
     return StoreConnector<AppState, _ViewModel>(
         converter: (store) => _ViewModel.fromStore(store),
         builder: (context, vm) {
-
           return GameRunList(
             runList: vm.runList,
             tapRun: vm.tapRun,
@@ -44,11 +43,9 @@ class _ViewModel {
 
   static _ViewModel fromStore(Store<AppState> store) {
     List<Run> rl = currentRunsSelector(store.state);
+    print("run list is ${rl}");
+
     Game? game = gameSelector(store.state.currentGameState);
-    // rl.forEach((element) {
-    //   print('run is, ${element.deleted}');
-    // });
-    // print('redo viewmodel runlist size is ${rl.length}');
     return _ViewModel(
         runList: rl,
         deleteRun: (Run run) {
@@ -58,10 +55,8 @@ class _ViewModel {
           store.dispatch(SetCurrentRunAction(run: rl[index]));
           store.dispatch(SetPage(page: PageType.game));
           if (game != null) {
-            print('first view is ${game.firstView}');
             store.dispatch(SetMessageViewAction(messageView: game.firstView));
           }
-
         });
   }
 }

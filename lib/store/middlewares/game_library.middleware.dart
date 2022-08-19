@@ -2,6 +2,7 @@ import 'package:redux_epics/redux_epics.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:youplay/api/StoreApi.dart';
 import 'package:youplay/api/games.dart';
+import 'package:youplay/api/runs.dart';
 import 'package:youplay/models/game.dart';
 import 'package:youplay/models/game_theme.dart';
 import 'package:youplay/store/actions/current_game.actions.dart';
@@ -10,6 +11,7 @@ import 'package:youplay/store/actions/errors.dart';
 import 'package:youplay/store/actions/game_library.actions.dart';
 import 'package:youplay/store/actions/ui_actions.dart';
 import 'package:youplay/store/state/app_state.dart';
+import 'package:youplay/store/state/ui_state.dart';
 
 final gameLibraryEpics = combineEpics<AppState>([
   new TypedEpic<AppState, LoadFeaturedGameAction>(_loadFeaturedGames),
@@ -115,9 +117,14 @@ Stream<dynamic> yieldLinkExpandGame(String link) async* {
     //todo
   } else {
     Game g = game as Game;
-    GameTheme theme = await GamesApi.getTheme(game.theme);
-    yield new LoadGameSuccessAction(game: g, gameTheme: theme);
-    yield ApiRunsParticipateAction(gameId);
+    yield new LoadGameSuccessAction(game: g);
+
+
+    // yield ApiRunsParticipateAction(gameId);
+    yield RunsApi.participate(gameId).then((results) =>
+    new ApiResultRunsParticipateAction(
+        runs: results, gameId: gameId));
+    yield SetPage(page: PageType.gameLandingPage, pageId: gameId);
   }
 
 

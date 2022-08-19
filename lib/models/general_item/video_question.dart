@@ -17,6 +17,7 @@ class VideoQuestion extends GeneralItem {
       required int sortKey,
       required String title,
       required String richText,
+      String? icon,
       required String description,
       Dependency? dependsOn,
       Dependency? disappearOn,
@@ -38,6 +39,7 @@ class VideoQuestion extends GeneralItem {
             sortKey: sortKey,
             title: title,
             richText: richText,
+            icon: icon,
             description: description,
             dependsOn: dependsOn,
             disappearOn: disappearOn,
@@ -60,6 +62,7 @@ class VideoQuestion extends GeneralItem {
         sortKey: json['sortKey'] ?? 0,
         title: json['name'],
         richText: json['richText'] ?? '',
+        icon: json['icon'],
         description: (json['description'] ?? "").trim(),
         lat: json['lat'],
         lng: json['lng'],
@@ -82,7 +85,8 @@ class VideoQuestion extends GeneralItem {
   }
 
   String getIcon() {
-    return 'fa.video';
+    print('video question ${icon}');
+    return icon ?? 'fa.video';
   }
 
   Widget buildPage() {

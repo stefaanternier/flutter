@@ -22,7 +22,7 @@ class RouteWidget extends StatelessWidget {
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate
       ],
-      supportedLocales: [const Locale('nl'), const Locale('en')],
+      supportedLocales: [const Locale('nl_NL'), const Locale('nl'), const Locale('en')],
       debugShowCheckedModeBanner: false,
       title: AppConfig().appName!,
       theme: AppConfig().themeData,

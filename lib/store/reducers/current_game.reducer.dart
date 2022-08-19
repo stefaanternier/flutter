@@ -20,28 +20,10 @@ final Reducer<GamesState> currentGameReducer = combineReducers<GamesState>([
   new TypedReducer<GamesState, ResetRunsAndGoToLandingPage>(_resetAmountOfRuns),
 ]);
 
-// GamesState _syncGameContentResult( GamesState state, SyncGameContentResult action) {
-//   GamesState newState = new GamesState();
-//   newState.game = state.game;
-//   newState.itemIdToGeneralItem = state.itemIdToGeneralItem;
-//   newState.gameTheme = state.gameTheme;
-//   newState.fileIdToGameFile = state.fileIdToGameFile;
-//   action.gameFiles.forEach((gamefileJson){
-//       int fileId = int.parse("${gamefileJson['id']}");
-//       newState.fileIdToGameFile.putIfAbsent(fileId, ()=> new GameFile(
-//         path: gamefileJson['path'],
-//         id: fileId
-//       ));
-//   });
-//
-//   return state;
-// }
 
 GamesState _gameSuccesstoGameState( GamesState state, LoadGameSuccessAction action) {
-//  Map<String, dynamic> gameMap = jsonDecode(action.game);
-//  Game game = new Game.fromJson(gameMap);
   if (action.game.title == null) action.game.title = "no title";
-  return state.copyWith(game:action.game, gt: action.gameTheme);
+  return state.copyWith(game:action.game);
 }
 
 
@@ -53,7 +35,7 @@ AppState swapGameState(AppState state, SetCurrentGameAction action) {
   //   state.gameIdToGameState[state.currentGameState.game!.gameId] = state.currentGameState;
   // }
   return new AppState(
-      themIdToTheme: state.themIdToTheme,
+      // themIdToTheme: state.themIdToTheme,
       // gameIdToGameState: state.gameIdToGameState,
       currentGameState: _initGameState(state.allGamesState, action.currentGame),
 //      runIdToRunState: state.runIdToRunState,
@@ -62,6 +44,7 @@ AppState swapGameState(AppState state, SetCurrentGameAction action) {
       // participateGames: state.participateGames,
       allGamesState: state.allGamesState,
       authentication: state.authentication,
+      gameThemeState: state.gameThemeState,
       uiState: uiReducer(state.uiState, action),
       currentRunState: RunState.init()
   );

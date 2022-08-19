@@ -4,6 +4,7 @@ import 'package:redux/redux.dart';
 import 'package:youplay/config/app_config.dart';
 import 'package:youplay/models/game_theme.dart';
 import 'package:youplay/store/selectors/current_game.selectors.dart';
+import 'package:youplay/store/selectors/selector.gametheme.dart';
 import 'package:youplay/store/state/app_state.dart';
 import 'package:youplay/ui/components/game_play/list_entry/read_indication.dart';
 
@@ -32,7 +33,7 @@ class _ViewModel {
 
   static _ViewModel fromStore(Store<AppState> store) {
     return _ViewModel(
-        gameTheme: gameThemeSelector(store.state.currentGameState)
+        gameTheme: currentThemeSelector(store.state)
     );
   }
 }

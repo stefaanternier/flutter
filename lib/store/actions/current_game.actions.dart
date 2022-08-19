@@ -14,8 +14,7 @@ class LoadPublicGameRequestAction {
 
 class LoadGameSuccessAction {
   Game game;
-  GameTheme? gameTheme;
-  LoadGameSuccessAction({required this.game, this.gameTheme});
+  LoadGameSuccessAction({required this.game});
 
 }
 

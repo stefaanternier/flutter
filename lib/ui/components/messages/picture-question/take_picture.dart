@@ -2,8 +2,10 @@ import 'dart:io';
 
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_native_image/flutter_native_image.dart';
-import 'package:path_provider/path_provider.dart';
+import 'package:native_device_orientation/native_device_orientation.dart';
+import 'package:universal_platform/universal_platform.dart';
 import 'package:youplay/models/general_item.dart';
 import 'package:youplay/ui/components/appbar/themed-appbar.container.dart';
 import 'package:youplay/ui/components/buttons/camera_button.dart';
@@ -61,71 +63,95 @@ class _TakePictureWidgetState extends State<TakePictureWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      appBar: ThemedAppbarContainer(title: widget.generalItem!.title, elevation: false, actions: [
-        if (cameras.length > 1)
-          new IconButton(
-            icon: new Icon(
-              Icons.flip_camera_ios,
-              color: Colors.white,
-            ),
-            onPressed: () async {
-              if (controller != null) {
-                await controller!.dispose();
-              }
-              setState(() {
-                cameraIndex += 1;
-                cameraIndex = cameraIndex % cameras.length;
+    return NativeDeviceOrientationReader(
+        useSensor: true,
+        builder: (context) {
+          final nativeOrientation = NativeDeviceOrientationReader.orientation(context);
+          if (nativeOrientation == NativeDeviceOrientation.landscapeLeft) {
+            if (UniversalPlatform.isAndroid) {
+              controller?.lockCaptureOrientation(DeviceOrientation.landscapeLeft);
+            } else {
+              controller?.lockCaptureOrientation(DeviceOrientation.landscapeRight);
+            }
 
-                controller = CameraController(
-                  this.cameras[cameraIndex],
-                  ResolutionPreset.high,
-                );
-                controller!.initialize().then((_) {
-                  setState(() {});
-                });
-              });
-            },
-          ),
-      ]),
-      body: MessageBackgroundWidgetContainer(
-          child: Stack(
-        children: [
-          Container(
-            color: Color.fromRGBO(0, 0, 0, 0.7),
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    RichTextTopContainer(),
-                    CameraSquarePreview(controller: controller),
-                  ],
+          } else if (nativeOrientation == NativeDeviceOrientation.landscapeRight) {
+            if (UniversalPlatform.isAndroid) {
+              controller?.lockCaptureOrientation(DeviceOrientation.landscapeRight);
+            } else {
+              controller?.lockCaptureOrientation(DeviceOrientation.landscapeLeft);
+            }
+          } else {
+            controller?.lockCaptureOrientation(DeviceOrientation.portraitUp);
+          }
+          return Scaffold(
+            resizeToAvoidBottomInset: false,
+            appBar: ThemedAppbarContainer(title: widget.generalItem!.title, elevation: false, actions: [
+              if (cameras.length > 1)
+                new IconButton(
+                  icon: new Icon(
+                    Icons.flip_camera_ios,
+                    color: Colors.white,
+                  ),
+                  onPressed: () async {
+                    if (controller != null) {
+                      await controller!.dispose();
+                    }
+                    setState(() {
+                      cameraIndex += 1;
+                      cameraIndex = cameraIndex % cameras.length;
+
+                      controller = CameraController(
+                        this.cameras[cameraIndex],
+                        ResolutionPreset.high,
+                      );
+                      controller!.initialize().then((_) {
+                        setState(() {});
+                      });
+                    });
+                  },
                 ),
-              ],
-            ),
-          ),
-          Positioned(
-              left: 0,
-              right: 0,
-              bottom: 30,
-              child:
-                  Row(mainAxisAlignment: MainAxisAlignment.center, mainAxisSize: MainAxisSize.max, children: <Widget>[
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Padding(
-                        padding: EdgeInsets.fromLTRB(30, 5, 30, 5), child: CameraButton(onTap: () => _takePicture())),
-                  ],
-                )
-              ]))
-        ],
-      )),
-    );
-  }
+            ]),
+            body: MessageBackgroundWidgetContainer(
+                child: Stack(
+              children: [
+                Container(
+                  color: Color.fromRGBO(0, 0, 0, 0.7),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          RichTextTopContainer(),
+                        CameraSquarePreview(controller: controller, orientation: nativeOrientation,),
 
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                Positioned(
+                    left: 0,
+                    right: 0,
+                    bottom: 30,
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.max,
+                        children: <Widget>[
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Padding(
+                                  padding: EdgeInsets.fromLTRB(30, 5, 30, 5),
+                                  child: CameraButton(onTap: () => _takePicture())),
+                            ],
+                          )
+                        ]))
+              ],
+            )),
+          );
+        });
+  }
 
   Future<List<CameraDescription>> _loadCameras() async {
     try {
@@ -138,12 +164,7 @@ class _TakePictureWidgetState extends State<TakePictureWidget> {
     if (controller == null || !controller!.value.isInitialized) {
       return null;
     }
-    final Directory extDir = await getApplicationDocumentsDirectory();
-    final String dirPath = '${extDir.path}/Pictures/flutter_test';
-    await Directory(dirPath).create(recursive: true);
-
     if (controller!.value.isTakingPicture) {
-      // A capture is already pending, do nothing.
       return null;
     }
     XFile imageFile;

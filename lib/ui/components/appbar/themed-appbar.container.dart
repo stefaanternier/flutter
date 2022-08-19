@@ -7,6 +7,8 @@ import 'package:youplay/store/selectors/game_messages.selector.dart';
 import 'package:youplay/store/state/app_state.dart';
 import 'package:youplay/ui/components/appbar/themed-appbar.dart';
 
+import '../../../store/selectors/selector.gametheme.dart';
+
 class ThemedAppbarContainer extends StatelessWidget with PreferredSizeWidget {
   @override
   final Size preferredSize;
@@ -43,7 +45,7 @@ class _ViewModel {
   static _ViewModel fromStore(Store<AppState> store) {
     return new _ViewModel(
       itemPrimaryColor: currentGeneralItem(store.state) == null ? null : currentGeneralItem(store.state)?.primaryColor,
-      themePrimaryColor: gameThemePrimaryColorSelector(store.state.currentGameState),
+      themePrimaryColor: currentGameThemeColor(store.state),
     );
   }
 

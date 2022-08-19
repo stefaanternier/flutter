@@ -7,12 +7,16 @@ import 'package:youplay/ui/components/web/web_wrapper.dart';
 class GamePlay extends StatelessWidget {
   Color color;
   String title;
+  // bool maxView;
 
-  GamePlay({required this.color, required this.title, Key? key})
+  GamePlay({
+    // required this.maxView,
+    required this.color, required this.title, Key? key})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    // print('max view is $maxView');
     return Scaffold(
         drawer: ARLearnNavigationDrawerContainer(),
         appBar: AppBar(
