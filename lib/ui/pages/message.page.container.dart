@@ -3,6 +3,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 import 'package:youplay/models/general_item.dart';
 import 'package:youplay/store/selectors/game_messages.selector.dart';
+import 'package:youplay/store/selectors/selector.generalitems.dart';
 import 'package:youplay/store/state/app_state.dart';
 
 import 'game_landing.page.loading.dart';
@@ -34,7 +35,7 @@ class _ViewModel {
 
   static _ViewModel fromStore(Store<AppState> store) {
     return _ViewModel(
-      item: currentGeneralItem(store.state),
+      item: currentGeneralItemNew(store.state),
     );
   }
 

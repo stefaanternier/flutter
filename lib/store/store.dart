@@ -13,14 +13,14 @@ Future<Store<AppState>> createStore() async {
       throttleDuration: new Duration(seconds: 10));
   AppState demo = AppState.emptyState();
   try {
+    print('loading from persistor');
     demo = await persistor.load() ?? demo;
   } catch (e) {
-    print("no state");
+    print("no state $e");
   }
 
-  return Store<AppState>(
-      appReducer,
-      middleware: [epicMiddleware], // , persistor.createMiddleware()
+  return Store<AppState>(appReducer,
+      middleware: [epicMiddleware, persistor.createMiddleware()], // ,
       distinct: true,
       initialState: demo);
 }

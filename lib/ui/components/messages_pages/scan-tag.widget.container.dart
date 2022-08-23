@@ -8,6 +8,7 @@ import 'package:youplay/store/actions/ui_actions.dart';
 import 'package:youplay/store/selectors/current_run.qr.selectors.dart';
 import 'package:youplay/store/selectors/current_run.selectors.dart';
 import 'package:youplay/store/selectors/game_messages.selector.dart';
+import 'package:youplay/store/selectors/selector.generalitems.dart';
 import 'package:youplay/store/state/app_state.dart';
 import 'package:youplay/ui/components/messages_pages/scan-tag.widget.dart';
 
@@ -36,7 +37,7 @@ class _ViewModel {
   _ViewModel({required this.item, required this.onResult});
 
   static _ViewModel fromStore(Store<AppState> store, BuildContext context) {
-    ScanTagGeneralItem _item = currentGeneralItem(store.state) as ScanTagGeneralItem;
+    ScanTagGeneralItem _item = currentGeneralItemNew(store.state) as ScanTagGeneralItem;
     return _ViewModel(
         item: _item,
         onResult: (String qrCode) {

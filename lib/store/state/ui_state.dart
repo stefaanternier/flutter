@@ -27,8 +27,9 @@ enum PageType {
 class UiState {
   // HashMap<int, GameUiState> gameIdToGame;
   int? pageId;
+  int? gameId;
+  int? runId;
 
-  int currentGameId;
   int? currentItemId;
   PageType currentPage = PageType.splash;
   int theme;
@@ -39,12 +40,13 @@ class UiState {
   //3 = map
 
   UiState({
-    this.currentGameId = -1,
     this.currentItemId,
     this.currentPage = PageType.splash,
     this.theme = 0,
     this.error = -1,
     this.pageId,
+    this.gameId,
+    this.runId,
     this.currentView = 0
   });
 
@@ -52,34 +54,34 @@ class UiState {
     return new UiState();
   }
 
-  setCurrentGame(int gameId) {
-    this.currentGameId = gameId;
-  }
 
   setCurrentItem(int itemId) {
     this.currentItemId = itemId;
   }
 
   UiState copyWith({
-    int? newCurrentGame,
     int? newItemId,
     PageType? newPage,
     int? newTheme,
     int? newError,
     int? newPageId,
-    int? newView
+    int? newView,
+    int? newGameId,
+    int? newRunId,
   }) {
 
     if (newPageId != null) {
       print('page id in uistate is $newPageId');
     }
     return new UiState(
-        currentGameId: newCurrentGame ?? this.currentGameId,
+
         currentItemId: newItemId ?? this.currentItemId,
         currentPage: newPage ?? this.currentPage,
         theme: newTheme ?? this.theme,
         error: newError ?? this.error,
         pageId: newPageId ?? this.pageId,
+        gameId: newGameId ?? this.gameId,
+        runId: newRunId ?? this.runId,
         currentView: newView ?? this.currentView
         );
   }
@@ -89,12 +91,13 @@ class UiState {
     required Game game
   }) {
     return new UiState(
-        currentGameId: this.currentGameId,
         currentItemId:  this.currentItemId,
         currentPage:  this.currentPage,
         theme:  this.theme,
         error:  this.error,
         pageId:  this.pageId,
+        gameId:  this.gameId,
+        runId:  this.runId,
         currentView: game.nextView(this.currentView)
     );
   }

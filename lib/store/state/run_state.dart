@@ -4,7 +4,7 @@ import 'package:youplay/models/general_item.dart';
 import 'package:youplay/models/response.dart';
 import 'package:youplay/models/run.dart';
 
-class RunState {
+class CurrentRunState {
   Run? run;
   int lastSync = 10;
   HashMap<String, ARLearnAction> actionsFromServer = new HashMap();
@@ -24,7 +24,7 @@ class RunState {
 
   bool syncingActionsFromServer;
 
-  static RunState init() => RunState(
+  static CurrentRunState init() => CurrentRunState(
         syncingActionsFromServer: false,
         outgoingResponses: [],
         outgoingPictureResponses: [],
@@ -38,7 +38,7 @@ class RunState {
         lastSync: 10
       );
 
-  RunState({
+  CurrentRunState({
     this.run,
     this.syncingActionsFromServer = false,
     required this.lastSync,
@@ -54,8 +54,8 @@ class RunState {
     required this.deleteList,
   });
 
-  RunState copyWith({run, l, a, respFromServer, u, op, or, it, itInV, reset, toDeleteItem, isSyncingActions}) {
-    return new RunState(
+  CurrentRunState copyWith({run, l, a, respFromServer, u, op, or, it, itInV, reset, toDeleteItem, isSyncingActions}) {
+    return new CurrentRunState(
         run: run ?? this.run,
         syncingActionsFromServer: isSyncingActions ?? this.syncingActionsFromServer,
         lastSync: l ?? this.lastSync,
@@ -72,7 +72,7 @@ class RunState {
             (reset != null && reset) ? new DateTime.now().millisecondsSinceEpoch : this.lastActionModification);
   }
 
-  RunState.fromJson(Map json)
+  CurrentRunState.fromJson(Map json)
       : run = Run.fromJson(json["run"]),
         syncingActionsFromServer = false;
 

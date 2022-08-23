@@ -8,6 +8,16 @@ class LoadParticipateGamesListRequestAction {
   String? cursor;
 
   LoadParticipateGamesListRequestAction({this.cursor});
+
+  @override
+  bool operator ==(dynamic other) {
+    LoadParticipateGamesListRequestAction o = other as LoadParticipateGamesListRequestAction;
+    return cursor == o.cursor;
+  }
+
+  @override
+  int get hashCode => cursor.hashCode;
+
 }
 
 class LoadParticipateGamesListResponseAction extends GenericWebResponseAction {

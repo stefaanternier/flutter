@@ -4,7 +4,7 @@ import 'package:redux/redux.dart';
 import 'package:youplay/models/general_item/narrator_item.dart';
 import 'package:youplay/store/selectors/game_messages.selector.dart';
 import 'package:youplay/store/state/app_state.dart';
-
+import 'package:youplay/store/selectors/selector.generalitems.dart';
 import 'picture-question.widget.dart';
 
 class PictureQuestionWidgetContainer extends StatelessWidget {
@@ -31,7 +31,7 @@ class _ViewModel {
 
   static _ViewModel fromStore(Store<AppState> store) {
     return _ViewModel(
-      item: currentGeneralItem(store.state) as PictureQuestion,
+      item: currentGeneralItemNew(store.state) as PictureQuestion,
     );
   }
 

@@ -17,7 +17,7 @@ final uiReducer = combineReducers<UiState>([
 //todo cleanup
 
 UiState _setCurrentGame(UiState state, SetCurrentGameAction action) {
-  return state.copyWith(newCurrentGame: action.currentGame);
+  return state.copyWith(newGameId: action.currentGame);
   // return action.currentGame;
 }
 
@@ -26,9 +26,9 @@ UiState _setCurrentGeneralItem(UiState state, SetCurrentGeneralItemId action) {
 }
 
 UiState _setPageReducer(UiState state, SetPage action) {
-  // print("in set page reducer ${action.page} ${action.pageId}");
+  print("in set page reducer ${action.page} ${action.pageId}");
   if (action.page == state.currentPage) return state;
-  return state.copyWith(newPage: action.page, newPageId: action.pageId);
+  return state.copyWith(newPage: action.page, newPageId: action.pageId, newGameId: action.gameId, newRunId: action.runId);
 }
 
 // UiState _setThemeReducer(UiState state, SetTheme action) {

@@ -10,6 +10,7 @@ import 'package:youplay/store/actions/current_run.actions.dart';
 import 'package:youplay/store/actions/current_run.picture.actions.dart';
 import 'package:youplay/store/selectors/current_run.selectors.dart';
 import 'package:youplay/store/selectors/game_messages.selector.dart';
+import 'package:youplay/store/selectors/selector.generalitems.dart';
 import 'package:youplay/store/state/app_state.dart';
 
 import 'text-question.widget.dart';
@@ -40,7 +41,7 @@ class _ViewModel {
 
   static _ViewModel fromStore(Store<AppState> store) {
     Run? run = currentRunSelector(store.state.currentRunState);
-    GeneralItem item = currentGeneralItem(store.state)!;
+    GeneralItem item = currentGeneralItemNew(store.state)!;
     return _ViewModel(
         item: item as TextQuestion,
         submitText: (String value) {

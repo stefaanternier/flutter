@@ -16,6 +16,8 @@ import 'package:youplay/store/actions/ui_actions.dart';
 import 'package:youplay/store/state/app_state.dart';
 import 'package:youplay/store/state/ui_state.dart';
 
+import '../actions/actions.games.dart';
+
 final uploadActionEpic = new TypedEpic<AppState, LocalAction>(_postAction);
 final loadPublicRunEpic = new TypedEpic<AppState, LoadPublicRunRequestAction>(_loadPublicRun);
 
@@ -68,7 +70,7 @@ Stream<dynamic> yieldLinkExpandRun(int runId) async* {
   if (runwithgame != null && runwithgame['game'] != null) {
     Game game = Game.fromJson(runwithgame['game']);
     print('game titel ${game.title}');
-    yield new LoadGameSuccessAction(game: game);
+    yield new LoadGameSuccess(game: game); //todo check if ok?
     yield new LoadOneFeaturedRunAction(run: Run.fromJson(runwithgame));
     yield ApiRunsParticipateAction(game.gameId);
   } else {

@@ -5,7 +5,7 @@ import 'package:youplay/models/general_item.dart';
 import 'package:youplay/store/selectors/game_messages.selector.dart';
 import 'package:youplay/store/state/app_state.dart';
 import 'package:youplay/ui/components/messages_parts/richtext-top.dart';
-
+import 'package:youplay/store/selectors/selector.generalitems.dart';
 
 class RichTextTopContainer extends StatelessWidget {
   const RichTextTopContainer({Key? key}) : super(key: key);
@@ -33,6 +33,6 @@ class _ViewModel {
   static _ViewModel fromStore(Store<AppState> store) {
     return _ViewModel(
         color: itemColor(store.state),
-        item: currentGeneralItem(store.state));
+        item: currentGeneralItemNew(store.state));
   }
 }

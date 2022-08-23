@@ -52,7 +52,7 @@ class YouplayRouteInformationParser
         var id = int.tryParse(remaining);
         if (id == null) return YouplayRoutePath.unknown();
         this.updatePageType(PageType.gameLandingPage, id);
-        return YouplayRoutePath(pageType: PageType.gameLandingPage, pageId: id);
+        return YouplayRoutePath(pageType: PageType.gameLandingPage, pageId: id, gameId: id);
       }
 
       if (uri.pathSegments[0] == 'run') {
@@ -60,7 +60,7 @@ class YouplayRouteInformationParser
         var remaining = uri.pathSegments[1];
         var id = int.tryParse(remaining);
         if (id == null) return YouplayRoutePath.unknown();
-        return YouplayRoutePath(pageType: PageType.runLandingPage, pageId: id);
+        return YouplayRoutePath(pageType: PageType.runLandingPage, pageId: id, runId: id);
       }
     }
     if (uri.pathSegments.length == 4) {
@@ -71,7 +71,7 @@ class YouplayRouteInformationParser
         var itemId = int.tryParse(item);
         if (runId == null || itemId == null) return YouplayRoutePath.unknown();
         return YouplayRoutePath(
-            pageType: PageType.gameItem, pageId: runId, itemId: itemId);
+            pageType: PageType.gameItem, pageId: runId, runId: runId, itemId: itemId);
       }
     }
 

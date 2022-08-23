@@ -5,12 +5,16 @@ class YouplayRoutePath {
 
   PageType pageType;
   int? pageId;
+  int? gameId;
+  int? runId;
   int? itemId;
 
   bool isUnknown;
 
   YouplayRoutePath({required this.pageType,
     this.pageId,
+    this.gameId,
+    this.runId,
     this.itemId,
     this.isUnknown = false});
 
@@ -40,9 +44,9 @@ class YouplayRoutePath {
 
   YouplayRoutePath get parent {
     if (pageType == PageType.gameItem){
-      return YouplayRoutePath(pageType: PageType.game, pageId: pageId);
+      return YouplayRoutePath(pageType: PageType.game, pageId: pageId, gameId: gameId);
     }
-    print("set paht to home via parent");
+    print("set paht to home via parent $gameId");
     return YouplayRoutePath.home();
   }
 

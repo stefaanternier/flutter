@@ -8,6 +8,7 @@ import 'package:youplay/models/run.dart';
 import 'general_item/dependency.dart';
 
 class Game {
+  String get id => '$gameId';
   int gameId;
   int? sharing;
   int? rank;
@@ -28,6 +29,7 @@ class Game {
   int lastModificationDate;
   bool privateMode;
   bool webEnabled;
+  bool deleted;
   GameConfig? config;
   Dependency? endsOn;
 
@@ -56,7 +58,8 @@ class Game {
             .where((x) => !(UniversalPlatform.isWeb && x == 3)) //exclude maps for web
             .toList(),
         iconAbbreviation = json['iconAbbreviation'] ?? '',
-        config = GameConfig.fromJson(json['config']);
+        deleted = json['deleted'] ?? false,
+        config = json['config'] != null ? GameConfig.fromJson(json['config']) : null;
 
   Game(
       {required this.gameId,
@@ -77,6 +80,7 @@ class Game {
       this.startButton,
       required this.messageListTypes,
       this.description = "",
+      this.deleted = false,
       this.iconAbbreviation = ''});
 
   dynamic toJson() {
@@ -84,14 +88,22 @@ class Game {
       'gameId': this.gameId,
       'lastModificationDate': this.lastModificationDate,
       'sharing': this.sharing,
-      'lat': this.lat,
-      'lng': this.lng,
-      'language': this.language,
-      'title': this.title,
-      'theme': this.theme,
-      'iconAbbreviation': this.iconAbbreviation,
+      'rank': this.rank,
       'privateMode': this.privateMode,
       'webEnabled': this.webEnabled,
+      'lat': this.lat,
+      'lng': this.lng,
+      'boardHeight': this.boardHeight.toInt(),
+      'boardWidth': this.boardWidth.toInt(),
+      'language': this.language,
+      'theme': this.theme,
+      'title': this.title,
+      'messageListScreen': this.messageListScreen,
+      'startButton': this.startButton,
+      'iconAbbreviation': this.iconAbbreviation,
+
+      'deleted': this.deleted,
+
     };
   }
 
@@ -158,6 +170,12 @@ Color colorFromHex(String hexString) {
   return Color(int.parse(buffer.toString(), radix: 16));
 }
 
+String colorToHex({required Color color, bool leadingHashSign = true}) => '${leadingHashSign ? '#' : ''}'
+    '${color.alpha.toRadixString(16).padLeft(2, '0')}'
+    '${color.red.toRadixString(16).padLeft(2, '0')}'
+    '${color.green.toRadixString(16).padLeft(2, '0')}'
+    '${color.blue.toRadixString(16).padLeft(2, '0')}';
+
 class GameFile {
   String path;
   int id;
@@ -211,3 +229,20 @@ class GameFile {
 //      '${green.toRadixString(16).padLeft(2, '0')}'
 //      '${blue.toRadixString(16).padLeft(2, '0')}';
 //}
+
+
+
+class GameList {
+  List<Game> items;
+  String? resumptionToken;
+
+  GameList({required this.items, this.resumptionToken});
+
+  GameList.fromJson(Map json)
+      : items = json['games'] != null
+      ? (json['games'] as List<dynamic>)
+      .map<Game>((map) => Game.fromJson(map))
+      .toList(growable: false)
+      : [],
+        resumptionToken = json['resumptionToken'];
+}

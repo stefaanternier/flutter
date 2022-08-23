@@ -2,7 +2,10 @@ import 'package:youplay/models/models.dart';
 import 'package:youplay/store/actions/auth.actions.dart';
 import 'package:youplay/store/actions/current_game.actions.dart';
 import 'package:youplay/store/reducers/game_library.reducer.dart';
+import 'package:youplay/store/reducers/reducer.games.dart';
 import 'package:youplay/store/reducers/reducer.gametheme.dart';
+import 'package:youplay/store/reducers/reducer.generalitems.dart';
+import 'package:youplay/store/reducers/reducer.runs.dart';
 import 'package:youplay/store/reducers/ui.reducer.dart';
 import 'package:youplay/store/state/ui_state.dart';
 
@@ -12,6 +15,7 @@ import 'current_game.reducer.dart';
 import 'current_run.reducer.dart';
 import 'game_theme.reducer.dart';
 import 'gameid_to_runs.reducer.dart';
+import 'reducer.collection.dart';
 
 AppState appReducer(AppState state, action) {
   if (action is SignOutAction) {
@@ -34,7 +38,11 @@ AppState appReducer(AppState state, action) {
       gameLibrary: gameLibraryReducer(state.gameLibrary, action),
       // gameIdToGameState: gameReducer(state.gameIdToGameState, action),
       gameIdToRun: runsReducer(state.gameIdToRun, action),
+      collectionState: collectionReducer(state.collectionState, action),
+      gameState: gameReducer(state.gameState, action),
       gameThemeState: gameThemeReducer(state.gameThemeState, action),
+      generalItemsState: generalItemsReducer(state.generalItemsState, action),
+      runState: runReducer(state.runState, action),
       authentication: authenticationReducer(state.authentication, action),
       uiState: uiReducer(state.uiState, action)
   );

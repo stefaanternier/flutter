@@ -13,6 +13,8 @@ import 'package:youplay/store/actions/ui_actions.dart';
 import 'package:youplay/store/state/app_state.dart';
 import 'package:youplay/store/state/ui_state.dart';
 
+import '../actions/actions.games.dart';
+
 final gameLibraryEpics = combineEpics<AppState>([
   new TypedEpic<AppState, LoadFeaturedGameAction>(_loadFeaturedGames),
   new TypedEpic<AppState, LoadRecentGamesAction>(_loadRecentGames),
@@ -34,24 +36,20 @@ Stream<dynamic> _searchGames(Stream<dynamic> actions, EpicStore<AppState> store)
 
 Stream<dynamic> _loadOneFeaturedGames(Stream<dynamic> actions, EpicStore<AppState> store) {
   return actions.where((action) => action is LoadOneFeaturedGameAction).asyncMap((action) =>
-      StoreApi.game(action.game.gameId)
-          .then((game) => game != null ? new LoadOneFeaturedGameResultAction(game: game, rank: action.game.rank) : null));
+      StoreApi.game(action.game.gameId).then(
+          (game) => game != null ? new LoadOneFeaturedGameResultAction(game: game, rank: action.game.rank) : null));
 }
 
 Stream<dynamic> _loadFeaturedGames(Stream<dynamic> actions, EpicStore<AppState> store) {
   return actions.where((action) => action is LoadFeaturedGameAction).asyncExpand((action) {
-    return yieldGameInfoAction(
-        action, StoreApi.featuredGames(), store, new LoadFeaturedGameResultsAction(games: []));
+    return yieldGameInfoAction(action, StoreApi.featuredGames(), store, new LoadFeaturedGameResultsAction(games: []));
   });
 }
 
-
 Stream<dynamic> _loadRecentGames(Stream<dynamic> actions, EpicStore<AppState> store) {
   return actions.where((action) => action is LoadRecentGamesAction).asyncExpand((action) {
-    return yieldGameInfoAction(
-        action, StoreApi.recentGames(), store, new LoadRecentGameResultsAction(games: []));
+    return yieldGameInfoAction(action, StoreApi.recentGames(), store, new LoadRecentGameResultsAction(games: []));
   });
-
 
   // return actions.where((action) => action is LoadRecentGamesAction).asyncMap((action) {
   //   return StoreApi.recentGames()
@@ -63,16 +61,15 @@ Stream<dynamic> yieldEmpty(dynamic partialResultsAction) async* {
   yield partialResultsAction;
 }
 
-Stream<dynamic> yieldGameInfoAction(action, Future<List<Game>> gameList, EpicStore<AppState> store,
-    dynamic partialResultsAction) async* {
+Stream<dynamic> yieldGameInfoAction(
+    action, Future<List<Game>> gameList, EpicStore<AppState> store, dynamic partialResultsAction) async* {
   // List<Game> list = await gameList;AppConfig().analytics.logSearch(searchTerm: '${action.query}');
   partialResultsAction.games = await gameList;
   // yield new LoadFeaturedGameResultsAction(games: list);
   // yield new LoadSearchedGameResultsAction(games: partialResultsAction.games);
   yield partialResultsAction;
   for (Game game in partialResultsAction.games) {
-    if (store.state.gameLibrary.fullGames[game.gameId] == null)
-      yield LoadOneFeaturedGameAction(game: game);
+    if (store.state.gameLibrary.fullGames[game.gameId] == null) yield LoadOneFeaturedGameAction(game: game);
   }
 }
 
@@ -117,17 +114,13 @@ Stream<dynamic> yieldLinkExpandGame(String link) async* {
     //todo
   } else {
     Game g = game as Game;
-    yield new LoadGameSuccessAction(game: g);
-
+    yield new LoadGameSuccess(game: g); //todo investigate
 
     // yield ApiRunsParticipateAction(gameId);
-    yield RunsApi.participate(gameId).then((results) =>
-    new ApiResultRunsParticipateAction(
-        runs: results, gameId: gameId));
-    yield SetPage(page: PageType.gameLandingPage, pageId: gameId);
+    yield RunsApi.participate(gameId)
+        .then((results) => new ApiResultRunsParticipateAction(runs: results, gameId: gameId));
+    yield SetPage(page: PageType.gameLandingPage, pageId: gameId, gameId: gameId);
   }
-
-
 }
 
 Stream<dynamic> yieldLinkExpand() async* {

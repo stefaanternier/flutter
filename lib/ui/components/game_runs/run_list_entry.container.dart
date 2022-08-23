@@ -6,6 +6,7 @@ import 'package:youplay/models/run.dart';
 import 'package:youplay/store/selectors/current_game.selectors.dart';
 import 'package:youplay/store/selectors/game_messages.selector.dart';
 import 'package:youplay/store/selectors/selector.gametheme.dart';
+import 'package:youplay/store/selectors/selector.generalitems.dart';
 import 'package:youplay/store/state/app_state.dart';
 import 'run_list_entry.dart';
 
@@ -51,7 +52,7 @@ class _ViewModel {
 
   static _ViewModel fromStore(Store<AppState> store) {
     return new _ViewModel(
-      itemPrimaryColor: currentGeneralItem(store.state) == null ? null : currentGeneralItem(store.state)?.primaryColor,
+      itemPrimaryColor: currentGeneralItemNew(store.state) == null ? null : currentGeneralItemNew(store.state)?.primaryColor,
       themePrimaryColor: currentGameThemeColor(store.state),
     );
   }

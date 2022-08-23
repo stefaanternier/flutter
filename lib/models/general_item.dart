@@ -72,6 +72,7 @@ class GeneralItemsVisibility {
 }
 
 class GeneralItem {
+  String get id => '$itemId';
   ItemType type;
   int gameId;
   bool deleted;
@@ -292,3 +293,19 @@ class LocationTrigger {
 //"autoPlay": false,
 //"message": false
 //}
+
+
+class GeneralItemList {
+  List<GeneralItem> items;
+  String? resumptionToken;
+
+  GeneralItemList({required this.items, this.resumptionToken});
+
+  GeneralItemList.fromJson(Map json)
+      : items = json['generalItems'] != null
+      ? (json['generalItems'] as List<dynamic>)
+      .map<GeneralItem>((map) => GeneralItem.fromJson(map))
+      .toList(growable: false)
+      : [],
+        resumptionToken = json['resumptionToken'];
+}

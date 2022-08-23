@@ -35,6 +35,8 @@ Future<Null> initUniLinks(Store<AppState> store) async {
 
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
   AppConfig().setAppConfig(
       appEnvironment: AppEnvironment.DIDOPROD,
       appName: 'your app name',
@@ -57,7 +59,6 @@ void main() async {
             defaultLoginPassword: ""
         ),
       });
-
   final store = await createStore();
   runApp(MyApp(store: store));
   FirebaseApp app = await Firebase.initializeApp();

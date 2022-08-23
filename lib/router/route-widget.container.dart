@@ -31,7 +31,11 @@ class RouteWidgetContainer extends StatelessWidget {
           routerDelegate :
               new YouplayRouterDelegate(
                   youplayRoutePath: YouplayRoutePath(
-                      pageType: vm.pageType, pageId: vm.pageId, itemId: vm.itemId),
+                      pageType: vm.pageType,
+                      pageId: vm.pageId,
+                      gameId: vm.gameId,
+                      runId: vm.runId,
+                      itemId: vm.itemId),
                   updatePageType: vm.updatePageType),
 
           key: ValueKey('RouteWidget'),
@@ -45,19 +49,28 @@ class _ViewModel {
   Function(PageType, int?) updatePageType;
   PageType pageType;
   int? pageId;
+  int? gameId;
+  int? runId;
   int? itemId;
 
   _ViewModel(
       {required this.updatePageType,
       required this.pageType,
       this.pageId,
+        this.gameId,
+        this.runId,
       this.itemId});
 
   static _ViewModel fromStore(Store<AppState> store) {
     return _ViewModel(
-      updatePageType: (PageType pt, int? pId) => store.dispatch(SetPage(page: pt, pageId: pId)),
+      updatePageType: (PageType pt, int? pId) {
+        print('set page to ${pt}, $pId');
+        store.dispatch(SetPage(page: pt, pageId: pId));
+      },
       pageType: currentPage(store.state),
       pageId: currentPageId(store.state),
+      gameId: currentGameIdState(store.state),
+      runId: currentRunIdState(store.state),
       itemId: currentItemIdSel(store.state),
     );
   }

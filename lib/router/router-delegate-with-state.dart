@@ -92,7 +92,7 @@ class YouplayRouterDelegate extends RouterDelegate<YouplayRoutePath>
           ),
           MaterialPage(
               key: ValueKey('GameLandingPage'),
-              child: GameLandingPageContainer(gameId: youplayRoutePath.pageId!) //gameId: _youplayRoutePath.gameId!
+              child: GameLandingPageContainer(gameId: youplayRoutePath.gameId!) //gameId: _youplayRoutePath.gameId!
               )
         ];
       // return GameLandingPage();

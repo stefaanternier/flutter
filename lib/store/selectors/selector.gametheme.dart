@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:reselect/reselect.dart';
 import 'package:youplay/config/app_config.dart';
 import 'package:youplay/models/game_theme.dart';
+import 'package:youplay/store/selectors/selector.games.dart';
 import 'package:youplay/store/state/app_state.dart';
-import 'package:reselect/reselect.dart';
 
 import '../../models/game.dart';
 import '../state/state.gametheme.dart';
-import 'current_game.selectors.dart';
 
 final gameThemeStateSelector = (AppState state) => state.gameThemeState;
 

@@ -7,10 +7,8 @@ import 'package:youplay/ui/components/web/web_wrapper.dart';
 class GamePlay extends StatelessWidget {
   Color color;
   String title;
-  // bool maxView;
 
   GamePlay({
-    // required this.maxView,
     required this.color, required this.title, Key? key})
       : super(key: key);
 

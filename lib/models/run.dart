@@ -1,4 +1,5 @@
 class Run {
+  String get id => '$runId';
   int? runId;
   int gameId;
   String title;
@@ -20,7 +21,7 @@ class Run {
         runId = int.parse("${json['runId']}"),
         lastModificationDate = json['lastModificationDate'] == null? 0:int.parse("${json['lastModificationDate']}"),
         startTime = int.parse("${json['startTime']}"),
-        deleted= json['deleted'],
+        deleted= json['deleted'] ?? false,
         title = json['title'];
 
   dynamic toJson() {
@@ -34,6 +35,25 @@ class Run {
     };
   }
 }
+
+
+class RunList {
+  List<Run> runs;
+  String? resumptionToken;
+
+  RunList({required this.runs, this.resumptionToken});
+
+  RunList.fromJson(Map json)
+      : runs = json['runs'] != null
+      ? (json['runs'] as List<dynamic>)
+      .map<Run>((map) => Run.fromJson(map))
+      .toList(growable: false)
+      : [],
+        resumptionToken = json['nextPageToken'];
+}
+
+
+
 
 class ARLearnActionsList {
   List<ARLearnAction> responses;

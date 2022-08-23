@@ -3,37 +3,31 @@ import 'package:redux/redux.dart';
 import 'package:youplay/models/models.dart';
 import 'package:youplay/store/actions/current_game.actions.dart';
 import 'package:youplay/store/actions/current_run.actions.dart';
-import 'package:youplay/store/actions/game_messages.actions.dart';
 import 'package:youplay/store/actions/ui_actions.dart';
 import 'package:youplay/store/reducers/ui.reducer.dart';
 import 'package:youplay/store/state/all_games_state.dart';
 import 'package:youplay/store/state/current_game_state.dart';
 import 'package:youplay/store/state/run_state.dart';
 
-import 'game_messages.reducer.dart';
-
-final Reducer<GamesState> currentGameReducer = combineReducers<GamesState>([
+final Reducer<CurrentGameState> currentGameReducer = combineReducers<CurrentGameState>([
   // new TypedReducer<GamesState, SyncGameContentResult>(_syncGameContentResult),
-  new TypedReducer<GamesState, LoadGameSuccessAction>(_gameSuccesstoGameState),
-  new TypedReducer<GamesState, LoadGameMessagesListResponseAction>(addMessagesToGameState),
-  new TypedReducer<GamesState, ApiResultRunsParticipateAction>(_addParticipateRun),
-  new TypedReducer<GamesState, ResetRunsAndGoToLandingPage>(_resetAmountOfRuns),
+  // new TypedReducer<CurrentGameState, LoadGameSuccessAction>(_gameSuccesstoGameState),
+  // new TypedReducer<CurrentGameState, LoadGameMessagesListResponseAction>(addMessagesToGameState),
+  new TypedReducer<CurrentGameState, ApiResultRunsParticipateAction>(_addParticipateRun),
+  new TypedReducer<CurrentGameState, ResetRunsAndGoToLandingPage>(_resetAmountOfRuns),
 ]);
 
 
-GamesState _gameSuccesstoGameState( GamesState state, LoadGameSuccessAction action) {
-  if (action.game.title == null) action.game.title = "no title";
-  return state.copyWith(game:action.game);
-}
+// CurrentGameState _gameSuccesstoGameState( CurrentGameState state, LoadGameSuccessAction action) {
+//   if (action.game.title == null) action.game.title = "no title";
+//   return state.copyWith(game:action.game);
+// }
 
 
 
 
 
 AppState swapGameState(AppState state, SetCurrentGameAction action) {
-  // if (state.currentGameState.game != null) { //backup old game state
-  //   state.gameIdToGameState[state.currentGameState.game!.gameId] = state.currentGameState;
-  // }
   return new AppState(
       // themIdToTheme: state.themIdToTheme,
       // gameIdToGameState: state.gameIdToGameState,
@@ -45,23 +39,27 @@ AppState swapGameState(AppState state, SetCurrentGameAction action) {
       allGamesState: state.allGamesState,
       authentication: state.authentication,
       gameThemeState: state.gameThemeState,
+      generalItemsState: state.generalItemsState,
+      collectionState: state.collectionState,
+      gameState: state.gameState,
+      runState: state.runState,
       uiState: uiReducer(state.uiState, action),
-      currentRunState: RunState.init()
+      currentRunState: CurrentRunState.init()
   );
 }
 
 _initGameState(AllGamesState allGamesState, int gameId) {
   if (allGamesState.idToGame[gameId] != null) {
-    return new GamesState();
+    return new CurrentGameState();
   }
-  return GamesState.makeWithGame(allGamesState.idToGame[gameId]!);
+  return CurrentGameState.makeWithGame();
 
 }
 
-GamesState  _addParticipateRun(GamesState state, ApiResultRunsParticipateAction action) {
+CurrentGameState  _addParticipateRun(CurrentGameState state, ApiResultRunsParticipateAction action) {
   return state.copyWith(runAmount: action.runs.where((element) => !element.deleted).length);
 }
 
-GamesState  _resetAmountOfRuns(GamesState state, ResetRunsAndGoToLandingPage action) {
+CurrentGameState  _resetAmountOfRuns(CurrentGameState state, ResetRunsAndGoToLandingPage action) {
   return state.copyWith(runAmount: -1);
 }

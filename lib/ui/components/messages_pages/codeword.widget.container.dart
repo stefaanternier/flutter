@@ -11,7 +11,7 @@ import 'package:youplay/store/actions/ui_actions.dart';
 import 'package:youplay/store/selectors/current_run.selectors.dart';
 import 'package:youplay/store/selectors/game_messages.selector.dart';
 import 'package:youplay/store/state/app_state.dart';
-
+import 'package:youplay/store/selectors/selector.generalitems.dart';
 import 'codeword.widget.dart';
 
 class CodeWordWidgetContainer extends StatelessWidget {
@@ -61,7 +61,7 @@ class _ViewModel {
 
   static _ViewModel fromStore(Store<AppState> store, BuildContext context) {
     Run? run = currentRunSelector(store.state.currentRunState);
-    CodeWordGeneralItem item = currentGeneralItem(store.state)! as CodeWordGeneralItem;
+    CodeWordGeneralItem item = currentGeneralItemNew(store.state)! as CodeWordGeneralItem;
 
     int _lockLength = 0;
     bool _numeric = true;

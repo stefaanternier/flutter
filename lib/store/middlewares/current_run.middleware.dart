@@ -43,7 +43,7 @@ Stream<dynamic> _syncRun(Stream<dynamic> actions, EpicStore<AppState> store) {
 }
 
 Stream<dynamic> _runSubtasks(int runId) async* {
-  yield new LoadGameMessagesListRequestAction(); //2
+  // yield new LoadGameMessagesListRequestAction(); //2
   yield new ApiRunsVisibleItems(runId);
   // yield new StartRunAction(runId: runId);
   yield new SyncResponsesServerToMobile(

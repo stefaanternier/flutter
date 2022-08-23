@@ -12,7 +12,7 @@ import 'package:youplay/store/selectors/current_run.selectors.dart';
 import 'package:youplay/store/selectors/game_messages.selector.dart';
 import 'package:youplay/store/state/app_state.dart';
 import 'package:youplay/ui/components/messages_pages/combination-lock.widget.dart';
-
+import 'package:youplay/store/selectors/selector.generalitems.dart';
 class CombinationLockWidgetContainer extends StatelessWidget {
   const CombinationLockWidgetContainer({Key? key}) : super(key: key);
 
@@ -54,7 +54,7 @@ class _ViewModel {
 
   static _ViewModel fromStore(Store<AppState> store, BuildContext context) {
     Run? run = currentRunSelector(store.state.currentRunState);
-    CombinationLockGeneralItem item = currentGeneralItem(store.state)! as CombinationLockGeneralItem;
+    CombinationLockGeneralItem item = currentGeneralItemNew(store.state)! as CombinationLockGeneralItem;
 
     int _lockLength = 0;
     bool _numeric = true;

@@ -23,12 +23,16 @@ class SetCurrentGeneralItemId {
 
 class SetPage {
   PageType page;
+  int? gameId;
+  int? runId;
   int? pageId;
   int? itemId;
 
   SetPage({
     required this.page,
     this.pageId,
+    this.gameId,
+    this.runId,
     this.itemId
   });
 

@@ -7,7 +7,7 @@ import 'package:youplay/store/actions/current_run.actions.dart';
 import 'package:youplay/store/selectors/current_run.selectors.dart';
 import 'package:youplay/store/selectors/game_messages.selector.dart';
 import 'package:youplay/store/state/app_state.dart';
-
+import 'package:youplay/store/selectors/selector.generalitems.dart';
 import 'video-question.list-entries.dart';
 
 
@@ -41,7 +41,7 @@ class _ViewModel {
   _ViewModel({required this.videoResponses, required this.store});
 
   static _ViewModel fromStore(Store<AppState> store) {
-    VideoQuestion item = currentGeneralItem(store.state) as VideoQuestion;
+    VideoQuestion item = currentGeneralItemNew(store.state) as VideoQuestion;
     return new _ViewModel(videoResponses: [
       ...currentRunResponsesSelector(store.state)
           .where((element) => element.item?.itemId == item.itemId)

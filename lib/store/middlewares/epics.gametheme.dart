@@ -1,5 +1,6 @@
 import 'package:redux_epics/redux_epics.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:youplay/store/actions/actions.games.dart';
 import 'package:youplay/store/state/app_state.dart';
 
 import '../../api/gametheme.api.dart';
@@ -22,6 +23,6 @@ Stream<dynamic> _gameThemeEpics(Stream<dynamic> actions, EpicStore<AppState> sto
 
 Stream<dynamic> _loadGameSuccessEpic(Stream<dynamic> actions, EpicStore<AppState> store) {
   return actions
-      .whereType<LoadGameSuccessAction>()
+      .whereType<LoadGameSuccess>()
       .map((action) => new LoadGameTheme(themeIdentifier: action.game.theme));
 }

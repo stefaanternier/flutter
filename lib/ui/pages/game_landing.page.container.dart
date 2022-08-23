@@ -5,7 +5,7 @@ import 'package:universal_platform/universal_platform.dart';
 import 'package:youplay/models/game.dart';
 import 'package:youplay/store/actions/current_game.actions.dart';
 import 'package:youplay/store/selectors/auth.selectors.dart';
-import 'package:youplay/store/selectors/current_game.selectors.dart';
+import 'package:youplay/store/selectors/selector.games.dart';
 import 'package:youplay/store/state/app_state.dart';
 import 'package:youplay/ui/pages/play_game_with_native_app.dart';
 
@@ -13,21 +13,17 @@ import 'game_landing.page.loading.dart';
 import 'game_landing.page.private.container.dart';
 import 'game_landing.page.public.container.dart';
 
-
 class GameLandingPageContainer extends StatelessWidget {
-
   int gameId;
 
-  GameLandingPageContainer({
-    required this.gameId,
-    Key? key}) : super(key: key);
+  GameLandingPageContainer({required this.gameId, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, _ViewModel>(
       converter: (store) => _ViewModel.fromStore(store, gameId),
       builder: (context, vm) {
-
+        print('hallo2');
         if (vm.game == null || vm.game!.gameId != gameId) {
           return GameLandingLoadingPage(
             init: vm.loadGame,
@@ -35,9 +31,7 @@ class GameLandingPageContainer extends StatelessWidget {
           );
         }
         if (UniversalPlatform.isWeb && !vm.game!.webEnabled) {
-          return PlayAppNativePage(
-
-          );
+          return PlayAppNativePage();
         }
         if (vm.game!.privateMode) {
           return GameLandingPublicPageContainer(game: vm.game!);
@@ -54,17 +48,14 @@ class _ViewModel {
   Game? game;
   Function loadGame;
 
-  _ViewModel({required this.authenticated,
-    required this.loadGame,
-    this.game});
+  _ViewModel({required this.authenticated, required this.loadGame, this.game});
 
   static _ViewModel fromStore(Store<AppState> store, int gameId) {
     return _ViewModel(
-    authenticated: isAuthenticatedSelector(store.state),
-      game: gameSelector(store.state.currentGameState),
-      loadGame: () {
+        authenticated: isAuthenticatedSelector(store.state),
+        game: currentGame(store.state),
+        loadGame: () {
           store.dispatch(LoadPublicGameRequestAction(gameId: gameId));
-      }
-    );
+        });
   }
 }

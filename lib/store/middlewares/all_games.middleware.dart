@@ -7,7 +7,7 @@ import 'package:youplay/store/selectors/all_games.selectors.dart';
 import 'package:youplay/store/state/app_state.dart';
 
 final allGameEpics = combineEpics<AppState>([
-  new TypedEpic<AppState, LoadParticipateGamesListRequestAction>(_gameParticipateStream),
+  // new TypedEpic<AppState, LoadParticipateGamesListRequestAction>(_gameParticipateStream),
   new TypedEpic<AppState, LoadParticipateGamesListResponseAction>(_downloadIndividualGames),
   new TypedEpic<AppState, LoadParticipateGameResponseAction>(_downloadIndividualGames),
   new TypedEpic<AppState, LoadParticipateGameRequestAction>(_downloadGame),

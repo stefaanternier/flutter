@@ -6,15 +6,13 @@ import 'package:youplay/models/game.dart';
 import 'package:youplay/models/run.dart';
 import 'package:youplay/store/actions/current_run.actions.dart';
 import 'package:youplay/store/selectors/auth.selectors.dart';
-import 'package:youplay/store/selectors/current_game.selectors.dart';
 import 'package:youplay/store/selectors/game_library.selectors.dart';
+import 'package:youplay/store/selectors/selector.games.dart';
 import 'package:youplay/store/state/app_state.dart';
 import 'package:youplay/ui/pages/play_game_with_native_app.dart';
 import 'package:youplay/ui/pages/run_landing_join.page.container.dart';
 
 import 'game_landing.page.loading.dart';
-import 'game_landing.page.private.container.dart';
-import 'game_landing.page.public.container.dart';
 
 
 class RunLandingPageContainer extends StatelessWidget {
@@ -42,11 +40,6 @@ class RunLandingPageContainer extends StatelessWidget {
           );
         }
         return RunLandingPageJoinContainer(run: vm.run!, game: vm.game!);
-        if (vm.game!.privateMode) {
-          return GameLandingPublicPageContainer(game: vm.game!);
-        } else {
-          return GameLandingPrivatePageContainer(game: vm.game!);
-        }
       },
     );
   }
@@ -66,7 +59,7 @@ class _ViewModel {
   static _ViewModel fromStore(Store<AppState> store, int runId) {
     return _ViewModel(
         authenticated: isAuthenticatedSelector(store.state),
-        game: gameSelector(store.state.currentGameState),
+        game: currentGame(store.state),
         run: featuredRunSelector(store.state),
         loadGame: () {
           print("dispatching LoadPublicRunRequestAction");

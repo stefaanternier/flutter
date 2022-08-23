@@ -7,6 +7,8 @@ import 'package:youplay/store/selectors/current_game.selectors.dart';
 import 'package:youplay/store/state/app_state.dart';
 import 'package:youplay/ui/components/game_play/toggle_view_button.dart';
 
+import '../../../store/selectors/selector.games.dart';
+
 class ToggleViewButtonContainer extends StatelessWidget {
   const ToggleViewButtonContainer({Key? key}) : super(key: key);
 
@@ -36,7 +38,7 @@ class _ViewModel {
   _ViewModel({required this.togglePress, required this.view, required this.nextView});
 
   static _ViewModel fromStore(Store<AppState> store) {
-    Game? game = gameSelector(store.state.currentGameState);
+    Game? game = currentGame(store.state);
     int v = store.state.uiState.currentView;
     return _ViewModel(
         view: v,

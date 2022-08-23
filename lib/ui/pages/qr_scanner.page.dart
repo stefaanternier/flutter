@@ -119,7 +119,7 @@ class GameQRState extends State<GameQRScreen> {
     }
     int gameIdInt = int.parse(gameId);
     store.dispatch(LoadPublicGameRequestAction(gameId: gameIdInt));
-    store.dispatch(SetPage(page: PageType.gameLandingPage, pageId: gameIdInt));
+    store.dispatch(SetPage(page: PageType.gameLandingPage, gameId: gameIdInt));
     store.dispatch(ResetRunsAndGoToLandingPage());
     if (store.state.authentication.authenticated) {
       store.dispatch(ApiRunsParticipateAction(gameIdInt));

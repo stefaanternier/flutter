@@ -6,11 +6,11 @@ import 'package:youplay/models/run.dart';
 import 'package:youplay/store/actions/current_run.actions.dart';
 import 'package:youplay/store/actions/gameid_to_runs.actions.dart';
 import 'package:youplay/store/actions/ui_actions.dart';
-import 'package:youplay/store/selectors/current_game.selectors.dart';
-import 'package:youplay/store/selectors/gameid_to_runs.selectors.dart';
+import 'package:youplay/store/selectors/selector.games.dart';
 import 'package:youplay/store/state/app_state.dart';
 import 'package:youplay/store/state/ui_state.dart';
 
+import '../../../store/selectors/selector.runs.dart';
 import 'game-runs-list.dart';
 
 class GameRunsListContainer extends StatelessWidget {
@@ -20,6 +20,7 @@ class GameRunsListContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return StoreConnector<AppState, _ViewModel>(
         converter: (store) => _ViewModel.fromStore(store),
+        distinct: true,
         builder: (context, vm) {
           return GameRunList(
             runList: vm.runList,
@@ -42,10 +43,8 @@ class _ViewModel {
   });
 
   static _ViewModel fromStore(Store<AppState> store) {
-    List<Run> rl = currentRunsSelector(store.state);
-    print("run list is ${rl}");
-
-    Game? game = gameSelector(store.state.currentGameState);
+    List<Run> rl = currentGameRuns(store.state);
+    Game? game = currentGame(store.state);
     return _ViewModel(
         runList: rl,
         deleteRun: (Run run) {
@@ -59,4 +58,15 @@ class _ViewModel {
           }
         });
   }
+
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    return other is _ViewModel && (other.hashCode == hashCode);
+  }
+
+  @override
+  int get hashCode => runList.length;
+
 }

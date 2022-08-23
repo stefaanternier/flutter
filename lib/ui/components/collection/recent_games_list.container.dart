@@ -52,7 +52,7 @@ class _ViewModel {
         recentGames: recentGamesSelector(store.state), //.gameLibrary.recentGames,
         openGame: (Game g) {
           store.dispatch(
-              new SetPage(page: PageType.gameLandingPage, pageId: g.gameId));
+              new SetPage(page: PageType.gameLandingPage, gameId: g.gameId));
         });
   }
 }

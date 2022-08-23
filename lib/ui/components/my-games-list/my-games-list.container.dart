@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 import 'package:youplay/models/game.dart';
-import 'package:youplay/store/actions/current_game.actions.dart';
+import 'package:youplay/store/actions/actions.games.dart';
+import 'package:youplay/store/actions/actions.generalitems.dart';
 import 'package:youplay/store/actions/current_run.actions.dart';
 import 'package:youplay/store/actions/ui_actions.dart';
-import 'package:youplay/store/selectors/all_games.selectors.dart';
 import 'package:youplay/store/state/app_state.dart';
 import 'package:youplay/store/state/ui_state.dart';
 
+import '../../../store/selectors/selector.games.dart';
 import 'my-games-list.dart';
 
 class MyGamesListContainer extends StatelessWidget {
@@ -37,14 +38,16 @@ class _ViewModel {
 
 
     return _ViewModel(
-        gameList: allGames(store.state.allGamesState),
+        gameList: myGames(store.state),
         tapGame: (Game game) {
           return () {
-            store.dispatch(SetCurrentGameAction(currentGame: game.gameId));
-            store.dispatch(LoadGameRequestAction(gameId: game.gameId));
+            print('game is $game  $store ${game.gameId}');
+            // store.dispatch(SetCurrentGameAction(currentGame: game.gameId));
+            store.dispatch(LoadGameMessagesRequest(gameId: '${game.gameId}'));
+            store.dispatch(LoadGameRequest(gameId: '${game.gameId}'));
             store.dispatch(ApiRunsParticipateAction(game.gameId));
 
-            store.dispatch(SetPage(page: PageType.gameWithRuns));
+            store.dispatch(SetPage(page: PageType.gameWithRuns, gameId: game.gameId));
           };
         });
   }

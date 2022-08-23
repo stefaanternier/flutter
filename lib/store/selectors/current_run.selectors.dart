@@ -1,10 +1,13 @@
 import 'dart:collection';
 
 import 'package:reselect/reselect.dart';
+import 'package:youplay/models/game.dart';
 import 'package:youplay/models/general_item.dart';
 import 'package:youplay/models/models.dart';
 import 'package:youplay/models/response.dart';
 import 'package:youplay/models/run.dart';
+import 'package:youplay/store/selectors/selector.games.dart';
+import 'package:youplay/store/selectors/selector.generalitems.dart';
 import 'package:youplay/store/selectors/ui_selectors.dart';
 import 'package:youplay/store/state/current_game_state.dart';
 import 'package:youplay/store/state/run_state.dart';
@@ -14,8 +17,8 @@ import 'current_game.selectors.dart';
 final runStateFeature = (AppState state) => state.currentRunState;
 final responsesFromServerFeature = (AppState state) => state.currentRunState.responsesFromServer;
 
-final runIdSelector = (RunState state) => state.run?.runId ?? -1;
-final currentRunSelector = (RunState state) => state.run;
+final runIdSelector = (CurrentRunState state) => state.run?.runId ?? -1;
+final currentRunSelector = (CurrentRunState state) => state.run;
 final currentRunSel = (AppState state) => runStateFeature(state) != null ? runStateFeature(state).run : null;
 
 final actionsFromServerSel = (AppState state) => runStateFeature(state).actionsFromServer;
@@ -45,13 +48,14 @@ final Selector<AppState, bool> correctAnswerGivenSelector =
 });
 
 final Selector<AppState, List<ItemTimes>> itemTimesSortedByTime =
-    createSelector3(gameStateFeature, localAndUnsyncActions, lastActionModificationSelector,
-        (GamesState gameState, HashMap<String, ARLearnAction> actionsFromServer, int modification) {
-  if (gameState.game == null) {
+    createSelector5(
+        gameStateFeature, localAndUnsyncActions, lastActionModificationSelector, currentGameItems, currentGame,
+        (CurrentGameState gameState, HashMap<String, ARLearnAction> actionsFromServer, int modification, List<GeneralItem> items, Game? game) {
+  if (game == null) {
     return [];
   }
   List<ItemTimes> visibleItems = [];
-  gameState.itemIdToGeneralItem.forEach((key, GeneralItem item) {
+  items.forEach((GeneralItem item) {
     int localVisibleAt = item.visibleAt(actionsFromServer);
     int localInvisibleAt = item.disapperAt(actionsFromServer);
     int now = new DateTime.now().millisecondsSinceEpoch;
@@ -59,7 +63,7 @@ final Selector<AppState, List<ItemTimes>> itemTimesSortedByTime =
     item.lastModificationDate = localVisibleAt;
     if (localVisibleAt != -1) {
       if (localInvisibleAt == -1 || localInvisibleAt > now) {
-        if (item.gameId == gameState.game!.gameId) {
+        if (item.gameId == game.gameId) {
           visibleItems
               .add(ItemTimes(read: item.read(actionsFromServer), generalItem: item, appearTime: localVisibleAt));
         }
@@ -73,12 +77,12 @@ final Selector<AppState, List<ItemTimes>> itemTimesSortedByTime =
 });
 
 final Selector<AppState, bool> gameHasFinished =
-    createSelector3(gameStateFeature, localAndUnsyncActions, lastActionModificationSelector,
-        (GamesState gameState, HashMap<String, ARLearnAction> actionsFromServer, int modification) {
-  if (gameState.game == null) {
+    createSelector3(currentGame, localAndUnsyncActions, lastActionModificationSelector,
+        (Game? game, HashMap<String, ARLearnAction> actionsFromServer, int modification) {
+  if (game == null) {
     return false;
   }
-  int gameEndsAt = gameState.game!.endsAt(actionsFromServer);
+  int gameEndsAt = game.endsAt(actionsFromServer);
   int now = new DateTime.now().millisecondsSinceEpoch;
   if (gameEndsAt == -1) return false;
   return gameEndsAt < now;

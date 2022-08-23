@@ -9,23 +9,25 @@ import 'package:youplay/store/actions/current_game.actions.dart';
 import 'package:youplay/store/actions/errors.dart';
 import 'package:youplay/store/state/app_state.dart';
 
+import '../actions/actions.games.dart';
+
 final currentGameEpic = combineEpics<AppState>([
-  new TypedEpic<AppState, LoadGameRequestAction>(_addGame),
+  // new TypedEpic<AppState, LoadGameRequestAction>(_addGame),
   new TypedEpic<AppState, LoadPublicGameRequestAction>(_addGameFromLibrary),
 ]);
 
-Stream<dynamic> _addGame(Stream<dynamic> actions, EpicStore<AppState> store) {
-  return actions
-      .where((action) => action is LoadGameRequestAction)
-      .cast<LoadGameRequestAction>()
-      .flatMap((action) => GamesApi.newGetGame(action.gameId))
-      .map((Game game) async{
-    if (game is ApiResultError) {
-      return game;
-    }
-    return new LoadGameSuccessAction(game: game);
-  });
-}
+// Stream<dynamic> _addGame(Stream<dynamic> actions, EpicStore<AppState> store) {
+//   return actions
+//       .where((action) => action is LoadGameRequestAction)
+//       .cast<LoadGameRequestAction>()
+//       .flatMap((action) => GamesApi.newGetGame(action.gameId))
+//       .map((Game game) async{
+//     if (game is ApiResultError) {
+//       return game;
+//     }
+//     return new LoadGameSuccessAction(game: game);
+//   });
+// }
 
 Stream<dynamic> _addGameFromLibrary(Stream<dynamic> actions, EpicStore<AppState> store) {
   return actions.where((action) => action is LoadPublicGameRequestAction)
@@ -36,6 +38,6 @@ Stream<dynamic> _addGameFromLibrary(Stream<dynamic> actions, EpicStore<AppState>
       return game;
     }
     Game g = game as Game;
-    return new LoadGameSuccessAction(game: g);
+    return new LoadGameSuccess(game: g); //todo investigate
   });
 }

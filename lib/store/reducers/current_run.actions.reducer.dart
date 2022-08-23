@@ -6,7 +6,7 @@ import 'package:youplay/store/actions/current_run.action.actions.dart';
 import 'package:youplay/store/actions/current_run.actions.dart';
 import 'package:youplay/store/state/run_state.dart';
 
-RunState addLocalAction(RunState state, LocalAction toReduceAction) {
+CurrentRunState addLocalAction(CurrentRunState state, LocalAction toReduceAction) {
   ARLearnAction action = toReduceAction.getAction();
   if (_actionReplaceNecessary(state.actionsFromServer, action)) {
     state.unsynchronisedActions.add(action);
@@ -18,7 +18,7 @@ RunState addLocalAction(RunState state, LocalAction toReduceAction) {
 }
 
 
-RunState addActionsFromServer(RunState state, SyncARLearnActionsListServerToMobileComplete action) {
+CurrentRunState addActionsFromServer(CurrentRunState state, SyncARLearnActionsListServerToMobileComplete action) {
   bool found = false;
   action.result.responses.forEach((arlearnaction) {
     if (_actionReplaceNecessary(state.actionsFromServer, arlearnaction)) {
@@ -41,14 +41,14 @@ RunState addActionsFromServer(RunState state, SyncARLearnActionsListServerToMobi
   return state;
 }
 
-RunState resetActions(RunState state, EraseAnonAccountAndStartAgain action) {
+CurrentRunState resetActions(CurrentRunState state, EraseAnonAccountAndStartAgain action) {
   state.actionsFromServer = new HashMap();
   return state.copyWith();
 }
 
 
 
-RunState addOneActionFromServer(RunState state, SyncActionComplete storeAction) {
+CurrentRunState addOneActionFromServer(CurrentRunState state, SyncActionComplete storeAction) {
   if (storeAction.action == null) {
     return state;
   }

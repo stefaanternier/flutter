@@ -8,6 +8,7 @@ import 'package:youplay/store/middlewares/current_run.action.middleware.dart';
 import 'package:youplay/store/middlewares/current_run.middleware.dart';
 import 'package:youplay/store/middlewares/current_run.sync.middleware.dart';
 import 'package:youplay/store/middlewares/current_run.upload.middleware.dart';
+import 'package:youplay/store/middlewares/epics.generalitems.dart';
 import 'package:youplay/store/middlewares/game_library.middleware.dart';
 import 'package:youplay/store/middlewares/game_messages.middleware.dart';
 import 'package:youplay/store/middlewares/game_theme.middleware.dart';
@@ -16,10 +17,13 @@ import 'package:youplay/store/middlewares/locations.middleware.dart';
 import 'package:youplay/store/middlewares/ui.middleware.dart';
 import 'package:youplay/store/state/app_state.dart';
 
+import 'epics.collection.dart';
+import 'epics.games.dart';
 import 'epics.gametheme.dart';
+import 'epics.runs.dart';
 
 final epic = combineEpics<AppState>([
-  runsParticipateEpic,
+  // runsParticipateEpic,
   currentGameEpic,
 
   authLoginGoogleEpic,
@@ -42,7 +46,7 @@ final epic = combineEpics<AppState>([
   uiEpics,
 //  gameParticipateEpicNew
   allGameEpics,
-  gameMessagesEpics,
+  // gameMessagesEpics,
   uploadResponseFilesEpic,
   currentRunEpic,
   uploadActionEpic,
@@ -52,7 +56,11 @@ final epic = combineEpics<AppState>([
   deleteResponseForRunEpic,
   gameLibraryEpics,
   testEpoic,
+  collectionEpics,
+  gameEpics,
   gameThemeEpics,
+  generalitemEpics,
+  runEpics,
   locationEpic,
   deleteRunEpic
 ]);

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 import 'package:youplay/models/game.dart';
+import 'package:youplay/store/actions/actions.games.dart';
 import 'package:youplay/store/actions/current_game.actions.dart';
 import 'package:youplay/store/actions/current_run.actions.dart';
 import 'package:youplay/store/actions/ui_actions.dart';
@@ -38,11 +39,12 @@ class _ViewModel {
     return _ViewModel(
       init: () {
         store.dispatch(SetCurrentGameAction(currentGame: game.gameId));
-        store.dispatch(LoadGameRequestAction(gameId: game.gameId));
+        store.dispatch(LoadGameRequest(gameId: '${game.gameId}'));
         store.dispatch(ApiRunsParticipateAction(game.gameId));
         print('first view is ${game.firstView}');
         store.dispatch(SetMessageViewAction(messageView: game.firstView));
-        store.dispatch(SetPage(page: PageType.gameWithRuns));
+
+        store.dispatch(SetPage(page: PageType.gameWithRuns, gameId: game.gameId));
       },
     );
   }

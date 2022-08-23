@@ -4,7 +4,7 @@ import 'package:redux/redux.dart';
 import 'package:youplay/models/general_item/narrator_item.dart';
 import 'package:youplay/store/selectors/game_messages.selector.dart';
 import 'package:youplay/store/state/app_state.dart';
-
+import 'package:youplay/store/selectors/selector.generalitems.dart';
 import 'narrator.widget.dart';
 
 class NarratorWidgetContainer extends StatelessWidget {
@@ -31,7 +31,7 @@ class _ViewModel {
 
   static _ViewModel fromStore(Store<AppState> store) {
     return _ViewModel(
-      item: currentGeneralItem(store.state) as NarratorItem,
+      item: currentGeneralItemNew(store.state) as NarratorItem,
     );
   }
 

@@ -11,6 +11,8 @@ import 'package:youplay/store/state/app_state.dart';
 import 'package:youplay/ui/components/game_play/game_over.container.dart';
 import 'package:youplay/ui/pages/game_play.dart';
 
+import '../../store/selectors/selector.games.dart';
+
 class GamePlayContainer extends StatelessWidget {
   const GamePlayContainer({Key? key}) : super(key: key);
 
@@ -47,11 +49,11 @@ class _ViewModel {
     if(gameLocationTriggers(store.state).length > 0) {
       store.dispatch(new StartListeningForLocation());
     }
-    // int lt = store.state.uiState.currentView;
-    // print('current view is ${lt}');
+    int lt = store.state.uiState.currentView;
+    print('current view is ${lt}');
     return _ViewModel(
       // listType: lt,
-      game: gameSelector(store.state.currentGameState),
+      game: currentGame(store.state),
       color: currentGameThemeColor(store.state),
       finished: gameHasFinished(store.state),
     );

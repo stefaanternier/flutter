@@ -11,6 +11,7 @@ import 'package:youplay/store/actions/ui_actions.dart';
 import 'package:youplay/store/selectors/current_run.location.selectors.dart';
 import 'package:youplay/store/selectors/current_run.selectors.dart';
 import 'package:youplay/store/selectors/game_messages.selector.dart';
+import 'package:youplay/store/selectors/selector.games.dart';
 import 'package:youplay/store/state/app_state.dart';
 import 'package:youplay/store/state/ui_state.dart';
 import 'package:youplay/ui/components/game_play/view/messages_map_view.dart';
@@ -101,10 +102,12 @@ class _ViewModel {
     int runId = runIdSelector(store.state.currentRunState);
     int lt = store.state.uiState.currentView;
     // int i = lt.index;
-    Game? g = store.state.currentGameState.game;
+    Game? g = currentGame(store.state);
     if (lt == 0 && g != null) {
       store.dispatch(ToggleMessageViewAction(game: g));
     }
+    List<ItemTimes> testItems = itemTimesSortedByTime(store.state);
+    print('amount of items ${testItems.length}');
     return _ViewModel(
         isLoading: isSyncingActions(store.state) || isSyncingMessages(store.state),
         listType: lt,
@@ -128,7 +131,7 @@ class _ViewModel {
             generalItemId: item.itemId,
           ));
 
-          store.dispatch(SetPage(page: PageType.gameItem, pageId: runId, itemId: item.itemId));
+          store.dispatch(SetPage(page: PageType.gameItem, gameId: item.gameId, runId: runId, itemId: item.itemId));
           // Navigator.push(
           //   context,
           //   MaterialPageRoute(builder: (context) => GeneralItemScreen()),
