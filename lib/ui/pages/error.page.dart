@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:youplay/models/game.dart';
 import 'package:youplay/ui/components/buttons/cust_raised_button.container.dart';
-import 'package:youplay/ui/components/buttons/cust_raised_button.dart';
 import 'package:youplay/ui/components/nav/navigation_drawer.container.dart';
 
 class ErrorPage extends StatelessWidget {

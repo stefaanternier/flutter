@@ -3,10 +3,6 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:intl/intl.dart';
 import 'package:redux/redux.dart';
 import 'package:youplay/models/game.dart';
-import 'package:youplay/store/actions/current_game.actions.dart';
-import 'package:youplay/store/actions/current_run.actions.dart';
-import 'package:youplay/store/actions/ui_actions.dart';
-import 'package:youplay/store/selectors/game_library.selectors.dart';
 import 'package:youplay/store/state/app_state.dart';
 import 'package:youplay/ui/components/icon/game_icon.container.dart';
 
@@ -47,10 +43,10 @@ class _ViewModel {
 
   static _ViewModel fromStore(Store<AppState> store) {
     return _ViewModel(
-        games: searchedGamesSelector(store.state),
+        games: [],//searchedGamesSelector(store.state),
         openGame: (Game g) {
           // store.dispatch(LoadGameSuccessAction(game: g)); //todo reenable ?
-          store.dispatch(LoadPublicGameRequestAction(gameId :g.gameId));
+          // store.dispatch(LoadPublicGameRequestAction(gameId :g.gameId));
         });
   }
 }

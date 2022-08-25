@@ -1,7 +1,4 @@
-import 'dart:collection';
-
 import 'package:youplay/store/state/all_games_state.dart';
-import 'package:youplay/store/state/current_game_state.dart';
 import 'package:youplay/store/state/run_state.dart';
 import 'package:youplay/store/state/state.games.dart';
 import 'package:youplay/store/state/state.gametheme.dart';
@@ -10,7 +7,6 @@ import 'package:youplay/store/state/state.runs.dart';
 import 'package:youplay/store/state/ui_state.dart';
 
 import 'auth.state.dart';
-import 'game_library.state.dart';
 import 'state.collection.dart';
 
 class AppState {
@@ -19,7 +15,7 @@ class AppState {
 
   CurrentRunState currentRunState;
 
-  GameLibraryState gameLibrary;
+  // GameLibraryState gameLibrary;
   AllGamesState allGamesState;
 
   CollectionState collectionState;
@@ -35,7 +31,7 @@ class AppState {
   AppState(
       {
       required this.currentRunState,
-      required this.gameLibrary,
+      // required this.gameLibrary,
       required this.authentication,
       // required this.participateGames,
       required this.allGamesState,
@@ -54,12 +50,12 @@ class AppState {
         // gameIdToGameState: new HashMap<int, GamesState>(),
 
         currentRunState: CurrentRunState.init(),
-        gameLibrary: GameLibraryState(
-          partialFeaturedGames: [],
-          partialSearchedGames: [],
-          recentGames: [],
-          fullGames: new HashMap(),
-        ),
+        // gameLibrary: GameLibraryState(
+        //   partialFeaturedGames: [],
+        //   partialSearchedGames: [],
+        //   recentGames: [],
+        //   fullGames: new HashMap(),
+        // ),
         // participateGames: [],
         collectionState: CollectionState.initState(),
         gameState: GameState.initState(),
@@ -96,10 +92,6 @@ class AppState {
     bool appChange = (this.allGamesState == other.allGamesState) &&
 
         (this.currentRunState == other.currentRunState) &&
-        (this.gameLibrary == other.gameLibrary) &&
-        // (this.gameIdToGameState == other.gameIdToGameState) &&
-
-        // (this.participateGames == other.participateGames)&&
         (this.authentication == other.authentication) &&
         (this.collectionState == other.collectionState) &&
         (this.gameState == other.gameState) &&
@@ -118,7 +110,6 @@ class AppState {
   int get hashCode =>
       allGamesState.hashCode ^
       currentRunState.hashCode ^
-      gameLibrary.hashCode ^
       authentication.hashCode ^
       collectionState.hashCode ^
       gameState.hashCode ^

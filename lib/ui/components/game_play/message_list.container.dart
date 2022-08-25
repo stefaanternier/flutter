@@ -10,7 +10,6 @@ import 'package:youplay/store/actions/current_run.actions.dart';
 import 'package:youplay/store/actions/ui_actions.dart';
 import 'package:youplay/store/selectors/current_run.location.selectors.dart';
 import 'package:youplay/store/selectors/current_run.selectors.dart';
-import 'package:youplay/store/selectors/game_messages.selector.dart';
 import 'package:youplay/store/selectors/selector.games.dart';
 import 'package:youplay/store/state/app_state.dart';
 import 'package:youplay/store/state/ui_state.dart';
@@ -38,6 +37,9 @@ class _MessagesViewContainerState extends State<MessagesViewContainer> {
                   child: CircularProgressIndicator(
                 key: ValueKey('loadinggameplay'),
               ));
+            }
+            if (vm.game == null) {
+              return Container();
             }
             int now = new DateTime.now().millisecondsSinceEpoch;
             List<ItemTimes> items = vm.items.where((element) => (element.appearTime < now)).toList(growable: false);
@@ -144,6 +146,7 @@ class _ViewModel {
       return true;
     }
     return other is _ViewModel
+        && (other.game == game)
         && (other.items.length == items.length)
         && (other.listType == listType)
         && (other.isLoading == isLoading)

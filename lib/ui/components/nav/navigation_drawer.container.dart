@@ -4,7 +4,6 @@ import 'package:redux/redux.dart';
 import 'package:youplay/store/actions/auth.actions.dart';
 import 'package:youplay/store/actions/ui_actions.dart';
 import 'package:youplay/store/selectors/auth.selectors.dart';
-import 'package:youplay/store/selectors/current_game.selectors.dart';
 import 'package:youplay/store/selectors/current_run.selectors.dart';
 import 'package:youplay/store/selectors/selector.games.dart';
 import 'package:youplay/store/state/app_state.dart';

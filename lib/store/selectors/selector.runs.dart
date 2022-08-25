@@ -18,3 +18,7 @@ final Selector<AppState, Run?> currentRun = createSelector2(
     currentRunIdState, runFeatureSelector, (int? runId, RunState runState) => runState.entities['$runId']);
 
 final Selector<AppState, int> amountOfRunsSelector = createSelector1(currentGameRuns, (List<Run> runs) => runs.length);
+
+final Selector<AppState, bool> isLoadingCurrentGameRuns =
+createSelector2(currentGameIdState, runFeatureSelector,
+    (int? gameId, RunState runState) => gameId == runState.loadingGameId);

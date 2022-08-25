@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 import 'package:youplay/models/game.dart';
-import 'package:youplay/store/actions/actions.runs.dart';
 import 'package:youplay/store/actions/auth.actions.dart';
 import 'package:youplay/store/actions/current_run.actions.dart';
 import 'package:youplay/store/actions/ui_actions.dart';
@@ -11,6 +10,7 @@ import 'package:youplay/store/selectors/selector.runs.dart';
 import 'package:youplay/store/state/app_state.dart';
 import 'package:youplay/store/state/ui_state.dart';
 
+import '../../store/actions/actions.games.dart';
 import 'game_landing.page.directstart.dart';
 import 'game_landing.page.loading.dart';
 import 'game_landing.page.loginnecessary.dart';
@@ -43,17 +43,10 @@ class _GameLandingPrivatePageContainerState
             loginSuccessful: (){
             setState(() {
               showLogin = false;
-              vm.loadRuns();
             });
           },
             anonLoginSuccessful: () {},
           );
-          // return GameLandingLoginPage(loginSucces: () {
-          //   setState(() {
-          //     showLogin = false;
-          //     vm.loadRuns();
-          //   });
-          // });
         }
         if (!vm.authenticated || vm.isAnon) {
           return GameLandingLoginNecessaryPage(
@@ -65,9 +58,9 @@ class _GameLandingPrivatePageContainerState
             },
           );
         }
-        if (vm.amountOfRuns == -1) {
+        if (vm.loadingRuns) {
           return GameLandingLoadingPage(
-              init: vm.loadRuns,
+
               text: "Even wachten, we laden de groep(en) voor dit spel...");
         }
         if (vm.amountOfRuns == 0) {
@@ -82,7 +75,7 @@ class _GameLandingPrivatePageContainerState
           vm.toGameWithRunsPage();
         }
         return GameLandingLoadingPage(
-            init: () {}, text: "${vm.amountOfRuns} groep(en) geladen");
+             text: "${vm.amountOfRuns} groep(en) geladen");
       },
     );
   }
@@ -93,6 +86,7 @@ class _ViewModel {
   bool authenticated;
   Function createAnonSession;
   Function toGameWithRunsPage;
+  bool loadingRuns;
   int amountOfRuns;
   bool isAnon;
   Store<AppState> store;
@@ -103,6 +97,7 @@ class _ViewModel {
       required this.isAnon,
       required this.createAnonSession,
       required this.toGameWithRunsPage,
+        required this.loadingRuns,
       required this.amountOfRuns,
       required this.store});
 
@@ -117,22 +112,14 @@ class _ViewModel {
       toGameWithRunsPage: () {
         store.dispatch(new SetPage(page: PageType.gameWithRuns));
       },
+      loadingRuns: isLoadingCurrentGameRuns(store.state),
       amountOfRuns: amountOfRunsSelector(store.state),
       store: store,
     );
   }
 
-  loadRuns() {
-    if (!isAnon) {
-      // amountOfRuns = 0;
-    //   store.dispatch(
-    //       ApiResultRunsParticipateAction(runs: [], gameId: game.gameId));
-    // } else {
-      store.dispatch(LoadGameRunsRequest(gameId: game.gameId));
-    }
-  }
-
   createRunAndStart() {
+    store.dispatch(new LoadGameRequest(gameId: '${game.gameId}'));
     store.dispatch(new RequestNewRunAction(gameId: game.gameId, name: 'demo'));
     // store.dispatch(new SetPage(page: PageType.game));
   }

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:youplay/models/response.dart';
 import 'package:youplay/ui/components/messages/picture-question/answer_picture_icon.dart';
-import 'package:youplay/util/extended_network_image.dart';
 
 class AnswerWithPictureTile extends StatelessWidget {
   Response response;

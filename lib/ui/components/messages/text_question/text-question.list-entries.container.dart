@@ -5,9 +5,9 @@ import 'package:youplay/models/general_item/text_question.dart';
 import 'package:youplay/models/response.dart';
 import 'package:youplay/store/actions/current_run.actions.dart';
 import 'package:youplay/store/selectors/current_run.selectors.dart';
-import 'package:youplay/store/selectors/game_messages.selector.dart';
-import 'package:youplay/store/state/app_state.dart';
 import 'package:youplay/store/selectors/selector.generalitems.dart';
+import 'package:youplay/store/state/app_state.dart';
+
 import 'text-question.list-entries.dart';
 
 class TextQuestionListEntriesContainer extends StatelessWidget {

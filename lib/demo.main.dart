@@ -11,6 +11,8 @@ import 'package:universal_platform/universal_platform.dart';
 import 'package:youplay/config/app_config.dart';
 import 'package:youplay/models/models.dart';
 import 'package:youplay/router/route-widget.container.dart';
+import 'package:youplay/store/actions/actions.collection.dart';
+import 'package:youplay/store/actions/actions.generalitems.dart';
 import 'package:youplay/store/actions/auth.actions.dart';
 import 'package:youplay/store/actions/game_library.actions.dart';
 import 'package:youplay/store/actions/ui_actions.dart';
@@ -74,8 +76,11 @@ void main() async {
     store.dispatch(SetPage(page: PageType.intro));
   }
 
-  store.dispatch(new LoadFeaturedGameAction());
-  store.dispatch(new LoadRecentGamesAction());
+  store.dispatch(new GiReset());
+  store.dispatch(new CollectionReset());
+  await Future.delayed(Duration(milliseconds: 500));
+  store.dispatch(new LoadRecentGameRequest());
+  store.dispatch(new LoadFeaturedGameRequest());
   await initUniLinks(store);
   String? link = await getInitialLink();
   if (link != null) {

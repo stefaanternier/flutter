@@ -4,26 +4,18 @@ import 'package:youplay/ui/components/web/web_wrapper.dart';
 
 import '../../localizations.dart';
 
-class GameLandingLoadingPage extends StatefulWidget {
-  Function init;
-  String? text;
+class GameLandingLoadingPage extends StatelessWidget {
+  final String? text;
   final Color? backgroundColor;
-  GameLandingLoadingPage({required this.init,
+  GameLandingLoadingPage({
     this.backgroundColor,
     this.text, Key? key}) : super(key: key);
-
-  @override
-  _GameLandingLoadingPageState createState() => _GameLandingLoadingPageState();
-}
-
-class _GameLandingLoadingPageState extends State<GameLandingLoadingPage> {
-
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: ARLearnNavigationDrawerContainer(),
-      backgroundColor: widget.backgroundColor,
+      backgroundColor: backgroundColor,
       appBar: new AppBar(
           centerTitle: true,
           title: new Text(AppLocalizations.of(context).translate('library.library'),
@@ -34,30 +26,31 @@ class _GameLandingLoadingPageState extends State<GameLandingLoadingPage> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Expanded(
-              child:Padding(
-                  padding: const EdgeInsets.all(32.0),
-                  child: Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: <Widget>[
-                    CircularProgressIndicator(),
-                    Container(
+                child:Padding(
+                    padding: const EdgeInsets.all(32.0),
+                    child: Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: <Widget>[
+                      CircularProgressIndicator(),
+                      Container(
 
-                        child: Text(
-                          widget.text ??  "Spel laden ...",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: const Color(0xFFA0ABB5),
-                            fontSize: 20.0,
-                          ),
-                        ))
-                  ]))
+                          child: Text(text ??  "Spel laden ...",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: const Color(0xFFA0ABB5),
+                              fontSize: 20.0,
+                            ),
+                          ))
+                    ]))
             ),
           ],
         ),
       ),
     );
   }
-
-  @override
-  void initState() {
-    widget.init();
-  }
 }
+
+// class _GameLandingLoadingPageState extends State<GameLandingLoadingPage> {
+//
+//
+//
+//
+// }

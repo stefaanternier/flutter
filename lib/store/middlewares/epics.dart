@@ -9,7 +9,6 @@ import 'package:youplay/store/middlewares/current_run.middleware.dart';
 import 'package:youplay/store/middlewares/current_run.sync.middleware.dart';
 import 'package:youplay/store/middlewares/current_run.upload.middleware.dart';
 import 'package:youplay/store/middlewares/epics.generalitems.dart';
-import 'package:youplay/store/middlewares/game_library.middleware.dart';
 import 'package:youplay/store/middlewares/locations.middleware.dart';
 import 'package:youplay/store/middlewares/ui.middleware.dart';
 import 'package:youplay/store/state/app_state.dart';
@@ -52,8 +51,7 @@ final epic = combineEpics<AppState>([
   downloadResponsesForRunEpic,
   downloadActionsForRunEpic,
   deleteResponseForRunEpic,
-  gameLibraryEpics,
-  testEpoic,
+
   collectionEpics,
   collectionLinkEpics,
   gameEpics,

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 import 'package:youplay/models/general_item.dart';
-import 'package:youplay/store/selectors/game_messages.selector.dart';
 import 'package:youplay/store/selectors/selector.generalitems.dart';
 import 'package:youplay/store/state/app_state.dart';
 
@@ -19,7 +18,6 @@ class MessagePageContainer extends StatelessWidget {
       builder: (context, vm) {
         if (vm.item == null) {
           return GameLandingLoadingPage(
-              init: (){},
               text: "Even wachten, we proberen deze boodschap te laden...");
         }
         return vm.item!.buildPage();

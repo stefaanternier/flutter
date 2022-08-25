@@ -54,13 +54,13 @@ class _VideoRecorderState extends State<VideoRecorder> {
   @override
   Widget build(BuildContext context) {
     if (encoding) {
-      return GameLandingLoadingPage(init: () {}, text: "Even wachten, we converteren de video...");
+      return GameLandingLoadingPage( text: "Even wachten, we converteren de video...");
     }
     if (cameras.isEmpty) {
-      return GameLandingLoadingPage(init: () {}, text: "Even wachten, we laden de camera's...");
+      return GameLandingLoadingPage( text: "Even wachten, we laden de camera's...");
     }
     if (controller == null) {
-      return GameLandingLoadingPage(init: () {},
+      return GameLandingLoadingPage(
           backgroundColor: Colors.black,
           text: "Even wachten, we laden de video...");
     }

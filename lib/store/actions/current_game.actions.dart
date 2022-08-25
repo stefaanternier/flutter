@@ -2,7 +2,7 @@
 
 
 
-class LoadPublicGameRequestAction {
-  int gameId;
-  LoadPublicGameRequestAction({required this.gameId});
-}
+// class LoadPublicGameRequestAction {
+//   int gameId;
+//   LoadPublicGameRequestAction({required this.gameId});
+// }

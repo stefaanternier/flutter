@@ -3,11 +3,10 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 import 'package:youplay/config/app_config.dart';
 import 'package:youplay/models/run.dart';
-import 'package:youplay/store/selectors/current_game.selectors.dart';
-import 'package:youplay/store/selectors/game_messages.selector.dart';
 import 'package:youplay/store/selectors/selector.gametheme.dart';
 import 'package:youplay/store/selectors/selector.generalitems.dart';
 import 'package:youplay/store/state/app_state.dart';
+
 import 'run_list_entry.dart';
 
 class RunListEntryContainer extends StatelessWidget {

@@ -20,6 +20,8 @@ class RouteWidget extends StatelessWidget {
       localizationsDelegates: [
         AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+
         GlobalWidgetsLocalizations.delegate
       ],
       supportedLocales: [const Locale('nl_NL'), const Locale('nl'), const Locale('en')],

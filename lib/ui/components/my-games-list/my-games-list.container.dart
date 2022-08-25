@@ -4,7 +4,7 @@ import 'package:redux/redux.dart';
 import 'package:youplay/models/game.dart';
 import 'package:youplay/store/actions/actions.games.dart';
 import 'package:youplay/store/actions/actions.generalitems.dart';
-import 'package:youplay/store/actions/current_run.actions.dart';
+import 'package:youplay/store/actions/actions.runs.dart';
 import 'package:youplay/store/actions/ui_actions.dart';
 import 'package:youplay/store/state/app_state.dart';
 import 'package:youplay/store/state/ui_state.dart';
@@ -41,11 +41,9 @@ class _ViewModel {
         gameList: myGames(store.state),
         tapGame: (Game game) {
           return () {
-            print('game is $game  $store ${game.gameId}');
-            // store.dispatch(SetCurrentGameAction(currentGame: game.gameId));
+            store.dispatch(LoadGameRunsRequest(gameId: game.gameId));
             store.dispatch(LoadGameMessagesRequest(gameId: '${game.gameId}'));
             store.dispatch(LoadGameRequest(gameId: '${game.gameId}'));
-
             store.dispatch(SetPage(page: PageType.gameWithRuns, gameId: game.gameId));
           };
         });

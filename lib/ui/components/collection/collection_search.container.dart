@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 import 'package:youplay/models/models.dart';
-import 'package:youplay/store/actions/game_library.actions.dart';
 import 'package:youplay/ui/components/collection/collection_search.dart';
 
 class CollectionSearchFieldContainer extends StatelessWidget {
@@ -26,7 +25,8 @@ class _ViewModel {
   static _ViewModel fromStore(Store<AppState> store) {
     return _ViewModel(
       submitQuery: (String query) {
-        store.dispatch(new SearchLibrary(query: query));
+        //todo reïmplement
+        // store.dispatch(new SearchLibrary(query: query));
       },
     );
   }

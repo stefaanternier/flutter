@@ -1,9 +1,7 @@
 import 'dart:convert';
 
-import 'package:permission_handler/permission_handler.dart';
 import 'package:youplay/api/GenericApi.dart';
 import 'package:youplay/models/general_item.dart';
-import '../../models/game.dart';
 
 class GeneralItemsAPI extends GenericApi {
   GeneralItemsAPI._();

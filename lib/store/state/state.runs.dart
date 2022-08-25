@@ -3,10 +3,14 @@ import 'dart:collection';
 import 'package:youplay/models/run.dart';
 
 class RunState {
+  final int? loadingGameId;
   final Set<String> ids;
   final HashMap<String, Run> entities;
 
-  const RunState({required this.ids, required this.entities});
+  const RunState({
+    this.loadingGameId,
+    required this.ids,
+    required this.entities});
 
   static RunState initState() {
     return RunState(ids: <String>{}, entities: HashMap());
@@ -22,6 +26,7 @@ class RunState {
 
   RunState copyWithNewRun(Run newRun) {
     return RunState(
+      loadingGameId: loadingGameId == null? null: (loadingGameId == newRun.gameId)? null: loadingGameId,
       ids: ids..add(newRun.id),
       entities: HashMap<String, Run>.from(entities)
         ..putIfAbsent(newRun.id, () => newRun),
@@ -35,5 +40,7 @@ class RunState {
         ..remove(run.id),
     );
   }
+
+  setGameLoadingId(int? gameId) => RunState(ids: ids, entities: entities, loadingGameId: gameId);
 
 }

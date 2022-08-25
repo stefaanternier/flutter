@@ -3,7 +3,6 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 import 'package:youplay/models/game.dart';
 import 'package:youplay/store/actions/ui_actions.dart';
-import 'package:youplay/store/selectors/current_game.selectors.dart';
 import 'package:youplay/store/state/app_state.dart';
 import 'package:youplay/ui/components/game_play/toggle_view_button.dart';
 

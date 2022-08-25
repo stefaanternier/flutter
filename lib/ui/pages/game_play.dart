@@ -14,7 +14,8 @@ class GamePlay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // print('max view is $maxView');
+
+
     return Scaffold(
         drawer: ARLearnNavigationDrawerContainer(),
         appBar: AppBar(

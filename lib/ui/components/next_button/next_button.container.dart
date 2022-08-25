@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
-import 'package:youplay/localizations.dart';
 import 'package:youplay/models/general_item.dart';
 import 'package:youplay/models/run.dart';
 import 'package:youplay/store/actions/current_run.action.actions.dart';

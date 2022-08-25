@@ -5,7 +5,6 @@ import 'package:youplay/store/state/app_state.dart';
 
 import '../../api/gametheme.api.dart';
 import '../../models/game_theme.dart';
-import '../actions/current_game.actions.dart';
 import '../actions/game_theme.actions.dart';
 
 final gameThemeEpics = combineEpics<AppState>([

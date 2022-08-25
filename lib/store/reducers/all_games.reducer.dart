@@ -3,7 +3,6 @@ import 'dart:collection';
 import 'package:redux/redux.dart';
 import 'package:youplay/models/game.dart';
 import 'package:youplay/store/actions/all_games.actions.dart';
-import 'package:youplay/store/actions/current_run.actions.dart';
 import 'package:youplay/store/state/all_games_state.dart';
 
 final Reducer<AllGamesState> allGamesReducer = combineReducers<AllGamesState>([

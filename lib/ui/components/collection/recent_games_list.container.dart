@@ -4,11 +4,8 @@ import 'package:intl/intl.dart';
 import 'package:redux/redux.dart';
 import 'package:youplay/models/game.dart';
 import 'package:youplay/store/actions/actions.collection.dart';
-import 'package:youplay/store/actions/ui_actions.dart';
-import 'package:youplay/store/selectors/game_library.selectors.dart';
 import 'package:youplay/store/selectors/selector.collection.dart';
 import 'package:youplay/store/state/app_state.dart';
-import 'package:youplay/store/state/ui_state.dart';
 
 import '../my-games-list/game_info_list_tile.dart';
 
@@ -50,7 +47,7 @@ class _ViewModel {
 
   static _ViewModel fromStore(Store<AppState> store) {
     return _ViewModel(
-        searchGames: searchedGamesSelector(store.state),
+        searchGames: [],//searchedGamesSelector(store.state),
         recentGames: recentGamesSelector(store.state), //.gameLibrary.recentGames,
         openGame: (Game g) {
           store.dispatch(new ParseLinkAction(link: 'game/${g.gameId}'));

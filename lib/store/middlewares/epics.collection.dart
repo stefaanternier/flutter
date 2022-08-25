@@ -6,11 +6,10 @@ import 'package:youplay/store/state/app_state.dart';
 
 import '../actions/actions.collection.dart';
 import '../actions/auth.actions.dart';
-import 'epics.collection.link.dart';
 
 resetOnError(Stream<dynamic> resetActions, Stream<dynamic> actions) => resetActions
     .where((action) => action is CollectionReset || action is SignOutAction)
-    .debounceTime(new Duration(milliseconds: 2000))
+    // .debounceTime(new Duration(milliseconds: 2000))
     .switchMap((value) => actions);
 
 final collectionEpics = combineEpics<AppState>([

@@ -180,7 +180,6 @@ class GeneralItem {
 
   Widget buildPage() {
     return GameLandingLoadingPage(
-        init: (){},
         text: "Deze is nog niet geïmplementeerd");
   }
 

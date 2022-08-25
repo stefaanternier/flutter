@@ -6,7 +6,6 @@ import 'package:youplay/ui/components/buttons/cust_flat_button.dart';
 import 'package:youplay/ui/components/messages_parts/richtext-top.container.dart';
 import 'package:youplay/ui/components/next_button/next_button.container.dart';
 
-
 import '../message-background.widget.container.dart';
 import 'audio-results-list.container.dart';
 

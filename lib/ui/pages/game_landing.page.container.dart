@@ -3,8 +3,8 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 import 'package:universal_platform/universal_platform.dart';
 import 'package:youplay/models/game.dart';
-import 'package:youplay/store/actions/current_game.actions.dart';
 import 'package:youplay/store/selectors/auth.selectors.dart';
+import 'package:youplay/store/selectors/selector.collection.dart';
 import 'package:youplay/store/selectors/selector.games.dart';
 import 'package:youplay/store/state/app_state.dart';
 import 'package:youplay/ui/pages/play_game_with_native_app.dart';
@@ -25,7 +25,6 @@ class GameLandingPageContainer extends StatelessWidget {
       builder: (context, vm) {
         if (vm.game == null || vm.game!.gameId != gameId) {
           return GameLandingLoadingPage(
-            init: vm.loadGame,
             key: ValueKey('loading${gameId}'),
           );
         }
@@ -45,16 +44,14 @@ class GameLandingPageContainer extends StatelessWidget {
 class _ViewModel {
   bool authenticated;
   Game? game;
-  Function loadGame;
 
-  _ViewModel({required this.authenticated, required this.loadGame, this.game});
+
+  _ViewModel({required this.authenticated, this.game});
 
   static _ViewModel fromStore(Store<AppState> store, int gameId) {
     return _ViewModel(
         authenticated: isAuthenticatedSelector(store.state),
-        game: currentGame(store.state),
-        loadGame: () {
-          store.dispatch(LoadPublicGameRequestAction(gameId: gameId));
-        });
+        game: currentGame(store.state) ?? currentCollectionGame(store.state),
+        );
   }
 }

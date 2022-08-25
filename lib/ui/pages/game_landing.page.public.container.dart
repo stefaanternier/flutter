@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 import 'package:youplay/models/game.dart';
-import 'package:youplay/store/actions/actions.runs.dart';
 import 'package:youplay/store/actions/auth.actions.dart';
 import 'package:youplay/store/actions/current_run.actions.dart';
 import 'package:youplay/store/selectors/auth.selectors.dart';
@@ -10,6 +9,7 @@ import 'package:youplay/store/selectors/selector.runs.dart';
 import 'package:youplay/store/state/app_state.dart';
 import 'package:youplay/ui/pages/game_runs.page.container.dart';
 
+import '../../store/actions/actions.games.dart';
 import 'game_landing.page.createanon.dart';
 import 'game_landing.page.directstart.dart';
 import 'game_landing.page.loading.dart';
@@ -29,9 +29,11 @@ class GameLandingPublicPageContainer extends StatelessWidget {
           return GameLandingCreateAnonSessionWaitingPage(
               init: vm.createAnonSession);
         }
-        if (vm.amountOfRuns == -1) {
+        if (vm.amountOfRuns > 0) {
+          return GameRunsPageContainer(game: game);
+        }
+        if (vm.loadingRuns) {
           return GameLandingLoadingPage(
-              init: vm.loadRuns,
               text: "Even wachten, we laden de groep(en) voor dit spel...");
         }
         if (vm.amountOfRuns == 0) {
@@ -41,8 +43,6 @@ class GameLandingPublicPageContainer extends StatelessWidget {
           );
         }
         return GameRunsPageContainer(game: game,);
-        // return GameLandingLoadingPage(
-        //     init: () {}, text: "amount of runs* is ${vm.amountOfRuns}");
       },
     );
   }
@@ -52,6 +52,7 @@ class _ViewModel {
   Game game;
   bool authenticated;
   Function createAnonSession;
+  bool loadingRuns;
   int amountOfRuns;
   bool isAnon;
   Store<AppState> store;
@@ -61,7 +62,8 @@ class _ViewModel {
       required this.authenticated,
       required this.isAnon,
       required this.createAnonSession,
-      required this.amountOfRuns,
+      required this.loadingRuns,
+        required this.amountOfRuns,
       required this.store});
 
   static _ViewModel fromStore(Store<AppState> store, Game game) {
@@ -72,24 +74,14 @@ class _ViewModel {
       createAnonSession: () {
         store.dispatch(AnonymousLoginAction());
       },
+      loadingRuns: isLoadingCurrentGameRuns(store.state),
       amountOfRuns: amountOfRunsSelector(store.state),
       store: store,
     );
   }
 
-  loadRuns() {
-    if (!isAnon) {
-      // amountOfRuns = 0;
-    //   store.dispatch(
-    //       ApiResultRunsParticipateAction(runs: [], gameId: game.gameId));
-    // } else {
-
-      // store.dispatch(LoadGameRunsRequest(gameId: game.gameId));
-
-    }
-  }
-
   createRunAndStart() {
+    store.dispatch(new LoadGameRequest(gameId: '${game.gameId}'));
     store.dispatch(new RequestNewRunAction(gameId: game.gameId, name: 'demo'));
     // store.dispatch(new SetPage(page: PageType.game));
   }

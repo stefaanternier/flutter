@@ -2,7 +2,6 @@ import 'package:redux_epics/redux_epics.dart';
 import 'package:rxdart/transformers.dart';
 import 'package:youplay/api/games.dart';
 import 'package:youplay/store/actions/all_games.actions.dart';
-import 'package:youplay/store/actions/errors.dart';
 import 'package:youplay/store/selectors/all_games.selectors.dart';
 import 'package:youplay/store/state/app_state.dart';
 

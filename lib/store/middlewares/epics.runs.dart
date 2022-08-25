@@ -2,9 +2,9 @@ import 'package:redux_epics/redux_epics.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:youplay/store/state/app_state.dart';
 
-import '../../api/run.api.dart';
 import '../../models/run.dart';
 import '../actions/actions.runs.dart';
+import '../services/run.api.dart';
 
 final runEpics = combineEpics<AppState>([
   TypedEpic<AppState, dynamic>(_gameRunEpics),
@@ -32,15 +32,7 @@ Stream<dynamic> _gameRunAuthEpics(Stream<dynamic> actions, EpicStore<AppState> s
 Stream<dynamic> _gameParticipateStream(Stream<dynamic> actions, EpicStore<AppState> store) {
   return actions
       .whereType<LoadGameRunsRequest>()
-      .where((action) {
-        print('here here');
-        return true;
-      })
-      .distinctUnique()
-      .where((action) {
-    print('here here **');
-    return true;
-  })
+      // .distinctUnique()
       .flatMap((LoadGameRunsRequest action) => RunAPI.instance.participate('${action.gameId}'))
       .map((RunList runlist) => LoadRunListSuccess(runList: runlist));
 }

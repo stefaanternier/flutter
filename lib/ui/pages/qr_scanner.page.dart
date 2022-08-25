@@ -2,15 +2,11 @@ import 'dart:math';
 
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:redux/redux.dart';
 import 'package:youplay/config/app_config.dart';
 import 'package:youplay/store/actions/auth.actions.dart';
-import 'package:youplay/store/actions/current_game.actions.dart';
-import 'package:youplay/store/actions/current_run.actions.dart';
-import 'package:youplay/store/actions/game_library.actions.dart';
 import 'package:youplay/store/actions/ui_actions.dart';
 import 'package:youplay/store/state/app_state.dart';
 import 'package:youplay/store/state/ui_state.dart';
@@ -124,7 +120,7 @@ class GameQRState extends State<GameQRScreen> {
       gameId = rawValue.substring(rawValue.indexOf('gameId') + 7);
     }
     int gameIdInt = int.parse(gameId);
-    store.dispatch(LoadPublicGameRequestAction(gameId: gameIdInt));
+    // store.dispatch(LoadPublicGameRequestAction(gameId: gameIdInt));
     store.dispatch(SetPage(page: PageType.gameLandingPage, gameId: gameIdInt));
     if (store.state.authentication.authenticated) {
       // store.dispatch(ApiRunsParticipateActionOld(gameIdInt));
@@ -198,7 +194,7 @@ class GameQRState extends State<GameQRScreen> {
               } else if (checkAccountQR(r.code!)) {
                 triggerAccountQr(r.code!, store);
               } else if (checkUrl(r.code)) {
-                store.dispatch(new ParseLinkActionOld(link: r.code!));
+                // store.dispatch(new ParseLinkActionOld(link: r.code!));
               } else {
 
               }

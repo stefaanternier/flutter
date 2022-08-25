@@ -6,7 +6,6 @@ import 'package:youplay/store/state/state.games.dart';
 
 import '../../models/game.dart';
 import '../../models/run.dart';
-import '../state/state.runs.dart';
 
 final gameFeatureSelector = (AppState state) => state.gameState;
 

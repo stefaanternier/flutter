@@ -19,7 +19,7 @@ class _PlayAppNativePageState extends State<PlayAppNativePage> {
   @override
   void initState() {
     super.initState();
-    platform = html.window.navigator.platform?.toLowerCase() ?? '';
+    platform = html.window.navigator.platform.toLowerCase();
   }
 
   @override
