@@ -61,8 +61,6 @@ class _ViewModel {
       startAgain: () {
          store.dispatch(new EraseAnonAccountAndStartAgain());
          // store.dispatch(AnonymousLoginAction());
-         store.dispatch(ResetRunsAndGoToLandingPage());
-
       },
         toLibrary: () {
           store.dispatch(new EraseAnonAccount());

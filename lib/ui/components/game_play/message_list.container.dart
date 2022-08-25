@@ -109,7 +109,7 @@ class _ViewModel {
     List<ItemTimes> testItems = itemTimesSortedByTime(store.state);
     print('amount of items ${testItems.length}');
     return _ViewModel(
-        isLoading: isSyncingActions(store.state) || isSyncingMessages(store.state),
+        isLoading: isSyncingActions(store.state) , //todo check if is syncing messages
         listType: lt,
         game: g,
         //store.state.currentGameState.game,

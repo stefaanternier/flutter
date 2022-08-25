@@ -14,7 +14,7 @@ Future<Store<AppState>> createStore() async {
   AppState demo = AppState.emptyState();
   try {
     print('loading from persistor');
-    demo = await persistor.load() ?? demo;
+    // demo = await persistor.load() ?? demo; //todo switch on later
   } catch (e) {
     print("no state $e");
   }

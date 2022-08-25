@@ -1,6 +1,5 @@
 import 'dart:collection';
 
-import 'package:youplay/models/run.dart';
 import 'package:youplay/store/state/all_games_state.dart';
 import 'package:youplay/store/state/current_game_state.dart';
 import 'package:youplay/store/state/run_state.dart';
@@ -15,10 +14,9 @@ import 'game_library.state.dart';
 import 'state.collection.dart';
 
 class AppState {
-  HashMap<int, List<Run>> gameIdToRun;
 
   // HashMap<int, GamesState> gameIdToGameState;
-  CurrentGameState currentGameState;
+
   CurrentRunState currentRunState;
 
   GameLibraryState gameLibrary;
@@ -35,9 +33,7 @@ class AppState {
   AuthenticationState authentication;
 
   AppState(
-      {required this.gameIdToRun,
-      // required this.gameIdToGameState,
-      required this.currentGameState,
+      {
       required this.currentRunState,
       required this.gameLibrary,
       required this.authentication,
@@ -54,9 +50,9 @@ class AppState {
         allGamesState: new AllGamesState(participateGames: []),
         authentication: AuthenticationState.unauthenticated(),
         // themIdToTheme: new HashMap<int, GameTheme>(),
-        gameIdToRun: new HashMap<int, List<Run>>(),
+
         // gameIdToGameState: new HashMap<int, GamesState>(),
-        currentGameState: new CurrentGameState(),
+
         currentRunState: CurrentRunState.init(),
         gameLibrary: GameLibraryState(
           partialFeaturedGames: [],
@@ -98,14 +94,14 @@ class AppState {
   bool operator ==(dynamic other) {
     AppState o = other as AppState;
     bool appChange = (this.allGamesState == other.allGamesState) &&
-        (this.currentGameState == other.currentGameState) &&
+
         (this.currentRunState == other.currentRunState) &&
         (this.gameLibrary == other.gameLibrary) &&
         // (this.gameIdToGameState == other.gameIdToGameState) &&
 
-        (this.gameIdToRun == other.gameIdToRun) &&
         // (this.participateGames == other.participateGames)&&
         (this.authentication == other.authentication) &&
+        (this.collectionState == other.collectionState) &&
         (this.gameState == other.gameState) &&
         (this.gameThemeState == other.gameThemeState) &&
         (this.generalItemsState == other.generalItemsState) &&
@@ -121,11 +117,10 @@ class AppState {
   @override
   int get hashCode =>
       allGamesState.hashCode ^
-      currentGameState.hashCode ^
       currentRunState.hashCode ^
       gameLibrary.hashCode ^
-      gameIdToRun.hashCode ^
       authentication.hashCode ^
+      collectionState.hashCode ^
       gameState.hashCode ^
       gameThemeState.hashCode ^
       runState.hashCode ^

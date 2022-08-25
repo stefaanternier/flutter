@@ -45,7 +45,6 @@ class _ViewModel {
             // store.dispatch(SetCurrentGameAction(currentGame: game.gameId));
             store.dispatch(LoadGameMessagesRequest(gameId: '${game.gameId}'));
             store.dispatch(LoadGameRequest(gameId: '${game.gameId}'));
-            store.dispatch(ApiRunsParticipateAction(game.gameId));
 
             store.dispatch(SetPage(page: PageType.gameWithRuns, gameId: game.gameId));
           };

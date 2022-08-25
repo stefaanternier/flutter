@@ -117,29 +117,6 @@ class SyncActionComplete {
   SyncActionComplete({this.action});
 }
 
-class ApiRunsParticipateAction{
-  int gameId;
-
-  ApiRunsParticipateAction(this.gameId);
-
-  @override
-  bool operator ==(dynamic other) {
-    ApiRunsParticipateAction o = other as ApiRunsParticipateAction;
-    return gameId == o.gameId;
-  }
-
-  @override
-  int get hashCode => gameId.hashCode;
-}
-
-class ApiResultRunsParticipateAction {
-  List<Run> runs;
-  int gameId;
-
-  ApiResultRunsParticipateAction({required this.runs, required  this.gameId});
-}
-
-
 class ApiRunsVisibleItems{
   int runId;
   ApiRunsVisibleItems(this.runId);

@@ -9,6 +9,8 @@ import 'package:youplay/store/actions/ui_actions.dart';
 import 'package:youplay/store/state/app_state.dart';
 import 'package:youplay/store/state/ui_state.dart';
 
+import '../actions/actions.generalitems.dart';
+
 final currentRunEpic = combineEpics<AppState>([
   new TypedEpic<AppState, RequestNewRunAction>(_requestRun),
   new TypedEpic<AppState, SetCurrentRunAction>(_syncRun),
@@ -32,8 +34,9 @@ Stream<dynamic> _requestRun(Stream<dynamic> actions, EpicStore<AppState> store) 
 Stream<dynamic> _createRun(int gameId, String name) async* {
   print('create run $gameId -- $name');
   Run run = await RunsApi.requestRun(gameId, name);
+  yield LoadGameMessagesRequest(gameId: '$gameId');
   yield new SetCurrentRunAction(run: run);
-  yield new SetPage(page: PageType.game, pageId: run.runId);
+  yield new SetPage(page: PageType.game, pageId: run.runId, runId: run.runId);
 }
 
 Stream<dynamic> _syncRun(Stream<dynamic> actions, EpicStore<AppState> store) {
@@ -43,9 +46,7 @@ Stream<dynamic> _syncRun(Stream<dynamic> actions, EpicStore<AppState> store) {
 }
 
 Stream<dynamic> _runSubtasks(int runId) async* {
-  // yield new LoadGameMessagesListRequestAction(); //2
   yield new ApiRunsVisibleItems(runId);
-  // yield new StartRunAction(runId: runId);
   yield new SyncResponsesServerToMobile(
       runId: runId, from: 1, till: new DateTime.now().millisecondsSinceEpoch);
   yield new SyncActionsServerToMobile(runId: runId, from: 1);

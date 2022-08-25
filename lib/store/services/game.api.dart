@@ -23,6 +23,27 @@ class GameAPI extends GenericApi {
     }
   }
 
+  Stream<Game> getGameFromRun(String runId) async *{
+    final httpResponse = await getNew('api/run/$runId');
+    if (httpResponse.statusCode != 401) {
+      Run run =  Run.fromJson(jsonDecode(httpResponse.body));
+      final response = await GenericApi.getUnAuth('api/games/library/game/${run.gameId}');
+      if (httpResponse.statusCode == 200) {
+        yield Game.fromJson(jsonDecode(response.body));
+      }
+    }
+  }
+
+  Stream<Game> getGameFromRunUnAuth(String runId) async *{
+    final httpResponse = await GenericApi.getUnAuth('api/run/$runId/unauth');
+    print('run with game ${httpResponse.body}');
+    if (httpResponse.statusCode != 401) {
+      yield  Game.fromJson(jsonDecode(httpResponse.body)['game']);
+    }
+  }
+
+
+
   Stream<String> getParticipateGameIds() async *{
     final response = await GenericApi.get('api/games/participateIds');
     if (response.statusCode == 200) {

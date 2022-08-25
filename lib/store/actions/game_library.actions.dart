@@ -40,16 +40,10 @@ class LoadOneFeaturedGameResultAction {
   LoadOneFeaturedGameResultAction({required this.game, required this.rank});
 }
 
-class LoadOneFeaturedRunAction {
-  Run run;
-
-  LoadOneFeaturedRunAction({required this.run});
-}
-
-class ParseLinkAction {
+class ParseLinkActionOld {
   final String link;
 
-  ParseLinkAction({required this.link});
+  ParseLinkActionOld({required this.link});
 
 }
 

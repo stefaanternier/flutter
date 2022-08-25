@@ -13,20 +13,20 @@ final Reducer<AllGamesState> allGamesReducer = combineReducers<AllGamesState>([
       _reduceGameResponse),
   new TypedReducer<AllGamesState, SetGameQuery>(
       _setQuery),
-  new TypedReducer<AllGamesState, ApiResultRunsParticipateAction>(
-      _removeParticipateRun),
+  // new TypedReducer<AllGamesState, ApiResultRunsParticipateAction>(
+  //     _removeParticipateRun),
 ]);
 
 
-AllGamesState  _removeParticipateRun(AllGamesState gamesState, ApiResultRunsParticipateAction action) {
-  print('check if game has runs* ${action.runs.length} ${action.gameId}');
-  if (action.runs.where((r) => !r.deleted).isEmpty){
-    print('remove ${action.gameId}');
-    return gamesState.removeGame(action.gameId);
-  }
-  return gamesState;
-
-}
+// AllGamesState  _removeParticipateRun(AllGamesState gamesState, ApiResultRunsParticipateAction action) {
+//   print('check if game has runs* ${action.runs.length} ${action.gameId}');
+//   if (action.runs.where((r) => !r.deleted).isEmpty){
+//     print('remove ${action.gameId}');
+//     return gamesState.removeGame(action.gameId);
+//   }
+//   return gamesState;
+//
+// }
 
 AllGamesState _reduceParticipateGamesResponse(
     AllGamesState gamesState, LoadParticipateGamesListResponseAction action) {

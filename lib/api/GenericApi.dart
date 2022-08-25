@@ -28,12 +28,15 @@ class GenericApi {
         headers: {"Authorization": "Bearer " + await getIdToken()});
   }
 
-  static Future<Response> get(String path) async {
-    var url = Uri.https(AppConfig().baseUrl, path);
-    // String token = await GenericApi.getIdToken();
-    // print('token is $token' );
+  static Future<Response> get(String path, [Map<String, dynamic>? queryParameters]) async {
+    var url = Uri.https(AppConfig().baseUrl, path, queryParameters);
     return await http.get(url,
         headers: {"Authorization": "Bearer " + await GenericApi.getIdToken()});
+  }
+
+  static Future<Response> getUnAuth(String path, [Map<String, dynamic>? queryParameters]) async {
+    var url = Uri.https(AppConfig().baseUrl, path, queryParameters);
+    return await http.get(url);
   }
 
   static Future<Response> post(String path, Object? value) async {

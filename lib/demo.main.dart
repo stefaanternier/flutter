@@ -28,7 +28,7 @@ FirebaseAnalytics analytics = FirebaseAnalytics();
 Future<Null> initUniLinks(Store<AppState> store) async {
   _sub = getLinksStream().listen((String? link) {
     if (link != null) {
-      store.dispatch(new ParseLinkAction(link: link));
+      store.dispatch(new ParseLinkActionOld(link: link));
     }
   }, onError: (err) {});
 }
@@ -79,7 +79,7 @@ void main() async {
   await initUniLinks(store);
   String? link = await getInitialLink();
   if (link != null) {
-    store.dispatch(new ParseLinkAction(link: link));
+    store.dispatch(new ParseLinkActionOld(link: link));
   }
 }
 

@@ -38,9 +38,11 @@ class _ViewModel {
   static _ViewModel fromStore(Store<AppState> store, Game game) {
     return _ViewModel(
       init: () {
-        store.dispatch(SetCurrentGameAction(currentGame: game.gameId));
-        store.dispatch(LoadGameRequest(gameId: '${game.gameId}'));
-        store.dispatch(ApiRunsParticipateAction(game.gameId));
+        // store.dispatch(SetCurrentGameAction(currentGame: game.gameId));
+
+        // store.dispatch(LoadGameRequest(gameId: '${game.gameId}'));
+        // store.dispatch(ApiRunsParticipateActionOld(game.gameId));
+
         print('first view is ${game.firstView}');
         store.dispatch(SetMessageViewAction(messageView: game.firstView));
 

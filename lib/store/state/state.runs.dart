@@ -28,4 +28,12 @@ class RunState {
     );
   }
 
+  deleteRun(Run run) {
+    return RunState(
+      ids: ids..remove(run.id),
+      entities: HashMap<String, Run>.from(entities)
+        ..remove(run.id),
+    );
+  }
+
 }

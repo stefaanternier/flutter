@@ -69,22 +69,26 @@ Stream<dynamic> _downloadActions(
 
 Stream<dynamic> yieldResumeAction2(
     action, Future<ARLearnActionsList> futureList) async* {
-  ARLearnActionsList list = await futureList;
-  if (list.resumptionToken != null) {
-    (action as SyncActionsServerToMobile).resumptionToken =
-        list.resumptionToken!;
-    print ('---syncing again ${list.responses.length}' );
-    yield action;
-    yield new SyncARLearnActionsListServerToMobileComplete(
-        result: list,
-        isLast: false
-    );
-  } else {
-    print ('---resumption token null stop sync ${list.responses.length}');
-    yield new SyncARLearnActionsListServerToMobileComplete(
-        result: list,
-        isLast: true
-    );
+  try {
+    ARLearnActionsList list = await futureList;
+    if (list.resumptionToken != null) {
+      (action as SyncActionsServerToMobile).resumptionToken =
+      list.resumptionToken!;
+      print('---syncing again ${list.responses.length}');
+      yield action;
+      yield new SyncARLearnActionsListServerToMobileComplete(
+          result: list,
+          isLast: false
+      );
+    } else {
+      print('---resumption token null stop sync ${list.responses.length}');
+      yield new SyncARLearnActionsListServerToMobileComplete(
+          result: list,
+          isLast: true
+      );
+    }
+  } catch (e) {
+    print('caught exception');
   }
 
 }

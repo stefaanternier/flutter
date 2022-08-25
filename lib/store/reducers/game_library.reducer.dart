@@ -7,7 +7,7 @@ final gameLibraryReducer = combineReducers<GameLibraryState>([
   new TypedReducer<GameLibraryState, LoadSearchedGameResultsAction>(_searchedGamesReducer),
   new TypedReducer<GameLibraryState, LoadRecentGameResultsAction>(_recentGamesReducer),
   new TypedReducer<GameLibraryState, LoadOneFeaturedGameResultAction>(_loadOneLibraryGameReducer),
-  new TypedReducer<GameLibraryState, LoadOneFeaturedRunAction>(_loadOneRunReducer),
+  // new TypedReducer<GameLibraryState, LoadOneFeaturedRunAction>(_loadOneRunReducer),
 ]);
 //
 
@@ -33,7 +33,7 @@ GameLibraryState _loadOneLibraryGameReducer(
   return state.copyWith(oneGame: action.game);
 }
 
-GameLibraryState _loadOneRunReducer(
-    GameLibraryState state, LoadOneFeaturedRunAction action) {
-  return state.copyWith(oneRun: action.run);
-}
+// GameLibraryState _loadOneRunReducer(
+//     GameLibraryState state, LoadOneFeaturedRunAction action) {
+//   return state.copyWith(oneRun: action.run);
+// }

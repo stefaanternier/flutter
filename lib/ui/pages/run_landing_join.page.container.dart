@@ -9,6 +9,7 @@ import 'package:youplay/store/selectors/auth.selectors.dart';
 import 'package:youplay/store/state/app_state.dart';
 import 'package:youplay/store/state/ui_state.dart';
 
+import '../../store/actions/actions.generalitems.dart';
 import 'run_landing_join.page.dart';
 
 class RunLandingPageJoinContainer extends StatelessWidget {
@@ -40,8 +41,8 @@ class _ViewModel {
     return _ViewModel(join: () {
       if (authenticated) {
         store.dispatch(RegisterToRunAction(run: run));
-        store.dispatch(SetCurrentRunAction(run: run));
-        store.dispatch(SetPage(page: PageType.game));
+        store.dispatch(LoadGameMessagesRequest(gameId: '${game.gameId}'));
+        store.dispatch(SetPage(page: PageType.game, gameId: run.gameId, runId: run.runId));
 
         store.dispatch(SetMessageViewAction(messageView: game.firstView));
       } else {

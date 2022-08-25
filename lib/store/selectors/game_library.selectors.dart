@@ -4,13 +4,12 @@ import 'package:youplay/models/game.dart';
 import 'package:youplay/store/state/app_state.dart';
 
 final gameLibraryStateFeature = (AppState state) => state.gameLibrary;
-final featuredRunSelector = (AppState state) => state.gameLibrary.featuredRun;
 final recentGames = (AppState state) => state.gameLibrary.recentGames;
 final partialSelector = (AppState state) => state.gameLibrary.partialFeaturedGames;
 final searchedPartialSelector = (AppState state) => state.gameLibrary.partialSearchedGames;
 final allGames = (AppState state) => state.gameLibrary.fullGames;
 
-final Selector<AppState, List<Game>> featuredGamesSelector = createSelector2(
+final Selector<AppState, List<Game>> featuredGamesSelectorOld = createSelector2(
     partialSelector, allGames, (List<Game> partial, Map<int, Game> fullGames) {
   List<Game> list = partial
       .where((game) => fullGames[game.gameId] != null)
@@ -37,7 +36,7 @@ final Selector<AppState, List<Game>> searchedGamesSelector = createSelector2(
 });
 
 
-final Selector<AppState, List<Game>> recentGamesSelector = createSelector1(
+final Selector<AppState, List<Game>> recentGamesSelectorOld = createSelector1(
     recentGames,  (List<Game> partial) {
       bool isWeb = UniversalPlatform.isWeb;
   return partial

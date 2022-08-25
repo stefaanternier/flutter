@@ -9,10 +9,7 @@ import 'package:youplay/models/run.dart';
 import 'package:youplay/store/selectors/selector.games.dart';
 import 'package:youplay/store/selectors/selector.generalitems.dart';
 import 'package:youplay/store/selectors/ui_selectors.dart';
-import 'package:youplay/store/state/current_game_state.dart';
 import 'package:youplay/store/state/run_state.dart';
-
-import 'current_game.selectors.dart';
 
 final runStateFeature = (AppState state) => state.currentRunState;
 final responsesFromServerFeature = (AppState state) => state.currentRunState.responsesFromServer;
@@ -48,9 +45,9 @@ final Selector<AppState, bool> correctAnswerGivenSelector =
 });
 
 final Selector<AppState, List<ItemTimes>> itemTimesSortedByTime =
-    createSelector5(
-        gameStateFeature, localAndUnsyncActions, lastActionModificationSelector, currentGameItems, currentGame,
-        (CurrentGameState gameState, HashMap<String, ARLearnAction> actionsFromServer, int modification, List<GeneralItem> items, Game? game) {
+    createSelector4(
+         localAndUnsyncActions, lastActionModificationSelector, currentGameItems, currentGame,
+        ( HashMap<String, ARLearnAction> actionsFromServer, int modification, List<GeneralItem> items, Game? game) {
   if (game == null) {
     return [];
   }

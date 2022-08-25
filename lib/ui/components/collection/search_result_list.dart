@@ -51,10 +51,6 @@ class _ViewModel {
         openGame: (Game g) {
           // store.dispatch(LoadGameSuccessAction(game: g)); //todo reenable ?
           store.dispatch(LoadPublicGameRequestAction(gameId :g.gameId));
-          store.dispatch(ResetRunsAndGoToLandingPage());
-          if (store.state.authentication.authenticated) {
-            store.dispatch(ApiRunsParticipateAction(g.gameId));
-          }
         });
   }
 }

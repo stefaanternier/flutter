@@ -8,6 +8,7 @@ import 'package:youplay/store/actions/current_run.actions.dart';
 import 'package:youplay/store/selectors/auth.selectors.dart';
 import 'package:youplay/store/selectors/game_library.selectors.dart';
 import 'package:youplay/store/selectors/selector.games.dart';
+import 'package:youplay/store/selectors/selector.runs.dart';
 import 'package:youplay/store/state/app_state.dart';
 import 'package:youplay/ui/pages/play_game_with_native_app.dart';
 import 'package:youplay/ui/pages/run_landing_join.page.container.dart';
@@ -17,21 +18,18 @@ import 'game_landing.page.loading.dart';
 
 class RunLandingPageContainer extends StatelessWidget {
 
-  int runId;
-
   RunLandingPageContainer({
-    required this.runId,
     Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, _ViewModel>(
-      converter: (store) => _ViewModel.fromStore(store, runId),
+      converter: _ViewModel.fromStore,
       builder: (context, vm) {
         if (vm.game == null || vm.run == null) {
           return GameLandingLoadingPage(
             init: vm.loadGame,
-            key: ValueKey('loading${runId}'),
+            key: ValueKey('gameLandingLoadingPage'),
           );
         }
         if (UniversalPlatform.isWeb && !vm.game!.webEnabled) {
@@ -56,14 +54,14 @@ class _ViewModel {
     this.run,
     this.game});
 
-  static _ViewModel fromStore(Store<AppState> store, int runId) {
+  static _ViewModel fromStore(Store<AppState> store) {
     return _ViewModel(
         authenticated: isAuthenticatedSelector(store.state),
-        game: currentGame(store.state),
-        run: featuredRunSelector(store.state),
+        game: currentGameWithRunId(store.state),
+        run: currentRun(store.state),
         loadGame: () {
           print("dispatching LoadPublicRunRequestAction");
-          store.dispatch(LoadPublicRunRequestAction(runId: runId));
+          // store.dispatch(LoadPublicRunRequestAction(runId: runId));
           // store.dispatch(LoadPublicGameRequestAction(gameId: gameId));
         }
     );

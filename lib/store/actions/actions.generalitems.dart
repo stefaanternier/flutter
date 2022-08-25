@@ -21,3 +21,7 @@ class LoadMessageListSuccess {
   GeneralItemList itemsList;
   LoadMessageListSuccess({required this.itemsList});
 }
+
+class GiReset {
+
+}

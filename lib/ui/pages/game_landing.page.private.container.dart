@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 import 'package:youplay/models/game.dart';
+import 'package:youplay/store/actions/actions.runs.dart';
 import 'package:youplay/store/actions/auth.actions.dart';
 import 'package:youplay/store/actions/current_run.actions.dart';
 import 'package:youplay/store/actions/ui_actions.dart';
 import 'package:youplay/store/selectors/auth.selectors.dart';
-import 'package:youplay/store/selectors/gameid_to_runs.selectors.dart';
+import 'package:youplay/store/selectors/selector.runs.dart';
 import 'package:youplay/store/state/app_state.dart';
 import 'package:youplay/store/state/ui_state.dart';
 
@@ -122,12 +123,12 @@ class _ViewModel {
   }
 
   loadRuns() {
-    if (isAnon) {
+    if (!isAnon) {
       // amountOfRuns = 0;
-      store.dispatch(
-          ApiResultRunsParticipateAction(runs: [], gameId: game.gameId));
-    } else {
-      store.dispatch(ApiRunsParticipateAction(game.gameId));
+    //   store.dispatch(
+    //       ApiResultRunsParticipateAction(runs: [], gameId: game.gameId));
+    // } else {
+      store.dispatch(LoadGameRunsRequest(gameId: game.gameId));
     }
   }
 

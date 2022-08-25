@@ -8,7 +8,7 @@ import 'package:youplay/store/state/ui_state.dart';
 final uiEpics = combineEpics<AppState>([
   new TypedEpic<AppState, SetPage>(_loadPageEpic),
   // new TypedEpic<AppState, ResetRunsAndGoToLandingPage>(_resetAndToLandingPage),
-  new TypedEpic<AppState, ResetRunsAndGoToRunLandingPage>(_resetAndToRunLandingPage)
+  // new TypedEpic<AppState, ResetRunsAndGoToRunLandingPage>(_resetAndToRunLandingPage)
 ]);
 
 Stream<dynamic> _loadPageEpic(Stream<dynamic> actions, EpicStore<AppState> store) {
@@ -32,12 +32,12 @@ Stream<dynamic> _loadPageEpic(Stream<dynamic> actions, EpicStore<AppState> store
 //   });
 // }
 
-Stream<dynamic> _resetAndToRunLandingPage(Stream<dynamic> actions, EpicStore<AppState> store) {
-  return actions
-      .where((action) => action is ResetRunsAndGoToRunLandingPage)
-      .asyncMap((action) {
-
-    return new SetPage(page: PageType.runLandingPage, pageId: action.runId);
-  });
-}
+// Stream<dynamic> _resetAndToRunLandingPage(Stream<dynamic> actions, EpicStore<AppState> store) {
+//   return actions
+//       .where((action) => action is ResetRunsAndGoToRunLandingPage)
+//       .asyncMap((action) {
+//
+//     return new SetPage(page: PageType.runLandingPage, pageId: action.runId);
+//   });
+// }
 

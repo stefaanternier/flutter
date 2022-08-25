@@ -39,6 +39,7 @@ class _GameLandingLoadingPageState extends State<GameLandingLoadingPage> {
                   child: Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: <Widget>[
                     CircularProgressIndicator(),
                     Container(
+
                         child: Text(
                           widget.text ??  "Spel laden ...",
                           textAlign: TextAlign.center,

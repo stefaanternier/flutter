@@ -10,14 +10,12 @@ import 'package:youplay/store/middlewares/current_run.sync.middleware.dart';
 import 'package:youplay/store/middlewares/current_run.upload.middleware.dart';
 import 'package:youplay/store/middlewares/epics.generalitems.dart';
 import 'package:youplay/store/middlewares/game_library.middleware.dart';
-import 'package:youplay/store/middlewares/game_messages.middleware.dart';
-import 'package:youplay/store/middlewares/game_theme.middleware.dart';
-import 'package:youplay/store/middlewares/gameid_to_runs.middleware.dart';
 import 'package:youplay/store/middlewares/locations.middleware.dart';
 import 'package:youplay/store/middlewares/ui.middleware.dart';
 import 'package:youplay/store/state/app_state.dart';
 
 import 'epics.collection.dart';
+import 'epics.collection.link.dart';
 import 'epics.games.dart';
 import 'epics.gametheme.dart';
 import 'epics.runs.dart';
@@ -50,19 +48,20 @@ final epic = combineEpics<AppState>([
   uploadResponseFilesEpic,
   currentRunEpic,
   uploadActionEpic,
-  loadPublicRunEpic,
+  // loadPublicRunEpic,
   downloadResponsesForRunEpic,
   downloadActionsForRunEpic,
   deleteResponseForRunEpic,
   gameLibraryEpics,
   testEpoic,
   collectionEpics,
+  collectionLinkEpics,
   gameEpics,
   gameThemeEpics,
   generalitemEpics,
   runEpics,
   locationEpic,
-  deleteRunEpic
+  // deleteRunEpic
 ]);
 
 var epicMiddleware = new EpicMiddleware(epic);

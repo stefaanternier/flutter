@@ -3,6 +3,8 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 import 'package:youplay/models/game.dart';
 import 'package:youplay/models/run.dart';
+import 'package:youplay/store/actions/actions.generalitems.dart';
+import 'package:youplay/store/actions/actions.runs.dart';
 import 'package:youplay/store/actions/current_run.actions.dart';
 import 'package:youplay/store/actions/gameid_to_runs.actions.dart';
 import 'package:youplay/store/actions/ui_actions.dart';
@@ -52,8 +54,9 @@ class _ViewModel {
         },
         tapRun: (int index) {
           store.dispatch(SetCurrentRunAction(run: rl[index]));
-          store.dispatch(SetPage(page: PageType.game));
           if (game != null) {
+            store.dispatch(SetPage(page: PageType.game, gameId: game.gameId));
+            store.dispatch(LoadGameMessagesRequest(gameId: '${game.gameId}'));
             store.dispatch(SetMessageViewAction(messageView: game.firstView));
           }
         });

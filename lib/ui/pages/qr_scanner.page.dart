@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:redux/redux.dart';
@@ -59,8 +60,6 @@ class GameQRState extends State<GameQRScreen> {
 
   GameQRState({required this.store});
 
-
-
   bool _isProcessing = false;
 
   CameraLensDirection _direction = CameraLensDirection.back;
@@ -72,6 +71,8 @@ class GameQRState extends State<GameQRScreen> {
   @override
   void initState() {
     super.initState();
+    // FocusScope.of(context).unfocus();
+    // SystemChannels.textInput.invokeMethod('TextInput.hide');
   }
 
   Widget _buildImage(BuildContext context) {
@@ -82,7 +83,12 @@ class GameQRState extends State<GameQRScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // if(controller != null && mounted) {
+    //   controller.pauseCamera();
+    //   controller.resumeCamera();
+    // }
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Column(
         children: <Widget>[
           Expanded(flex: 4, child: _buildQrView(context)),
@@ -120,9 +126,8 @@ class GameQRState extends State<GameQRScreen> {
     int gameIdInt = int.parse(gameId);
     store.dispatch(LoadPublicGameRequestAction(gameId: gameIdInt));
     store.dispatch(SetPage(page: PageType.gameLandingPage, gameId: gameIdInt));
-    store.dispatch(ResetRunsAndGoToLandingPage());
     if (store.state.authentication.authenticated) {
-      store.dispatch(ApiRunsParticipateAction(gameIdInt));
+      // store.dispatch(ApiRunsParticipateActionOld(gameIdInt));
     }
   }
 
@@ -193,7 +198,7 @@ class GameQRState extends State<GameQRScreen> {
               } else if (checkAccountQR(r.code!)) {
                 triggerAccountQr(r.code!, store);
               } else if (checkUrl(r.code)) {
-                store.dispatch(new ParseLinkAction(link: r.code!));
+                store.dispatch(new ParseLinkActionOld(link: r.code!));
               } else {
 
               }

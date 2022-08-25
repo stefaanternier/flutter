@@ -6,7 +6,6 @@ import 'package:youplay/store/actions/errors.dart';
 import 'package:youplay/store/actions/ui_actions.dart';
 import 'package:youplay/store/state/ui_state.dart';
 final uiReducer = combineReducers<UiState>([
-  new TypedReducer<UiState, SetCurrentGameAction>(_setCurrentGame),
   new TypedReducer<UiState, SetCurrentGeneralItemId>(_setCurrentGeneralItem),
   new TypedReducer<UiState, SetPage>(_setPageReducer),
   new TypedReducer<UiState, ApiResultError>(_setErrorReducer),
@@ -16,10 +15,6 @@ final uiReducer = combineReducers<UiState>([
 ]);
 //todo cleanup
 
-UiState _setCurrentGame(UiState state, SetCurrentGameAction action) {
-  return state.copyWith(newGameId: action.currentGame);
-  // return action.currentGame;
-}
 
 UiState _setCurrentGeneralItem(UiState state, SetCurrentGeneralItemId action) {
   return state.copyWith(newItemId: action.itemId);
@@ -89,22 +84,22 @@ UiState _setErrorReducer(UiState state, ApiResultError action) {
 //   new TypedReducer<int, ApiResultError>(_setErrorReducer),
 // ]);
 
-HashMap<int, GameUiState> _toggleListView(
-    HashMap<int, GameUiState> oldMap, ToggleMessageViewAction action) {
-
-  return oldMap;
-  // HashMap<int, GameUiState> map = HashMap.from(oldMap);
-  // GameUiState gameUiState = map[action.gameId] ?? new GameUiState(messagesView: MessageView.listView);
-  // map[action.gameId] = map[action.gameId] ?? gameUiState;
-  // if (action.messageView != null) {
-  //   gameUiState.messagesView = action.messageView!;
-  // } else if (gameUiState.messagesView == MessageView.listView) {
-  //   gameUiState.messagesView = MessageView.mapView;
-  // } else {
-  //   gameUiState.messagesView = MessageView.listView;
-  // }
-  // return map;
-}
+// HashMap<int, GameUiState> _toggleListView(
+//     HashMap<int, GameUiState> oldMap, ToggleMessageViewAction action) {
+//
+//   return oldMap;
+//   // HashMap<int, GameUiState> map = HashMap.from(oldMap);
+//   // GameUiState gameUiState = map[action.gameId] ?? new GameUiState(messagesView: MessageView.listView);
+//   // map[action.gameId] = map[action.gameId] ?? gameUiState;
+//   // if (action.messageView != null) {
+//   //   gameUiState.messagesView = action.messageView!;
+//   // } else if (gameUiState.messagesView == MessageView.listView) {
+//   //   gameUiState.messagesView = MessageView.mapView;
+//   // } else {
+//   //   gameUiState.messagesView = MessageView.listView;
+//   // }
+//   // return map;
+// }
 
 
 

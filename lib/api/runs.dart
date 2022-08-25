@@ -8,12 +8,12 @@ import 'GenericApi.dart';
 
 class RunsApi extends GenericApi {
 
-  static Future<List<Run>> participate(int gameId) async {
-    final response = await GenericApi.get('api/runs/participate/$gameId');
-    Map<String, dynamic> runMap = jsonDecode(response.body);
-    if (runMap["runs"] == null) return [];
-    return (runMap["runs"] as List).map((json) => Run.fromJson(json)).toList(growable: false);
-  }
+  // static Future<List<Run>> participate(int gameId) async {
+  //   final response = await GenericApi.get('api/runs/participate/$gameId');
+  //   Map<String, dynamic> runMap = jsonDecode(response.body);
+  //   if (runMap["runs"] == null) return [];
+  //   return (runMap["runs"] as List).map((json) => Run.fromJson(json)).toList(growable: false);
+  // }
 
   static Future<dynamic> runWithGame(int runId) async {
     final response = await GenericApi.get('api/run/$runId/unauth');

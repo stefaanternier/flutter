@@ -19,7 +19,7 @@ final gameLibraryEpics = combineEpics<AppState>([
   new TypedEpic<AppState, LoadFeaturedGameAction>(_loadFeaturedGames),
   new TypedEpic<AppState, LoadRecentGamesAction>(_loadRecentGames),
   new TypedEpic<AppState, LoadOneFeaturedGameAction>(_loadOneFeaturedGames),
-  new TypedEpic<AppState, ParseLinkAction>(_parseLinkAction),
+  // new TypedEpic<AppState, ParseLinkActionOld>(_parseLinkAction),
 ]);
 final testEpoic = new TypedEpic<AppState, dynamic>(_searchGames);
 
@@ -74,23 +74,22 @@ Stream<dynamic> yieldGameInfoAction(
 }
 
 Stream<dynamic> _parseLinkAction(Stream<dynamic> actions, EpicStore<AppState> store) {
-  return actions.where((action) => action is ParseLinkAction).asyncExpand((action) {
+  return actions.where((action) => action is ParseLinkActionOld).asyncExpand((action) {
     print("link is ${action.link}");
     String link = action.link as String;
-    if (link.indexOf("/game/") != -1) {
-      return yieldLinkExpandGame(link);
-    }
-    if (link.indexOf("/run/") != -1) {
-      return yieldLinkExpandRun(link);
-    }
-    return yieldLinkExpand();
+    // if (link.indexOf("/game/") != -1) {
+    //   return yieldLinkExpandGame(link);
+    // }
+    // if (link.indexOf("/run/") != -1) {
+    //   return yieldLinkExpandRun(link);
+    // }
   });
 }
 
 Stream<dynamic> yieldLinkExpandRun(String link) async* {
   print("runId is ${link.substring(link.lastIndexOf('/run/') + 5).trim()}");
   int runId = int.parse(link.substring(link.lastIndexOf('/run/') + 5).trim());
-  yield ResetRunsAndGoToRunLandingPage(runId: runId);
+  // yield ResetRunsAndGoToRunLandingPage(runId: runId);
 
   //todo put back
   // dynamic runwithgame = await RunsApi.runWithGame(runId);
@@ -108,25 +107,17 @@ Stream<dynamic> yieldLinkExpandGame(String link) async* {
   // link = link.substring(link.lastIndexOf('/game/')+6).trim();
   print("gameId is ${link.substring(link.lastIndexOf('/game/') + 6).trim()}");
   int gameId = int.parse(link.substring(link.lastIndexOf('/game/') + 6).trim());
-  yield ResetRunsAndGoToLandingPage();
-  dynamic game = await StoreApi.game(gameId);
-  if (game is ApiResultError) {
-    //todo
-  } else {
-    Game g = game as Game;
-    yield new LoadGameSuccess(game: g); //todo investigate
-
-    // yield ApiRunsParticipateAction(gameId);
-    yield RunsApi.participate(gameId)
-        .then((results) => new ApiResultRunsParticipateAction(runs: results, gameId: gameId));
-    yield SetPage(page: PageType.gameLandingPage, pageId: gameId, gameId: gameId);
-  }
-}
-
-Stream<dynamic> yieldLinkExpand() async* {
-  // List<Game> list = await gameList;
-  // yield new LoadFeaturedGameResultsAction(games: list);
-  // for (Game game in list) {
-  //   if (store.state.gameLibrary.fullGames[game.gameId] == null)
-  //     yield LoadOneFeaturedGameAction(game: game);
+  // yield ResetRunsAndGoToLandingPage_old();
+  // dynamic game = await StoreApi.game(gameId);
+  // if (game is ApiResultError) {
+  //   //todo
+  // } else {
+  //   Game g = game as Game;
+  //   yield new LoadGameSuccess(game: g); //todo investigate
+  //
+  //   // yield ApiRunsParticipateAction(gameId);
+  //   yield RunsApi.participate(gameId)
+  //       .then((results) => new ApiResultRunsParticipateAction(runs: results, gameId: gameId));
+  //   yield SetPage(page: PageType.gameLandingPage, pageId: gameId, gameId: gameId);
+  // }
 }

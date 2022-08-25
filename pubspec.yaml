@@ -30,14 +30,15 @@ dependencies:
   firebase_auth: ^3.6.3
   firebase_storage: ^10.3.5
 #  firebase_ml_vision: ^0.10.0
-  qr_code_scanner: ^1.0.0
+  qr_code_scanner: ^1.0.1
+  mobile_scanner: ^2.0.0
   url_launcher: ^6.0.12
-  extended_image: ^6.0.2+1
+  extended_image: ^6.2.1
   google_sign_in: ^5.1.1
   http: ^0.13.1
-  video_player: ^2.2.5
+  video_player: ^2.4.7
   google_maps_flutter: ^2.0.3
-  camera: ^0.9.4+3
+  camera: ^0.10.0+1
   font_awesome_flutter: ^9.0.0
   date_format: ^2.0.2
   path_provider: ^2.0.1
@@ -47,7 +48,7 @@ dependencies:
   sign_in_with_apple: ^3.2.0
 #  apple_sign_in: ^0.1.0
   rxdart: ^0.26.0
-  native_device_orientation: ^1.0.0
+  native_device_orientation: ^1.1.4
   webview_flutter: ^2.0.4
   flutter_native_image: ^0.0.6
   universal_platform: ^1.0.0-nullsafety

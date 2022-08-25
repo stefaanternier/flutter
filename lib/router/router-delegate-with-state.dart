@@ -13,6 +13,7 @@ import 'package:youplay/ui/pages/login_page.container.dart';
 import 'package:youplay/ui/pages/message.page.container.dart';
 import 'package:youplay/ui/pages/my-games-list.page.dart';
 import 'package:youplay/ui/pages/qr_scanner.page.dart';
+import 'package:youplay/ui/pages/qr_scanner2.page.dart';
 import 'package:youplay/ui/pages/run_landing.page.container.dart';
 import 'package:youplay/ui/pages/splashscreen.container.dart';
 
@@ -106,7 +107,7 @@ class YouplayRouterDelegate extends RouterDelegate<YouplayRoutePath>
           ),
           MaterialPage(
               key: ValueKey('RunLandingPage'),
-              child: RunLandingPageContainer(runId: youplayRoutePath.pageId!) //gameId: _youplayRoutePath.gameId!
+              child: RunLandingPageContainer() //gameId: _youplayRoutePath.gameId!
               )
         ];
         break;
@@ -184,7 +185,7 @@ class YouplayRouterDelegate extends RouterDelegate<YouplayRoutePath>
               authenticated: true,
             ),
           ),
-          MaterialPage(key: ValueKey('QRScannerPage'), child: GameQRScannerPage())
+          MaterialPage(key: ValueKey('QRScannerPage'), child: GameQRnew())
         ];
 
       case PageType.featured:

@@ -43,11 +43,8 @@ class SetPage {
   }
 }
 
-class ResetRunsAndGoToLandingPage {
 
-}
-
-class ResetRunsAndGoToRunLandingPage {
-  int runId;
-  ResetRunsAndGoToRunLandingPage({required this.runId});
-}
+// class ResetRunsAndGoToRunLandingPage {
+//   int runId;
+//   ResetRunsAndGoToRunLandingPage({required this.runId});
+// }

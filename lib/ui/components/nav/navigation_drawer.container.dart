@@ -11,6 +11,7 @@ import 'package:youplay/store/state/app_state.dart';
 import 'package:youplay/store/state/auth.state.dart';
 import 'package:youplay/store/state/ui_state.dart';
 
+import '../../../store/actions/actions.collection.dart';
 import 'navigation_drawer.dart';
 
 class ARLearnNavigationDrawerContainer extends StatelessWidget {
@@ -24,6 +25,7 @@ class ARLearnNavigationDrawerContainer extends StatelessWidget {
         return ARLearnNavigationDrawer(
           showCurrentGame: vm.showCurrentGame(),
           currentGameTitle: vm.currentGameTitle,
+          tapCollection: vm.tapCollection,
           tapPage: (PageType page) {
 
             vm.onPageClicked(page);
@@ -53,12 +55,13 @@ class _ViewModel {
   final Function(PageType) onPageClicked;
   final Function() onLogoutClicked;
   final Function() onAnonErase;
-
+  final Function() tapCollection;
   _ViewModel(
       {required this.isAuthenticated,
       required this.anon,
       required this.currentGameTitle,
       required this.currentRunTitle,
+        required this.tapCollection,
       required this.onPageClicked,
       required this.onLogoutClicked,
       required this.onAnonErase});
@@ -69,6 +72,10 @@ class _ViewModel {
         isAuthenticated: authenticationState.authenticated,
         anon: authenticationState.anon,
         currentGameTitle: currentGame(store.state)?.title ?? '',
+        tapCollection: () {
+          store.dispatch(LoadFeaturedGameRequest());
+          store.dispatch(LoadRecentGameRequest());
+        },
         currentRunTitle:
             currentRunSelector(store.state.currentRunState)?.title ?? "",
         onPageClicked: (PageType page) {

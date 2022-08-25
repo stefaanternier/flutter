@@ -11,6 +11,7 @@ class ARLearnNavigationDrawer extends StatelessWidget {
   String? currentGameTitle;
   Function(PageType) tapPage;
   Function() tapExit;
+  Function() tapCollection;
   bool isAnon;
   bool isAuthenticated;
 
@@ -19,6 +20,7 @@ class ARLearnNavigationDrawer extends StatelessWidget {
       this.currentGameTitle,
       required this.tapPage,
       required this.tapExit,
+        required this.tapCollection,
       required this.isAnon,
       required this.isAuthenticated,
       Key? key})
@@ -56,6 +58,7 @@ class ARLearnNavigationDrawer extends StatelessWidget {
                 Text(AppLocalizations.of(context).translate('library.library')),
             onTap: () {
               Scaffold.of(context).openEndDrawer();
+              tapCollection();
               tapPage(PageType.featured);
             },
           ),

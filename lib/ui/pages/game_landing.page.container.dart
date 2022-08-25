@@ -23,7 +23,6 @@ class GameLandingPageContainer extends StatelessWidget {
     return StoreConnector<AppState, _ViewModel>(
       converter: (store) => _ViewModel.fromStore(store, gameId),
       builder: (context, vm) {
-        print('hallo2');
         if (vm.game == null || vm.game!.gameId != gameId) {
           return GameLandingLoadingPage(
             init: vm.loadGame,
