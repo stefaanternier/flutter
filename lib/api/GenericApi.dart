@@ -23,6 +23,7 @@ class GenericApi {
   }
 
   Future<http.Response> getNew(String path) async {
+    print('[request] $path');
     return http.get(
         Uri.https(AppConfig().baseUrl, path),
         headers: {"Authorization": "Bearer " + await getIdToken()});

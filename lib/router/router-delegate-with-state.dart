@@ -18,11 +18,11 @@ import 'package:youplay/ui/pages/splashscreen.container.dart';
 class YouplayRouterDelegate extends RouterDelegate<YouplayRoutePath>
     with ChangeNotifier, PopNavigatorRouterDelegateMixin<YouplayRoutePath> {
   final GlobalKey<NavigatorState> navigatorKey;
-  Function(PageType, int?) updatePageType;
+  Function(YouplayRoutePath) updateYouplayRoutePath;
 
   YouplayRoutePath youplayRoutePath;
 
-  YouplayRouterDelegate({required this.youplayRoutePath, required this.updatePageType})
+  YouplayRouterDelegate({required this.youplayRoutePath, required this.updateYouplayRoutePath})
       : navigatorKey = GlobalKey<NavigatorState>();
 
   YouplayRoutePath get currentConfiguration {
@@ -41,7 +41,7 @@ class YouplayRouterDelegate extends RouterDelegate<YouplayRoutePath>
         }
 
         youplayRoutePath = youplayRoutePath.parent;
-        this.updatePageType(youplayRoutePath.pageType, youplayRoutePath.pageId);
+        this.updateYouplayRoutePath(youplayRoutePath);
         notifyListeners();
 
         return true;
@@ -50,6 +50,7 @@ class YouplayRouterDelegate extends RouterDelegate<YouplayRoutePath>
   }
 
   List<Page<dynamic>> pages() {
+    print('loading page ${youplayRoutePath.pageType}');
     switch (youplayRoutePath.pageType) {
       case PageType.intro:
         print('new page type ');

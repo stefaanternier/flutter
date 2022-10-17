@@ -18,7 +18,6 @@ UiState _setCurrentGeneralItem(UiState state, SetCurrentGeneralItemId action) {
 }
 
 UiState _setPageReducer(UiState state, SetPage action) {
-  print("in set page reducer ${action.page} ${action.pageId}");
   if (action.page == state.currentPage) return state;
   return state.copyWith(newPage: action.page, newPageId: action.pageId, newGameId: action.gameId, newRunId: action.runId);
 }

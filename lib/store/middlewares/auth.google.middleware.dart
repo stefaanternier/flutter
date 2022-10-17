@@ -7,6 +7,8 @@ import 'package:youplay/api/account.dart';
 import 'package:youplay/store/actions/auth.actions.dart';
 import 'package:youplay/store/state/app_state.dart';
 
+import '../actions/actions.collection.dart';
+
 final FirebaseAuth _auth = FirebaseAuth.instance;
 
 GoogleSignIn _googleSignIn = GoogleSignIn(
@@ -163,11 +165,14 @@ Stream<dynamic> signOut(
   Stream<SignOutAction> actions,
   EpicStore<AppState> store,
 ) {
-  return actions.asyncMap((action) {
-    FirebaseAuth.instance.signOut().then((value) {
-      print("sign out result ");
-    });
-    return null;
+  return actions.asyncExpand((action) async* {
+    await FirebaseAuth.instance.signOut();
+    // .then((value) {
+    //   print("sign out result ");
+    // });
+    // return null;
+    yield LoadFeaturedGameRequest();
+    yield LoadRecentGameRequest();
   });
 }
 

@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:universal_platform/universal_platform.dart';
 import 'package:youplay/models/general_item.dart';
 import 'package:youplay/models/general_item/dependency.dart';
 import 'package:youplay/models/general_item/open_question.dart';
@@ -170,6 +171,10 @@ class PictureQuestion extends GeneralItem {
 
   String getIcon() {
     return icon ?? 'fa.camera';
+  }
+
+  bool get isSupported {
+    return !UniversalPlatform.isWeb;
   }
 
   Widget buildPage() {

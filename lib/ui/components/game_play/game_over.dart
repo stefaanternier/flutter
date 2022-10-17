@@ -8,14 +8,18 @@ import 'package:youplay/ui/components/nav/navigation_drawer.container.dart';
 import 'package:youplay/ui/components/web/web_wrapper.dart';
 import 'package:youplay/util/extended_network_image.dart';
 
+import '../../../models/game.dart';
+
 class GameOver extends StatefulWidget {
   final GameTheme? theme;
+  final Game? game;
   final bool anon;
   final Function() startAgain;
   final Function toLibrary;
 
   GameOver(
       {this.theme,
+        this.game,
       required this.anon,
       required this.startAgain,
       required this.toLibrary});
@@ -27,8 +31,9 @@ class GameOver extends StatefulWidget {
 class _GameOverState extends State<GameOver> {
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
-      appBar: ThemedAppbarContainer(title: 'Game Over', elevation: false),
+      appBar: ThemedAppbarContainer(title: widget.game?.gameOverHeading ??'Game Over', elevation: false),
       drawer: ARLearnNavigationDrawerContainer(),
       body: WebWrapper(
         child: Padding(
@@ -40,7 +45,7 @@ class _GameOverState extends State<GameOver> {
               buildGameTitle(context),
               Container(
                   child: Text(
-                "Je hebt dit spel uitgespeeld.",
+                widget.game?.gameOverDescription ?? "Je hebt dit spel uitgespeeld.",
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: const Color(0xFFA0ABB5),
@@ -50,7 +55,7 @@ class _GameOverState extends State<GameOver> {
               this.widget.anon
                   ? Center(
                       child: CustomRaisedButton(
-                        title: "Start opnieuw",
+                        title: widget.game?.gameOverButton ?? "Start opnieuw",
 //            icon: new Icon(Icons.play_circle_outline, color: Colors.white),
                         onPressed: this.widget.startAgain,
                       ),
@@ -64,7 +69,7 @@ class _GameOverState extends State<GameOver> {
                       ),
                     )
                   : Container(),
-              NewRunButtonContainer(title: 'speel opnieuw')
+              NewRunButtonContainer(title: widget.game?.gameOverButton ?? 'Speel opnieuw')
             ],
           ),
         ),
@@ -93,7 +98,7 @@ class _GameOverState extends State<GameOver> {
 
   buildGameTitle(BuildContext context) {
     return Text(
-      "Game over",
+      widget.game?.gameOverHeading ?? "Game over",
       textAlign: TextAlign.center,
       style: TextStyle(
           color: Colors.black, fontSize: 27, fontWeight: FontWeight.bold),

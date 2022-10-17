@@ -22,7 +22,7 @@ class AudioPlayerWidget extends StatefulWidget {
 
 class _AudioPlayerWidgetState extends State<AudioPlayerWidget> {
   late AudioPlayer audioPlayer;
-  PlayerState status = PlayerState.STOPPED;
+  PlayerState status = PlayerState.stopped;
   bool showControls = true;
   double _position = 0;
   double _maxposition = 10;
@@ -32,33 +32,30 @@ class _AudioPlayerWidgetState extends State<AudioPlayerWidget> {
   void initState() {
     super.initState();
     audioPlayer = AudioPlayer();
-    // AudioPlayer.logEnabled = true;
-    audioPlayer.onPlayerStateChanged.listen((PlayerState s) {
-      if (!isFinished) {
-        setState(() {
-          this.status = s;
-          if (s == PlayerState.COMPLETED) {
-            this._position = this._maxposition;
-            this.isFinished = true;
-          }
-        });
-      }
-    });
 
-    audioPlayer.onAudioPositionChanged.listen((Duration p) async {
-      int duration = await audioPlayer.getDuration();
-      _maxposition = duration.toDouble();
+    audioPlayer.onPlayerComplete.listen((event) {
       setState(() {
-        _maxposition = duration.toDouble();
-        _position = min(p.inMilliseconds.roundToDouble(), _maxposition);
+        this._position = this._maxposition;
+        this.isFinished = true;
       });
     });
+
+    audioPlayer.onPositionChanged.listen((Duration p) async {
+      Duration? duration = await audioPlayer.getDuration() ;
+      _maxposition = (duration?.inMilliseconds ?? 0).toDouble();
+      setState(() {
+        _position = p.inMilliseconds.roundToDouble();
+        _maxposition = (duration?.inMilliseconds ?? 0).toDouble();
+      });
+    });
+    AudioPlayer.global.changeLogLevel(LogLevel.error);
+
     // this.play();
   }
 
   play() async {
     if (widget.url != null) {
-      int result = await audioPlayer.play(widget.url!);
+      await audioPlayer.play(UrlSource(widget.url!));
     }
   }
 
@@ -87,11 +84,11 @@ class _AudioPlayerWidgetState extends State<AudioPlayerWidget> {
                             buttonTap: () {
                               new Timer(Duration(milliseconds: 10), () {
                                 setState(() {
-                                  if ((status == PlayerState.STOPPED || status == PlayerState.COMPLETED)) {
+                                  if ((status == PlayerState.stopped || status == PlayerState.completed)) {
                                     play();
-                                  } else if (status == PlayerState.PLAYING) {
+                                  } else if (status == PlayerState.playing) {
                                     audioPlayer.pause();
-                                  } else if (status == PlayerState.PAUSED) {
+                                  } else if (status == PlayerState.paused) {
                                     audioPlayer.resume();
                                   }
                                 });
@@ -102,9 +99,9 @@ class _AudioPlayerWidgetState extends State<AudioPlayerWidget> {
                             },
                             position: _position,
                             maxposition: _maxposition,
-                            showPlay: (status == PlayerState.PAUSED ||
-                                status == PlayerState.STOPPED ||
-                                status == PlayerState.COMPLETED),
+                            showPlay: (status == PlayerState.paused ||
+                                status == PlayerState.stopped ||
+                                status == PlayerState.completed),
                           ),
                   ),
                 if (isFinished)

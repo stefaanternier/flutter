@@ -9,6 +9,7 @@ class CollectionAPI extends GenericApi {
   static final CollectionAPI instance = CollectionAPI._();
 
   Future<Game> loadOnePublicGame(String gameId) async {
+    print('in load public link api/games/library/game/$gameId');
     final response = await GenericApi.getUnAuth('api/games/library/game/$gameId');
     if (response.statusCode == 200) {
       return Game.fromJson(jsonDecode(response.body));
@@ -23,7 +24,6 @@ class CollectionAPI extends GenericApi {
     }
     throw Exception('Response code is: ${response.statusCode}');
   }
-
 
   Future<GameList> recentGames() async {
     final response = await GenericApi.getUnAuth('api/games/library/recent');

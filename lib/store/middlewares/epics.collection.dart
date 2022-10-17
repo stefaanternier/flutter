@@ -22,7 +22,17 @@ final collectionEpics = combineEpics<AppState>([
 Stream<dynamic> _loadOneGame(Stream<dynamic> actions, EpicStore<AppState> store) {
   return resetOnError(
       actions,
-      actions.whereType<LoadPublicGameRequest>().distinctUnique().asyncMap((action) => CollectionAPI.instance
+      actions.whereType<LoadPublicGameRequest>()
+          .where((action) {
+        print (' load public game before filter ${action.gameId} ');
+        return true;
+      })
+          .distinctUnique()
+          .where((action) {
+        print (' load public game after filter ${action.gameId} ');
+        return true;
+      })
+          .asyncMap((action) => CollectionAPI.instance
           .loadOnePublicGame('${action.gameId}')
           .then<dynamic>((Game game) => LoadPublicGameSuccess(game: game))
           .catchError((_) => CollectionReset())));
@@ -31,7 +41,9 @@ Stream<dynamic> _loadOneGame(Stream<dynamic> actions, EpicStore<AppState> store)
 Stream<dynamic> _getFeaturedGamesEpic(Stream<dynamic> actions, EpicStore<AppState> store) {
   return resetOnError(
       actions,
-      actions.whereType<LoadFeaturedGameRequest>().distinctUnique().asyncMap((action) => CollectionAPI.instance
+      actions.whereType<LoadFeaturedGameRequest>()
+          .distinctUnique()
+          .asyncMap((action) => CollectionAPI.instance
           .featuredGames()
           .then<dynamic>((GameList list) => LoadFeaturedGameSuccess(gameList: list))
           .catchError((_) => CollectionReset())));

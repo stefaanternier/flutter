@@ -5,6 +5,7 @@ import 'package:youplay/models/models.dart';
 import 'package:youplay/store/middlewares/epics.dart';
 import 'package:youplay/store/reducers/reducer.dart';
 import 'package:youplay/store/state/app_state.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 Future<Store<AppState>> createStore() async {
   final persistor = Persistor<AppState>(
@@ -12,15 +13,20 @@ Future<Store<AppState>> createStore() async {
       serializer: JsonSerializer<AppState>(AppState.fromJson),
       throttleDuration: new Duration(seconds: 10));
   AppState demo = AppState.emptyState();
-  try {
-    print('loading from persistor');
-    // demo = await persistor.load() ?? demo; //todo switch on later
-  } catch (e) {
-    print("no state $e");
+  if (!kIsWeb) {
+    try {
+      print('loading from persistor');
+      demo = await persistor.load() ?? demo; //todo switch on later
+    } catch (e) {
+      print("no state $e");
+    }
   }
 
   return Store<AppState>(appReducer,
-      middleware: [epicMiddleware, persistor.createMiddleware()], // ,
+      middleware: [
+        epicMiddleware,
+         if (!kIsWeb) persistor.createMiddleware()
+      ], // ,
       distinct: true,
       initialState: demo);
 }

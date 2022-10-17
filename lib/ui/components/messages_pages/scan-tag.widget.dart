@@ -59,10 +59,13 @@ class _ScanTagWidgetState extends State<ScanTagWidget> {
         widget.onResult(scanData.code!);
       }
     });
+    controller.pauseCamera();
+    controller.resumeCamera();
   }
 
   @override
   void dispose() {
+    print('dispose controller');
     controller.dispose();
     super.dispose();
   }

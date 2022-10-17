@@ -10,7 +10,11 @@ import '../../models/run.dart';
 final gameFeatureSelector = (AppState state) => state.gameState;
 
 final Selector<AppState, List<Game>> myGames = createSelector1(gameFeatureSelector, (GameState gameState) {
-  return gameState.entities.values.where((element) => !element.deleted).toList(growable: false);
+  List<Game> toReturn = gameState.entities.values.where((element) => !element.deleted).toList(growable: false);
+  toReturn.sort((a, b) {
+    return b.lastModificationDate.compareTo(a.lastModificationDate);
+  });
+  return toReturn;
 });
 
 final Selector<AppState, Game?> currentGame = createSelector2(

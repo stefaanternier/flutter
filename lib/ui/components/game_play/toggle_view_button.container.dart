@@ -39,6 +39,10 @@ class _ViewModel {
   static _ViewModel fromStore(Store<AppState> store) {
     Game? game = currentGame(store.state);
     int v = store.state.uiState.currentView;
+    print('current view is $v');
+    if (game != null) {
+      print('next view is ${game.nextView(v)}');
+    }
     return _ViewModel(
         view: v,
         nextView: game == null ? 2 : game.nextView(v),

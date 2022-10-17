@@ -23,7 +23,7 @@ class _PlayerState extends State<ListAudioPlayer> {
   double _position = 0;
   double _maxposition = 100;
   late AudioPlayer audioPlayer;
-  PlayerState status = PlayerState.STOPPED;
+  PlayerState status = PlayerState.stopped;
 
   @override
   void initState() {
@@ -34,19 +34,19 @@ class _PlayerState extends State<ListAudioPlayer> {
         this.status = s;
       });
     });
-    audioPlayer.onAudioPositionChanged.listen((Duration p) async {
-      int duration = await audioPlayer.getDuration();
-      _maxposition = duration.toDouble();
+    audioPlayer.onPositionChanged.listen((Duration p) async {
+      Duration? duration = await audioPlayer.getDuration() ;
+      _maxposition = (duration?.inMilliseconds ?? 0).toDouble();
       setState(() {
         _position = p.inMilliseconds.roundToDouble();
-        _maxposition = duration.toDouble();
+        _maxposition = (duration?.inMilliseconds ?? 0).toDouble();
       });
     });
   }
 
   play() async {
-    int result = await audioPlayer.play(
-        'https://storage.googleapis.com/${AppConfig().projectID}.appspot.com/${widget.response.value}');
+
+    await audioPlayer.play(UrlSource('https://storage.googleapis.com/${AppConfig().projectID}.appspot.com/${widget.response.value}'));
   }
 
   @override
@@ -111,20 +111,20 @@ class _PlayerState extends State<ListAudioPlayer> {
                 ),
                 new IconButton(
                   icon: new Icon(
-                    (status == PlayerState.PAUSED ||
-                        status == PlayerState.STOPPED ||
-                        status == PlayerState.COMPLETED)
+                    (status == PlayerState.paused ||
+                        status == PlayerState.stopped ||
+                        status == PlayerState.completed)
                         ? Icons.play_arrow
                         : Icons.pause,
                     color: Colors.white,
                     size: 50,
                   ),
                   onPressed: () {
-                    if ((status == PlayerState.STOPPED || status == PlayerState.COMPLETED)) {
+                    if ((status == PlayerState.stopped || status == PlayerState.completed)) {
                       play();
-                    } else if (status == PlayerState.PLAYING) {
+                    } else if (status == PlayerState.playing) {
                       audioPlayer.pause();
-                    } else if (status == PlayerState.PAUSED) {
+                    } else if (status == PlayerState.paused) {
                       audioPlayer.resume();
                     }
                   },
@@ -136,7 +136,7 @@ class _PlayerState extends State<ListAudioPlayer> {
                     size: 50,
                   ),
                   onPressed: () {
-                    if (status != PlayerState.COMPLETED) {
+                    if (status != PlayerState.completed) {
                       audioPlayer.seek(Duration(
                           milliseconds: min(_maxposition.floor(), (_position.floor() + 5000))));
                     }

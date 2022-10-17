@@ -23,6 +23,9 @@ class Game {
   String description;
   String? messageListScreen;
   String? startButton;
+  String? gameOverHeading;
+  String? gameOverButton;
+  String? gameOverDescription;
   List<int> messageListTypes;
 
   int theme;
@@ -51,6 +54,9 @@ class Game {
         description = json['description'] ?? '',
         messageListScreen = json['messageListScreen'],
         startButton = json['startButton'],
+        gameOverHeading = json['gameOverHeading'],
+        gameOverButton = json['gameOverButton'],
+        gameOverDescription = json['gameOverDescription'],
         messageListTypes = (json['messageListTypes'] ?? "")
             .split(',')
             .where((nAsString) => nAsString.trim() != "")
@@ -78,13 +84,16 @@ class Game {
       this.title = "no title",
       this.messageListScreen,
       this.startButton,
+      this.gameOverHeading,
+      this.gameOverButton,
+      this.gameOverDescription,
       required this.messageListTypes,
       this.description = "",
       this.deleted = false,
       this.iconAbbreviation = ''});
 
   dynamic toJson() {
-    return {
+    dynamic j = {
       'gameId': this.gameId,
       'lastModificationDate': this.lastModificationDate,
       'sharing': this.sharing,
@@ -100,11 +109,15 @@ class Game {
       'title': this.title,
       'messageListScreen': this.messageListScreen,
       'startButton': this.startButton,
+      'gameOverHeading': this.gameOverHeading,
+      'gameOverButton': this.gameOverButton,
+      'gameOverDescription': this.gameOverDescription,
       'iconAbbreviation': this.iconAbbreviation,
-
+      'messageListTypes':
+          this.messageListTypes.length == 1 ? '${this.messageListTypes}' : this.messageListTypes.join(','),
       'deleted': this.deleted,
-
     };
+    return j;
   }
 
   int endsAt(HashMap<String, ARLearnAction> actions) {
@@ -230,8 +243,6 @@ class GameFile {
 //      '${blue.toRadixString(16).padLeft(2, '0')}';
 //}
 
-
-
 class GameList {
   List<Game> items;
   String? resumptionToken;
@@ -240,9 +251,7 @@ class GameList {
 
   GameList.fromJson(Map json)
       : items = json['games'] != null
-      ? (json['games'] as List<dynamic>)
-      .map<Game>((map) => Game.fromJson(map))
-      .toList(growable: false)
-      : [],
+            ? (json['games'] as List<dynamic>).map<Game>((map) => Game.fromJson(map)).toList(growable: false)
+            : [],
         resumptionToken = json['resumptionToken'];
 }

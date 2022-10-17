@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:camera/camera.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_native_image/flutter_native_image.dart';
@@ -173,28 +174,33 @@ class _TakePictureWidgetState extends State<TakePictureWidget> {
     } on CameraException catch (e) {
       return null;
     }
-    ImageProperties properties = await FlutterNativeImage.getImageProperties(imageFile.path);
-
-    int width = properties.width ?? 250;
-    int height = properties.height ?? 700;
-    if (width < height) {
-      var offset = (height - width) / 2;
-      if (offset < 0) {
-        offset = offset * -1;
-      }
-      File croppedFile = await FlutterNativeImage.cropImage(imageFile.path, 0, offset.round(), width, width);
-
-      croppedFile.path;
-      widget.pictureTaken(croppedFile.path);
+    if (kIsWeb) {
+      widget.pictureTaken(imageFile.path);
     } else {
-      var offset = (height - width) / 2;
-      if (offset < 0) {
-        offset = offset * -1;
-      }
-      File croppedFile = await FlutterNativeImage.cropImage(imageFile.path, offset.round(), 0, height, height);
+      ImageProperties properties = await FlutterNativeImage.getImageProperties(imageFile.path);
 
-      croppedFile.path;
-      widget.pictureTaken(croppedFile.path);
+      int width = properties.width ?? 250;
+      int height = properties.height ?? 700;
+      if (width < height) {
+        var offset = (height - width) / 2;
+        if (offset < 0) {
+          offset = offset * -1;
+        }
+        File croppedFile = await FlutterNativeImage.cropImage(imageFile.path, 0, offset.round(), width, width);
+
+        croppedFile.path;
+        widget.pictureTaken(croppedFile.path);
+      } else {
+        var offset = (height - width) / 2;
+        if (offset < 0) {
+          offset = offset * -1;
+        }
+        File croppedFile = await FlutterNativeImage.cropImage(imageFile.path, offset.round(), 0, height, height);
+
+        croppedFile.path;
+        widget.pictureTaken(croppedFile.path);
+      }
     }
+
   }
 }

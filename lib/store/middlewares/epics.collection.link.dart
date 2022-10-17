@@ -21,6 +21,10 @@ Stream<dynamic> _parseGameLinkAuthenticatedEpic(Stream<dynamic> actions, EpicSto
       .whereType<ParseLinkAction>()
       .where((action) => isAuthenticatedSelector(store.state))
       .where((action) => action.isGameLink())
+  .where((action) {
+    print (' in parse game link is authenticated ${action.gameId} ');
+    return true;
+  })
       .expand((action) => [
             LoadPublicGameRequest(gameId: action.gameId),
             LoadGameRunsRequest(gameId: action.gameId), //ResetRunsAndGoToLandingPage (is this necessary)
@@ -33,6 +37,10 @@ Stream<dynamic> _parseGameLinkUnAuthenticatedEpic(Stream<dynamic> actions, EpicS
       .whereType<ParseLinkAction>()
       .where((action) => !isAuthenticatedSelector(store.state))
       .where((action) => action.isGameLink())
+      .where((action) {
+    print (' in parse game link is not authenticated ${action.gameId} ');
+    return true;
+  })
       .expand((action) => [
             LoadPublicGameRequest(gameId: action.gameId),
             SetPage(page: PageType.gameLandingPage, gameId: action.gameId),

@@ -7,7 +7,7 @@ import 'package:youplay/store/state/ui_state.dart';
 class YouplayRouteInformationParser
     extends RouteInformationParser<YouplayRoutePath> {
 
-  Function(PageType, int?) updatePageType;
+  Function(PageType, int?, int?) updatePageType;
 
   YouplayRouteInformationParser({required this.updatePageType});
 
@@ -33,7 +33,7 @@ class YouplayRouteInformationParser
         return YouplayRoutePath(pageType: PageType.login);
       }
       if (uri.pathSegments[0] == 'featured') {
-        this.updatePageType(PageType.featured, -1);
+        this.updatePageType(PageType.featured, -1, null);
         return YouplayRoutePath(pageType: PageType.featured);
       }
       if (uri.pathSegments[0] == 'myGames') {
@@ -51,7 +51,7 @@ class YouplayRouteInformationParser
         var remaining = uri.pathSegments[1];
         var id = int.tryParse(remaining);
         if (id == null) return YouplayRoutePath.unknown();
-        this.updatePageType(PageType.gameLandingPage, id);
+        this.updatePageType(PageType.gameLandingPage, id, id);
         return YouplayRoutePath(pageType: PageType.gameLandingPage, pageId: id, gameId: id);
       }
 
@@ -84,19 +84,12 @@ class YouplayRouteInformationParser
     // print('restore path ${path.pageType} -- ${path.pageId}');
     switch (path.pageType) {
       case PageType.gameLandingPage:
-        return RouteInformation(location: '/game/${path.pageId}');
+        return RouteInformation(location: '/game/${path.gameId}');
       case PageType.game:
-        return RouteInformation(location: '/play/game/${path.pageId}');
-//              return GameScreen(false);
-//         return authCheck(GamePlayPage(), pageModel);
-        break;
-      // case PageType.gameMapView:
-      //   return RouteInformation(location: '/run_map/${path.pageId}');
-      // case PageType.gameBoardView:
-      //   return RouteInformation(location: '/run_board/${path.pageId}');
+        return RouteInformation(location: '/play/game/${path.gameId}');
       case PageType.gameItem:
         return RouteInformation(
-            location: '/run/${path.pageId}/item/${path.itemId}');
+            location: '/run/${path.runId}/item/${path.itemId}');
       case PageType.login:
         return RouteInformation(location: '/login');
       case PageType.featured:
@@ -107,7 +100,7 @@ class YouplayRouteInformationParser
         return RouteInformation(location: '/scan');
       case PageType.runLandingPage:
         print('restore run landing ${path.pageId}');
-        return RouteInformation(location: '/run/${path.pageId}');
+        return RouteInformation(location: '/run/${path.runId}');
       case PageType.gameWithRuns:
         // return authCheck(GameRunsOverviewPage(), pageModel);
         break;

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
@@ -32,7 +34,7 @@ class AudioPlayerControlsContainer extends StatelessWidget {
         return AudioPlayerControls(
             seek: seek,
             buttonTap: buttonTap,
-            position: position,
+            position: min(position, maxposition),
             maxposition: maxposition,
             showPlay: showPlay,
             color: vm.color

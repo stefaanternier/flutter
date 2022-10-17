@@ -82,7 +82,7 @@ class AppState {
       'gameState': this.gameState.toJson(),
       'gameThemeState': this.gameThemeState.toJson()
     };
-    print('json state is ${json}');
+    // print('json state is ${json}');
     return json;
   }
 
