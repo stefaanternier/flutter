@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:youplay/config/app_config.dart';
 import 'package:youplay/models/game.dart';
 import 'package:youplay/ui/components/buttons/cust_raised_button.dart';
 import 'package:youplay/ui/components/icon/game_icon.container.dart';
@@ -22,9 +23,13 @@ class GameLandingLoginNecessaryPage extends StatelessWidget {
       drawer: ARLearnNavigationDrawerContainer(),
       appBar: new AppBar(
           centerTitle: true,
-          title: new Text(
-              AppLocalizations.of(context).translate('library.library'),
-              style: new TextStyle(color: Colors.white))),
+          title: new Image(
+            image: new AssetImage(AppConfig().appBarIcon!),
+            height: 32.0,
+            width: 32.0,
+          )
+      ),
+
       body: WebWrapper(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -35,7 +40,7 @@ class GameLandingLoginNecessaryPage extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
-                  GameIconContainer(game: game, height: 68),
+                  GameIconContainer(game: game, height: 150),
                   Text(
                     "${game.title.toUpperCase()}",
                     textAlign: TextAlign.center,

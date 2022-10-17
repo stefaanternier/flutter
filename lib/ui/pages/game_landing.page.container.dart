@@ -9,6 +9,7 @@ import 'package:youplay/store/selectors/selector.games.dart';
 import 'package:youplay/store/state/app_state.dart';
 import 'package:youplay/ui/pages/play_game_with_native_app.dart';
 
+import '../../store/actions/actions.collection.dart';
 import 'game_landing.page.loading.dart';
 import 'game_landing.page.private.container.dart';
 import 'game_landing.page.public.container.dart';
@@ -49,6 +50,7 @@ class _ViewModel {
   _ViewModel({required this.authenticated, this.game});
 
   static _ViewModel fromStore(Store<AppState> store, int gameId) {
+    store.dispatch(LoadPublicGameRequest(gameId: gameId));
     return _ViewModel(
         authenticated: isAuthenticatedSelector(store.state),
         game: currentGame(store.state) ?? currentCollectionGame(store.state),

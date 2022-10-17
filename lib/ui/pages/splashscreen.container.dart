@@ -18,11 +18,9 @@ class _SplashScreenContainerState extends State<SplashScreenContainer> {
   @override
   void initState() {
     super.initState();
-    print('execute tap***');
     Future.delayed(
       Duration(seconds: 2),
           () {
-        print('execute tap*');
         widget.finished();
         // store.dispatch(new SetPage(page: PageType.featured));
       },

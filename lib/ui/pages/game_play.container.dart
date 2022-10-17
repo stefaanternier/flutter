@@ -48,8 +48,7 @@ class _ViewModel {
     if(gameLocationTriggers(store.state).length > 0) {
       store.dispatch(new StartListeningForLocation());
     }
-    int lt = store.state.uiState.currentView;
-    print('current view is ${lt}');
+
     return _ViewModel(
       // listType: lt,
       game: currentGame(store.state),

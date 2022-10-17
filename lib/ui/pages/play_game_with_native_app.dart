@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:universal_html/html.dart' as html;
 import 'package:url_launcher/url_launcher.dart';
+import 'package:youplay/config/app_config.dart';
 import 'package:youplay/ui/components/nav/navigation_drawer.container.dart';
 import 'package:youplay/ui/components/web/web_wrapper.dart';
-
 import '../../localizations.dart';
 
 class PlayAppNativePage extends StatefulWidget {
@@ -19,7 +19,8 @@ class _PlayAppNativePageState extends State<PlayAppNativePage> {
   @override
   void initState() {
     super.initState();
-    platform = html.window.navigator.platform.toLowerCase();
+    String? pf = (html.window.navigator.platform as String?);
+    platform = (pf ?? '').toLowerCase();
   }
 
   @override
@@ -28,8 +29,12 @@ class _PlayAppNativePageState extends State<PlayAppNativePage> {
       drawer: ARLearnNavigationDrawerContainer(),
       appBar: new AppBar(
           centerTitle: true,
-          title: new Text(AppLocalizations.of(context).translate('library.library'),
-              style: new TextStyle(color: Colors.white))),
+          title: new Image(
+            image: new AssetImage(AppConfig().appBarIcon!),
+            height: 32.0,
+            width: 32.0,
+          )
+      ),
       body: WebWrapper(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,

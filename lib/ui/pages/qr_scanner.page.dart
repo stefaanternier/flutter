@@ -203,6 +203,8 @@ class GameQRState extends State<GameQRScreen> {
         }
       });
     });
+    controller.pauseCamera();
+    controller.resumeCamera();
   }
 
   @override

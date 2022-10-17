@@ -6,6 +6,7 @@ import 'package:youplay/ui/components/icon/game_icon.container.dart';
 import 'package:youplay/ui/components/nav/navigation_drawer.container.dart';
 import 'package:youplay/ui/components/web/web_wrapper.dart';
 
+import '../../config/app_config.dart';
 import '../../localizations.dart';
 
 class RunLandingPageJoin extends StatelessWidget {
@@ -26,8 +27,12 @@ class RunLandingPageJoin extends StatelessWidget {
       drawer: ARLearnNavigationDrawerContainer(),
       appBar: new AppBar(
           centerTitle: true,
-          title: new Text(AppLocalizations.of(context).translate('library.library'),
-              style: new TextStyle(color: Colors.white))),
+          title: new Image(
+            image: new AssetImage(AppConfig().appBarIcon!),
+            height: 32.0,
+            width: 32.0,
+          )
+      ),
       body: WebWrapper(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -38,7 +43,7 @@ class RunLandingPageJoin extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
-                    GameIconContainer(game: game, height: 68),
+                    GameIconContainer(game: game, height: 150),
                     Text(
                       "${game.title.toUpperCase()}",
                       textAlign: TextAlign.center,

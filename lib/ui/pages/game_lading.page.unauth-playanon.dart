@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:youplay/config/app_config.dart';
 import 'package:youplay/ui/components/buttons/cust_flat_button.dart';
 import 'package:youplay/ui/components/buttons/cust_raised_button.dart';
 import 'package:youplay/ui/components/nav/navigation_drawer.container.dart';
@@ -14,8 +15,12 @@ class  GameLandingUnAuthPlayAnonPage extends StatelessWidget {
       drawer: ARLearnNavigationDrawerContainer(),
       appBar: new AppBar(
           centerTitle: true,
-          title: new Text(AppLocalizations.of(context).translate('library.library'),
-              style: new TextStyle(color: Colors.white))),
+          title: new Image(
+            image: new AssetImage(AppConfig().appBarIcon!),
+            height: 32.0,
+            width: 32.0,
+          )
+      ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
