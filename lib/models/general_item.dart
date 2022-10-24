@@ -1,6 +1,7 @@
 import 'dart:collection';
 
 import 'package:flutter/material.dart';
+import 'package:youplay/config/app_config.dart';
 import 'package:youplay/models/general_item/audio_question.dart';
 import 'package:youplay/models/general_item/dependency.dart';
 import 'package:youplay/models/general_item/multiple_choice_image.dart';
@@ -11,6 +12,11 @@ import 'package:youplay/models/general_item/single_choice.dart';
 import 'package:youplay/models/general_item/single_choice_image.dart';
 import 'package:youplay/models/general_item/video_object.dart';
 import 'package:youplay/models/run.dart';
+import 'package:youplay/store/actions/current_run.action.actions.dart';
+import 'package:youplay/store/actions/current_run.actions.dart';
+import 'package:youplay/store/actions/ui_actions.dart';
+import 'package:youplay/store/state/app_state.dart';
+import 'package:youplay/store/state/ui_state.dart';
 import 'package:youplay/ui/pages/game_landing.page.loading.dart';
 
 import 'general_item/audio_object.dart';
@@ -19,6 +25,7 @@ import 'general_item/combination_lock.dart';
 import 'general_item/open_url.dart';
 import 'general_item/text_question.dart';
 import 'general_item/video_question.dart';
+import 'package:redux/redux.dart';
 
 enum ItemType {
   audio,
@@ -240,6 +247,19 @@ class GeneralItem {
 
   bool get isSupported {
     return true;
+  }
+
+  openItemAfterTap(Store<AppState> store, int runId) {
+    AppConfig()
+        .analytics
+        ?.logViewItem(itemId: '${itemId}', itemName: '${title}', itemCategory: '${gameId}');
+    store.dispatch(SetCurrentGeneralItemId(itemId));
+    store.dispatch(new ReadItemAction(runId: runId, generalItemId: itemId));
+    store.dispatch(new SyncResponsesServerToMobile(
+      runId: runId,
+      generalItemId: itemId,
+    ));
+    store.dispatch(SetPage(page: PageType.gameItem, gameId: gameId, runId: runId, itemId: itemId));
   }
 }
 

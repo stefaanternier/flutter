@@ -90,6 +90,6 @@ class VideoQuestion extends GeneralItem {
   }
 
   Widget buildPage() {
-    return VideoQuestionWidgetContainer();
+    return VideoQuestionWidgetContainer(item: this);
   }
 }

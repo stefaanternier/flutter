@@ -93,6 +93,8 @@ class CombinationLockGeneralItem extends GeneralItem {
   }
 
   Widget buildPage() {
-    return CombinationLockWidgetContainer();
+    return CombinationLockWidgetContainer(item:this);
   }
+
+
 }

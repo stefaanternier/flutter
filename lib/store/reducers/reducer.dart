@@ -1,5 +1,6 @@
 import 'package:youplay/models/models.dart';
 import 'package:youplay/store/actions/auth.actions.dart';
+import 'package:youplay/store/reducers/reducer.error.dart';
 import 'package:youplay/store/reducers/reducer.games.dart';
 import 'package:youplay/store/reducers/reducer.gametheme.dart';
 import 'package:youplay/store/reducers/reducer.generalitems.dart';
@@ -23,6 +24,7 @@ AppState appReducer(AppState state, action) {
       allGamesState: allGamesReducer(state.allGamesState, action),
       currentRunState: currentRunReducer(state.currentRunState, action),
       collectionState: collectionReducer(state.collectionState, action),
+      errorState: errorReducer(state.errorState, action),
       gameState: gameReducer(state.gameState, action),
       gameThemeState: gameThemeReducer(state.gameThemeState, action),
       generalItemsState: generalItemsReducer(state.generalItemsState, action),

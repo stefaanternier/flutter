@@ -84,6 +84,6 @@ class TextQuestion extends GeneralItem {
   }
 
   Widget buildPage() {
-    return TextQuestionWidgetContainer();
+    return TextQuestionWidgetContainer(item: this);
   }
 }

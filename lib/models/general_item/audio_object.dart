@@ -96,7 +96,7 @@ class AudioObjectGeneralItem extends GeneralItem {
   }
 
   Widget buildPage() {
-    return AudioPlayerWidgetContainer();
+    return AudioPlayerWidgetContainer(item: this);
   }
 }
 

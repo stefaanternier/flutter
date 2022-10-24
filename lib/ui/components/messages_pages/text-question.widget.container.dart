@@ -15,16 +15,17 @@ import 'package:youplay/store/state/app_state.dart';
 import 'text-question.widget.dart';
 
 class TextQuestionWidgetContainer extends StatelessWidget {
-  const TextQuestionWidgetContainer({Key? key}) : super(key: key);
+  final TextQuestion item;
+  const TextQuestionWidgetContainer({required this.item, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, _ViewModel>(
-      converter: _ViewModel.fromStore,
+      converter: (store) =>_ViewModel.fromStore(store, item),
       distinct: true,
       builder: (context, vm) {
         return TextQuestionWidget(
-          item: vm.item,
+          item: item,
           submitText: vm.submitText,
         );
       },
@@ -38,9 +39,8 @@ class _ViewModel {
 
   _ViewModel({required this.item, required this.submitText});
 
-  static _ViewModel fromStore(Store<AppState> store) {
+  static _ViewModel fromStore(Store<AppState> store, TextQuestion item) {
     Run? run = currentRunSelector(store.state.currentRunState);
-    GeneralItem item = currentGeneralItemNew(store.state)!;
     return _ViewModel(
         item: item as TextQuestion,
         submitText: (String value) {

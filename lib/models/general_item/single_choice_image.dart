@@ -60,7 +60,7 @@ class SingleChoiceImageGeneralItem extends GeneralItem {
   }
 
   Widget buildPage() {
-    return SingleChoiceImageWidgetContainer();
+    return SingleChoiceImageWidgetContainer(item: this);
   }
 
   factory SingleChoiceImageGeneralItem.fromJson(Map json) {

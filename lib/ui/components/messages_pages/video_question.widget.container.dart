@@ -14,16 +14,17 @@ import 'package:youplay/store/state/app_state.dart';
 import 'package:youplay/ui/components/messages_pages/video_question.widget.dart';
 
 class VideoQuestionWidgetContainer extends StatelessWidget {
-  const VideoQuestionWidgetContainer({Key? key}) : super(key: key);
+  final VideoQuestion item;
+  const VideoQuestionWidgetContainer({required this.item, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, _ViewModel>(
-      converter: _ViewModel.fromStore,
+      converter: (store) =>_ViewModel.fromStore(store, item),
       distinct: true,
       builder: (context, vm) {
         return VideoQuestionWidget(
-          item: vm.item,
+          item: item,
           newRecording: vm.newRecording,
           deleteVideo: vm.deleteVideo,
         );
@@ -39,9 +40,9 @@ class _ViewModel {
 
   _ViewModel({required this.item, required this.newRecording, required this.deleteVideo});
 
-  static _ViewModel fromStore(Store<AppState> store) {
+
+  static _ViewModel fromStore(Store<AppState> store, VideoQuestion item) {
     Run? run = currentRunSelector(store.state.currentRunState);
-    GeneralItem item = currentGeneralItemNew(store.state)!;
     return _ViewModel(
         item: item as VideoQuestion,
         newRecording: (String recPath, int durationInMillis) {

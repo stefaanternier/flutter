@@ -9,12 +9,15 @@ class CollectionAPI extends GenericApi {
   static final CollectionAPI instance = CollectionAPI._();
 
   Future<Game> loadOnePublicGame(String gameId) async {
-    print('in load public link api/games/library/game/$gameId');
     final response = await GenericApi.getUnAuth('api/games/library/game/$gameId');
     if (response.statusCode == 200) {
-      return Game.fromJson(jsonDecode(response.body));
+      Map decodedMap = jsonDecode(response.body);
+      if (!decodedMap.containsKey("error")) {
+        return Game.fromJson(decodedMap);
+      }
     }
-    throw Exception('Response code is: ${response.statusCode}');
+    print('error is ${response.statusCode}');
+    throw Exception('Spel bestaat niet ${response.statusCode}');
   }
 
   Future<GameList> featuredGames() async {

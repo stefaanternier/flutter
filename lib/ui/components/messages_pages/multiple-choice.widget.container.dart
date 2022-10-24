@@ -14,16 +14,17 @@ import 'package:youplay/store/selectors/selector.generalitems.dart';
 import 'package:youplay/store/state/app_state.dart';
 import 'package:youplay/ui/components/messages_pages/multiple-choice.widget.dart';
 class MultipleChoiceWidgetContainer extends StatelessWidget {
-  const MultipleChoiceWidgetContainer({Key? key}) : super(key: key);
+  final MultipleChoiceGeneralItem item;
+  const MultipleChoiceWidgetContainer({required this.item, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, _ViewModel>(
-      converter: (store) =>_ViewModel.fromStore(store, context),
+      converter: (store) =>_ViewModel.fromStore(store, context, item),
       distinct: true,
       builder: (context, vm) {
         return MultipleChoiceWidget(
-          item: vm.item,
+          item: item,
           submit: vm.submit,
           submitCorrectAnswer: vm.submitCorrectAnswer,
           submitWrongAnswer: vm.submitWrongAnswer,
@@ -49,11 +50,11 @@ class _ViewModel {
     required this.proceedToNextItem,
   });
 
-  static _ViewModel fromStore(Store<AppState> store, BuildContext context) {
+  static _ViewModel fromStore(Store<AppState> store, BuildContext context, MultipleChoiceGeneralItem item) {
     Run? run = currentRunSelector(store.state.currentRunState);
-    GeneralItem item = currentGeneralItemNew(store.state)!;
+
     return _ViewModel(
-        item: item as MultipleChoiceGeneralItem,
+        item: item,
         submit: (String answerId) {
           if (run != null) {
             store.dispatch(

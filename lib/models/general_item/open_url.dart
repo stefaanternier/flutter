@@ -5,6 +5,7 @@ import 'package:universal_platform/universal_platform.dart';
 import 'package:youplay/models/general_item.dart';
 import 'package:youplay/models/general_item/dependency.dart';
 import 'package:youplay/ui/components/messages_pages/open_url.widget.container.dart';
+import 'package:youplay/ui/components/messages_pages/open_url.widget.dart';
 
 class OpenUrl extends GeneralItem {
   String url;
@@ -88,7 +89,7 @@ class OpenUrl extends GeneralItem {
   }
 
   Widget buildPage() {
-    return OpenUrlWidgetContainer();
+    return OpenUrlWidget(item: this);
   }
 }
 

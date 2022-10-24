@@ -90,6 +90,7 @@ class AudioQuestion extends GeneralItem {
   }
 
   Widget buildPage() {
-    return AudioQuestionWidgetContainer();
+    return AudioQuestionWidgetContainer(item:this);
   }
+
 }

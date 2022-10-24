@@ -93,6 +93,6 @@ class CodeWordGeneralItem extends GeneralItem {
   }
 
   Widget buildPage() {
-    return CodeWordWidgetContainer();
+    return CodeWordWidgetContainer(item: this);
   }
 }

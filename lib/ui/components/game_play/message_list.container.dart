@@ -108,6 +108,7 @@ class _ViewModel {
     if (lt == 0 && g != null) {
       store.dispatch(ToggleMessageViewAction(game: g));
     }
+
     List<ItemTimes> testItems = itemTimesSortedByTime(store.state);
     print('amount of items ${testItems.length}');
     return _ViewModel(
@@ -123,21 +124,7 @@ class _ViewModel {
         },
         items: itemTimesSortedByTime(store.state),
         tapEntry: (GeneralItem item) {
-          AppConfig()
-              .analytics
-              ?.logViewItem(itemId: '${item.itemId}', itemName: '${item.title}', itemCategory: '${item.gameId}');
-          store.dispatch(SetCurrentGeneralItemId(item.itemId));
-          store.dispatch(new ReadItemAction(runId: runId, generalItemId: item.itemId));
-          store.dispatch(new SyncResponsesServerToMobile(
-            runId: runId,
-            generalItemId: item.itemId,
-          ));
-
-          store.dispatch(SetPage(page: PageType.gameItem, gameId: item.gameId, runId: runId, itemId: item.itemId));
-          // Navigator.push(
-          //   context,
-          //   MaterialPageRoute(builder: (context) => GeneralItemScreen()),
-          // );
+          item.openItemAfterTap(store, runId);
         });
   }
 

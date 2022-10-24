@@ -9,15 +9,16 @@ import 'package:youplay/store/state/app_state.dart';
 import 'audio-player.widget.dart';
 
 class AudioPlayerWidgetContainer extends StatelessWidget {
-  const AudioPlayerWidgetContainer({Key? key}) : super(key: key);
+  final AudioObjectGeneralItem item;
+  const AudioPlayerWidgetContainer({required this.item, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, _ViewModel>(
-      converter: _ViewModel.fromStore,
+      converter: (store) => _ViewModel.fromStore(store, item),
       distinct: true,
       builder: (context, vm) {
-        return AudioPlayerWidget(item: vm.item, url: vm.playUrl);
+        return AudioPlayerWidget(item: item, url: vm.playUrl);
       },
     );
   }
@@ -28,9 +29,9 @@ class _ViewModel {
 
   _ViewModel({required this.item});
 
-  static _ViewModel fromStore(Store<AppState> store) {
+  static _ViewModel fromStore(Store<AppState> store, item) {
     return _ViewModel(
-      item: currentGeneralItemNew(store.state) as AudioObjectGeneralItem,
+      item: item,
     );
   }
 

@@ -8,12 +8,13 @@ import 'package:youplay/store/state/app_state.dart';
 import 'picture-question.widget.dart';
 
 class PictureQuestionWidgetContainer extends StatelessWidget {
-  const PictureQuestionWidgetContainer({Key? key}) : super(key: key);
+  final PictureQuestion item;
+  const PictureQuestionWidgetContainer({required this.item, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, _ViewModel>(
-      converter: _ViewModel.fromStore,
+      converter: (store) =>_ViewModel.fromStore(store, item),
       distinct: true,
       builder: (context, vm) {
         return PictureQuestionWidget(
@@ -29,9 +30,9 @@ class _ViewModel {
 
   _ViewModel({required this.item});
 
-  static _ViewModel fromStore(Store<AppState> store) {
+  static _ViewModel fromStore(Store<AppState> store, PictureQuestion item) {
     return _ViewModel(
-      item: currentGeneralItemNew(store.state) as PictureQuestion,
+      item: item,
     );
   }
 

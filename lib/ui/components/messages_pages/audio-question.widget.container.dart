@@ -15,16 +15,17 @@ import 'package:youplay/store/state/app_state.dart';
 import 'audio-question.widget.dart';
 
 class AudioQuestionWidgetContainer extends StatelessWidget {
-  const AudioQuestionWidgetContainer({Key? key}) : super(key: key);
+  final AudioQuestion item;
+  const AudioQuestionWidgetContainer({required this.item, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, _ViewModel>(
-      converter: _ViewModel.fromStore,
+      converter: (store) =>_ViewModel.fromStore(store, item),
       distinct: true,
       builder: (context, vm) {
         return AudioQuestionWidget(
-            item: vm.item,
+            item: item,
             dispatchRecording: vm.newRecording
 
         );
@@ -39,9 +40,8 @@ class _ViewModel {
 
   _ViewModel({required this.item, required this.newRecording});
 
-  static _ViewModel fromStore(Store<AppState> store) {
+  static _ViewModel fromStore(Store<AppState> store, AudioQuestion item) {
     Run? run = currentRunSelector(store.state.currentRunState);
-    GeneralItem item = currentGeneralItemNew(store.state)!;
     return _ViewModel(
       newRecording: (String recPath, int durationInSeconds) {
         if (run != null) {
@@ -52,7 +52,7 @@ class _ViewModel {
           store.dispatch(SyncFileResponse(runId: run.runId!));
         }
       },
-      item: item as AudioQuestion,
+      item: item,
     );
   }
 

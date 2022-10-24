@@ -1,8 +1,11 @@
 import 'package:redux_epics/redux_epics.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:youplay/models/game.dart';
+import 'package:youplay/store/actions/actions.error.dart';
+import 'package:youplay/store/actions/ui_actions.dart';
 import 'package:youplay/store/services/collection.api.dart';
 import 'package:youplay/store/state/app_state.dart';
+import 'package:youplay/store/state/ui_state.dart';
 
 import '../actions/actions.collection.dart';
 import '../actions/auth.actions.dart';
@@ -22,28 +25,28 @@ final collectionEpics = combineEpics<AppState>([
 Stream<dynamic> _loadOneGame(Stream<dynamic> actions, EpicStore<AppState> store) {
   return resetOnError(
       actions,
-      actions.whereType<LoadPublicGameRequest>()
+      actions
+          .whereType<LoadPublicGameRequest>()
           .where((action) {
-        print (' load public game before filter ${action.gameId} ');
-        return true;
-      })
+            print(' load public game before filter ${action.gameId} ');
+            return true;
+          })
           .distinctUnique()
           .where((action) {
-        print (' load public game after filter ${action.gameId} ');
-        return true;
-      })
+            print(' load public game after filter ${action.gameId} ');
+            return true;
+          })
           .asyncMap((action) => CollectionAPI.instance
-          .loadOnePublicGame('${action.gameId}')
-          .then<dynamic>((Game game) => LoadPublicGameSuccess(game: game))
-          .catchError((_) => CollectionReset())));
+              .loadOnePublicGame('${action.gameId}')
+              .then<dynamic>((Game game) => [LoadPublicGameSuccess(game: game)])
+              .catchError((e) => [SetPage(page: PageType.featured), ErrorOccurredAction(e)]))
+          .expand((actions) => actions));
 }
 
 Stream<dynamic> _getFeaturedGamesEpic(Stream<dynamic> actions, EpicStore<AppState> store) {
   return resetOnError(
       actions,
-      actions.whereType<LoadFeaturedGameRequest>()
-          .distinctUnique()
-          .asyncMap((action) => CollectionAPI.instance
+      actions.whereType<LoadFeaturedGameRequest>().distinctUnique().asyncMap((action) => CollectionAPI.instance
           .featuredGames()
           .then<dynamic>((GameList list) => LoadFeaturedGameSuccess(gameList: list))
           .catchError((_) => CollectionReset())));

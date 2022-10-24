@@ -93,7 +93,7 @@ class SingleChoiceGeneralItem extends GeneralItem {
   }
 
   Widget buildPage() {
-    return SingleChoiceWidgetContainer();
+    return SingleChoiceWidgetContainer(item:this);
   }
 }
 
@@ -184,7 +184,7 @@ class MultipleChoiceGeneralItem extends GeneralItem {
   }
 
   Widget buildPage() {
-    return MultipleChoiceWidgetContainer();
+    return MultipleChoiceWidgetContainer(item: this);
   }
 }
 

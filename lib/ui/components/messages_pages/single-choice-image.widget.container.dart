@@ -15,16 +15,17 @@ import 'package:youplay/store/state/app_state.dart';
 import 'package:youplay/ui/components/messages_pages/single-choice-image.widget.dart';
 
 class SingleChoiceImageWidgetContainer extends StatelessWidget {
-  const SingleChoiceImageWidgetContainer({Key? key}) : super(key: key);
+  final SingleChoiceImageGeneralItem item;
+  const SingleChoiceImageWidgetContainer({required this.item, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, _ViewModel>(
-      converter: (store) =>_ViewModel.fromStore(store, context),
+      converter: (store) =>_ViewModel.fromStore(store, context, item),
       distinct: true,
       builder: (context, vm) {
         return SingleChoiceImageWidget(
-          item: vm.item,
+          item: item,
           submit: vm.submit,
           submitCorrectAnswer: vm.submitCorrectAnswer,
           submitWrongAnswer: vm.submitWrongAnswer,
@@ -50,11 +51,10 @@ class _ViewModel {
     required this.proceedToNextItem,
   });
 
-  static _ViewModel fromStore(Store<AppState> store, BuildContext context) {
+  static _ViewModel fromStore(Store<AppState> store, BuildContext context, SingleChoiceImageGeneralItem item) {
     Run? run = currentRunSelector(store.state.currentRunState);
-    GeneralItem item = currentGeneralItemNew(store.state)!;
     return _ViewModel(
-        item: item as SingleChoiceImageGeneralItem,
+        item: item,
         submit: (String answerId) {
           if (run != null) {
             store.dispatch(

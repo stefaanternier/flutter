@@ -7,6 +7,7 @@ import 'package:youplay/store/state/app_state.dart';
 
 import 'open_url.widget.dart';
 
+//Deprecated
 class OpenUrlWidgetContainer extends StatelessWidget {
   const OpenUrlWidgetContainer({Key? key}) : super(key: key);
 

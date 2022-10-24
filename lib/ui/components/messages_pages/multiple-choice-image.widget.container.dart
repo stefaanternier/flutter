@@ -16,12 +16,13 @@ import 'package:youplay/store/state/app_state.dart';
 import 'multiple-choice-image.widget.dart';
 
 class MultipleChoiceImageWidgetContainer extends StatelessWidget {
-  const MultipleChoiceImageWidgetContainer({Key? key}) : super(key: key);
+  final MultipleChoiceImageGeneralItem item;
+  const MultipleChoiceImageWidgetContainer({required this.item, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, _ViewModel>(
-      converter: (store) =>_ViewModel.fromStore(store, context),
+      converter: (store) =>_ViewModel.fromStore(store, context, item),
       distinct: true,
       builder: (context, vm) {
         return MultipleChoiceImageWidget(
@@ -51,11 +52,10 @@ class _ViewModel {
     required this.proceedToNextItem,
   });
 
-  static _ViewModel fromStore(Store<AppState> store, BuildContext context) {
+  static _ViewModel fromStore(Store<AppState> store, BuildContext context, MultipleChoiceImageGeneralItem item) {
     Run? run = currentRunSelector(store.state.currentRunState);
-    GeneralItem item = currentGeneralItemNew(store.state)!;
     return _ViewModel(
-        item: item as MultipleChoiceImageGeneralItem,
+        item: item,
         submit: (String answerId) {
           if (run != null) {
             store.dispatch(

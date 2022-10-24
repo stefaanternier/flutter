@@ -12,16 +12,16 @@ import 'package:youplay/store/state/app_state.dart';
 import 'package:youplay/ui/components/messages_pages/video-player.widget.dart';
 
 class VideoPlayerWidgetContainer extends StatelessWidget {
-  const VideoPlayerWidgetContainer({Key? key}) : super(key: key);
+  final VideoObjectGeneralItem item;
+  const VideoPlayerWidgetContainer({required this.item, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, _ViewModel>(
-      converter: _ViewModel.fromStore,
+      converter: (store) =>_ViewModel.fromStore(store, item),
       distinct: true,
       builder: (context, vm) {
-        print("*** rebuilding video view model ${vm.item} ${vm.url}");
-        return VideoPlayerWidget(item: vm.item, url: vm.url, onFinishedPlaying: vm.onFinishedPlaying);
+        return VideoPlayerWidget(item: item, url: vm.url, onFinishedPlaying: vm.onFinishedPlaying);
       },
     );
   }
@@ -34,13 +34,11 @@ class _ViewModel {
 
   const _ViewModel({required this.item, this.url, required this.onFinishedPlaying});
 
-  static _ViewModel fromStore(Store<AppState> store) {
-    VideoObjectGeneralItem item = currentGeneralItemNew(store.state) as VideoObjectGeneralItem;
+  static _ViewModel fromStore(Store<AppState> store, VideoObjectGeneralItem item) {
     Run? run = currentRunSelector(store.state.currentRunState);
     String? path = getPath(item);
-    // print('*** After three seconds ${item.itemId}');
     return _ViewModel(
-        item: currentGeneralItemNew(store.state) as VideoObjectGeneralItem,
+        item: item,
         url: path == null ? null : 'https://storage.googleapis.com/${AppConfig().projectID}.appspot.com$path',
         onFinishedPlaying: () {
           if (run != null) {

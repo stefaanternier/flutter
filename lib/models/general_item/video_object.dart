@@ -88,7 +88,7 @@ class VideoObjectGeneralItem extends GeneralItem {
   }
 
   Widget buildPage() {
-    return VideoPlayerWidgetContainer();
+    return VideoPlayerWidgetContainer(item: this);
   }
 }
 

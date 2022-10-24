@@ -11,12 +11,13 @@ import 'package:youplay/store/state/app_state.dart';
 import 'text-question.list-entries.dart';
 
 class TextQuestionListEntriesContainer extends StatelessWidget {
-  const TextQuestionListEntriesContainer({Key? key}) : super(key: key);
+  final TextQuestion item;
+  const TextQuestionListEntriesContainer({required this.item, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, _ViewModel>(
-      converter: _ViewModel.fromStore,
+      converter: (store) =>_ViewModel.fromStore(store, item),
       distinct: true,
       builder: (context, vm) {
         return TextQuestionListEntries(
@@ -34,8 +35,8 @@ class _ViewModel {
 
   _ViewModel({required this.textResponses, required this.store});
 
-  static _ViewModel fromStore(Store<AppState> store) {
-    TextQuestion item = currentGeneralItemNew(store.state) as TextQuestion;
+  static _ViewModel fromStore(Store<AppState> store, TextQuestion item) {
+
     return new _ViewModel(textResponses: [
       ...currentRunResponsesSelector(store.state)
           .where((element) => element.item?.itemId == item.itemId)

@@ -4,9 +4,9 @@ import 'package:youplay/models/general_item.dart';
 import 'package:youplay/ui/components/game_play/list_entry/message_list_entry.dart';
 
 class MessagesList extends StatelessWidget {
-
   final List<ItemTimes> items;
   final Function tapEntry;
+
   MessagesList({required this.items, required this.tapEntry});
 
   @override
@@ -20,11 +20,12 @@ class MessagesList extends StatelessWidget {
       itemBuilder: (context, i) => new Column(
         children: <Widget>[
           new MessageListEntry(
-            read: items[i].read,
+              read: items[i].read,
               item: items[i].generalItem,
               onEntryTap: () {
                 this.tapEntry(items[i].generalItem);
-              }, appearTime: items[i].appearTime)
+              },
+              appearTime: items[i].appearTime)
         ],
       ),
     );

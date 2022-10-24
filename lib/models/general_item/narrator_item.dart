@@ -6,7 +6,9 @@ import 'package:youplay/models/general_item.dart';
 import 'package:youplay/models/general_item/dependency.dart';
 import 'package:youplay/models/general_item/open_question.dart';
 import 'package:youplay/ui/components/messages_pages/narrator.widget.container.dart';
+import 'package:youplay/ui/components/messages_pages/narrator.widget.dart';
 import 'package:youplay/ui/components/messages_pages/picture-question.widget.container.dart';
+import 'package:youplay/ui/components/messages_pages/picture-question.widget.dart';
 
 class NarratorItem extends GeneralItem {
   String? heading;
@@ -92,7 +94,7 @@ class NarratorItem extends GeneralItem {
   }
 
   Widget buildPage() {
-    return NarratorWidgetContainer();
+    return NarratorWidget(item: this);
   }
 }
 
@@ -178,7 +180,7 @@ class PictureQuestion extends GeneralItem {
   }
 
   Widget buildPage() {
-    return PictureQuestionWidgetContainer();
+    return PictureQuestionWidget(item: this);
   }
 }
 

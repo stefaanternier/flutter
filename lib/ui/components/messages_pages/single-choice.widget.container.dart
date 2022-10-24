@@ -15,12 +15,13 @@ import 'package:youplay/store/state/app_state.dart';
 import 'package:youplay/ui/components/messages_pages/single-choice.widget.dart';
 
 class SingleChoiceWidgetContainer extends StatelessWidget {
-  const SingleChoiceWidgetContainer({Key? key}) : super(key: key);
+  final SingleChoiceGeneralItem item;
+  const SingleChoiceWidgetContainer({required this.item, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, _ViewModel>(
-      converter: (store) =>_ViewModel.fromStore(store, context),
+      converter: (store) =>_ViewModel.fromStore(store, context, item),
       distinct: true,
       builder: (context, vm) {
         return SingleChoiceWidget(
@@ -50,11 +51,10 @@ class _ViewModel {
     required this.proceedToNextItem,
   });
 
-  static _ViewModel fromStore(Store<AppState> store, BuildContext context) {
+  static _ViewModel fromStore(Store<AppState> store, BuildContext context, SingleChoiceGeneralItem item) {
     Run? run = currentRunSelector(store.state.currentRunState);
-    GeneralItem item = currentGeneralItemNew(store.state)!;
     return _ViewModel(
-        item: item as SingleChoiceGeneralItem,
+        item: item,
         submit: (String answerId) {
           if (run != null) {
             store.dispatch(

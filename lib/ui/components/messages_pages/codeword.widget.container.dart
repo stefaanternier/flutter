@@ -15,16 +15,17 @@ import 'package:youplay/store/state/app_state.dart';
 import 'codeword.widget.dart';
 
 class CodeWordWidgetContainer extends StatelessWidget {
-  const CodeWordWidgetContainer({Key? key}) : super(key: key);
+  final CodeWordGeneralItem item;
+  const CodeWordWidgetContainer({required this.item, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, _ViewModel>(
-      converter: (store) =>_ViewModel.fromStore(store, context),
+      converter: (store) =>_ViewModel.fromStore(store, context, item),
       distinct: true,
       builder: (context, vm) {
         return CodeWordWidget(
-            item: vm.item, processAnswerNoMatch: vm.processAnswerNoMatch,
+            item: item, processAnswerNoMatch: vm.processAnswerNoMatch,
             isNumeric: vm.isNumeric,
             lockLength: vm.lockLength,
             proceedToNextItem: vm.proceedToNextItem,
@@ -59,10 +60,8 @@ class _ViewModel {
   });
 
 
-  static _ViewModel fromStore(Store<AppState> store, BuildContext context) {
+  static _ViewModel fromStore(Store<AppState> store, BuildContext context, CodeWordGeneralItem item) {
     Run? run = currentRunSelector(store.state.currentRunState);
-    CodeWordGeneralItem item = currentGeneralItemNew(store.state)! as CodeWordGeneralItem;
-
     int _lockLength = 0;
     bool _numeric = true;
     List<String> _correctIds = [];

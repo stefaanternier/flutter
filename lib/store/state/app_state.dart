@@ -8,9 +8,9 @@ import 'package:youplay/store/state/ui_state.dart';
 
 import 'auth.state.dart';
 import 'state.collection.dart';
+import 'state.error.dart';
 
 class AppState {
-
   // HashMap<int, GamesState> gameIdToGameState;
 
   CurrentRunState currentRunState;
@@ -19,6 +19,7 @@ class AppState {
   AllGamesState allGamesState;
 
   CollectionState collectionState;
+  ErrorState errorState;
   GameState gameState;
   GameThemeState gameThemeState;
   GeneralItemsState generalItemsState;
@@ -29,13 +30,13 @@ class AppState {
   AuthenticationState authentication;
 
   AppState(
-      {
-      required this.currentRunState,
+      {required this.currentRunState,
       // required this.gameLibrary,
       required this.authentication,
       // required this.participateGames,
       required this.allGamesState,
       required this.collectionState,
+      required this.errorState,
       required this.gameState,
       required this.gameThemeState,
       required this.generalItemsState,
@@ -45,19 +46,9 @@ class AppState {
   factory AppState.emptyState() => new AppState(
         allGamesState: new AllGamesState(participateGames: []),
         authentication: AuthenticationState.unauthenticated(),
-        // themIdToTheme: new HashMap<int, GameTheme>(),
-
-        // gameIdToGameState: new HashMap<int, GamesState>(),
-
         currentRunState: CurrentRunState.init(),
-        // gameLibrary: GameLibraryState(
-        //   partialFeaturedGames: [],
-        //   partialSearchedGames: [],
-        //   recentGames: [],
-        //   fullGames: new HashMap(),
-        // ),
-        // participateGames: [],
         collectionState: CollectionState.initState(),
+        errorState: ErrorState(),
         gameState: GameState.initState(),
         gameThemeState: GameThemeState.initState(),
         generalItemsState: GeneralItemsState.initState(),
@@ -90,10 +81,10 @@ class AppState {
   bool operator ==(dynamic other) {
     AppState o = other as AppState;
     bool appChange = (this.allGamesState == other.allGamesState) &&
-
         (this.currentRunState == other.currentRunState) &&
         (this.authentication == other.authentication) &&
         (this.collectionState == other.collectionState) &&
+        (this.errorState == other.errorState) &&
         (this.gameState == other.gameState) &&
         (this.gameThemeState == other.gameThemeState) &&
         (this.generalItemsState == other.generalItemsState) &&
@@ -112,6 +103,7 @@ class AppState {
       currentRunState.hashCode ^
       authentication.hashCode ^
       collectionState.hashCode ^
+      errorState.hashCode ^
       gameState.hashCode ^
       gameThemeState.hashCode ^
       runState.hashCode ^

@@ -92,7 +92,7 @@ class MultipleChoiceImageGeneralItem extends GeneralItem {
   }
 
   Widget buildPage() {
-    return MultipleChoiceImageWidgetContainer();
+    return MultipleChoiceImageWidgetContainer(item: this);
   }
 }
 

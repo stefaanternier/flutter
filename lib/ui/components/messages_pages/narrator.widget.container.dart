@@ -7,6 +7,8 @@ import 'package:youplay/store/state/app_state.dart';
 
 import 'narrator.widget.dart';
 
+
+//deprecated
 class NarratorWidgetContainer extends StatelessWidget {
   const NarratorWidgetContainer({Key? key}) : super(key: key);
 

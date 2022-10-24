@@ -72,6 +72,7 @@ class ScanTagGeneralItem extends GeneralItem {
   }
 
   Widget buildPage() {
-    return ScanTagWidgetContainer();
+    return ScanTagWidgetContainer(item: this);
   }
+
 }

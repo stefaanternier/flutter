@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:universal_platform/universal_platform.dart';
+import 'package:youplay/ui/components/error/error-notifier.dart';
 
 class WebWrapper extends StatelessWidget {
   final Widget child;
@@ -17,11 +18,11 @@ class WebWrapper extends StatelessWidget {
 //MediaQuery.of(context).size.height
             //constraints: BoxConstraints(maxHeight: 1280, maxWidth: 720),
             constraints: BoxConstraints(maxHeight: 1280, maxWidth: MediaQuery.of(context).size.height/1280*720),
-            child:child),
+            child:ErrorNotifier(child: child)),
       );
 
 
     }
-    return child;
+    return ErrorNotifier(child: child);
   }
 }

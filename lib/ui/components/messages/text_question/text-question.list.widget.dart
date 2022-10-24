@@ -27,7 +27,7 @@ class TextQuestionList extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               RichTextTopContainer(),
-              TextQuestionListEntriesContainer(),
+              TextQuestionListEntriesContainer(item: item),
               Padding(
                 padding: const EdgeInsets.fromLTRB(46, 8.0, 46, 8),
                 child: NextButtonContainer(item: item),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
+import 'package:youplay/models/general_item.dart';
 import 'package:youplay/models/general_item/combination_lock.dart';
 import 'package:youplay/models/response.dart';
 import 'package:youplay/models/run.dart';
@@ -12,17 +13,21 @@ import 'package:youplay/store/selectors/current_run.selectors.dart';
 import 'package:youplay/store/selectors/selector.generalitems.dart';
 import 'package:youplay/store/state/app_state.dart';
 import 'package:youplay/ui/components/messages_pages/combination-lock.widget.dart';
+
 class CombinationLockWidgetContainer extends StatelessWidget {
-  const CombinationLockWidgetContainer({Key? key}) : super(key: key);
+  final CombinationLockGeneralItem item;
+
+  const CombinationLockWidgetContainer({required this.item, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, _ViewModel>(
-      converter: (store) =>_ViewModel.fromStore(store, context),
+      converter: (store) => _ViewModel.fromStore(store, context, item),
       distinct: true,
       builder: (context, vm) {
         return CombinationLockWidget(
-            item: vm.item, processAnswerNoMatch: vm.processAnswerNoMatch,
+            item: item,
+            processAnswerNoMatch: vm.processAnswerNoMatch,
             isNumeric: vm.isNumeric,
             lockLength: vm.lockLength,
             proceedToNextItem: vm.proceedToNextItem,
@@ -32,8 +37,6 @@ class CombinationLockWidgetContainer extends StatelessWidget {
   }
 }
 
-
-
 class _ViewModel {
   CombinationLockGeneralItem item;
   Function(String choiceId, bool isCorrect) processAnswerMatch;
@@ -42,7 +45,8 @@ class _ViewModel {
   int lockLength;
   bool isNumeric;
 
-  _ViewModel({required this.item,
+  _ViewModel({
+    required this.item,
     required this.processAnswerMatch,
     required this.processAnswerNoMatch,
     required this.proceedToNextItem,
@@ -50,26 +54,23 @@ class _ViewModel {
     required this.isNumeric,
   });
 
-
-  static _ViewModel fromStore(Store<AppState> store, BuildContext context) {
+  static _ViewModel fromStore(Store<AppState> store, BuildContext context, CombinationLockGeneralItem item) {
     Run? run = currentRunSelector(store.state.currentRunState);
-    CombinationLockGeneralItem item = currentGeneralItemNew(store.state)! as CombinationLockGeneralItem;
+    // GeneralItem item = currentGeneralItemNew(store.state)!;
 
     int _lockLength = 0;
     bool _numeric = true;
     // String correctAnswer = "";
 
-    item.answers.forEach((choice) {
-      // _selected[choice.id] = false;
-      if (choice.isCorrect) {
-        _lockLength = choice.answer.length;
-        _numeric = double.tryParse(choice.answer) != null;
-        // correctAnswer = "";
-        // for (int i = 0; i < _lockLength; i++) {
-        //   correctAnswer += _numeric ? "0" : "a";
-        // }
-      }
-    });
+
+      item.answers.forEach((choice) {
+        if (choice.isCorrect) {
+          _lockLength = choice.answer.length;
+          _numeric = double.tryParse(choice.answer) != null;
+        }
+      });
+
+
 
     return _ViewModel(
         item: item,
