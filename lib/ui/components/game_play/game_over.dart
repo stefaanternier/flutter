@@ -84,8 +84,8 @@ class _GameOverState extends State<GameOver> {
     return Padding(
       padding: const EdgeInsets.all(26.0),
       child: SizedBox(
-        width: 68,
-        height: 68,
+        width: 150,
+        height: 150,
         child: ClipRRect(
           borderRadius: BorderRadius.circular(20.0),
           child: Container(

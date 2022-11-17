@@ -2,7 +2,7 @@ name: youplay
 description: A new Flutter project.
 
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
-version: 2.1.13+4054
+version: 1.4.0+4059
 
 environment:
   sdk: '>=2.14.0 <3.0.0'
@@ -25,7 +25,7 @@ dependencies:
   redux_persist_flutter: ^0.9.0
   redux_dev_tools: ^0.7.0
   reselect: ^0.5.0
-  firebase_core: ^1.20.1
+  firebase_core: ^1.21.1
   firebase_analytics: ^8.0.2
   firebase_auth: ^3.6.3
   firebase_storage: ^10.3.5
@@ -43,7 +43,7 @@ dependencies:
   date_format: ^2.0.2
   path_provider: ^2.0.1
   location: ^4.4.0
-  audioplayers: ^0.20.1
+  audioplayers: ^1.0.1
   uni_links: ^0.5.1
   sign_in_with_apple: ^3.2.0
 #  apple_sign_in: ^0.1.0
@@ -54,7 +54,8 @@ dependencies:
   universal_platform: ^1.0.0-nullsafety
   flutter_sound: ^9.2.13
   flutter_svg: ^0.22.0
-#  flutter_ffmpeg: ^0.4.0
+#  flutter_ffmpeg: ^0.4.2
+  ffmpeg_kit_flutter_audio: 4.5.1
   animations: ^2.0.1
   universal_html: ^2.0.8
   dots_indicator: ^2.0.0
