@@ -22,6 +22,7 @@ doc/api/
 
 lib/main*
 ios/*
+misc/*
 web/*
 android/*
 fb_hosting/*
