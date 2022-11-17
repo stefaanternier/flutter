@@ -21,6 +21,7 @@ doc/api/
 *.js.map
 
 lib/main*
+lib/firebase_options.dart
 ios/*
 misc/*
 web/*
