@@ -65,4 +65,13 @@ class GameAPI extends GenericApi {
       }
     }
   }
+
+  Stream<GameList> getOrganisationGames(String organisationId) async* {
+    final httpResponse = await getNew('api/organization/$organisationId/games');
+    if (httpResponse.statusCode == 200) {
+      yield GameList.fromJson(jsonDecode(httpResponse.body));
+    }
+  }
+
+
 }

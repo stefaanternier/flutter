@@ -78,6 +78,14 @@ class ParseLinkAction {
 
   ParseLinkAction({required this.link});
 
+  get organisationId {
+    String organisationId = link.substring(link.indexOf('organisation') + 13);
+    if (link.contains('organisationId')) {
+      organisationId = link.substring(link.indexOf('organisationId') + 15);
+    }
+    return organisationId;
+  }
+
   get gameId {
     String gameId = link.substring(link.indexOf('game') + 5);
     if (link.contains('gameId')) {
@@ -94,6 +102,7 @@ class ParseLinkAction {
     return int.parse(_runId);
   }
 
+  bool isOrganisationLink() => link.indexOf('organisation') != -1 || link.indexOf('organisation') != -1;
   bool isGameLink() => link.indexOf('game') != -1 || link.indexOf('gameId') != -1;
   bool isRunLink() => link.indexOf('run') != -1 || link.indexOf('runId') != -1;
 }

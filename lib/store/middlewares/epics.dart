@@ -17,6 +17,7 @@ import 'epics.collection.dart';
 import 'epics.collection.link.dart';
 import 'epics.games.dart';
 import 'epics.gametheme.dart';
+import 'epics.organisation.dart';
 import 'epics.runs.dart';
 
 final epic = combineEpics<AppState>([
@@ -57,6 +58,7 @@ final epic = combineEpics<AppState>([
   gameEpics,
   gameThemeEpics,
   generalitemEpics,
+  organisationEpics,
   runEpics,
   locationEpic,
   // deleteRunEpic

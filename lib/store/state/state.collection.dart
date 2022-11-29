@@ -39,6 +39,13 @@ class CollectionState {
 
   factory CollectionState.fromJson(Map json) {
     return initState()
-        .copyWithGames((((json['entities'] ?? []) as List<dynamic>)).map((gameJson) => Game.fromJson(gameJson)));
+        .copyWithGames((((json['entities'] ?? []) as List<dynamic>)).map((gameJson){
+          print('game json $gameJson');
+          if (gameJson['gameId'] == 6631629783040000) {
+            print('break');
+          }
+          return Game.fromJson(gameJson);}));
+
+    //.copyWithGames((((json['entities'] ?? []) as List<dynamic>)).map((gameJson) => Game.fromJson(gameJson)));
   }
 }

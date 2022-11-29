@@ -22,6 +22,7 @@ Future<Store<AppState>> createStore() async {
     }
   }
 
+  print('init from persistence ${demo.organisationState.homeOrganisation}');
   return Store<AppState>(appReducer,
       middleware: [
         epicMiddleware,

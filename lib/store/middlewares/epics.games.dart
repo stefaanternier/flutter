@@ -14,6 +14,7 @@ final gameEpics = combineEpics<AppState>([
   TypedEpic<AppState, dynamic>(_getGameFromRunEpic),
   TypedEpic<AppState, dynamic>(_getGameFromRunEpicUnAuth),
   TypedEpic<AppState, dynamic>(_getParticipateGamesEpic),
+  TypedEpic<AppState, dynamic>(_getOrganisationGamesEpic),
 ]);
 //
 Stream<dynamic> _getGameEpic(Stream<dynamic> actions, EpicStore<AppState> store) {
@@ -47,4 +48,13 @@ Stream<dynamic> _getParticipateGamesEpic(Stream<dynamic> actions, EpicStore<AppS
       .distinctUnique()
       .flatMap((LoadParticipateGamesListRequestAction action) => GameAPI.instance.getParticipateGameIds())
       .map((String gameId) => LoadGameRequest(gameId: gameId));
+}
+
+
+Stream<dynamic> _getOrganisationGamesEpic(Stream<dynamic> actions, EpicStore<AppState> store) {
+  return actions
+      .whereType<LoadGameFromOrganisationRequest>()
+      .distinctUnique()
+      .flatMap((LoadGameFromOrganisationRequest action) => GameAPI.instance.getOrganisationGames(action.organisationId))
+      .map((GameList gameList) => LoadGameListSuccess(gameList: gameList));
 }

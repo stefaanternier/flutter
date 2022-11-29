@@ -9,6 +9,7 @@ import 'package:youplay/store/state/ui_state.dart';
 import 'auth.state.dart';
 import 'state.collection.dart';
 import 'state.error.dart';
+import 'state.organisation.dart';
 
 class AppState {
   // HashMap<int, GamesState> gameIdToGameState;
@@ -23,6 +24,7 @@ class AppState {
   GameState gameState;
   GameThemeState gameThemeState;
   GeneralItemsState generalItemsState;
+  OrganisationState organisationState;
   RunState runState;
 
   UiState uiState;
@@ -40,6 +42,7 @@ class AppState {
       required this.gameState,
       required this.gameThemeState,
       required this.generalItemsState,
+      required this.organisationState,
       required this.runState,
       required this.uiState});
 
@@ -52,6 +55,7 @@ class AppState {
         gameState: GameState.initState(),
         gameThemeState: GameThemeState.initState(),
         generalItemsState: GeneralItemsState.initState(),
+        organisationState: OrganisationState.initState(),
         runState: RunState.initState(),
         uiState: UiState.initState(),
       );
@@ -61,6 +65,7 @@ class AppState {
     state.authentication = AuthenticationState.fromJson(json['authentication']);
     state.collectionState = CollectionState.fromJson(json['collectionState']);
     state.gameState = GameState.fromJson(json['gameState']);
+    state.organisationState = OrganisationState.fromJson(json['organisationState']);
     state.gameThemeState = GameThemeState.fromJson(json['gameThemeState']);
     print('state was loaded from persistence');
     return state;
@@ -71,9 +76,9 @@ class AppState {
       'authentication': this.authentication.toJson(),
       'collectionState': this.collectionState.toJson(),
       'gameState': this.gameState.toJson(),
+      'organisationState' : this.organisationState.toJson(),
       'gameThemeState': this.gameThemeState.toJson()
     };
-    // print('json state is ${json}');
     return json;
   }
 
@@ -88,6 +93,7 @@ class AppState {
         (this.gameState == other.gameState) &&
         (this.gameThemeState == other.gameThemeState) &&
         (this.generalItemsState == other.generalItemsState) &&
+        (this.organisationState == other.organisationState) &&
         (this.runState == other.runState) &&
         (this.uiState == other.uiState);
 
@@ -106,6 +112,7 @@ class AppState {
       errorState.hashCode ^
       gameState.hashCode ^
       gameThemeState.hashCode ^
+      organisationState.hashCode ^
       runState.hashCode ^
       uiState.hashCode;
 }

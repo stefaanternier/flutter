@@ -14,6 +14,21 @@ class LoadGameRequest {
   int get hashCode => gameId.hashCode;
 }
 
+
+class LoadGameFromOrganisationRequest {
+  String organisationId;
+  LoadGameFromOrganisationRequest({required this.organisationId});
+
+  @override
+  bool operator ==(dynamic other) {
+    LoadGameFromOrganisationRequest o = other as LoadGameFromOrganisationRequest;
+    return organisationId == o.organisationId;
+  }
+
+  @override
+  int get hashCode => organisationId.hashCode;
+}
+
 class LoadGameFromRunRequest {
   String runId;
   LoadGameFromRunRequest({required this.runId});
@@ -44,6 +59,11 @@ class LoadGameFromRunUnAuthRequest {
 
 
 class LoadGameSuccess {
-  Game game;
-  LoadGameSuccess({required this.game});
+  final Game game;
+  const LoadGameSuccess({required this.game});
+}
+
+class LoadGameListSuccess {
+  final GameList gameList;
+  const LoadGameListSuccess({required this.gameList});
 }
