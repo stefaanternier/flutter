@@ -19,16 +19,13 @@ import 'login_page.dart';
 class GameLandingPrivatePageContainer extends StatefulWidget {
   Game game;
 
-  GameLandingPrivatePageContainer({required this.game, Key? key})
-      : super(key: key);
+  GameLandingPrivatePageContainer({required this.game, Key? key}) : super(key: key);
 
   @override
-  _GameLandingPrivatePageContainerState createState() =>
-      _GameLandingPrivatePageContainerState();
+  _GameLandingPrivatePageContainerState createState() => _GameLandingPrivatePageContainerState();
 }
 
-class _GameLandingPrivatePageContainerState
-    extends State<GameLandingPrivatePageContainer> {
+class _GameLandingPrivatePageContainerState extends State<GameLandingPrivatePageContainer> {
   bool showLogin = false;
 
   @override
@@ -37,14 +34,13 @@ class _GameLandingPrivatePageContainerState
       converter: (store) => _ViewModel.fromStore(store, widget.game),
       builder: (context, vm) {
         if (showLogin) {
-
           return LoginPage(
             anonLogin: false,
-            loginSuccessful: (){
-            setState(() {
-              showLogin = false;
-            });
-          },
+            loginSuccessful: () {
+              setState(() {
+                showLogin = false;
+              });
+            },
             anonLoginSuccessful: () {},
           );
         }
@@ -59,13 +55,13 @@ class _GameLandingPrivatePageContainerState
           );
         }
         if (vm.loadingRuns) {
-          return GameLandingLoadingPage(
-
-              text: "Even wachten, we laden de groep(en) voor dit spel...");
+          return GameLandingLoadingPage(text: "Even wachten, we laden de groep(en) voor dit spel...");
         }
         if (vm.amountOfRuns == 0) {
           return GameLandingDirectStartPage(
             game: widget.game,
+            close: vm.close,
+            openDev: () {},
             createRunAndStart: vm.createRunAndStart,
           );
         }
@@ -74,8 +70,7 @@ class _GameLandingPrivatePageContainerState
         } else {
           vm.toGameWithRunsPage();
         }
-        return GameLandingLoadingPage(
-             text: "${vm.amountOfRuns} groep(en) geladen");
+        return GameLandingLoadingPage(text: "${vm.amountOfRuns} groep(en) geladen");
       },
     );
   }
@@ -86,6 +81,8 @@ class _ViewModel {
   bool authenticated;
   Function createAnonSession;
   Function toGameWithRunsPage;
+
+  // Function close;
   bool loadingRuns;
   int amountOfRuns;
   bool isAnon;
@@ -95,9 +92,10 @@ class _ViewModel {
       {required this.game,
       required this.authenticated,
       required this.isAnon,
+      // required this.close,
       required this.createAnonSession,
       required this.toGameWithRunsPage,
-        required this.loadingRuns,
+      required this.loadingRuns,
       required this.amountOfRuns,
       required this.store});
 
@@ -116,6 +114,10 @@ class _ViewModel {
       amountOfRuns: amountOfRunsSelector(store.state),
       store: store,
     );
+  }
+
+  close() {
+    print('to close');
   }
 
   createRunAndStart() {

@@ -13,6 +13,9 @@ import 'package:youplay/ui/pages/game_play.dart';
 import '../../store/selectors/selector.games.dart';
 
 class GamePlayContainer extends StatelessWidget {
+
+  static final MaterialPage materialPage = MaterialPage(key: ValueKey('GamePlayContainer'), child: GamePlayContainer());
+
   const GamePlayContainer({Key? key}) : super(key: key);
 
   @override
@@ -38,14 +41,18 @@ class _ViewModel {
   Color color;
   Game? game;
   bool finished;
+
   // int listType;
 
-  _ViewModel({
-    // required this.listType,
-    required this.color, required this.game, required this.finished});
+  _ViewModel(
+      {
+      // required this.listType,
+      required this.color,
+      required this.game,
+      required this.finished});
 
   static _ViewModel fromStore(Store<AppState> store) {
-    if(gameLocationTriggers(store.state).length > 0) {
+    if (gameLocationTriggers(store.state).length > 0) {
       store.dispatch(new StartListeningForLocation());
     }
 

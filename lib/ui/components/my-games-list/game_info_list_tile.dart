@@ -13,8 +13,11 @@ class GameInfoListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final DateFormat formatter = DateFormat.yMMMMd(Localizations.localeOf(context).languageCode);
+
     return ListTile(
-      leading: GameIconContainer(game: game),
+      leading: Hero(
+        tag: 'gameIcon${game.gameId}',
+        child: GameIconContainer(game: game)),
       title: Text('${game.title}'),
       subtitle: Text(
           '${formatter.format(DateTime.fromMillisecondsSinceEpoch(game.lastModificationDate))} '),

@@ -10,6 +10,9 @@ import 'package:youplay/ui/components/messages_pages/util/message_swipe.dart';
 import 'game_landing.page.loading.dart';
 
 class MessagePageContainer extends StatefulWidget {
+  static final MaterialPage materialPage =
+      MaterialPage(key: ValueKey('MessagePageContainer'), child: MessagePageContainer());
+
   const MessagePageContainer({Key? key}) : super(key: key);
 
   @override
@@ -49,7 +52,7 @@ class _ViewModel {
 
   static _ViewModel fromStore(Store<AppState> store) {
     int runId = runIdSelector(store.state.currentRunState);
-    print ('index is ${currentGeneralItemIndex(store.state)}');
+    print('index is ${currentGeneralItemIndex(store.state)}');
     return _ViewModel(
         items: itemTimesSortedByTimeReversed(store.state),
         item: currentGeneralItemNew(store.state),

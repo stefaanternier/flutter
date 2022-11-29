@@ -8,6 +8,9 @@ import 'package:youplay/store/state/ui_state.dart';
 import 'login_page.dart';
 
 class LoginPageContainer extends StatelessWidget {
+  static final MaterialPage materialPage =
+      const MaterialPage(key: ValueKey('LoginPageContainer'), child: LoginPageContainer());
+
   const LoginPageContainer({Key? key}) : super(key: key);
 
   @override

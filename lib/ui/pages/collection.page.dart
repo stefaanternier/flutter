@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:youplay/config/app_config.dart';
 import 'package:youplay/ui/components/collection/featured_game_carrousel.container.dart';
+import 'package:youplay/ui/components/collection/organisation_carrousel.container.dart';
 import 'package:youplay/ui/components/collection/recent_games_list.container.dart';
 import 'package:youplay/ui/components/collection/search_result_list.dart';
 import 'package:youplay/ui/components/misc/list_separation_text.dart';
@@ -12,16 +13,19 @@ import 'package:youplay/ui/components/web/web_wrapper.dart';
 import '../../localizations.dart';
 
 class FeaturedGamesPage extends StatefulWidget {
+  static final MaterialPage materialAuthPage =
+      const MaterialPage(key: ValueKey('FeaturedGamesPage'), child: FeaturedGamesPage(authenticated: true));
+
   final bool authenticated;
 
-  FeaturedGamesPage({required this.authenticated});
+  const FeaturedGamesPage({required this.authenticated});
 
   @override
   State<FeaturedGamesPage> createState() => _FeaturedGamesPageState();
 }
 
 class _FeaturedGamesPageState extends State<FeaturedGamesPage> {
-  bool contentVisible = false;
+  bool contentVisible = true;
 
   Timer? hideContent;
 
@@ -29,13 +33,11 @@ class _FeaturedGamesPageState extends State<FeaturedGamesPage> {
   initState() {
     super.initState();
 
-    hideContent = Timer(Duration(milliseconds: 800), (){
+    hideContent = Timer(Duration(milliseconds: 800), () {
       setState(() {
         contentVisible = true;
       });
     });
-
-
   }
 
   @override
@@ -48,8 +50,6 @@ class _FeaturedGamesPageState extends State<FeaturedGamesPage> {
 
   @override
   Widget build(BuildContext context) {
-
-
     var lang = Localizations.localeOf(context).languageCode;
     return Scaffold(
       drawer: ARLearnNavigationDrawerContainer(),
@@ -65,7 +65,7 @@ class _FeaturedGamesPageState extends State<FeaturedGamesPage> {
         ),
       ),
       body: //Container()
-      Visibility(
+          Visibility(
         visible: contentVisible,
         child: WebWrapper(
           child: SingleChildScrollView(
@@ -73,16 +73,10 @@ class _FeaturedGamesPageState extends State<FeaturedGamesPage> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Container(
-                //     padding: EdgeInsets.fromLTRB(15, 15, 15, 15),
-                //     child: CollectionSearchFieldContainer()),
-                ListSeparationText(
-                    text: AppLocalizations.of(context)
-                        .translate('library.featured')),
+                ListSeparationText(text: AppLocalizations.of(context).translate('library.featured')),
                 FeaturedGamesCarrouselContainer(),
-                ListSeparationText(
-                    text: AppLocalizations.of(context)
-                        .translate('library.allgames')),
+                OrganisationCarrouselContainer(),
+                ListSeparationText(text: AppLocalizations.of(context).translate('library.allgames')),
                 RecentGamesResultListContainer(),
                 SearchResultListContainer(),
               ],
@@ -91,7 +85,6 @@ class _FeaturedGamesPageState extends State<FeaturedGamesPage> {
         ),
       ),
     );
-
 
     // });
   }

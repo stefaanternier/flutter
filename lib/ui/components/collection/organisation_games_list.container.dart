@@ -8,7 +8,7 @@ import 'package:youplay/store/state/app_state.dart';
 
 import '../my-games-list/game_info_list_tile.dart';
 
-class RecentGamesResultListContainer extends StatelessWidget {
+class OrganisationGamesListContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new StoreConnector<AppState, _ViewModel>(
@@ -17,36 +17,29 @@ class RecentGamesResultListContainer extends StatelessWidget {
         builder: (context, vm) {
           return Column(
               children: List<GameInfoListTile>.generate(
-                  vm.games.length,
-                  (i) => GameInfoListTile(
-                      game: vm.games[i],
+                  vm.organisationGames.length,
+                      (i) => GameInfoListTile(
+                      game: vm.organisationGames[i],
                       openGame: ((index) => (() {
-                            vm.openGame(vm.games[index]);
-                          }))(i))));
+                        vm.openGame(vm.organisationGames[index]);
+                      }))(i))));
         });
   }
 }
 
 class _ViewModel {
-  List<Game> searchGames;
-  List<Game> recentGames;
+  List<Game> organisationGames;
   Function openGame;
 
-  List<Game> get games {
-    if (searchGames != null && searchGames.length != 0) return [];
-    return recentGames;
-  }
-
-  _ViewModel({required this.searchGames, required this.recentGames, required this.openGame});
+  _ViewModel({
+        required this.organisationGames,
+        required this.openGame});
 
   static _ViewModel fromStore(Store<AppState> store) {
     return _ViewModel(
-        searchGames: [], //searchedGamesSelector(store.state),
-        recentGames: recentGamesSelector(store.state), //.gameLibrary.recentGames,
+        organisationGames: organisationGamesSelector(store.state),
         openGame: (Game g) {
           store.dispatch(new ParseLinkAction(link: 'game/${g.gameId}'));
-          // store.dispatch(
-          //     new SetPage(page: PageType.gameLandingPage, gameId: g.gameId));
         });
   }
 }

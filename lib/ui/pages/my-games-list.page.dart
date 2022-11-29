@@ -8,6 +8,9 @@ import 'package:youplay/ui/components/web/web_wrapper.dart';
 import '../../localizations.dart';
 
 class MyGamesListPageNew extends StatelessWidget {
+  static final MaterialPage materialPage =
+      MaterialPage(key: ValueKey('MyGamesListPageNew'), child: MyGamesListPageNew());
+
   const MyGamesListPageNew({Key? key}) : super(key: key);
 
   @override
@@ -20,11 +23,8 @@ class MyGamesListPageNew extends StatelessWidget {
           child: new Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
-
               children: [
-                ListSeparationText(
-                    text: AppLocalizations.of(context).translate('games.myGames').toUpperCase()
-                ),
+                ListSeparationText(text: AppLocalizations.of(context).translate('games.myGames').toUpperCase()),
                 MyGamesListContainer()
               ]),
         ),
