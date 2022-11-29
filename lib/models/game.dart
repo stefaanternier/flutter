@@ -12,6 +12,10 @@ class Game {
   int gameId;
   int? sharing;
   int? rank;
+  int? amountOfPlays;
+  String? playDuration;
+  String? ageSpan;
+  String? devTeam;
 
   double? lat;
   double? lng;
@@ -21,6 +25,7 @@ class Game {
   String title;
   String iconAbbreviation;
   String description;
+  String? organisationId;
   String? messageListScreen;
   String? startButton;
   String? gameOverHeading;
@@ -38,9 +43,14 @@ class Game {
 
   Game.fromJson(Map json)
       : gameId = int.parse("${json['gameId']}"),
+        theme = int.parse("${json['theme']}"),
         lastModificationDate = json['lastModificationDate'] != null ? int.parse("${json['lastModificationDate']}") : 0,
-        sharing = json['sharing'],
         rank = json['rank'] != null ? int.parse("${json['rank']}") : 1,
+        amountOfPlays = json['amountOfPlays'] != null ? int.parse("${json['amountOfPlays']}") : 0,
+        sharing = json['sharing'],
+        ageSpan = json['ageSpan'] ?? '0 - 99',
+        playDuration = json['playDuration'] ?? '0 - 60',
+        devTeam = json['devTeam'],
         privateMode = json['privateMode'] ?? false,
         webEnabled = json['webEnabled'] ?? false,
         lat = json['lat'],
@@ -49,9 +59,10 @@ class Game {
         boardWidth = json['boardWidth'] != null ? (json['boardWidth'] as int).toDouble() : 1080,
         endsOn = json['endsOn'] != null ? Dependency.fromJson(json['endsOn']) : null,
         language = json['language'],
-        theme = int.parse("${json['theme']}"),
+
         title = json['title'] ?? '',
         description = json['description'] ?? '',
+        organisationId = json['organisationId'],
         messageListScreen = json['messageListScreen'],
         startButton = json['startButton'],
         gameOverHeading = json['gameOverHeading'],
@@ -60,7 +71,7 @@ class Game {
         messageListTypes = (json['messageListTypes'] ?? "")
             .split(',')
             .where((nAsString) => nAsString.trim() != "")
-            .map<int>((nAsString) => int.parse(nAsString))
+            .map<int>((nAsString) => int.parse('$nAsString'))
             .where((x) => !(UniversalPlatform.isWeb && x == 3)) //exclude maps for web
             .toList(),
         iconAbbreviation = json['iconAbbreviation'] ?? '',
@@ -72,6 +83,10 @@ class Game {
       this.lastModificationDate = 0,
       required this.sharing,
       this.rank,
+      this.amountOfPlays,
+      this.ageSpan,
+      this.playDuration,
+      this.devTeam,
       this.lat = -1,
       this.lng = -1,
       required this.boardHeight,
@@ -89,6 +104,7 @@ class Game {
       this.gameOverDescription,
       required this.messageListTypes,
       this.description = "",
+      this.organisationId,
       this.deleted = false,
       this.iconAbbreviation = ''});
 
@@ -98,7 +114,12 @@ class Game {
       'lastModificationDate': this.lastModificationDate,
       'sharing': this.sharing,
       'rank': this.rank,
+      'amountOfPlays': '${this.amountOfPlays}',
+      'playDuration': this.playDuration,
+      'devTeam': this.devTeam,
+      'ageSpan': this.ageSpan,
       'privateMode': this.privateMode,
+      'organisationId': this.organisationId,
       'webEnabled': this.webEnabled,
       'lat': this.lat,
       'lng': this.lng,
@@ -114,7 +135,7 @@ class Game {
       'gameOverDescription': this.gameOverDescription,
       'iconAbbreviation': this.iconAbbreviation,
       'messageListTypes':
-          this.messageListTypes.length == 1 ? '${this.messageListTypes}' : this.messageListTypes.join(','),
+          this.messageListTypes.length == 1 ? '${this.messageListTypes[0]}' : this.messageListTypes.map((entry) => '$entry').join(','),
       'deleted': this.deleted,
     };
     return j;

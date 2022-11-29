@@ -46,6 +46,9 @@ class YouplayRoutePath {
     if (pageType == PageType.gameItem){
       return YouplayRoutePath(pageType: PageType.game, pageId: pageId, gameId: gameId);
     }
+    if (pageType == PageType.gameLandingPage){
+      return YouplayRoutePath(pageType: PageType.featured);
+    }
     print("set paht to home via parent $gameId");
     return YouplayRoutePath.home();
   }

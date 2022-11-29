@@ -11,6 +11,7 @@ import 'package:youplay/ui/pages/intro-page.container.dart';
 import 'package:youplay/ui/pages/login_page.container.dart';
 import 'package:youplay/ui/pages/message.page.container.dart';
 import 'package:youplay/ui/pages/my-games-list.page.dart';
+import 'package:youplay/ui/pages/organisation.page.dart';
 import 'package:youplay/ui/pages/qr_scanner2.page.dart';
 import 'package:youplay/ui/pages/run_landing.page.container.dart';
 import 'package:youplay/ui/pages/splashscreen.container.dart';
@@ -36,12 +37,20 @@ class YouplayRouterDelegate extends RouterDelegate<YouplayRoutePath>
       pages: pages(),
       observers: [HeroController()],
       onPopPage: (route, result) {
+        print('route did pop ${route}');
         if (!route.didPop(result)) {
           return false;
         }
-
+        // if (youplayRoutePath.pageType == PageType.gameLandingPage) {
+        //   youplayRoutePath = youplayRoutePath.parent;
+        //   // Future.delayed(Duration(seconds: 2)).then((value) {
+        //   //   this.updateYouplayRoutePath(youplayRoutePath);
+        //   // });
+        // } else {
         youplayRoutePath = youplayRoutePath.parent;
         this.updateYouplayRoutePath(youplayRoutePath);
+        // }
+
         notifyListeners();
 
         return true;
@@ -82,14 +91,13 @@ class YouplayRouterDelegate extends RouterDelegate<YouplayRoutePath>
               ) //gameId: _youplayRoutePath.gameId!
               )
         ];
+      case PageType.featured:
+        return [FeaturedGamesPage.materialAuthPage];
+
       case PageType.gameLandingPage:
+        print('in game landing');
         return [
-          MaterialPage(
-            key: ValueKey('Library'),
-            child: FeaturedGamesPage(
-              authenticated: true,
-            ),
-          ),
+          FeaturedGamesPage.materialAuthPage,
           MaterialPage(
               key: ValueKey('GameLandingPage'),
               child: GameLandingPageContainer(gameId: youplayRoutePath.gameId!) //gameId: _youplayRoutePath.gameId!
@@ -98,117 +106,53 @@ class YouplayRouterDelegate extends RouterDelegate<YouplayRoutePath>
       // return GameLandingPage();
       case PageType.runLandingPage:
         return [
+          FeaturedGamesPage.materialAuthPage,
           MaterialPage(
-            key: ValueKey('Library'),
-            child: FeaturedGamesPage(
-              authenticated: true,
-            ),
-          ),
-          MaterialPage(
-              key: ValueKey('RunLandingPage'),
-              child: RunLandingPageContainer() //gameId: _youplayRoutePath.gameId!
+              key: ValueKey('RunLandingPage'), child: RunLandingPageContainer() //gameId: _youplayRoutePath.gameId!
               )
         ];
         break;
 
       case PageType.game:
         return [
-          MaterialPage(
-            key: ValueKey('Library'),
-            child: FeaturedGamesPage(
-              authenticated: true,
-            ),
-          ),
-          MaterialPage(key: ValueKey('GamePlayPage'), child: GamePlayContainer() //gameId: _youplayRoutePath.gameId!
-              )
+          FeaturedGamesPage.materialAuthPage,
+          GamePlayContainer.materialPage,
         ];
       case PageType.gameItem:
         return [
-          MaterialPage(
-            key: ValueKey('Library'),
-            child: FeaturedGamesPage(
-              authenticated: true,
-            ),
-          ),
-          MaterialPage(key: ValueKey('GamePlayPage'), child: GamePlayContainer() //gameId: _youplayRoutePath.gameId!
-              ),
-          // MaterialPage(
-          //     key: ValueKey('ItemPage'),
-          //     child: GeneralItemScreen() //gameId: _youplayRoutePath.gameId!
-          //     ),
-          MaterialPage(key: ValueKey('ItemPage'), child: MessagePageContainer() //gameId: _youplayRoutePath.gameId!
-              )
+          FeaturedGamesPage.materialAuthPage,
+          GamePlayContainer.materialPage,
+          MessagePageContainer.materialPage
         ];
       //
       case PageType.login:
-        return [
-          MaterialPage(
-            key: ValueKey('Login'),
-            child: LoginPageContainer(), //LoginPage(),
-          ),
-        ];
+        return [LoginPageContainer.materialPage];
 
       case PageType.myGames:
         return [
-          MaterialPage(
-            key: ValueKey('Library'),
-            child: FeaturedGamesPage(
-              authenticated: true,
-            ),
-          ),
-          MaterialPage(key: ValueKey('MyGamesPage'), child: MyGamesListPageNew() //gameId: _youplayRoutePath.gameId!
-              )
+          FeaturedGamesPage.materialAuthPage,
+          MyGamesListPageNew.materialPage,
         ];
       case PageType.gameWithRuns:
         return [
-          MaterialPage(
-            key: ValueKey('Library'),
-            child: FeaturedGamesPage(
-              authenticated: true,
-            ),
-          ),
-          MaterialPage(key: ValueKey('MyGamesPage'), child: MyGamesListPageNew() //gameId: _youplayRoutePath.gameId!
-              ),
+          FeaturedGamesPage.materialAuthPage,
+          MyGamesListPageNew.materialPage,
           MaterialPage(
               key: ValueKey('MyRunsOverviewPage'), child: GameRunsPage(init: () {}) //gameId: _youplayRoutePath.gameId!
               ),
         ];
-        // return authCheck(GameRunsOverviewPage(), pageModel);
-        break;
 
       case PageType.scanGame:
         return [
-          MaterialPage(
-            key: ValueKey('Library'),
-            child: FeaturedGamesPage(
-              authenticated: true,
-            ),
-          ),
+          FeaturedGamesPage.materialAuthPage,
           MaterialPage(key: ValueKey('QRScannerPage'), child: GameQRnew())
-        ];
-
-      case PageType.featured:
-        return [
-          TransitionWithDurationPage(
-            key: ValueKey('Library'),
-            child: FeaturedGamesPage(
-              authenticated: true,
-            ),
-          )
         ];
 
       case PageType.makeAccount:
         return [
-          MaterialPage(
-            key: ValueKey('Library'),
-            child: FeaturedGamesPage(
-              authenticated: true,
-            ),
-          ),
-          MaterialPage(
-            key: ValueKey('Login'),
-            child: LoginPageContainer(),
-          ),
+          FeaturedGamesPage.materialAuthPage,
+          LoginPageContainer.materialPage,
+
           MaterialPage(
             key: ValueKey('MakeAccount'),
             child: CreateAccountPage(),
@@ -228,7 +172,11 @@ class YouplayRouterDelegate extends RouterDelegate<YouplayRoutePath>
             child: ErrorPageContainer(),
           )
         ];
+
+      case PageType.organisationLandingPage:
+        return [OrganisationPage.materialPage];
     }
+
     return [
       MaterialPage(
         key: ValueKey('Library'),

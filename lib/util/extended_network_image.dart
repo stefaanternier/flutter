@@ -9,8 +9,8 @@ BoxDecoration getBoxDecoration(String? path) {
           image: new DecorationImage(
               fit: BoxFit.cover,
               image: ExtendedNetworkImageProvider(
-
                   '${AppConfig().storageUrl}${path}',
+                  cache: true,
                   printError: true,
                   retries: 5,
                   timeRetry: Duration(seconds: 10))));
@@ -18,11 +18,16 @@ BoxDecoration getBoxDecoration(String? path) {
       return new BoxDecoration(
           image: new DecorationImage(
               fit: BoxFit.cover,
-              image: ExtendedNetworkImageProvider(
+              image:
+              ExtendedNetworkImageProvider(
                   '${AppConfig().storageUrl}/${path}',
+                  cache: true,
+
                   retries: 5,
                   timeRetry: Duration(seconds: 10)
-              )));
+              )
+
+          ));
     }
 
   }
