@@ -22,8 +22,6 @@ class GameAPI extends GenericApi {
       yield Game.fromJson(jsonDecode(response.body));
     } else {
       final response = await GenericApi.get('api/game/$gameId');
-      print('status code ${response.statusCode}');
-      print('status code ${response.body}');
       yield Game.fromJson(jsonDecode(response.body));
     }
     } catch (e) {

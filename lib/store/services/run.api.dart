@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:youplay/api/GenericApi.dart';
+import 'package:youplay/models/collection-response.dart';
 import 'package:youplay/models/run.dart';
 
 import '../../api/GenericApi.dart';
@@ -38,6 +39,34 @@ class RunAPI extends GenericApi {
     } else {
       yield false;
     }
+  }
+
+  Future<CollectionResponse<RunAccess>> recentRuns() async {
+    int time = (new DateTime.now().millisecondsSinceEpoch - 2592000000 * 2);
+    final response = await GenericApi.get('api/run/access/user/$time');
+    if (response.statusCode == 200) {
+      // print('response body is ${response.body}');
+      try {
+        return CollectionResponse<RunAccess>
+            .fromJson(jsonDecode(response.body), RunAccess.fromJsonStatic, "runAccess");
+      } catch (e) {
+        print('error ${e}');
+      }
+    }
+    throw Exception('Response code is: ${response.statusCode}');
+  }
+
+  Future<CollectionResponse<RunUser>> recentRunsUser() async {
+    final response = await GenericApi.get('api/run/users');
+    if (response.statusCode == 200) {
+      try {
+        return CollectionResponse<RunUser>
+            .fromJson(jsonDecode(response.body), RunUser.fromJsonStatic, "users");
+      } catch (e) {
+        print('error ${e}');
+      }
+    }
+    throw Exception('Response code is: ${response.statusCode}');
   }
 
 }

@@ -65,9 +65,14 @@ class AppState {
     state.authentication = AuthenticationState.fromJson(json['authentication']);
     state.collectionState = CollectionState.fromJson(json['collectionState']);
     state.gameState = GameState.fromJson(json['gameState']);
+
     state.organisationState = OrganisationState.fromJson(json['organisationState']);
+
     state.gameThemeState = GameThemeState.fromJson(json['gameThemeState']);
-    print('state was loaded from persistence');
+
+    state.runState = RunState.fromJson(json['runState']);
+    print('state was loaded from persistence ${state.runState}');
+    print('state was loaded from persistence ${state.runState.entities.length}');
     return state;
   }
 
@@ -77,8 +82,10 @@ class AppState {
       'collectionState': this.collectionState.toJson(),
       'gameState': this.gameState.toJson(),
       'organisationState' : this.organisationState.toJson(),
-      'gameThemeState': this.gameThemeState.toJson()
+      'gameThemeState': this.gameThemeState.toJson(),
+      'runState' : this.runState.toJson()
     };
+    print('saving org ${this.organisationState.toJson()}');
     return json;
   }
 

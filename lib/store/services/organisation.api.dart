@@ -13,12 +13,9 @@ class OrganisationAPI extends GenericApi {
 
     try {
       if (token == '') {
-        // final response = await GenericApi.get('api/game/$organisationId/unauth');
-        // yield Organisation.fromJson(jsonDecode(response.body));
+
       } else {
         final response = await GenericApi.get('api/organization/$organisationId');
-        print('status code ${response.statusCode}');
-        print('status code ${response.body}');
         yield Organisation.fromJson(jsonDecode(response.body));
       }
     } catch (e) {

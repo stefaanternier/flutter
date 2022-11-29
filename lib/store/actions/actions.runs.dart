@@ -64,3 +64,14 @@ class LoadGameRunsRequest {
 }
 
 
+class LoadRecentRunsRequest {
+  LoadRecentRunsRequest();
+
+  @override
+  bool operator ==(dynamic other) => true;
+
+  @override
+  int get hashCode => 1;
+}
+
+

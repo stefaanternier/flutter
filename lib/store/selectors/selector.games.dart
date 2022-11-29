@@ -22,3 +22,9 @@ final Selector<AppState, Game?> currentGame = createSelector2(
 
 final Selector<AppState, Game?> currentGameWithRunId = createSelector2(
     currentRun, gameFeatureSelector, (Run? run, GameState gameState) => gameState.entities['${run?.gameId}']);
+
+final Selector<AppState, List<Game>> recentGames = createSelector2(
+    recentRuns,
+    gameFeatureSelector,
+    (List<Run> runs, GameState gameState) =>
+        runs.map((Run r) => gameState.entities['${r.gameId}']).whereType<Game>().take(5).toList(growable: false));

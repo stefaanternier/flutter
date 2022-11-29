@@ -1,16 +1,21 @@
 import 'package:redux_epics/redux_epics.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:youplay/store/actions/actions.collection.dart';
+import 'package:youplay/store/actions/actions.games.dart';
 import 'package:youplay/store/state/app_state.dart';
 
 import '../../models/run.dart';
 import '../actions/actions.runs.dart';
 import '../services/run.api.dart';
+import 'epics.collection.dart';
 
 final runEpics = combineEpics<AppState>([
   TypedEpic<AppState, dynamic>(_gameRunEpics),
   TypedEpic<AppState, dynamic>(_gameRunAuthEpics),
   TypedEpic<AppState, dynamic>(_gameParticipateStream),
-  TypedEpic<AppState, dynamic>(_deletePlayerFromRun)
+  TypedEpic<AppState, dynamic>(_deletePlayerFromRun),
+  TypedEpic<AppState, dynamic>(_getRecentRunsEpic),
+  TypedEpic<AppState, dynamic>(_getRecentRunUsersEpic)
 ]);
 //
 Stream<dynamic> _gameRunEpics(Stream<dynamic> actions, EpicStore<AppState> store) {
@@ -41,4 +46,41 @@ Stream<dynamic> _deletePlayerFromRun(Stream<dynamic> actions, EpicStore<AppState
   return actions
       .whereType<DeleteRunAction>()
       .flatMap((DeleteRunAction action) => RunAPI.instance.deletePlayerFromRun('${action.run.id}'));
+}
+
+Stream<dynamic> _getRecentRunsEpic(Stream<dynamic> actions, EpicStore<AppState> store) {
+  return resetOnError(
+      actions,
+      actions
+          .whereType<LoadRecentRunsRequest>()
+          .distinctUnique()
+          .asyncMap((LoadRecentRunsRequest action) =>
+              RunAPI.instance.recentRuns().catchError((_) => CollectionReset()))
+      .flatMap((collection) => Stream.fromIterable(collection.items))
+          .where((element)=> (store.state.runState.entities[element.runId] != null) && (store.state.gameState.entities[element.gameId] == null))
+      .expand((element) => [
+        if (store.state.runState.entities[element.runId] == null) LoadRunRequest(runId: int.parse(element.runId)),
+        if (store.state.gameState.entities[element.gameId] == null) LoadGameRequest(gameId: element.gameId),
+      ])
+  );
+}
+
+Stream<dynamic> _getRecentRunUsersEpic(Stream<dynamic> actions, EpicStore<AppState> store) {
+  return resetOnError(
+      actions,
+      actions
+          .whereType<LoadRecentRunsRequest>()
+          .distinctUnique()
+          .asyncMap((LoadRecentRunsRequest action) =>
+          RunAPI.instance.recentRunsUser().catchError((_) => CollectionReset()))
+          .flatMap((collection) => Stream.fromIterable(collection.items)).where((event) => !event.deleted)
+          .where((element)=> (store.state.runState.entities[element.runId] != null) && (store.state.gameState.entities[element.gameId] == null))
+          .expand((element) => [
+        if (store.state.runState.entities[element.runId] == null) LoadRunRequest(runId: int.parse(element.runId)),
+        if (store.state.gameState.entities[element.gameId] == null) LoadGameRequest(gameId: element.gameId),
+      ]).where((event) {
+        print('check filter $event');
+        return true;
+      })
+  );
 }

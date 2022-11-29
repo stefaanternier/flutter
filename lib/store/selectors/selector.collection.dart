@@ -1,5 +1,7 @@
 import 'package:reselect/reselect.dart';
 import 'package:universal_platform/universal_platform.dart';
+import 'package:youplay/models/organisation.dart';
+import 'package:youplay/store/selectors/selector.organisation.dart';
 import 'package:youplay/store/selectors/ui_selectors.dart';
 import 'package:youplay/store/state/app_state.dart';
 import 'package:youplay/store/state/state.collection.dart';
@@ -21,6 +23,21 @@ final Selector<AppState, List<Game>> organisationGamesSelector = createSelector2
   });
   return recentGames;
 });
+
+
+final Selector<AppState, List<Game>> currentOrganisationGamesSelector = createSelector2(
+    collectionSelector,
+    homeOrganisation,
+        (CollectionState gameState, Organisation? organisation) {
+      List<Game> recentGames =  gameState.entities.values
+          .where((element) => !element.deleted)
+          .where((Game element) => element.organisationId == organisation?.id)
+          .toList(growable: false);
+      recentGames.sort((a, b) {
+        return b.lastModificationDate.compareTo(a.lastModificationDate);
+      });
+      return recentGames;
+    });
 
 final Selector<AppState, List<Game>> recentGamesSelector = createSelector1(collectionSelector, (CollectionState gameState) {
   bool isWeb = UniversalPlatform.isWeb;

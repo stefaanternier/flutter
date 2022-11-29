@@ -33,5 +33,5 @@ class OrganisationState {
         .setHome(json['homeOrganisation']);
   }
 
-  setHome(String organisationId) => OrganisationState(ids: ids, entities: entities, homeOrganisation: organisationId);
+  setHome(String? organisationId) => organisationId == null? this: OrganisationState(ids: ids, entities: entities, homeOrganisation: organisationId);
 }

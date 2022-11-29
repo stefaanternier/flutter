@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:youplay/config/app_config.dart';
 import 'package:youplay/ui/components/collection/featured_game_carrousel.container.dart';
+import 'package:youplay/ui/components/collection/my_runs_carrousel.dart';
 import 'package:youplay/ui/components/collection/organisation_carrousel.container.dart';
 import 'package:youplay/ui/components/collection/recent_games_list.container.dart';
 import 'package:youplay/ui/components/collection/search_result_list.dart';
@@ -76,6 +77,7 @@ class _FeaturedGamesPageState extends State<FeaturedGamesPage> {
                 ListSeparationText(text: AppLocalizations.of(context).translate('library.featured')),
                 FeaturedGamesCarrouselContainer(),
                 OrganisationCarrouselContainer(),
+                MyGamesCarrouselContainer(),
                 ListSeparationText(text: AppLocalizations.of(context).translate('library.allgames')),
                 RecentGamesResultListContainer(),
                 SearchResultListContainer(),
