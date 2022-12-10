@@ -7,6 +7,7 @@ class CustomFlatButton extends StatelessWidget {
   IconData? icon;
   Color? color;
   Color? colorBorder;
+  Color? backgroundColor;
 
   CustomFlatButton({
     required this.onPressed,
@@ -14,6 +15,7 @@ class CustomFlatButton extends StatelessWidget {
     this.icon,
     this.colorBorder,
     this.color,
+    this.backgroundColor,
   });
 
   @override
@@ -31,12 +33,12 @@ class CustomFlatButton extends StatelessWidget {
 
   buildButton(BuildContext context) {
     if (icon == null) {
-
       return ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(26.0),
-              side: BorderSide(width: 2, color: colorBorder ?? color ?? AppConfig().themeData!.primaryColor)),
+          style: ElevatedButton.styleFrom(
+              backgroundColor: backgroundColor,
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(26.0),
+                side: BorderSide(width: 2, color: colorBorder ?? color ?? AppConfig().themeData!.primaryColor)),
           ),
           onPressed: () {
             onPressed();
@@ -51,8 +53,7 @@ class CustomFlatButton extends StatelessWidget {
                 fontWeight: FontWeight.w900,
               ),
             ),
-          )
-      );
+          ));
 
       // return FlatButton(
       //     shape: RoundedRectangleBorder(
@@ -73,15 +74,13 @@ class CustomFlatButton extends StatelessWidget {
       //       ),
       //     ));
     } else {
-
       return ElevatedButton(
         style: ElevatedButton.styleFrom(
-          // minimumSize: Size(60, 24),
-          backgroundColor: Colors.transparent,
+            // minimumSize: Size(60, 24),
+            backgroundColor: backgroundColor ?? Colors.transparent,
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(26.0),
-                side: BorderSide(width: 2, color: colorBorder ?? color ?? AppConfig().themeData!.primaryColor))
-        ),
+                side: BorderSide(width: 2, color: colorBorder ?? color ?? AppConfig().themeData!.primaryColor))),
         onPressed: () {
           onPressed();
         },
@@ -104,7 +103,6 @@ class CustomFlatButton extends StatelessWidget {
           ],
         ),
       );
-
 
       // return FlatButton(
       //   shape: RoundedRectangleBorder(

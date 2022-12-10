@@ -78,6 +78,7 @@ class IntroPage extends StatelessWidget {
                     title: 'Volgende'.toUpperCase(),
                     colorBorder: const Color(0xFFD2DAE2),
                     color: Colors.black,
+                    backgroundColor: Colors.white,
                     onPressed: this.next,
                   ),
                 ),

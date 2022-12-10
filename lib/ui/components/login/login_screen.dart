@@ -82,12 +82,14 @@ class _LoginScreenState extends State<LoginScreen> {
               if (!toggleCustomLogin)
                 CustomFlatButton(
                   title: AppLocalizations.of(context).translate('login.loginWithGoogle'),
+                  backgroundColor: Colors.white,
                   icon: FontAwesomeIcons.google,
                   onPressed: widget.tapGoogleLogin,
                 ),
               if (!toggleCustomLogin && UniversalPlatform.isIOS)
                 CustomFlatButton(
                   color: Colors.black,
+                  backgroundColor: Colors.white,
                   title: AppLocalizations.of(context).translate('login.loginWithApple'),
                   icon: FontAwesomeIcons.apple,
                   onPressed: widget.tapAppleLogin,
@@ -96,6 +98,7 @@ class _LoginScreenState extends State<LoginScreen> {
               if (!toggleCustomLogin && widget.anonLogin)
                 CustomFlatButton(
                   onPressed: widget.tapAnonymousLogin,
+                  backgroundColor: Colors.white,
                   title: AppLocalizations.of(context).translate('login.loginWithDemo'),
                 )
             ]));
