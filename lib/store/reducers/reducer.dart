@@ -4,6 +4,7 @@ import 'package:youplay/store/reducers/reducer.error.dart';
 import 'package:youplay/store/reducers/reducer.games.dart';
 import 'package:youplay/store/reducers/reducer.gametheme.dart';
 import 'package:youplay/store/reducers/reducer.generalitems.dart';
+import 'package:youplay/store/reducers/reducer.organisation_mapping.dart';
 import 'package:youplay/store/reducers/reducer.organisations.dart';
 import 'package:youplay/store/reducers/reducer.runs.dart';
 import 'package:youplay/store/reducers/ui.reducer.dart';
@@ -30,6 +31,7 @@ AppState appReducer(AppState state, action) {
       gameThemeState: gameThemeReducer(state.gameThemeState, action),
       generalItemsState: generalItemsReducer(state.generalItemsState, action),
       organisationState: organisationReducer(state.organisationState, action),
+      organisationMappingState: organisationMappingReducer(state.organisationMappingState, action),
       runState: runReducer(state.runState, action),
       authentication: authenticationReducer(state.authentication, action),
       uiState: uiReducer(state.uiState, action)

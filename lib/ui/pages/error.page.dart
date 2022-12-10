@@ -40,7 +40,7 @@ class ErrorPage extends StatelessWidget {
             padding: const EdgeInsets.all(32.0),
             child: CustomRaisedButtonContainer(
               onPressed: onPressed,
-              title: 'Terug naar collectie',
+              title: 'Terug naar home',
             ),
           ))
         ],

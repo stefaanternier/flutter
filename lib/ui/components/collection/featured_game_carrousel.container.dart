@@ -37,7 +37,7 @@ class _ViewModel {
     return _ViewModel(
         games: featuredGamesSelector(store.state),
         openGame: (Game g) {
-          store.dispatch(new SetPage(page: PageType.gameLandingPage, gameId: g.gameId));
+          store.dispatch(new SetPage(page: PageType.gamePreLandingPage, gameId: g.gameId));
 
         }
         );

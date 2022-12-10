@@ -60,7 +60,7 @@ class _ViewModel {
         games: recentGames(store.state),
         currentOrganisation: homeOrganisation(store.state),
         openGame: (Game g) {
-          store.dispatch(new SetPage(page: PageType.gameLandingPage, gameId: g.gameId));
+          store.dispatch(new SetPage(page: PageType.gamePreLandingPage, gameId: g.gameId));
 
         }
     );

@@ -27,15 +27,7 @@ Stream<dynamic> _loadOneGame(Stream<dynamic> actions, EpicStore<AppState> store)
       actions,
       actions
           .whereType<LoadPublicGameRequest>()
-          .where((action) {
-            print(' load public game before filter ${action.gameId} ');
-            return true;
-          })
           .distinctUnique()
-          .where((action) {
-            print(' load public game after filter ${action.gameId} ');
-            return true;
-          })
           .asyncMap((action) => CollectionAPI.instance
               .loadOnePublicGame('${action.gameId}')
               .then<dynamic>((Game game) => [LoadPublicGameSuccess(game: game)])

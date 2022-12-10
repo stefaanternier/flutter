@@ -1,9 +1,7 @@
 import 'dart:convert';
 
-import 'package:http/http.dart';
 import 'package:youplay/api/GenericApi.dart';
 import 'package:youplay/models/run.dart';
-import 'package:youplay/store/middlewares/auth.custom.middleware.dart';
 
 import '../../models/game.dart';
 
@@ -13,7 +11,6 @@ class GameAPI extends GenericApi {
   static final GameAPI instance = GameAPI._();
 
   Stream<Game> getGame(String gameId) async* {
-    print('before get game');
     String token = await GenericApi.getIdToken();
 
     try {
@@ -22,6 +19,7 @@ class GameAPI extends GenericApi {
       yield Game.fromJson(jsonDecode(response.body));
     } else {
       final response = await GenericApi.get('api/game/$gameId');
+      // print('game is ${response.body}');
       yield Game.fromJson(jsonDecode(response.body));
     }
     } catch (e) {

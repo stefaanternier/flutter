@@ -6,6 +6,7 @@ import 'package:youplay/models/organisation.dart';
 import 'package:youplay/store/actions/ui_actions.dart';
 import 'package:youplay/store/selectors/selector.collection.dart';
 import 'package:youplay/store/selectors/selector.organisation.dart';
+import 'package:youplay/store/selectors/selector.organisation_mappings.dart';
 import 'package:youplay/store/state/app_state.dart';
 import 'package:youplay/store/state/ui_state.dart';
 import 'package:youplay/ui/components/misc/list_separation_text.dart';
@@ -52,10 +53,10 @@ class _ViewModel {
 
   static _ViewModel fromStore(Store<AppState> store) {
     return _ViewModel(
-        games: currentOrganisationGamesSelector(store.state),
+        games: currentOrganisationGamesSelector2(store.state),
         currentOrganisation: homeOrganisation(store.state),
         openGame: (Game g) {
-          store.dispatch(new SetPage(page: PageType.gameLandingPage, gameId: g.gameId));
+          store.dispatch(new SetPage(page: PageType.gamePreLandingPage, gameId: g.gameId));
 
         }
     );

@@ -4,6 +4,7 @@ import 'package:redux/redux.dart';
 import 'package:youplay/models/game.dart';
 import 'package:youplay/store/actions/actions.collection.dart';
 import 'package:youplay/store/selectors/selector.collection.dart';
+import 'package:youplay/store/selectors/selector.organisation_mappings.dart';
 import 'package:youplay/store/state/app_state.dart';
 
 import '../my-games-list/game_info_list_tile.dart';
@@ -37,7 +38,7 @@ class _ViewModel {
 
   static _ViewModel fromStore(Store<AppState> store) {
     return _ViewModel(
-        organisationGames: organisationGamesSelector(store.state),
+        organisationGames: currentOrganisationPageSelector(store.state),
         openGame: (Game g) {
           store.dispatch(new ParseLinkAction(link: 'game/${g.gameId}'));
         });

@@ -50,7 +50,7 @@ Stream<dynamic> _parseGameLinkAuthenticatedEpic(Stream<dynamic> actions, EpicSto
       .expand((action) => [
             LoadPublicGameRequest(gameId: action.gameId),
             LoadGameRunsRequest(gameId: action.gameId), //ResetRunsAndGoToLandingPage (is this necessary)
-            SetPage(page: PageType.gameLandingPage, gameId: action.gameId),
+            SetPage(page: PageType.gamePreLandingPage, gameId: action.gameId),
           ]);
 }
 
@@ -65,7 +65,7 @@ Stream<dynamic> _parseGameLinkUnAuthenticatedEpic(Stream<dynamic> actions, EpicS
   })
       .expand((action) => [
             LoadPublicGameRequest(gameId: action.gameId),
-            SetPage(page: PageType.gameLandingPage, gameId: action.gameId),
+            SetPage(page: PageType.gamePreLandingPage, gameId: action.gameId),
           ]);
 }
 

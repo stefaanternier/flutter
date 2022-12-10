@@ -19,19 +19,23 @@ final runEpics = combineEpics<AppState>([
 ]);
 //
 Stream<dynamic> _gameRunEpics(Stream<dynamic> actions, EpicStore<AppState> store) {
-  return actions
+  return resetOnError(
+      actions,
+      actions
       .whereType<LoadRunRequest>()
       .distinctUnique()
       .flatMap((LoadRunRequest action) => RunAPI.instance.getRunUnAuth('${action.runId}'))
-      .map((Run run) => LoadRunSuccess(run: run));
+      .map((Run run) => LoadRunSuccess(run: run)));
 }
 
 Stream<dynamic> _gameRunAuthEpics(Stream<dynamic> actions, EpicStore<AppState> store) {
-  return actions
+  return resetOnError(
+      actions,
+      actions
       .whereType<LoadRunAuthRequest>()
       .distinctUnique()
       .flatMap((LoadRunAuthRequest action) => RunAPI.instance.getRunAuth('${action.runId}'))
-      .map((Run run) => LoadRunSuccess(run: run));
+      .map((Run run) => LoadRunSuccess(run: run)));
 }
 
 Stream<dynamic> _gameParticipateStream(Stream<dynamic> actions, EpicStore<AppState> store) {
@@ -54,15 +58,16 @@ Stream<dynamic> _getRecentRunsEpic(Stream<dynamic> actions, EpicStore<AppState> 
       actions
           .whereType<LoadRecentRunsRequest>()
           .distinctUnique()
-          .asyncMap((LoadRecentRunsRequest action) =>
-              RunAPI.instance.recentRuns().catchError((_) => CollectionReset()))
-      .flatMap((collection) => Stream.fromIterable(collection.items))
-          .where((element)=> (store.state.runState.entities[element.runId] != null) && (store.state.gameState.entities[element.gameId] == null))
-      .expand((element) => [
-        if (store.state.runState.entities[element.runId] == null) LoadRunRequest(runId: int.parse(element.runId)),
-        if (store.state.gameState.entities[element.gameId] == null) LoadGameRequest(gameId: element.gameId),
-      ])
-  );
+          .asyncMap((LoadRecentRunsRequest action) => RunAPI.instance.recentRuns().catchError((_) => CollectionReset()))
+          .flatMap((collection) => Stream.fromIterable(collection.items))
+          .where((element) =>
+              (store.state.runState.entities[element.runId] == null) ||
+              (store.state.gameState.entities[element.gameId] == null))
+          .expand((element) => [
+                if (store.state.runState.entities[element.runId] == null)
+                  LoadRunAuthRequest(runId: int.parse(element.runId)),
+                if (store.state.gameState.entities[element.gameId] == null) LoadGameRequest(gameId: element.gameId),
+              ]));
 }
 
 Stream<dynamic> _getRecentRunUsersEpic(Stream<dynamic> actions, EpicStore<AppState> store) {
@@ -71,16 +76,22 @@ Stream<dynamic> _getRecentRunUsersEpic(Stream<dynamic> actions, EpicStore<AppSta
       actions
           .whereType<LoadRecentRunsRequest>()
           .distinctUnique()
-          .asyncMap((LoadRecentRunsRequest action) =>
-          RunAPI.instance.recentRunsUser().catchError((_) => CollectionReset()))
-          .flatMap((collection) => Stream.fromIterable(collection.items)).where((event) => !event.deleted)
-          .where((element)=> (store.state.runState.entities[element.runId] != null) && (store.state.gameState.entities[element.gameId] == null))
+          .asyncMap(
+              (LoadRecentRunsRequest action) => RunAPI.instance.recentRunsUser().catchError((_) => CollectionReset()))
+          .flatMap((collection) => Stream.fromIterable(collection.items))
+          .where((event) => !event.deleted)
+          .where((element) {
+            print('check run and game ${(store.state.runState.entities[element.runId] == null) || (store.state.gameState.entities[element.gameId] == null)} ');
+            return (store.state.runState.entities[element.runId] == null) ||
+                (store.state.gameState.entities[element.gameId] == null);
+          })
           .expand((element) => [
-        if (store.state.runState.entities[element.runId] == null) LoadRunRequest(runId: int.parse(element.runId)),
-        if (store.state.gameState.entities[element.gameId] == null) LoadGameRequest(gameId: element.gameId),
-      ]).where((event) {
-        print('check filter $event');
-        return true;
-      })
-  );
+                if (store.state.runState.entities[element.runId] == null)
+                  LoadRunAuthRequest(runId: int.parse(element.runId)),
+                if (store.state.gameState.entities[element.gameId] == null) LoadGameRequest(gameId: element.gameId),
+              ])
+          .where((event) {
+            print('check filter $event');
+            return true;
+          }));
 }

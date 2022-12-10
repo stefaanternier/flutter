@@ -18,7 +18,7 @@ class _FeaturedGamesCarrouselState extends State<FeaturedGamesCarrousel> {
 
   @override
   Widget build(BuildContext context) {
-    final DateFormat formatter = DateFormat.yMMMMd(Localizations.localeOf(context).languageCode);
+    // final DateFormat formatter = DateFormat.yMMMMd(Localizations.localeOf(context).languageCode);
     return SizedBox(
       height: 200, // card height
       child: Center(
@@ -49,21 +49,22 @@ class _FeaturedGamesCarrouselState extends State<FeaturedGamesCarrousel> {
                                   flex: 2,
                                   child: Container(
                                       decoration: getBoxDecoration('/featuredGames/backgrounds/${widget.games[i].gameId}.png'),
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        mainAxisAlignment: MainAxisAlignment.end,
-                                        children: <Widget>[
-                                          Padding(
-                                              padding: EdgeInsets.all(10),
-                                              child: Text(
-                                                "${widget.games[i].title}",
-                                                style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 18,
-                                                    fontWeight: FontWeight.bold),
-                                              )),
-                                        ],
-                                      ))),
+                                      // child: Column(
+                                      //   crossAxisAlignment: CrossAxisAlignment.start,
+                                      //   mainAxisAlignment: MainAxisAlignment.end,
+                                      //   children: <Widget>[
+                                      //     Padding(
+                                      //         padding: EdgeInsets.all(10),
+                                      //         child: Text(
+                                      //           "${widget.games[i].title}",
+                                      //           style: TextStyle(
+                                      //               color: Colors.white,
+                                      //               fontSize: 18,
+                                      //               fontWeight: FontWeight.bold),
+                                      //         )),
+                                      //   ],
+                                      // )
+                                  )),
 
 
                                 Container(
@@ -75,7 +76,8 @@ class _FeaturedGamesCarrouselState extends State<FeaturedGamesCarrousel> {
                                           Padding(
                                               padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
                                               child: Text(
-                                                "${formatter.format(DateTime.fromMillisecondsSinceEpoch(widget.games[i].lastModificationDate))}",
+                                                widget.games[i].title,
+                                                // "${formatter.format(DateTime.fromMillisecondsSinceEpoch(widget.games[i].lastModificationDate))}",
                                                 style: TextStyle(
                                                   color: Colors.grey,
                                                   fontSize: 14,

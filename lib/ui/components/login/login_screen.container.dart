@@ -58,7 +58,7 @@ class _ViewModel {
         store.dispatch(GoogleLoginAction(
             onError: (e) {
               final snackBar = SnackBar(content: Text("Error while login"));
-              Scaffold.of(context).showSnackBar(snackBar);
+              ScaffoldMessenger.of(context).showSnackBar(snackBar);
             },
             onSucces: loginSuccessful));
       },
@@ -66,7 +66,7 @@ class _ViewModel {
         store.dispatch(AppleLoginAction(
             onError: (e) {
               final snackBar = SnackBar(content: Text(e));
-              Scaffold.of(context).showSnackBar(snackBar);
+              ScaffoldMessenger.of(context).showSnackBar(snackBar);
             },
             onSucces: loginSuccessful)
         );
@@ -85,12 +85,12 @@ class _ViewModel {
             //final snackBar = SnackBar(content: Text("Error while login"));
 
             final snackBar = SnackBar(content: Text(AppLocalizations.of(context).translate('login.' + code)));
-            Scaffold.of(context).showSnackBar(snackBar);
+            ScaffoldMessenger.of(context).showSnackBar(snackBar);
           },
           onWrongCredentials: () {
             final snackBar = SnackBar(content: Text("Fout! Wachtwoord of email incorrect"));
 
-            Scaffold.of(context).showSnackBar(snackBar);
+            ScaffoldMessenger.of(context).showSnackBar(snackBar);
           },
         ));
       },

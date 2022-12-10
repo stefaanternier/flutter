@@ -3,6 +3,7 @@ import 'package:youplay/store/state/run_state.dart';
 import 'package:youplay/store/state/state.games.dart';
 import 'package:youplay/store/state/state.gametheme.dart';
 import 'package:youplay/store/state/state.generalitems.dart';
+import 'package:youplay/store/state/state.organisation_mappings.dart';
 import 'package:youplay/store/state/state.runs.dart';
 import 'package:youplay/store/state/ui_state.dart';
 
@@ -25,6 +26,7 @@ class AppState {
   GameThemeState gameThemeState;
   GeneralItemsState generalItemsState;
   OrganisationState organisationState;
+  OrganisationMappingState organisationMappingState;
   RunState runState;
 
   UiState uiState;
@@ -43,6 +45,7 @@ class AppState {
       required this.gameThemeState,
       required this.generalItemsState,
       required this.organisationState,
+      required this.organisationMappingState,
       required this.runState,
       required this.uiState});
 
@@ -56,6 +59,7 @@ class AppState {
         gameThemeState: GameThemeState.initState(),
         generalItemsState: GeneralItemsState.initState(),
         organisationState: OrganisationState.initState(),
+        organisationMappingState: OrganisationMappingState.initState(),
         runState: RunState.initState(),
         uiState: UiState.initState(),
       );
@@ -67,12 +71,15 @@ class AppState {
     state.gameState = GameState.fromJson(json['gameState']);
 
     state.organisationState = OrganisationState.fromJson(json['organisationState']);
-
+    state.organisationMappingState = OrganisationMappingState.fromJson(json['organisationMappingState']);
     state.gameThemeState = GameThemeState.fromJson(json['gameThemeState']);
 
     state.runState = RunState.fromJson(json['runState']);
     print('state was loaded from persistence ${state.runState}');
     print('state was loaded from persistence ${state.runState.entities.length}');
+
+    print('organisationMappingState was loaded from persistence ${state.organisationMappingState}');
+    print('organisationMappingState was loaded from persistence ${state.organisationMappingState.entities.length}');
     return state;
   }
 
@@ -81,9 +88,10 @@ class AppState {
       'authentication': this.authentication.toJson(),
       'collectionState': this.collectionState.toJson(),
       'gameState': this.gameState.toJson(),
-      'organisationState' : this.organisationState.toJson(),
+      'organisationState': this.organisationState.toJson(),
+      'organisationMappingState': this.organisationMappingState.toJson(),
       'gameThemeState': this.gameThemeState.toJson(),
-      'runState' : this.runState.toJson()
+      'runState': this.runState.toJson()
     };
     print('saving org ${this.organisationState.toJson()}');
     return json;
@@ -101,6 +109,7 @@ class AppState {
         (this.gameThemeState == other.gameThemeState) &&
         (this.generalItemsState == other.generalItemsState) &&
         (this.organisationState == other.organisationState) &&
+        (this.organisationMappingState == other.organisationMappingState) &&
         (this.runState == other.runState) &&
         (this.uiState == other.uiState);
 
@@ -120,6 +129,7 @@ class AppState {
       gameState.hashCode ^
       gameThemeState.hashCode ^
       organisationState.hashCode ^
+      organisationMappingState.hashCode ^
       runState.hashCode ^
       uiState.hashCode;
 }

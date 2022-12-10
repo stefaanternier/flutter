@@ -31,10 +31,13 @@ class CustomFlatButton extends StatelessWidget {
 
   buildButton(BuildContext context) {
     if (icon == null) {
-      return FlatButton(
+
+      return ElevatedButton(
+        style: ElevatedButton.styleFrom(
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(26.0),
               side: BorderSide(width: 2, color: colorBorder ?? color ?? AppConfig().themeData!.primaryColor)),
+          ),
           onPressed: () {
             onPressed();
           },
@@ -48,12 +51,37 @@ class CustomFlatButton extends StatelessWidget {
                 fontWeight: FontWeight.w900,
               ),
             ),
-          ));
+          )
+      );
+
+      // return FlatButton(
+      //     shape: RoundedRectangleBorder(
+      //         borderRadius: BorderRadius.circular(26.0),
+      //         side: BorderSide(width: 2, color: colorBorder ?? color ?? AppConfig().themeData!.primaryColor)),
+      //     onPressed: () {
+      //       onPressed();
+      //     },
+      //     child: FittedBox(
+      //       fit: BoxFit.fitWidth,
+      //       child: Text(
+      //         '$title',
+      //         style: TextStyle(
+      //           color: color ?? AppConfig().themeData!.primaryColor,
+      //           fontSize: 22.0,
+      //           fontWeight: FontWeight.w900,
+      //         ),
+      //       ),
+      //     ));
     } else {
-      return FlatButton(
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(26.0),
-            side: BorderSide(width: 2, color: colorBorder ?? color ?? AppConfig().themeData!.primaryColor)),
+
+      return ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          // minimumSize: Size(60, 24),
+          backgroundColor: Colors.transparent,
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(26.0),
+                side: BorderSide(width: 2, color: colorBorder ?? color ?? AppConfig().themeData!.primaryColor))
+        ),
         onPressed: () {
           onPressed();
         },
@@ -76,6 +104,34 @@ class CustomFlatButton extends StatelessWidget {
           ],
         ),
       );
+
+
+      // return FlatButton(
+      //   shape: RoundedRectangleBorder(
+      //       borderRadius: BorderRadius.circular(26.0),
+      //       side: BorderSide(width: 2, color: colorBorder ?? color ?? AppConfig().themeData!.primaryColor)),
+      //   onPressed: () {
+      //     onPressed();
+      //   },
+      //   child: Row(
+      //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      //     mainAxisSize: MainAxisSize.max,
+      //     children: [
+      //       new Icon(icon, color: color ?? AppConfig().themeData!.primaryColor),
+      //       Flexible(
+      //         flex: 1,
+      //         child: Text(
+      //           '$title',
+      //           style: TextStyle(
+      //             color: color ?? AppConfig().themeData!.primaryColor,
+      //             fontSize: 22.0,
+      //             fontWeight: FontWeight.w900,
+      //           ),
+      //         ),
+      //       ),
+      //     ],
+      //   ),
+      // );
     }
   }
 }

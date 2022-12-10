@@ -55,9 +55,9 @@ class ARLearnNavigationDrawer extends StatelessWidget {
               },
             ),
           ListTile(
-            leading: Icon(Icons.list),
+            leading: Icon(Icons.home),
             title:
-            Text(AppLocalizations.of(context).translate('library.library')),
+            Text(AppLocalizations.of(context).translate('library.home')),
             onTap: () {
               Scaffold.of(context).openEndDrawer();
               tapCollection();

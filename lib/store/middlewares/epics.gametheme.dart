@@ -6,6 +6,7 @@ import 'package:youplay/store/state/app_state.dart';
 import '../../api/gametheme.api.dart';
 import '../../models/game_theme.dart';
 import '../actions/game_theme.actions.dart';
+import 'epics.collection.dart';
 
 final gameThemeEpics = combineEpics<AppState>([
   TypedEpic<AppState, dynamic>(_gameThemeEpics),
@@ -13,11 +14,13 @@ final gameThemeEpics = combineEpics<AppState>([
 ]);
 
 Stream<dynamic> _gameThemeEpics(Stream<dynamic> actions, EpicStore<AppState> store) {
-  return actions
+  return resetOnError(
+      actions,
+      actions
       .whereType<LoadGameTheme>()
       .distinctUnique()
       .flatMap((LoadGameTheme action) => GameThemeAPI.instance.getGameTheme('${action.themeIdentifier}'))
-      .map((GameTheme gameTheme) => LoadGameThemeSuccess(gameTheme: gameTheme));
+      .map((GameTheme gameTheme) => LoadGameThemeSuccess(gameTheme: gameTheme)));
 }
 
 Stream<dynamic> _loadGameSuccessEpic(Stream<dynamic> actions, EpicStore<AppState> store) {

@@ -138,13 +138,13 @@ class GameQRState extends State<GameQRScreen> {
           password: password,
           onError: (String code) {
             final snackBar = SnackBar(content: Text(AppLocalizations.of(context).translate('login.'+code)));
-            Scaffold.of(context).showSnackBar(snackBar);
+            ScaffoldMessenger.of(context).showSnackBar(snackBar);
           },
           onWrongCredentials: () {
             final snackBar =
                 SnackBar(content: Text("Fout! Wachtwoord of email incorrect"));
 
-            Scaffold.of(context).showSnackBar(snackBar);
+            ScaffoldMessenger.of(context).showSnackBar(snackBar);
             setState(() {
 
               _isProcessing = false;

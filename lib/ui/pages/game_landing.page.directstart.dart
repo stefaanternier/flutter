@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:youplay/config/app_config.dart';
 import 'package:youplay/models/game.dart';
 import 'package:youplay/ui/components/collection/game_screenshot_carrousel.dart';
+import 'package:youplay/ui/components/game_landing/action-button.container.dart';
 import 'package:youplay/ui/components/icon/game_icon.container.dart';
 import 'package:youplay/ui/components/nav/navigation_drawer.container.dart';
 import 'package:youplay/ui/components/web/web_wrapper.dart';
@@ -103,20 +104,16 @@ class GameLandingDirectStartPage extends StatelessWidget {
                             Container(
                               padding: const EdgeInsets.only(bottom: 8),
                               child: Text(
-                                'Ontwikkeld door:',
+                                "${game.devTeam}",
                                 style: TextStyle(
                                   color: Colors.grey[500],
                                 ),
                               ),
                             ),
-                            Text(
-                              "${game.devTeam}",
-                              style: TextStyle(
-                                color: Colors.grey[500],
-                              ),
-                            ),
+
                           ]),
-                        ElevatedButton(
+                        GameLandingActionButtonContainer(),
+                        if (game.privateMode) ElevatedButton(
                           style: ElevatedButton.styleFrom(
                             minimumSize: Size(60, 24),
                             shape: RoundedRectangleBorder(
@@ -125,6 +122,16 @@ class GameLandingDirectStartPage extends StatelessWidget {
                           ),
                           onPressed: createRunAndStart,
                           child: const Text('OPEN'),
+                        ),
+                        if (!game.privateMode) ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            minimumSize: Size(60, 24),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(26.0),
+                            ),
+                          ),
+                          onPressed: createRunAndStart,
+                          child: const Text('Inloggen'),
                         ),
                       ],
                     ),

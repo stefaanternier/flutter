@@ -60,6 +60,7 @@ class RunAPI extends GenericApi {
     final response = await GenericApi.get('api/run/users');
     if (response.statusCode == 200) {
       try {
+        // print('recent users response is ${response.body}');
         return CollectionResponse<RunUser>
             .fromJson(jsonDecode(response.body), RunUser.fromJsonStatic, "users");
       } catch (e) {

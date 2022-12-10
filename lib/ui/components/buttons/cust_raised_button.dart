@@ -38,7 +38,7 @@ class CustomRaisedButton extends StatelessWidget {
     if (icon == null) {
       return ElevatedButton(
           style: ElevatedButton.styleFrom(
-              primary: this._primaryColor,
+              backgroundColor: this._primaryColor,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(26.0),
               ),
@@ -49,21 +49,41 @@ class CustomRaisedButton extends StatelessWidget {
             style: AppConfig().customTheme!.nextButtonStyle,
           ));
     } else {
-      return RaisedButton.icon(
-          color: this._primaryColor,
+      return ElevatedButton.icon(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: this._primaryColor,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(26.0),
           ),
-          onPressed: disabled ? null : onPressed,
-          icon: icon!,
-          label: Text(
-            title,
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 22.0,
-              fontWeight: FontWeight.w900,
-            ),
-          ));
+        ),
+        onPressed: disabled ? null : onPressed,
+        icon: icon!,
+        label: Text(
+          title,
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 22.0,
+            fontWeight: FontWeight.w900,
+          ),
+        )
+      );
+
+
+      // return RaisedButton.icon(
+      //     color: this._primaryColor,
+      //     shape: RoundedRectangleBorder(
+      //       borderRadius: BorderRadius.circular(26.0),
+      //     ),
+      //     onPressed: disabled ? null : onPressed,
+      //     icon: icon!,
+      //     label: Text(
+      //       title,
+      //       style: TextStyle(
+      //         color: Colors.white,
+      //         fontSize: 22.0,
+      //         fontWeight: FontWeight.w900,
+      //       ),
+      //     ));
     }
   }
 }

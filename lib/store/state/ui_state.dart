@@ -9,6 +9,7 @@ enum PageType {
   // gameBoardView,
   gameItem,
   gameLandingPage,
+  gamePreLandingPage,
   organisationLandingPage,
   runLandingPage,
   // gameStartWithMap,

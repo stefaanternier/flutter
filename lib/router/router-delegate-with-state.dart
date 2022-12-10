@@ -6,6 +6,7 @@ import 'package:youplay/ui/pages/create_account.page.dart';
 import 'package:youplay/ui/pages/error.page.container.dart';
 import 'package:youplay/ui/pages/game_landing.page.container.dart';
 import 'package:youplay/ui/pages/game_play.container.dart';
+import 'package:youplay/ui/pages/game_pre_landing.page.container.dart';
 import 'package:youplay/ui/pages/game_runs.page.dart';
 import 'package:youplay/ui/pages/intro-page.container.dart';
 import 'package:youplay/ui/pages/login_page.container.dart';
@@ -94,6 +95,15 @@ class YouplayRouterDelegate extends RouterDelegate<YouplayRoutePath>
       case PageType.featured:
         return [FeaturedGamesPage.materialAuthPage];
 
+      case PageType.gamePreLandingPage:
+        return [
+          FeaturedGamesPage.materialAuthPage,
+          MaterialPage(
+              key: ValueKey('GamePreLandingPage'),
+              child: GamePreLandingPageContainer(gameId: youplayRoutePath.gameId!) //gameId: _youplayRoutePath.gameId!
+              )
+        ];
+
       case PageType.gameLandingPage:
         print('in game landing');
         return [
@@ -119,11 +129,7 @@ class YouplayRouterDelegate extends RouterDelegate<YouplayRoutePath>
           GamePlayContainer.materialPage,
         ];
       case PageType.gameItem:
-        return [
-          FeaturedGamesPage.materialAuthPage,
-          GamePlayContainer.materialPage,
-          MessagePageContainer.materialPage
-        ];
+        return [FeaturedGamesPage.materialAuthPage, GamePlayContainer.materialPage, MessagePageContainer.materialPage];
       //
       case PageType.login:
         return [LoginPageContainer.materialPage];
@@ -143,16 +149,12 @@ class YouplayRouterDelegate extends RouterDelegate<YouplayRoutePath>
         ];
 
       case PageType.scanGame:
-        return [
-          FeaturedGamesPage.materialAuthPage,
-          MaterialPage(key: ValueKey('QRScannerPage'), child: GameQRnew())
-        ];
+        return [FeaturedGamesPage.materialAuthPage, MaterialPage(key: ValueKey('QRScannerPage'), child: GameQRnew())];
 
       case PageType.makeAccount:
         return [
           FeaturedGamesPage.materialAuthPage,
           LoginPageContainer.materialPage,
-
           MaterialPage(
             key: ValueKey('MakeAccount'),
             child: CreateAccountPage(),
