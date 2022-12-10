@@ -62,7 +62,7 @@ class _VideoRecorderState extends State<VideoRecorder> {
     if (controller == null) {
       return GameLandingLoadingPage(
           backgroundColor: Colors.black,
-          text: "Even wachten, we laden de video...");
+          text: "Even wachten, we laden de camera...");
     }
 
 
@@ -210,7 +210,10 @@ class _VideoRecorderState extends State<VideoRecorder> {
   void _initializeCamera() async {
     CameraDescription? cameraDesc = await getCamera(_direction);
     if (cameraDesc == null) {
-      return;
+       cameraDesc = await getCamera(CameraLensDirection.front);
+       if (cameraDesc == null) {
+         return;
+       }
     }
     controller =
         CameraController(cameraDesc, ResolutionPreset.high, imageFormatGroup: ImageFormatGroup.jpeg, enableAudio: true);
@@ -221,10 +224,11 @@ class _VideoRecorderState extends State<VideoRecorder> {
   }
 
   CameraDescription? getCamera(CameraLensDirection dir) {
-    if (cameras.length == 0) return null;
-    return cameras.firstWhere((CameraDescription? camera) {
-      return camera?.lensDirection == dir;
-    }, orElse: null);
+    if (cameras.isEmpty) return null;
+    for (var i = 0; i < cameras.length; ++i) {
+      if (cameras[i].lensDirection == dir) return cameras[i];
+    }
+    return null;
   }
 
   Future<List<CameraDescription>> _loadCameras() async {
