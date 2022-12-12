@@ -83,3 +83,43 @@ class GameActionResumeRun extends StatelessWidget {
     );
   }
 }
+
+class GameActionPlayAnon extends StatelessWidget {
+  final Function() open;
+
+  const GameActionPlayAnon({required this.open, Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return  ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        minimumSize: Size(60, 24),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(26.0),
+        ),
+      ),
+      onPressed: open,
+      child: const Text('Speel anoniem'),
+    );
+  }
+}
+
+class GameActionNewRunLoggedIn extends StatelessWidget {
+  final Function() open;
+
+  const GameActionNewRunLoggedIn({required this.open, Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return  ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        minimumSize: Size(60, 24),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(26.0),
+        ),
+      ),
+      onPressed: open,
+      child: const Text('Start game'),
+    );
+  }
+}

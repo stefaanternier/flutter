@@ -4,6 +4,7 @@ import 'package:redux/redux.dart';
 import 'package:youplay/models/game.dart';
 import 'package:youplay/models/run.dart';
 import 'package:youplay/store/actions/actions.games.dart';
+import 'package:youplay/store/actions/auth.actions.dart';
 import 'package:youplay/store/actions/current_run.actions.dart';
 import 'package:youplay/store/actions/ui_actions.dart';
 import 'package:youplay/store/selectors/auth.selectors.dart';
@@ -33,9 +34,19 @@ class GameLandingActionButtonContainer extends StatelessWidget {
             return GameActionOpenRuns(open: vm.openRuns);
           }
           print('vm privatemode is ${vm.game!.privateMode}');
+          if (!vm.authenticated && vm.game!.privateMode) {
+            return GameActionPlayAnon(open: vm.loginAndPlayAnon);
+          }
+          if (vm.isAnon && vm.game!.privateMode) {
+            return GameActionPlayAnon(open: vm.playAnon);
+          }
+          if (!vm.isAnon && !vm.game!.privateMode && vm.authenticated) {
+            return GameActionNewRunLoggedIn(open: vm.startGame);
+          }
+          print('hier');
           return GameLandingActionButton(
             showLogin: !vm.game!.privateMode && ((!vm.authenticated || vm.isAnon)),
-            open: vm.open,
+            open: vm.startGame,
             login: vm.login,
           );
         });
@@ -91,6 +102,28 @@ class _ViewModel {
     }
   }
 
+  loginAndPlayAnon() {
+    if (game != null) {
+      store.dispatch(AnonymousLoginAction(onSucces: playAnon));
+
+    }
+  }
+
+  playAnon() {
+    if (game != null) {
+      store.dispatch(new LoadGameRequest(gameId: '${game!.gameId}'));
+      store.dispatch(LoadGameMessagesRequest(gameId: '${game!.gameId}'));
+      store.dispatch(new RequestNewRunAction(gameId: game!.gameId, name: 'demo'));
+    }
+  }
+
+  startGame() {
+    if (game != null) {
+      store.dispatch(new LoadGameRequest(gameId: '${game!.gameId}'));
+      store.dispatch(LoadGameMessagesRequest(gameId: '${game!.gameId}'));
+      store.dispatch(new RequestNewRunAction(gameId: game!.gameId, name: 'demo'));
+    }
+  }
 
   createRunAndStart() {
     if (game != null) {

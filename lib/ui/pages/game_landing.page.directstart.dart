@@ -113,26 +113,26 @@ class GameLandingDirectStartPage extends StatelessWidget {
 
                           ]),
                         GameLandingActionButtonContainer(),
-                        if (game.privateMode) ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            minimumSize: Size(60, 24),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(26.0),
-                            ),
-                          ),
-                          onPressed: createRunAndStart,
-                          child: const Text('OPEN'),
-                        ),
-                        if (!game.privateMode) ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            minimumSize: Size(60, 24),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(26.0),
-                            ),
-                          ),
-                          onPressed: createRunAndStart,
-                          child: const Text('Inloggen'),
-                        ),
+                        // if (game.privateMode) ElevatedButton(
+                        //   style: ElevatedButton.styleFrom(
+                        //     minimumSize: Size(60, 24),
+                        //     shape: RoundedRectangleBorder(
+                        //       borderRadius: BorderRadius.circular(26.0),
+                        //     ),
+                        //   ),
+                        //   onPressed: createRunAndStart,
+                        //   child: const Text('OPEN'),
+                        // ),
+                        // if (!game.privateMode) ElevatedButton(
+                        //   style: ElevatedButton.styleFrom(
+                        //     minimumSize: Size(60, 24),
+                        //     shape: RoundedRectangleBorder(
+                        //       borderRadius: BorderRadius.circular(26.0),
+                        //     ),
+                        //   ),
+                        //   onPressed: createRunAndStart,
+                        //   child: const Text('Inloggen'),
+                        // ),
                       ],
                     ),
                   ),

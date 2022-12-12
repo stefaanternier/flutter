@@ -30,6 +30,7 @@ final Selector<AppState, List<Game>> currentOrganisationGamesSelector2 =
   return recentGamesIt;
 });
 
+
 final Selector<AppState, List<Game>> currentOrganisationPageSelector = createSelector4(
     collectionSelector, currentPageIdState, organisationMappingsSelector, gameFeatureSelector,
     (CollectionState collectionState, int? pageId, OrganisationMappingState organisationMapping, GameState gameState) {
@@ -38,7 +39,7 @@ final Selector<AppState, List<Game>> currentOrganisationPageSelector = createSel
       .where((element) => element.organisationId == '$pageId')
       .map((element) => collectionState.entities[element.gameId])
       .whereType<Game>()
-      .map((element) => gameState.entities[element.gameId] ?? element)
+      .map((element) => gameState.entities['${element.gameId}'] ?? element)
       .whereType<Game>()
       .toList(growable: false);
   recentGamesIt.sort((a, b) {
