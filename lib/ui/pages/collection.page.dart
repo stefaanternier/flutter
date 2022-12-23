@@ -78,6 +78,7 @@ class _FeaturedGamesPageState extends State<FeaturedGamesPage> {
                 FeaturedGamesCarrouselContainer(),
                 OrganisationCarrouselContainer(),
                 MyGamesCarrouselContainer(),
+
                 // ListSeparationText(text: AppLocalizations.of(context).translate('library.allgames')),
                 // RecentGamesResultListContainer(),
                 // SearchResultListContainer(),

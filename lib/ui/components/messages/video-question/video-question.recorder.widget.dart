@@ -38,7 +38,14 @@ class _VideoRecorderState extends State<VideoRecorder> {
   NativeDeviceOrientation recordOrientation = NativeDeviceOrientation.portraitUp;
 
   @override
+  void dispose() {
+    controller?.dispose();
+    super.dispose();
+  }
+
+  @override
   void initState() {
+    print('reinit video state');
     // Fetch the available cameras before initializing the app.
     _loadCameras().then((cameras) {
       setState(() {
@@ -127,19 +134,25 @@ class _VideoRecorderState extends State<VideoRecorder> {
                 child: VideoRecordButton(
                   isRecording: status == VideoRecordingStatus.stopped,
                   tapRecord: () async {
+                    print('tap record');
                     NativeDeviceOrientation orientation =
                         await NativeDeviceOrientationCommunicator().orientation(useSensor: true);
+                    print('tap record - after orientation');
                     setState(() {
+                      print('tap record - state');
                       status = VideoRecordingStatus.recording;
                       recordOrientation = orientation;
+                      print('tap record - state');
                     });
+                    print('tap record  before');
                     startRecording(orientation);
                   },
                   tapStop: () {
+                    stopVideoRecording();
                     setState(() {
                       status = VideoRecordingStatus.stopped;
                     });
-                    stopVideoRecording();
+
                   },
                 ),
               ),
@@ -151,17 +164,20 @@ class _VideoRecorderState extends State<VideoRecorder> {
   }
 
   void startRecording(NativeDeviceOrientation orientation) async {
+    print('start recording');
     if (controller == null) {
       return null;
     }
+    print('start recording1');
     if (!(controller!.value.isInitialized)) {
       return null;
     }
+    print('start recording2');
     if (controller!.value.isRecordingVideo) {
       // A recording is already started, do nothing.
       return null;
     }
-
+    print('start recording3');
     try {
       if (orientation == NativeDeviceOrientation.landscapeLeft) {
         await controller!.lockCaptureOrientation(DeviceOrientation.landscapeRight);
@@ -184,18 +200,22 @@ class _VideoRecorderState extends State<VideoRecorder> {
     if (!controller!.value.isRecordingVideo) {
       return null;
     }
-    setState(() {
-      encoding = true;
-    });
-    try {
-      XFile result = await controller!.stopVideoRecording();
 
+    try {
+      print('before stop');
+      XFile result = await controller!.stopVideoRecording();
+      setState(() {
+        encoding = true;
+      });
+      print('ready');
+      await VideoCompress.setLogLevel(0);
       MediaInfo? mediaInfo = await VideoCompress.compressVideo(
         result.path,
         quality: VideoQuality.DefaultQuality,
         deleteOrigin: true, // It's false by default
       );
       if (mediaInfo != null) {
+        print('new recording');
         widget.newRecording(mediaInfo.path!, mediaInfo.duration?.toInt() ?? 0);
       }
     } on CameraException catch (e) {

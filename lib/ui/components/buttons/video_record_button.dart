@@ -43,8 +43,6 @@ class VideoRecordButton extends StatelessWidget {
                                         child: GestureDetector(
                                       onTap: () {
                                         tapRecord();
-
-
                                       },
                                       child: Material(
                                         color: Colors.red,

@@ -250,9 +250,10 @@ class GeneralItem {
   }
 
   openItemAfterTap(Store<AppState> store, int runId) {
-    AppConfig()
-        .analytics
-        ?.logViewItem(itemId: '${itemId}', itemName: '${title}', itemCategory: '${gameId}');
+    // todo log item tap
+    // AppConfig()
+    //     .analytics
+    //     ?.logViewItem(itemId: '${itemId}', itemName: '${title}', itemCategory: '${gameId}');
     store.dispatch(SetCurrentGeneralItemId(itemId));
     store.dispatch(new ReadItemAction(runId: runId, generalItemId: itemId));
     store.dispatch(new SyncResponsesServerToMobile(

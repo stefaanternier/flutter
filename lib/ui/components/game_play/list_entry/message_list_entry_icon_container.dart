@@ -20,7 +20,7 @@ class MessageEntryIconContainer extends StatelessWidget {
     return StoreConnector<AppState, _ViewModel>(
       converter: (Store<AppState> store) => _ViewModel.fromStore(store),
       builder: (context, vm) {
-        print("entry icon ${item.title} - ${item.getIcon()}");
+        // print("entry icon ${item.title} - ${item.getIcon()}");
         return MessageEntryIcon(
           icon: item.getIcon(),
           primaryColor: read? Colors.grey : vm.gameTheme?.primaryColor ?? AppConfig().themeData!.primaryColor
