@@ -103,6 +103,7 @@ class GeneralItem {
   bool showInList;
   OpenQuestion? openQuestion;
   Color? primaryColor;
+  int? chapter;
 
   GeneralItem(
       {required this.type,
@@ -127,7 +128,9 @@ class GeneralItem {
       this.icon,
       required this.showOnMap,
       required this.showInList,
-      this.openQuestion});
+      this.openQuestion,
+      this.chapter
+      });
 
   factory GeneralItem.fromJson(Map json) {
 //    print("json is  $json");

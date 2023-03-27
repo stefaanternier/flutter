@@ -1,9 +1,14 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:universal_platform/universal_platform.dart';
 import 'package:youplay/models/general_item/narrator_item.dart';
 import 'package:youplay/ui/components/appbar/themed-appbar.container.dart';
 import 'package:youplay/ui/components/web/web_wrapper.dart';
+import 'dart:io' show Platform;
+
+import '../../buttons/cust_flat_button.dart';  //at the top
 
 class PictureFilePreview extends StatefulWidget {
   String imagePath;
@@ -25,6 +30,14 @@ class _PictureFilePreviewState extends State<PictureFilePreview> {
 
   @override
   Widget build(BuildContext context) {
+    String os = Platform.operatingSystem;
+    print('${Platform.operatingSystem}');
+    print('${Platform.operatingSystemVersion}');
+    print('${Platform.environment}');
+    print('${Platform.localeName}');
+    print('${Platform.localHostname}');
+    print('${Platform.version}');
+
     return Scaffold(
       backgroundColor: Color.fromRGBO(0, 0, 0, 1),
       appBar: ThemedAppbarContainer(title: widget.item.title, elevation: false),
@@ -58,6 +71,7 @@ class _PictureFilePreviewState extends State<PictureFilePreview> {
                       fit: BoxFit.cover,
                       image: new FileImage(File(widget.imagePath)),
                     )))),
+
                 Padding(
                   padding: EdgeInsets.all(15),
                   child: TextField(
@@ -75,6 +89,19 @@ class _PictureFilePreviewState extends State<PictureFilePreview> {
                     ),
                   ),
                 ),
+                if (MediaQuery.of(context).viewInsets.bottom == 0.0)
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(46, 8.0, 46, 28),
+                    child: CustomFlatButton(
+                      title: "Send",
+                      icon: FontAwesomeIcons.paperPlane,
+                      color: Colors.white,
+                      onPressed: () {
+                        print('myController.value ${myController.value.text}');
+                        submitText(myController.value.text, context);
+                      },
+                    ),
+                  ),
               ],
             ),
           ),

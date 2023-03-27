@@ -12,19 +12,22 @@ class AnswerList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: ListView.builder(
-          itemCount: fromServer.length,
-          itemBuilder: (context, index) {
-            return Dismissible(
-              key: Key('${fromServer[index].timestamp}'),
-              background: slideLeftBackground(),
-              onDismissed: (direction) {
-                deleteResponse(fromServer[index].responseId);
-              },
-              child: AnswerWithPictureTile(response: fromServer[index], tapPictureTile: tapResponse,)
-            );
-          }),
+    return Padding(
+      padding: const EdgeInsets.only(top: 40),
+      child: Container(
+        child: ListView.builder(
+            itemCount: fromServer.length,
+            itemBuilder: (context, index) {
+              return Dismissible(
+                key: Key('${fromServer[index].timestamp}'),
+                background: slideLeftBackground(),
+                onDismissed: (direction) {
+                  deleteResponse(fromServer[index].responseId);
+                },
+                child: AnswerWithPictureTile(response: fromServer[index], tapPictureTile: tapResponse,)
+              );
+            }),
+      ),
     );
   }
 

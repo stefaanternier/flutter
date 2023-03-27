@@ -52,7 +52,7 @@ class _ViewModel {
 
   static _ViewModel fromStore(Store<AppState> store) {
     int runId = runIdSelector(store.state.currentRunState);
-    print('index is ${currentGeneralItemIndex(store.state)}');
+    // print('index is ${currentGeneralItemIndex(store.state)}');
     return _ViewModel(
         items: itemTimesSortedByTimeReversed(store.state),
         item: currentGeneralItemNew(store.state),

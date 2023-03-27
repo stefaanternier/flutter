@@ -32,6 +32,7 @@ class CombinationLockGeneralItem extends GeneralItem {
     double? lng,
     double? authoringX,
     double? authoringY,
+    int? chapter,
     required bool showOnMap,
     required bool showInList,
   }) : super(
@@ -43,7 +44,7 @@ class CombinationLockGeneralItem extends GeneralItem {
             sortKey: sortKey,
             title: title,
             richText: richText,
-      icon: icon,
+            icon: icon,
             description: description,
             dependsOn: dependsOn,
             disappearOn: disappearOn,
@@ -53,6 +54,7 @@ class CombinationLockGeneralItem extends GeneralItem {
             showInList: showInList,
             authoringX: authoringX,
             authoringY: authoringY,
+            chapter: chapter,
             lat: lat,
             lng: lng);
 
@@ -76,6 +78,7 @@ class CombinationLockGeneralItem extends GeneralItem {
         showInList: json['showInList'] == null ? true : json['showInList'],
         lat: json['lat'],
         lng: json['lng'],
+        chapter: json['chapter'] == null ? null : int.parse(json['chapter']),
         authoringX: json['customMapX'],
         authoringY: json['customMapY'],
         fileReferences: json['fileReferences'] != null
@@ -93,8 +96,6 @@ class CombinationLockGeneralItem extends GeneralItem {
   }
 
   Widget buildPage() {
-    return CombinationLockWidgetContainer(item:this);
+    return CombinationLockWidgetContainer(item: this);
   }
-
-
 }

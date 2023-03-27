@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:youplay/localizations.dart';
 import 'package:youplay/models/general_item/combination_lock.dart';
 import 'package:youplay/ui/components/appbar/themed-appbar.container.dart';
+import 'package:youplay/ui/components/messages/chapter/chapter-widget.container.dart';
 import 'package:youplay/ui/components/messages/combination_lock/combination-lock-entry.dart';
 import 'package:youplay/ui/components/messages/feedback-screen/feedback_screen.dart';
 import 'package:youplay/ui/components/messages/message-background.widget.container.dart';
@@ -18,6 +19,7 @@ class CombinationLockWidget extends StatefulWidget {
   int lockLength;
   bool isNumeric;
   final Function() proceedToNextItem;
+
   CombinationLockWidget(
       {required this.item,
       required this.processAnswerMatch,
@@ -36,6 +38,7 @@ class _CombinationLockWidgetState extends State<CombinationLockWidget> {
   // int _lockLength = 3;
   int _index = -1;
   String _answer = "-";
+
   // bool _numeric = true;
 
   bool _showFalseFeedback = false;
@@ -51,17 +54,18 @@ class _CombinationLockWidgetState extends State<CombinationLockWidget> {
       });
       this._answer = "";
       for (int i = 0; i < longest; i++) {
-        if (widget.isNumeric){
+        if (widget.isNumeric) {
           this._answer += "0";
         } else {
           this._answer += "a";
         }
-
       }
     }
   }
+
   @override
   Widget build(BuildContext context) {
+    print('combination lock widget');
     if (widget.item.showFeedback) {
       if (_showCorrectFeedback) {
         return FeedbackScreen(
@@ -70,7 +74,7 @@ class _CombinationLockWidgetState extends State<CombinationLockWidget> {
             item: widget.item,
             feedback: "${widget.item.answers[_index].feedback}",
             // overridePrimaryColor: widget.giViewModel.getPrimaryColor(),
-            buttonClick: (){
+            buttonClick: () {
               widget.proceedToNextItem();
             });
       } else if (_showFalseFeedback && _index >= 0 && _index < widget.item.answers.length) {
@@ -87,19 +91,23 @@ class _CombinationLockWidgetState extends State<CombinationLockWidget> {
             });
       }
     }
+
     return Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: ThemedAppbarContainer(title: widget.item.title, elevation: false),
         body: WebWrapper(
-            child: MessageBackgroundWidgetContainer(
+
+                child: MessageBackgroundWidgetContainer(
           darken: true,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               RichTextTopContainer(),
-              Flexible(
+                   Flexible(
                   flex: 1,
-                  child: Column(
+
+                  child: ChapterWidgetContainer(
+                      child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: <Widget>[
                       Expanded(
@@ -124,6 +132,7 @@ class _CombinationLockWidgetState extends State<CombinationLockWidget> {
                           )),
                     ],
                   ))
+                   )
             ],
           ),
         )));

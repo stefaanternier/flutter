@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:youplay/localizations.dart';
 import 'package:youplay/models/general_item/code_word.dart';
 import 'package:youplay/ui/components/appbar/themed-appbar.container.dart';
+import 'package:youplay/ui/components/messages/chapter/chapter-widget.container.dart';
 import 'package:youplay/ui/components/messages/codeword/code_word_entry.dart';
 import 'package:youplay/ui/components/messages/feedback-screen/feedback_screen.dart';
 import 'package:youplay/ui/components/messages/message-background.widget.container.dart';
@@ -28,7 +29,7 @@ class CodeWordWidget extends StatefulWidget {
       required this.proceedToNextItem,
       required this.lockLength,
       required this.isNumeric,
-        this.answer,
+      this.answer,
       Key? key})
       : super(key: key);
 
@@ -52,18 +53,17 @@ class _CodeWordWidgetState extends State<CodeWordWidget> {
   initState() {
     super.initState();
     _controller.addListener(() {
-print ("in controller add listeren");
+      print("in controller add listeren");
       setState(() {
         _answer = _controller.text.toUpperCase();
-        print ('answer is $_answer');
+        print('answer is $_answer');
       });
     });
-
-
   }
 
   @override
   Widget build(BuildContext context) {
+    print('code word widget');
     if (widget.item.showFeedback) {
       if (_showCorrectFeedback) {
         return FeedbackScreen(
@@ -91,111 +91,104 @@ print ("in controller add listeren");
     }
     if (widget.answer != null) {
       return GestureDetector(
-
-            onTap: (){
-              print('foucs');
-              // focusNode.requestFocus();
-            },
+        onTap: () {
+          print('foucs');
+          // focusNode.requestFocus();
+        },
         child: Scaffold(
             resizeToAvoidBottomInset: false,
             appBar: ThemedAppbarContainer(title: widget.item.title, elevation: false),
             body: WebWrapper(
                 child: MessageBackgroundWidgetContainer(
-
-                  onTap: () {
-                    print('backgournd tap');
-                  },
-                  darken: true,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: <Widget>[
-                        RichTextTopContainer(),
-                        Flexible(
-                          flex: 1,
-                          child: GestureDetector(
-                            behavior: HitTestBehavior.translucent,
-                            onTap: (){
-                              print('foucs');
-                              focusNode.requestFocus();
-                            },
-                            child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.stretch,
-                                children: <Widget>[
-                                  Expanded(
-                                    child:  Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                          children: List<CodeWordEntry>.generate(
-                                            widget.lockLength,
-                                                (i) => CodeWordEntry(
-                                              index: i,
-                                              text: i < widget.answer!.length ? widget.answer![i] : ' ',
-                                            ),
-                                          )),
+              onTap: () {},
+              darken: true,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  RichTextTopContainer(),
+                  Flexible(
+                    flex: 1,
+                    child: GestureDetector(
+                        behavior: HitTestBehavior.translucent,
+                        onTap: () {
+                          focusNode.requestFocus();
+                        },
+                      child: ChapterWidgetContainer(child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: <Widget>[
+                            Expanded(
+                              child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                  children: List<CodeWordEntry>.generate(
+                                    widget.lockLength,
+                                    (i) => CodeWordEntry(
+                                      index: i,
+                                      text: i < widget.answer!.length ? widget.answer![i] : ' ',
                                     ),
-
-                                  Padding(
-                                      padding: const EdgeInsets.fromLTRB(46, 8.0, 46, 8),
-                                      child: NextButtonContainer(item: widget.item)),
-                                  Padding(
-                                      padding: const EdgeInsets.fromLTRB(46, 8.0, 46, 28),
-                                      child: CombinationLockButtonContainer(
-                                        unlock: unlock,
-                                      )),
-                                ],
-                              )),),
-
-                      ],
+                                  )),
+                            ),
+                            Padding(
+                                padding: const EdgeInsets.fromLTRB(46, 8.0, 46, 8),
+                                child: NextButtonContainer(item: widget.item)),
+                            Padding(
+                                padding: const EdgeInsets.fromLTRB(46, 8.0, 46, 28),
+                                child: CombinationLockButtonContainer(
+                                  unlock: unlock,
+                                )),
+                          ],
+                        ))),
 
                   ),
-                ))
-          // ),
-        ),
+                ],
+              ),
+            ))
+            // ),
+            ),
       );
     }
 
-
     return Scaffold(
-        resizeToAvoidBottomInset: false,
-        appBar: ThemedAppbarContainer(title: widget.item.title, elevation: false),
-        body: WebWrapper(
-            child: MessageBackgroundWidgetContainer(
-              onTap: () {
-                if (!show) {
-                  focusNode.requestFocus();
-                  setState(() {
-                    show = true;
-                  });
-                } else {
+      resizeToAvoidBottomInset: false,
+      appBar: ThemedAppbarContainer(title: widget.item.title, elevation: false),
+      body: WebWrapper(
 
-                  FocusScope.of(context).unfocus();
+              child: MessageBackgroundWidgetContainer(
+        onTap: () {
+          if (!show) {
+            focusNode.requestFocus();
+            setState(() {
+              show = true;
+            });
+          } else {
+            FocusScope.of(context).unfocus();
 
-                  setState(() {
-                    show = false;
-                  });
-                }
-
-              },
-          darken: true,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              RichTextTopContainer(),
-              Flexible(
-                flex: 1,
-                child: GestureDetector(
-                    onTap: () {
-                      focusNode.requestFocus();
-                      setState(() {
-                        show = true;
-                      });
-                    },
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: <Widget>[
-                        if (widget.lockLength >0) TextField(
+            setState(() {
+              show = false;
+            });
+          }
+        },
+        darken: true,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            RichTextTopContainer(),
+            Flexible(
+              flex: 1,
+              child: GestureDetector(
+                  onTap: () {
+                    focusNode.requestFocus();
+                    setState(() {
+                      show = true;
+                    });
+                  },
+                child: ChapterWidgetContainer( child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: <Widget>[
+                      if (widget.lockLength > 0)
+                        TextField(
                           maxLength: widget.lockLength,
-                          style: TextStyle(fontSize: 36, fontWeight: FontWeight.bold,
-                              color: Color.fromRGBO(255, 0, 0, 0)),
+                          style:
+                              TextStyle(fontSize: 36, fontWeight: FontWeight.bold, color: Color.fromRGBO(255, 0, 0, 0)),
                           focusNode: focusNode,
                           controller: _controller,
                           showCursor: false,
@@ -207,44 +200,43 @@ print ("in controller add listeren");
                           onSubmitted: (test) {
                             print('submitted $test');
                             setState(() {
-                              show=false;
+                              show = false;
                             });
                           },
                         ),
-                        Expanded(
-                          flex: show ? 0 : 1 ,
-                          child: GestureDetector(
-                            onTap: focusNode.requestFocus,
-                            child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                children: List<CodeWordEntry>.generate(
-                                  widget.lockLength,
-                                  (i) => CodeWordEntry(
-                                    index: i,
-                                    text: i < _answer.length ? _answer[i] : ' ',
-                                  ),
-                                )),
-                          ),
-                        ),
-                        Padding(
-                            padding: const EdgeInsets.fromLTRB(46, 8.0, 46, 8),
-                            child: NextButtonContainer(item: widget.item)),
-                        Visibility(
-                          visible: !show,
-                          child: Padding(
-                              padding: const EdgeInsets.fromLTRB(46, 8.0, 46, 28),
-                              child: CombinationLockButtonContainer(
-                                unlock: unlock,
+                      Expanded(
+                        flex: show ? 0 : 1,
+                        child: GestureDetector(
+                          onTap: focusNode.requestFocus,
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: List<CodeWordEntry>.generate(
+                                widget.lockLength,
+                                (i) => CodeWordEntry(
+                                  index: i,
+                                  text: i < _answer.length ? _answer[i] : ' ',
+                                ),
                               )),
                         ),
-                      ],
-                    )),
-              )
-            ],
-          ),
-        ))
-        // ),
-        );
+                      ),
+                      Padding(
+                          padding: const EdgeInsets.fromLTRB(46, 8.0, 46, 8),
+                          child: NextButtonContainer(item: widget.item)),
+                      Visibility(
+                        visible: !show,
+                        child: Padding(
+                            padding: const EdgeInsets.fromLTRB(46, 8.0, 46, 28),
+                            child: CombinationLockButtonContainer(
+                              unlock: unlock,
+                            )),
+                      ),
+                    ],
+                  ))),
+            )
+          ],
+        ),
+      )),
+    );
   }
 
   void setValue(val, int index) {
@@ -280,9 +272,6 @@ print ("in controller add listeren");
             _showFalseFeedback = true;
           }
         });
-
-
-
       } else {
         //todo some kind of catch all?
         setState(() {

@@ -31,6 +31,7 @@ class SingleChoiceImageGeneralItem extends GeneralItem {
     double? lng,
     double? authoringX,
     double? authoringY,
+    int? chapter,
     required bool showOnMap,
     required bool showInList,
   }) : super(
@@ -42,7 +43,7 @@ class SingleChoiceImageGeneralItem extends GeneralItem {
             sortKey: sortKey,
             title: title,
             richText: richText,
-      icon: icon,
+            icon: icon,
             description: description,
             dependsOn: dependsOn,
             disappearOn: disappearOn,
@@ -52,6 +53,7 @@ class SingleChoiceImageGeneralItem extends GeneralItem {
             showInList: showInList,
             authoringX: authoringX,
             authoringY: authoringY,
+            chapter: chapter,
             lat: lat,
             lng: lng);
 
@@ -88,6 +90,7 @@ class SingleChoiceImageGeneralItem extends GeneralItem {
         lng: json['lng'],
         authoringX: json['customMapX'],
         authoringY: json['customMapY'],
+        chapter: json['chapter'] == null ? null : int.parse(json['chapter']),
         fileReferences: json['fileReferences'] != null
             ? new Map.fromIterable(json["fileReferences"],
                 key: (item) => item['key'], value: (item) => item['fileReference'] ?? '')

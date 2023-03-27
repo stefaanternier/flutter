@@ -6,6 +6,7 @@ import 'package:universal_platform/universal_platform.dart';
 import 'package:video_player/video_player.dart';
 import 'package:youplay/models/general_item/video_object.dart';
 import 'package:youplay/ui/components/appbar/themed-appbar.container.dart';
+import 'package:youplay/ui/components/messages/chapter/chapter-widget.container.dart';
 import 'package:youplay/ui/components/messages/message-background.widget.container.dart';
 import 'package:youplay/ui/components/messages/video_player/video-player.button.container.dart';
 import 'package:youplay/ui/components/messages/video_player/video-player.controls.container.dart';
@@ -116,7 +117,8 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> with AutomaticKee
 
   buildLandscape(bool left) {
     var screensize = MediaQuery.of(context);
-    return MessageBackgroundWidgetContainer(
+    return ChapterWidgetContainer(
+        child: MessageBackgroundWidgetContainer(
         darken: true,
         child: RotatedBox(
             key: UniqueKey(),
@@ -182,12 +184,13 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> with AutomaticKee
                       child: NextButtonContainer(item: widget.item),
                     )),
               )
-            ])));
+            ]))));
   }
 
   buildPortrait(bool up) {
     var screensize = MediaQuery.of(context);
-    return MessageBackgroundWidgetContainer(
+    return ChapterWidgetContainer(
+        child: MessageBackgroundWidgetContainer(
         darken: true,
         child: RotatedBox(
           quarterTurns: up ? 0 : 2,
@@ -251,6 +254,6 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> with AutomaticKee
               )
             ],
           ),
-        ));
+        )));
   }
 }

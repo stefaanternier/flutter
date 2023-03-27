@@ -9,6 +9,8 @@ import 'package:youplay/ui/components/messages_parts/richtext-top.container.dart
 import 'package:youplay/ui/components/next_button/next_button.container.dart';
 import 'package:youplay/ui/components/web/web_wrapper.dart';
 
+import '../chapter/chapter-widget.container.dart';
+
 class TextQuestionList extends StatelessWidget {
   final TextQuestion item;
   final Function() tapProvideAnswer;

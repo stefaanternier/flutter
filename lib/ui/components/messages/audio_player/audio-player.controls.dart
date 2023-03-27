@@ -19,6 +19,7 @@ class AudioPlayerControls extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('show play is $showPlay');
     return Stack(
       alignment: const Alignment(0, 0.8),
       children: [

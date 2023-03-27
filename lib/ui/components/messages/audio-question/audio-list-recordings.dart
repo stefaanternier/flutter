@@ -6,6 +6,7 @@ import 'package:youplay/ui/components/buttons/cust_flat_button.dart';
 import 'package:youplay/ui/components/messages_parts/richtext-top.container.dart';
 import 'package:youplay/ui/components/next_button/next_button.container.dart';
 
+import '../chapter/chapter-widget.container.dart';
 import '../message-background.widget.container.dart';
 import 'audio-results-list.container.dart';
 
@@ -27,7 +28,8 @@ class AudioListRecordings extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
                 RichTextTopContainer(),
-                Expanded(child: AudioResultsListContainer()),
+                Expanded(child:  ChapterWidgetContainer(
+                    child:AudioResultsListContainer())),
                 Padding(padding: const EdgeInsets.fromLTRB(46, 8.0, 46, 8), child: NextButtonContainer(item: item)),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(46, 8.0, 46, 28),

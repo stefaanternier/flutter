@@ -16,6 +16,7 @@ class AudioObjectGeneralItem extends GeneralItem {
     required String description,
      double? lat,
      double? lng,
+    int? chapter,
     double? authoringX,
     double? authoringY,
     required bool showOnMap,
@@ -39,6 +40,7 @@ class AudioObjectGeneralItem extends GeneralItem {
       primaryColor: primaryColor,
       lat: lat,
       lng: lng,
+      chapter: chapter,
       authoringX: authoringX,
       authoringY: authoringY,
       showOnMap: showOnMap,
@@ -69,6 +71,7 @@ class AudioObjectGeneralItem extends GeneralItem {
             : null,
         lat: json['lat'] ,
         lng: json['lng'] ,
+        chapter: json['chapter'] == null ? null: int.parse(json['chapter']),
         authoringX: json['customMapX'],
         authoringY: json['customMapY'],
         dependsOn: json['dependsOn'] != null

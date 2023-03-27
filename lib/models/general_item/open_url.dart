@@ -29,6 +29,7 @@ class OpenUrl extends GeneralItem {
     double? lng,
     double? authoringX,
     double? authoringY,
+    int? chapter,
     required bool showOnMap,
     required bool showInList,
   }) : super(
@@ -48,6 +49,7 @@ class OpenUrl extends GeneralItem {
             primaryColor: primaryColor,
             lat: lat,
             lng: lng,
+      chapter: chapter,
             authoringX: authoringX,
             authoringY: authoringY,
             showOnMap: showOnMap,
@@ -69,6 +71,7 @@ class OpenUrl extends GeneralItem {
         lng: json['lng'],
         authoringX: json['customMapX'],
         authoringY: json['customMapY'],
+        chapter: json['chapter'] == null ? null: int.parse(json['chapter']),
         showOnMap: json['showOnMap'] ?? false,
         showInList: json['showInList'] == null ? true : json['showInList'],
         fileReferences: json['fileReferences'] != null

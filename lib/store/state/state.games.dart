@@ -17,8 +17,10 @@ class GameState {
 
   GameState copyWithGame(Game newGame) => GameState(
         ids: ids..add(newGame.id),
-        entities: HashMap<String, Game>.from(entities)..putIfAbsent(newGame.id, () => newGame),
+        entities: HashMap<String, Game>.from(entities)..update(newGame.id, (value) => newGame, ifAbsent: () => newGame),
       );
+
+
 
   dynamic toJson() => {'entities': entities.values.map((e) => e.toJson()).toList()};
 

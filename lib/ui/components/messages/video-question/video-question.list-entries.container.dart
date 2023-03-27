@@ -41,13 +41,17 @@ class _ViewModel {
   _ViewModel({required this.videoResponses, required this.store});
 
   static _ViewModel fromStore(Store<AppState> store) {
-    VideoQuestion item = currentGeneralItemNew(store.state) as VideoQuestion;
-    return new _ViewModel(videoResponses: [
-      ...currentRunResponsesSelector(store.state)
-          .where((element) => element.item?.itemId == item.itemId)
-          .toList(growable: false),
-      ...currentItemResponsesFromServerAsList(store.state)
-    ], store: store);
+    if (currentGeneralItemNew(store.state) is VideoQuestion) {
+      VideoQuestion item = currentGeneralItemNew(store.state) as VideoQuestion;
+      return new _ViewModel(videoResponses: [
+        ...currentRunResponsesSelector(store.state)
+            .where((element) => element.item?.itemId == item.itemId)
+            .toList(growable: false),
+        ...currentItemResponsesFromServerAsList(store.state)
+      ], store: store);
+    } else {
+      return new _ViewModel(videoResponses: [], store: store);
+    }
   }
 
   deleteVideo(Response response) {

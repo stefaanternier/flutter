@@ -15,22 +15,25 @@ class AudioResultsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: audioResponses.length,
-      itemBuilder: (context, index) {
-        final DateTime thatTime =
-        DateTime.fromMillisecondsSinceEpoch(
-            audioResponses[index].timestamp);
-        return Dismissible(
-            key: Key('${audioResponses[index].timestamp}'),
-            background: AudioSlideLeftBackground(),
-            onDismissed: (direction) {
-              this.dismissAudio(audioResponses[index]);
-            },
-            child: //Container(),
-             ListAudioPlayer(response: audioResponses[index])
-        );
-      },
+    return Padding(
+      padding: const EdgeInsets.only(top: 40),
+      child: ListView.builder(
+        itemCount: audioResponses.length,
+        itemBuilder: (context, index) {
+          final DateTime thatTime =
+          DateTime.fromMillisecondsSinceEpoch(
+              audioResponses[index].timestamp);
+          return Dismissible(
+              key: Key('${audioResponses[index].timestamp}'),
+              background: AudioSlideLeftBackground(),
+              onDismissed: (direction) {
+                this.dismissAudio(audioResponses[index]);
+              },
+              child: //Container(),
+               ListAudioPlayer(response: audioResponses[index])
+          );
+        },
+      ),
     );
   }
 }

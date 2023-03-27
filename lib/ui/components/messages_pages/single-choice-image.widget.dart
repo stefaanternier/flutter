@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:youplay/localizations.dart';
 import 'package:youplay/models/general_item/single_choice_image.dart';
 import 'package:youplay/ui/components/appbar/themed-appbar.container.dart';
+import 'package:youplay/ui/components/messages/chapter/chapter-widget.container.dart';
 import 'package:youplay/ui/components/messages/feedback-screen/feedback_screen.dart';
 import 'package:youplay/ui/components/messages/image-question/image_question.dart';
 import 'package:youplay/ui/components/messages/message-background.widget.container.dart';
@@ -76,7 +77,8 @@ class _SingleChoiceImageWidgetState extends State<SingleChoiceImageWidget> {
         resizeToAvoidBottomInset: false,
         appBar: ThemedAppbarContainer(title: widget.item.title, elevation: true),
         body: WebWrapper(
-            child: MessageBackgroundWidgetContainer(
+            child: ChapterWidgetContainer(
+                child: MessageBackgroundWidgetContainer(
               child: ImageQuestion(
                 item: widget.item,
                 buttonText: (widget.item.description != '')
@@ -100,7 +102,7 @@ print('answerId is ${answerId}');
                 },
                 // giViewModel: this.widget.giViewModel,
               ),
-            )));
+            ))));
   }
 
   submitPressed() {

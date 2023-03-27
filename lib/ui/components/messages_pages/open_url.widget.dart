@@ -5,6 +5,7 @@ import 'package:universal_platform/universal_platform.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:youplay/models/general_item/open_url.dart';
 import 'package:youplay/ui/components/appbar/themed-appbar.container.dart';
+import 'package:youplay/ui/components/messages/chapter/chapter-widget.container.dart';
 import 'package:youplay/ui/components/messages/message-background.widget.container.dart';
 import 'package:youplay/ui/components/next_button/next_button.container.dart';
 import 'package:youplay/ui/components/web/web_wrapper.dart';
@@ -33,7 +34,8 @@ class _OpenUrlWidgetState extends State<OpenUrlWidget> {
         resizeToAvoidBottomInset: false,
         appBar: ThemedAppbarContainer(title: widget.item.title, elevation: true),
         body: WebWrapper(
-            child: MessageBackgroundWidgetContainer(
+            child: ChapterWidgetContainer(
+                child: MessageBackgroundWidgetContainer(
           child: Stack(children: [
             WebView(
                 initialUrl: widget.item.url,
@@ -53,6 +55,6 @@ class _OpenUrlWidgetState extends State<OpenUrlWidget> {
                   child: NextButtonContainer(item: widget.item),
                 )),
           ]),
-        )));
+        ))));
   }
 }

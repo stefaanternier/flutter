@@ -93,7 +93,7 @@ class AppState {
       'gameThemeState': this.gameThemeState.toJson(),
       'runState': this.runState.toJson()
     };
-    print('saving org ${this.organisationState.toJson()}');
+    // print('saving org ${this.organisationState.toJson()}');
     return json;
   }
 

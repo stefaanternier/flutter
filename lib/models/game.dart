@@ -35,6 +35,7 @@ class Game {
 
   int theme;
   int lastModificationDate;
+  int chapters;
   bool privateMode;
   bool webEnabled;
   bool deleted;
@@ -45,6 +46,7 @@ class Game {
       : gameId = int.parse("${json['gameId']}"),
         theme = int.parse("${json['theme']}"),
         lastModificationDate = json['lastModificationDate'] != null ? int.parse("${json['lastModificationDate']}") : 0,
+        chapters = json['chapters'] != null ? int.parse("${json['chapters']}") : 0,
         rank = json['rank'] != null ? int.parse("${json['rank']}") : 1,
         amountOfPlays = json['amountOfPlays'] != null ? int.parse("${json['amountOfPlays']}") : 0,
         sharing = json['sharing'],
@@ -59,7 +61,6 @@ class Game {
         boardWidth = json['boardWidth'] != null ? (json['boardWidth'] as int).toDouble() : 1080,
         endsOn = json['endsOn'] != null ? Dependency.fromJson(json['endsOn']) : null,
         language = json['language'],
-
         title = json['title'] ?? '',
         description = json['description'] ?? '',
         organisationId = json['organisationId'],
@@ -103,6 +104,7 @@ class Game {
       this.gameOverButton,
       this.gameOverDescription,
       required this.messageListTypes,
+      required this.chapters,
       this.description = "",
       this.organisationId,
       this.deleted = false,
@@ -112,6 +114,7 @@ class Game {
     dynamic j = {
       'gameId': this.gameId,
       'lastModificationDate': this.lastModificationDate,
+      'chapters': this.chapters,
       'sharing': this.sharing,
       'rank': this.rank,
       'amountOfPlays': '${this.amountOfPlays}',
@@ -134,8 +137,9 @@ class Game {
       'gameOverButton': this.gameOverButton,
       'gameOverDescription': this.gameOverDescription,
       'iconAbbreviation': this.iconAbbreviation,
-      'messageListTypes':
-          this.messageListTypes.length == 1 ? '${this.messageListTypes[0]}' : this.messageListTypes.map((entry) => '$entry').join(','),
+      'messageListTypes': this.messageListTypes.length == 1
+          ? '${this.messageListTypes[0]}'
+          : this.messageListTypes.map((entry) => '$entry').join(','),
       'deleted': this.deleted,
     };
     return j;

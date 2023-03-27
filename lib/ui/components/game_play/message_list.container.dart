@@ -110,7 +110,7 @@ class _ViewModel {
     }
 
     List<ItemTimes> testItems = itemTimesSortedByTime(store.state);
-    print('amount of items ${testItems.length}');
+    // print('amount of items ${testItems.length}');
     return _ViewModel(
         isLoading: isSyncingActions(store.state) , //todo check if is syncing messages
         listType: lt,

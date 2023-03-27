@@ -10,6 +10,8 @@ import 'package:youplay/ui/components/messages/message-background.widget.contain
 import 'package:youplay/ui/components/next_button/next_button.container.dart';
 import 'package:youplay/ui/components/web/web_wrapper.dart';
 
+import '../messages/chapter/chapter-widget.container.dart';
+
 class AudioPlayerWidget extends StatefulWidget {
   final AudioObjectGeneralItem item;
   final String? url;
@@ -41,7 +43,7 @@ class _AudioPlayerWidgetState extends State<AudioPlayerWidget> {
     });
 
     audioPlayer.onPositionChanged.listen((Duration p) async {
-      Duration? duration = await audioPlayer.getDuration() ;
+      Duration? duration = await audioPlayer.getDuration();
       _maxposition = (duration?.inMilliseconds ?? 0).toDouble();
       setState(() {
         _position = p.inMilliseconds.roundToDouble();
@@ -65,7 +67,8 @@ class _AudioPlayerWidgetState extends State<AudioPlayerWidget> {
         resizeToAvoidBottomInset: false,
         appBar: ThemedAppbarContainer(title: widget.item.title, elevation: true),
         body: WebWrapper(
-            child: GestureDetector(
+            child: ChapterWidgetContainer(
+                child: GestureDetector(
           onTap: () {
             setState(() {
               showControls = !showControls;
@@ -86,10 +89,13 @@ class _AudioPlayerWidgetState extends State<AudioPlayerWidget> {
                                 setState(() {
                                   if ((status == PlayerState.stopped || status == PlayerState.completed)) {
                                     play();
+                                    status = PlayerState.playing;
                                   } else if (status == PlayerState.playing) {
                                     audioPlayer.pause();
+                                    status = PlayerState.paused;
                                   } else if (status == PlayerState.paused) {
                                     audioPlayer.resume();
+                                    status = PlayerState.playing;
                                   }
                                 });
                               });
@@ -124,7 +130,7 @@ class _AudioPlayerWidgetState extends State<AudioPlayerWidget> {
               ],
             ),
           ),
-        )));
+        ))));
   }
 
   @override

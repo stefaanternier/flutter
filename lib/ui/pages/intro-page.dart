@@ -82,6 +82,7 @@ class IntroPage extends StatelessWidget {
                     onPressed: this.next,
                   ),
                 ),
+
                 Padding(
                   padding: const EdgeInsets.fromLTRB(0, 0, 0, 22),
                   child: new DotsIndicator(

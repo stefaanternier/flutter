@@ -29,6 +29,7 @@ class MultipleChoiceImageGeneralItem extends GeneralItem {
     required bool showInList,
     double? lat,
     double? lng,
+    int? chapter,
     double? authoringX,
     double? authoringY,
   }) : super(
@@ -50,6 +51,7 @@ class MultipleChoiceImageGeneralItem extends GeneralItem {
             showInList: showInList,
             authoringX: authoringX,
             authoringY: authoringY,
+            chapter: chapter,
             lat: lat,
             lng: lng);
 
@@ -77,6 +79,7 @@ class MultipleChoiceImageGeneralItem extends GeneralItem {
         lng: json['lng'],
         authoringX: json['customMapX'],
         authoringY: json['customMapY'],
+        chapter: json['chapter'] == null ? null : int.parse(json['chapter']),
         fileReferences: json['fileReferences'] != null
             ? new Map.fromIterable(json["fileReferences"],
                 key: (item) => item['key'], value: (item) => item['fileReference'] ?? '')

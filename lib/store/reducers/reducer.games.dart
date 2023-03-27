@@ -5,7 +5,16 @@ import '../state/state.games.dart';
 
 final gameReducer = combineReducers<GameState>([
   TypedReducer<GameState, LoadGameSuccess>((GameState state, LoadGameSuccess action) {
-    print("loading game ${action.game.gameId} - ${action.game.title}");
-    return state.copyWithGame(action.game);}),
-  TypedReducer<GameState, LoadGameListSuccess>((GameState state, LoadGameListSuccess action) => state.copyWithGames(action.gameList.items)),
+
+    if (action.game.gameId == 5212115224756224) {
+      print("loading game ${action.game.gameId} - ${action.game.title}");
+    }
+    GameState newGamester = state.copyWithGame(action.game);
+    return newGamester;
+  }),
+  TypedReducer<GameState, LoadGameListSuccess>((GameState state, LoadGameListSuccess action) {
+    return state.copyWithGames(action.gameList.items);
+
+
+}),
 ]);

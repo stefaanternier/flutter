@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:youplay/localizations.dart';
 import 'package:youplay/models/general_item/multiple_choice_image.dart';
 import 'package:youplay/ui/components/appbar/themed-appbar.container.dart';
+import 'package:youplay/ui/components/messages/chapter/chapter-widget.container.dart';
 import 'package:youplay/ui/components/messages/feedback-screen/feedback_screen.dart';
 import 'package:youplay/ui/components/messages/image-question/image_question.dart';
 import 'package:youplay/ui/components/messages/message-background.widget.container.dart';
@@ -16,11 +17,11 @@ class MultipleChoiceImageWidget extends StatefulWidget {
 
   MultipleChoiceImageWidget(
       {required this.item,
-        required this.submit,
-        required this.submitCorrectAnswer,
-        required this.submitWrongAnswer,
-        required this.proceedToNextItem,
-        Key? key})
+      required this.submit,
+      required this.submitCorrectAnswer,
+      required this.submitWrongAnswer,
+      required this.proceedToNextItem,
+      Key? key})
       : super(key: key);
 
   @override
@@ -77,26 +78,28 @@ class _MultipleChoiceImageWidgetState extends State<MultipleChoiceImageWidget> {
         resizeToAvoidBottomInset: false,
         appBar: ThemedAppbarContainer(title: widget.item.title, elevation: true),
         body: WebWrapper(
-            child: MessageBackgroundWidgetContainer(
-              child: ImageQuestion( //todo refactor image question
-                item: widget.item,
-                buttonText: (widget.item.description != '')
-                    ? widget.item.description
-                    : AppLocalizations.of(context).translate('screen.proceed'),
-                // primaryColor: widget.giViewModel.getPrimaryColor(),
-                answers: widget.item.answers,
-                selected: _selected,
-                buttonClick: (answerId, int? index) {
-                  setState(() {
-                    _selected[answerId] = !(_selected[answerId]??false);
-                  });
-                },
-                buttonVisible: this.answerGiven(),
-                submitClick: () {
-                  this.submitPressed();
-                },
-              ),
-            )));
+            child: ChapterWidgetContainer(
+                child: MessageBackgroundWidgetContainer(
+          child: ImageQuestion(
+            //todo refactor image question
+            item: widget.item,
+            buttonText: (widget.item.description != '')
+                ? widget.item.description
+                : AppLocalizations.of(context).translate('screen.proceed'),
+            // primaryColor: widget.giViewModel.getPrimaryColor(),
+            answers: widget.item.answers,
+            selected: _selected,
+            buttonClick: (answerId, int? index) {
+              setState(() {
+                _selected[answerId] = !(_selected[answerId] ?? false);
+              });
+            },
+            buttonVisible: this.answerGiven(),
+            submitClick: () {
+              this.submitPressed();
+            },
+          ),
+        ))));
   }
 
   submitPressed() {
@@ -115,12 +118,12 @@ class _MultipleChoiceImageWidgetState extends State<MultipleChoiceImageWidget> {
     if (correct) {
       widget.submitCorrectAnswer();
       setState(() {
-        if (widget.item.showFeedback)  _showCorrectFeedback = true;
+        if (widget.item.showFeedback) _showCorrectFeedback = true;
       });
     } else {
       widget.submitWrongAnswer();
       setState(() {
-        if (widget.item.showFeedback)  _showFalseFeedback = true;
+        if (widget.item.showFeedback) _showFalseFeedback = true;
       });
     }
     if (!widget.item.showFeedback) {

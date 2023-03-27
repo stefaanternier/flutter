@@ -17,7 +17,7 @@ class AudioQuestion extends GeneralItem {
       required int sortKey,
       required String title,
       required String richText,
-        String? icon,
+      String? icon,
       required String description,
       Dependency? dependsOn,
       Dependency? disappearOn,
@@ -27,6 +27,7 @@ class AudioQuestion extends GeneralItem {
       double? lng,
       double? authoringX,
       double? authoringY,
+      int? chapter,
       required bool showOnMap,
       required bool showInList,
       OpenQuestion? openQuestion})
@@ -39,7 +40,7 @@ class AudioQuestion extends GeneralItem {
             sortKey: sortKey,
             title: title,
             richText: richText,
-      icon: icon,
+            icon: icon,
             description: description,
             dependsOn: dependsOn,
             disappearOn: disappearOn,
@@ -49,6 +50,7 @@ class AudioQuestion extends GeneralItem {
             lng: lng,
             authoringX: authoringX,
             authoringY: authoringY,
+            chapter: chapter,
             showOnMap: showOnMap,
             showInList: showInList,
             openQuestion: openQuestion);
@@ -69,6 +71,7 @@ class AudioQuestion extends GeneralItem {
         lng: json['lng'],
         authoringX: json['customMapX'],
         authoringY: json['customMapY'],
+        chapter: json['chapter'] == null ? null : int.parse(json['chapter']),
         showOnMap: json['showOnMap'] ?? false,
         showInList: json['showInList'] == null ? true : json['showInList'],
         openQuestion: json['openQuestion'] != null ? OpenQuestion.fromJson(json["openQuestion"]) : null,
@@ -90,7 +93,6 @@ class AudioQuestion extends GeneralItem {
   }
 
   Widget buildPage() {
-    return AudioQuestionWidgetContainer(item:this);
+    return AudioQuestionWidgetContainer(item: this);
   }
-
 }

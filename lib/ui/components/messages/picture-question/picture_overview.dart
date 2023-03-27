@@ -4,6 +4,7 @@ import 'package:youplay/models/general_item/narrator_item.dart';
 import 'package:youplay/models/response.dart';
 import 'package:youplay/ui/components/appbar/themed-appbar.container.dart';
 import 'package:youplay/ui/components/buttons/cust_flat_button.dart';
+import 'package:youplay/ui/components/messages/chapter/chapter-widget.container.dart';
 import 'package:youplay/ui/components/messages/message-background.widget.container.dart';
 import 'package:youplay/ui/components/messages/picture-question/answerlist.container.dart';
 import 'package:youplay/ui/components/messages_parts/richtext-top.container.dart';
@@ -26,15 +27,16 @@ class PictureOverview extends StatelessWidget {
       resizeToAvoidBottomInset: false,
       appBar: ThemedAppbarContainer(title: item.title, elevation: false),
       body: MessageBackgroundWidgetContainer(
+
         darken: true,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             RichTextTopContainer(),
             Expanded(
-                child: AnswerListContainer(
+              child: ChapterWidgetContainer(child: AnswerListContainer(
               tapResponse: this.tapPicture,
-            )),
+            ))),
             Padding(
               padding: const EdgeInsets.fromLTRB(46, 8.0, 46, 8),
               child: NextButtonContainer(item: item),

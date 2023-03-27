@@ -3,6 +3,7 @@ import 'package:youplay/localizations.dart';
 import 'package:youplay/models/general_item/single_choice.dart';
 import 'package:youplay/ui/components/appbar/themed-appbar.container.dart';
 import 'package:youplay/ui/components/cards/multiple_choice_card.dart';
+import 'package:youplay/ui/components/messages/chapter/chapter-widget.container.dart';
 import 'package:youplay/ui/components/messages/feedback-screen/feedback_screen.dart';
 import 'package:youplay/ui/components/messages/message-background.widget.container.dart';
 import 'package:youplay/ui/components/web/web_wrapper.dart';
@@ -32,6 +33,7 @@ class _SingleChoiceWidgetState extends State<SingleChoiceWidget> {
   bool _showFalseFeedback = false;
   bool _showCorrectFeedback = false;
   bool newLibrary = true;
+
   // String? wrongFeedback;
   // String? correctFeedback;
   late Map<String, bool> _selected = new Map();
@@ -72,7 +74,8 @@ class _SingleChoiceWidgetState extends State<SingleChoiceWidget> {
         resizeToAvoidBottomInset: false,
         appBar: ThemedAppbarContainer(title: widget.item.title, elevation: true),
         body: WebWrapper(
-            child: MessageBackgroundWidgetContainer(
+            child: ChapterWidgetContainer(
+                child: MessageBackgroundWidgetContainer(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.end,
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -101,7 +104,7 @@ class _SingleChoiceWidgetState extends State<SingleChoiceWidget> {
                           submitPressed: submitPressed)))
             ],
           ),
-        )));
+        ))));
   }
 
   submitPressed() {

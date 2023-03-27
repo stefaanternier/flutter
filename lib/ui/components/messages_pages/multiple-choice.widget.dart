@@ -7,24 +7,29 @@ import 'package:youplay/ui/components/messages/feedback-screen/feedback_screen.d
 import 'package:youplay/ui/components/messages/message-background.widget.container.dart';
 import 'package:youplay/ui/components/web/web_wrapper.dart';
 
+import '../messages/chapter/chapter-widget.container.dart';
+
 class MultipleChoiceWidget extends StatefulWidget {
   final MultipleChoiceGeneralItem item;
   Function(String) submit;
   Function() submitCorrectAnswer;
   Function() submitWrongAnswer;
   Function() proceedToNextItem;
-  MultipleChoiceWidget({required this.item,
-    required this.submit,
-    required this.submitCorrectAnswer,
-    required this.submitWrongAnswer,
-    required this.proceedToNextItem, Key? key}) : super(key: key);
+
+  MultipleChoiceWidget(
+      {required this.item,
+      required this.submit,
+      required this.submitCorrectAnswer,
+      required this.submitWrongAnswer,
+      required this.proceedToNextItem,
+      Key? key})
+      : super(key: key);
 
   @override
   _MultipleChoiceWidgetState createState() => _MultipleChoiceWidgetState();
 }
 
 class _MultipleChoiceWidgetState extends State<MultipleChoiceWidget> {
-
   Map<String, bool> _selected = new Map();
   bool _showFalseFeedback = false;
   bool _showCorrectFeedback = false;
@@ -54,7 +59,7 @@ class _MultipleChoiceWidgetState extends State<MultipleChoiceWidget> {
         feedback: "$correctFeedback",
         // overridePrimaryColor: widget.giViewModel.getPrimaryColor(),
         buttonClick: widget.proceedToNextItem,
-        );
+      );
     } else if (_showFalseFeedback) {
       return FeedbackScreen(
           result: 'wrong',
@@ -72,30 +77,33 @@ class _MultipleChoiceWidgetState extends State<MultipleChoiceWidget> {
         resizeToAvoidBottomInset: false,
         appBar: ThemedAppbarContainer(title: widget.item.title, elevation: true),
         body: WebWrapper(
-            child: MessageBackgroundWidgetContainer(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: <Widget>[
-                    Opacity(
-                        opacity: 0.9,
-                        child: Padding(padding: EdgeInsets.fromLTRB(20, 0, 20, 10),
-                            child: MultipleChoicesCard(
-                                text : widget.item.text,
-                                buttonText: (widget.item.description != '') ? widget.item.description : AppLocalizations.of(context).translate('screen.proceed'),
-                                answers: widget.item.answers,
-                                selected: _selected,
-                                changeSelection: (bool value, int i, String id) {
-                                  setState(() {
-                                    _selected[widget.item.answers[i].id] = value;
-                                  });
-                                },
-                                buttonVisible: this.answerGiven(),
-                                submitPressed: submitPressed
-                            )))
-                  ],
-              ),
-            )));
+            child: ChapterWidgetContainer(
+                child: MessageBackgroundWidgetContainer(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              Opacity(
+                  opacity: 0.9,
+                  child: Padding(
+                      padding: EdgeInsets.fromLTRB(20, 0, 20, 10),
+                      child: MultipleChoicesCard(
+                          text: widget.item.text,
+                          buttonText: (widget.item.description != '')
+                              ? widget.item.description
+                              : AppLocalizations.of(context).translate('screen.proceed'),
+                          answers: widget.item.answers,
+                          selected: _selected,
+                          changeSelection: (bool value, int i, String id) {
+                            setState(() {
+                              _selected[widget.item.answers[i].id] = value;
+                            });
+                          },
+                          buttonVisible: this.answerGiven(),
+                          submitPressed: submitPressed)))
+            ],
+          ),
+        ))));
   }
 
   submitPressed() {
@@ -115,13 +123,13 @@ class _MultipleChoiceWidgetState extends State<MultipleChoiceWidget> {
       widget.submitCorrectAnswer();
       print('submit correct answer');
       setState(() {
-        if (widget.item.showFeedback)  _showCorrectFeedback = true;
+        if (widget.item.showFeedback) _showCorrectFeedback = true;
       });
     } else {
       print('submit wrong answer');
       widget.submitWrongAnswer();
       setState(() {
-        if (widget.item.showFeedback)  _showFalseFeedback = true;
+        if (widget.item.showFeedback) _showFalseFeedback = true;
       });
     }
     if (!widget.item.showFeedback) {

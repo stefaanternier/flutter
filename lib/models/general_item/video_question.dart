@@ -27,7 +27,9 @@ class VideoQuestion extends GeneralItem {
       double? lng,
       double? authoringX,
       double? authoringY,
-      required bool showOnMap,
+        int? chapter,
+
+        required bool showOnMap,
       required bool showInList,
       OpenQuestion? openQuestion})
       : super(
@@ -49,7 +51,9 @@ class VideoQuestion extends GeneralItem {
             lng: lng,
             authoringX: authoringX,
             authoringY: authoringY,
-            showOnMap: showOnMap,
+      chapter: chapter,
+
+      showOnMap: showOnMap,
             showInList: showInList,
             openQuestion: openQuestion);
 
@@ -68,6 +72,7 @@ class VideoQuestion extends GeneralItem {
         lng: json['lng'],
         authoringX: json['customMapX'],
         authoringY: json['customMapY'],
+        chapter: json['chapter'] == null ? null: int.parse(json['chapter']),
         showOnMap: json['showOnMap'] ?? false,
         showInList: json['showInList'] == null ? true : json['showInList'],
         openQuestion: json['openQuestion'] != null ? OpenQuestion.fromJson(json["openQuestion"]) : null,

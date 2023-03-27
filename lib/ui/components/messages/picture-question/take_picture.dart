@@ -70,13 +70,14 @@ class _TakePictureWidgetState extends State<TakePictureWidget> {
           final nativeOrientation = NativeDeviceOrientationReader.orientation(context);
           if (nativeOrientation == NativeDeviceOrientation.landscapeLeft) {
             if (UniversalPlatform.isAndroid) {
+              // print('orientation is landscapleft');
               controller?.lockCaptureOrientation(DeviceOrientation.landscapeLeft);
             } else {
               controller?.lockCaptureOrientation(DeviceOrientation.landscapeRight);
             }
-
           } else if (nativeOrientation == NativeDeviceOrientation.landscapeRight) {
             if (UniversalPlatform.isAndroid) {
+              // print('orientation is landscaperight');
               controller?.lockCaptureOrientation(DeviceOrientation.landscapeRight);
             } else {
               controller?.lockCaptureOrientation(DeviceOrientation.landscapeLeft);
@@ -124,8 +125,10 @@ class _TakePictureWidgetState extends State<TakePictureWidget> {
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
                           RichTextTopContainer(),
-                        CameraSquarePreview(controller: controller, orientation: nativeOrientation,),
-
+                          CameraSquarePreview(
+                            controller: controller,
+                            orientation: nativeOrientation,
+                          ),
                         ],
                       ),
                     ],
@@ -174,11 +177,12 @@ class _TakePictureWidgetState extends State<TakePictureWidget> {
     } on CameraException catch (e) {
       return null;
     }
+
     if (kIsWeb) {
       widget.pictureTaken(imageFile.path);
     } else {
       ImageProperties properties = await FlutterNativeImage.getImageProperties(imageFile.path);
-
+      print('width - height ${properties.width} --- ${properties.height}');
       int width = properties.width ?? 250;
       int height = properties.height ?? 700;
       if (width < height) {
@@ -201,6 +205,5 @@ class _TakePictureWidgetState extends State<TakePictureWidget> {
         widget.pictureTaken(croppedFile.path);
       }
     }
-
   }
 }

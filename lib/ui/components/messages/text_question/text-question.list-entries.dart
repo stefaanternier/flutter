@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:youplay/models/response.dart';
+import 'package:youplay/ui/components/messages/chapter/chapter-widget.container.dart';
 
 import 'dismissible_background.dart';
 
@@ -19,39 +20,42 @@ class TextQuestionListEntries extends StatelessWidget {
     final DateFormat formatter = DateFormat.yMMMMd(
         Localizations.localeOf(context).languageCode);
     return Expanded(
-      child:
-           ListView.separated(
-              separatorBuilder: (context, index) => Divider(
-                color: Colors.grey,
+      child: ChapterWidgetContainer(child:
+           Padding(
+             padding: const EdgeInsets.only(top: 40),
+             child: ListView.separated(
+                separatorBuilder: (context, index) => Divider(
+                  color: Colors.grey,
+                ),
+                itemCount: responses.length,
+                itemBuilder: (context, index) {
+                  final DateTime thatTime =
+                  DateTime.fromMillisecondsSinceEpoch(
+                      responses[index].timestamp);
+                  return Dismissible(
+                      key: Key('${responses[index].timestamp}'),
+                      background: DismissibleBackground(),
+                      onDismissed: (direction) {
+                        deleteResponse(responses[index]);
+                        // setState(() {
+                        //   this.deleted.add(map.getItem(index));
+                        //   deleteResponse(map.delete(index));
+                        //   map.deleteAllResponses(this.deleted);
+                        // });
+                      },
+                      child: ListTile(
+                        title: Text("${responses[index].value}",
+                            style: TextStyle(color: Colors.white)),
+                        trailing: Text(
+                            '${formatter.format(thatTime)} ',
+                            style: TextStyle(
+                                color:
+                                Colors.white.withOpacity(0.7))),
+                      ));
+                },
               ),
-              itemCount: responses.length,
-              itemBuilder: (context, index) {
-                final DateTime thatTime =
-                DateTime.fromMillisecondsSinceEpoch(
-                    responses[index].timestamp);
-                return Dismissible(
-                    key: Key('${responses[index].timestamp}'),
-                    background: DismissibleBackground(),
-                    onDismissed: (direction) {
-                      deleteResponse(responses[index]);
-                      // setState(() {
-                      //   this.deleted.add(map.getItem(index));
-                      //   deleteResponse(map.delete(index));
-                      //   map.deleteAllResponses(this.deleted);
-                      // });
-                    },
-                    child: ListTile(
-                      title: Text("${responses[index].value}",
-                          style: TextStyle(color: Colors.white)),
-                      trailing: Text(
-                          '${formatter.format(thatTime)} ',
-                          style: TextStyle(
-                              color:
-                              Colors.white.withOpacity(0.7))),
-                    ));
-              },
-            )
+           )
           ,
-    );
+      ));
   }
 }

@@ -4,7 +4,6 @@ import 'package:youplay/models/general_item/dependency.dart';
 import 'package:youplay/ui/components/messages_pages/video-player.widget.container.dart';
 
 class VideoObjectGeneralItem extends GeneralItem {
-
   bool autoPlay;
 
   VideoObjectGeneralItem({
@@ -22,6 +21,7 @@ class VideoObjectGeneralItem extends GeneralItem {
     double? lng,
     double? authoringX,
     double? authoringY,
+    int? chapter,
     required bool showOnMap,
     required bool showInList,
     Dependency? dependsOn,
@@ -37,7 +37,7 @@ class VideoObjectGeneralItem extends GeneralItem {
             sortKey: sortKey,
             title: title,
             richText: richText,
-      icon: icon,
+            icon: icon,
             description: description,
             fileReferences: fileReferences,
             primaryColor: primaryColor,
@@ -45,6 +45,7 @@ class VideoObjectGeneralItem extends GeneralItem {
             lng: lng,
             authoringX: authoringX,
             authoringY: authoringY,
+            chapter: chapter,
             showOnMap: showOnMap,
             showInList: showInList,
             disappearOn: disappearOn,
@@ -73,6 +74,7 @@ class VideoObjectGeneralItem extends GeneralItem {
         lng: json['lng'],
         authoringX: json['customMapX'],
         authoringY: json['customMapY'],
+        chapter: json['chapter'] == null ? null : int.parse(json['chapter']),
         dependsOn: json['dependsOn'] != null ? Dependency.fromJson(json['dependsOn']) : null,
         disappearOn: json['disappearOn'] != null ? Dependency.fromJson(json['disappearOn']) : null);
     // if (returnItem.fileReferences != null) {

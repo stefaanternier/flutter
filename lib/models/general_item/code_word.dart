@@ -32,29 +32,31 @@ class CodeWordGeneralItem extends GeneralItem {
     double? lng,
     double? authoringX,
     double? authoringY,
+    int? chapter,
     required bool showOnMap,
     required bool showInList,
   }) : super(
-      type: ItemType.combinationlock,
-      gameId: gameId,
-      itemId: itemId,
-      deleted: deleted,
-      lastModificationDate: lastModificationDate,
-      sortKey: sortKey,
-      title: title,
-      richText: richText,
-      icon: icon,
-      description: description,
-      dependsOn: dependsOn,
-      disappearOn: disappearOn,
-      fileReferences: fileReferences,
-      primaryColor: primaryColor,
-      showOnMap: showOnMap,
-      showInList: showInList,
-      authoringX: authoringX,
-      authoringY: authoringY,
-      lat: lat,
-      lng: lng);
+            type: ItemType.combinationlock,
+            gameId: gameId,
+            itemId: itemId,
+            deleted: deleted,
+            lastModificationDate: lastModificationDate,
+            sortKey: sortKey,
+            title: title,
+            richText: richText,
+            icon: icon,
+            description: description,
+            dependsOn: dependsOn,
+            disappearOn: disappearOn,
+            fileReferences: fileReferences,
+            primaryColor: primaryColor,
+            showOnMap: showOnMap,
+            showInList: showInList,
+            authoringX: authoringX,
+            authoringY: authoringY,
+            chapter: chapter,
+            lat: lat,
+            lng: lng);
 
   factory CodeWordGeneralItem.fromJson(Map json) {
     var returnItem = CodeWordGeneralItem(
@@ -70,21 +72,22 @@ class CodeWordGeneralItem extends GeneralItem {
         icon: json['icon'],
         description: (json['description'] ?? "").trim(),
         answers: json['answers'] == null
-        ? []
+            ? []
             : List<ChoiceAnswer>.generate(json['answers'].length, (i) => ChoiceAnswer.fromJson(json['answers'][i])),
         showOnMap: json['showOnMap'] ?? false,
-    showInList: json['showInList'] == null ? true : json['showInList'],
-    lat: json['lat'],
-    lng: json['lng'],
-    authoringX: json['customMapX'],
-    authoringY: json['customMapY'],
-    fileReferences: json['fileReferences'] != null
-    ? new Map.fromIterable(json["fileReferences"],
-    key: (item) => item['key'], value: (item) => item['fileReference'] ?? '')
-        : {},
-    primaryColor: json['primaryColor'] != null ? colorFromHex(json['primaryColor']) : null,
-    dependsOn: json['dependsOn'] != null ? Dependency.fromJson(json['dependsOn']) : null,
-    disappearOn: json['disappearOn'] != null ? Dependency.fromJson(json['disappearOn']) : null);
+        showInList: json['showInList'] == null ? true : json['showInList'],
+        lat: json['lat'],
+        lng: json['lng'],
+        authoringX: json['customMapX'],
+        authoringY: json['customMapY'],
+        chapter: json['chapter'] == null ? null : int.parse(json['chapter']),
+        fileReferences: json['fileReferences'] != null
+            ? new Map.fromIterable(json["fileReferences"],
+                key: (item) => item['key'], value: (item) => item['fileReference'] ?? '')
+            : {},
+        primaryColor: json['primaryColor'] != null ? colorFromHex(json['primaryColor']) : null,
+        dependsOn: json['dependsOn'] != null ? Dependency.fromJson(json['dependsOn']) : null,
+        disappearOn: json['disappearOn'] != null ? Dependency.fromJson(json['disappearOn']) : null);
     return returnItem;
   }
 
